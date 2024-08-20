@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>QR Code Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
@@ -24,7 +23,7 @@
 </head>
 <body>
 <h1>QR Code Generator</h1>
-<input type="text" id="valueInput" placeholder="Enter value (e.g., ID number)" />
+<input type="text" id="valueInput" placeholder="Enter value (e.g., ArtifactID)" />
 <button onclick="generateQRCode()">Generate QR Code</button>
 <div id="qrcode"></div>
 <a id="downloadLink" class="download-btn" download="qrcode.png">Download QR Code</a>
@@ -33,23 +32,21 @@
   function generateQRCode() {
     var value = document.getElementById('valueInput').value;
     if (value) {
-      $('#qrcode').empty(); // Clear any previous QR code
+      $('#qrcode').empty();
 
-      // Generate QR code
       $('#qrcode').qrcode({
         text: value,
         width: 200,
         height: 200
       });
 
-      // Convert QR code to image and set download link
       setTimeout(() => {
         var qrCodeCanvas = document.querySelector('#qrcode canvas');
         if (qrCodeCanvas) {
           var dataURL = qrCodeCanvas.toDataURL('image/png');
           var downloadLink = document.getElementById('downloadLink');
           downloadLink.href = dataURL;
-          downloadLink.style.display = 'block'; // Show the download link
+          downloadLink.style.display = 'block';
         }
       }, 100);
     } else {
