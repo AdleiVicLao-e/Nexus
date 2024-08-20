@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homepage</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="img/favicon.png" type="image/x-icon" />
+    <link href="img/favicon.png" rel="icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- Boxicons CDN Link -->
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <nav>
+      <div class="navbar">
+        <i class="bx bx-menu"></i>
+        <div class="logo">
+          <a href="#">
+            <img src="img/logo.png" style="height: auto" alt="Kultoura Logo" />
+          </a>
+        </div>
+        <div class="nav-links">
+          <div class="sidebar-logo">
+            <img
+              src="img/favicon.png"
+              style="justify-content: center"
+              alt="Kultoura Logo"
+              class="logo-name"
+            />
+            <i class="bx bx-x"></i>
+          </div>
+          <ul class="links">
+            <li><a href="#">Home</a></li>
+            <li>
+              <a href="#">Artifact Categories</a>
+              <i class="bx bxs-chevron-down js-arrow arrow"></i>
+              <ul class="js-sub-menu sub-menu">
+                <li><a href="#">Wood Arts</a></li>
+                <li><a href="#">Musical Instruments</a></li>
+                <li><a href="#">Funerary Articles</a></li>
+                <li><a href="#">Weaponry/Armaments</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Igorot Dances</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="access.html">Switch User</a></li>
+          </ul>
+        </div>
+        <div class="search-box">
+          <i class="bx bx-search"></i>
+          <div class="input-box">
+            <input type="text" placeholder="Search..." />
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Start Scanning Button -->
+    <div class="start-scanning-container">
+      <img src="img/qr_icon.png" alt="Scan Icon" class="btn-icon" />
+      <br />
+      <button class="btn-red" type="button" onclick="window.location.href='scanner.html'">Start Scanning</button>
+    </div>
+
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

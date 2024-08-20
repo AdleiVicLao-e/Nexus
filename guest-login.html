@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access as Guest</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Include Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="img/favicon.png" type="image/x-icon" />
+    <link href="img/favicon.png" rel="icon" />
+  </head>
+  <body class="access-body">
+    <div class="container">
+      <!-- Back button container -->
+      <div class="back-button-container">
+        <a href="access.html"
+          ><i
+            class="fa fa-chevron-circle-left"
+            aria-hidden="true"
+            style="color: #ffffff; font-size: x-large"
+          ></i
+        ></a>
+      </div>
+      <div class="access-container">
+        <h1 style="color: #ffffff">Access as Guest</h1>
+        <form>
+          <div class="checkbox-container">
+            <label class="custom-radio">
+              <input
+                type="radio"
+                name="access-type"
+                value="student"
+                id="student-radio"
+                onchange="toggleForm('student');"
+              />
+              <span class="custom-radio-span"></span>
+              I am an SLU student ────────────
+            </label>
+            <label class="custom-radio">
+              <input
+                type="radio"
+                name="access-type"
+                value="visitor"
+                id="visitor-radio"
+                onchange="toggleForm('visitor');"
+              />
+              <span class="custom-radio-span"></span>
+              I am a visitor ─────────────────
+            </label>
+          </div>
+          <div id="student-form" class="form-container hidden">
+            <div class="input-container">
+              <p
+                style="text-align: left; font-weight: lighter; font-size: 16px"
+              >
+                ID Number
+              </p>
+              <input
+                type="text"
+                class="input-field"
+                placeholder="Enter ID Number"
+              />
+            </div>
+            <div class="input-container">
+              <p
+                style="text-align: left; font-weight: lighter; font-size: 16px"
+              >
+                School
+              </p>
+              <select class="input-field">
+                <option value="" disabled selected>Select School</option>
+                <option value="school1">Basic Education School</option>
+                <option value="school1">
+                  School of Accountancy, Management, Computing and Information
+                  Studies
+                </option>
+                <option value="school1">School of Advanced Studies</option>
+                <option value="school2">
+                  School of Engineering and Architecture
+                </option>
+                <option value="school2">School of Law</option>
+                <option value="school2">School of Medicine</option>
+                <option value="school2">
+                  School of Nursing, Allied Health, and Biological Sciences
+                </option>
+                <option value="school2">
+                  School of Teacher Education and Liberal Arts
+                </option>
+                <!-- Add more schools as needed -->
+              </select>
+            </div>
+          </div>
+          <div id="visitor-form" class="form-container hidden">
+            <div class="input-container">
+              <p
+                style="text-align: left; font-weight: lighter; font-size: 16px"
+              >
+                Visitor Name
+              </p>
+              <input
+                type="text"
+                class="input-field"
+                placeholder="Enter Visitor Name"
+              />
+            </div>
+            <div class="input-container">
+              <p
+                style="text-align: left; font-weight: lighter; font-size: 16px"
+              >
+                School
+              </p>
+              <input
+                type="text"
+                class="input-field"
+                placeholder="Enter School"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn-access"
+            id="btn-submit"
+            style="display: none"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+    <script src="js/scripts.js"></script>
+    <script>
+      function toggleForm(type) {
+        var studentForm = document.getElementById("student-form");
+        var visitorForm = document.getElementById("visitor-form");
+        var submitButton = document.getElementById("btn-submit");
+
+        if (type === "student") {
+          studentForm.classList.remove("hidden");
+          visitorForm.classList.add("hidden");
+          submitButton.style.display = "block";
+        } else if (type === "visitor") {
+          visitorForm.classList.remove("hidden");
+          studentForm.classList.add("hidden");
+          submitButton.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
