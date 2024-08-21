@@ -550,6 +550,90 @@ nav{
     margin-bottom: 10px;
 }
 
+/*Camera style*/
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: 20px auto;
+}
+
+#reader {
+  width: 100%;
+    max-width: 350px;
+    height: auto;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+#result {
+  text-align: center;
+    font-size: 1.25rem;
+    color: #333;
+    word-wrap: break-word;
+}
+
+@media (min-width: 300px) and (max-width: 400px) {
+  .controls {
+      flex-direction: column;
+  }
+
+  .controls button {
+      margin: 5px 0 !important;
+  }
+}
+
+.controls > button > svg {
+  height: 20px;
+  width: 18px;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.controls button:nth-child(1) {
+  border: 2px solid #D2002E;
+}
+
+.controls button:nth-child(1) svg {
+  color: #D2002E;
+}
+
+.controls button:nth-child(2) {
+  border: 2px solid #008496;
+}
+
+.controls button:nth-child(2) svg {
+  color: #008496;
+}
+
+.controls button:nth-child(3) {
+  border: 2px solid #00B541;
+}
+
+.controls button:nth-child(3) svg {
+  color: #00B541;
+}
+
+.controls > button {
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  border-radius: 100%;
+  margin: 0 6px;
+  background: transparent;
+}
+
+.controls > button:hover svg {
+  color: white;
+}
   
 /*Widescreen monitor*/
 @media screen and (min-width: 1920px) {
@@ -799,6 +883,29 @@ nav{
         font-weight: lighter;
     }
 
+    /*Camera*/
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+  }
+  
+  #reader {
+    padding: auto;
+    width: 100%;
+    max-width: 576px; /* Set to match the phone's resolution */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+#result {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
     /**/
     .banner {
         display: flex;
@@ -967,6 +1074,8 @@ nav{
         display: inline-block;
         margin: 5px;
         transition: background-color 0.3s ease-in-out;
+        position: relative;
+        z-index: 10;
     }
     
     .btn-red:hover {
@@ -988,6 +1097,8 @@ nav{
         display: inline-block;
         margin: 5px;
         transition: background-color 0.3s ease-in-out;
+        position: relative;
+        z-index: 10; /* Ensures the button is clickable */
     }
     
     .btn-white:hover {
