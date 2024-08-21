@@ -170,5 +170,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 -firstCardWidth : firstCardWidth; 
         }); 
     }); 
+
+    const scanner = new Html5QrcodeScanner('reader', {
+      qrbox: {
+          width: 250,
+          height: 250,
+      },
+      fps: 20,
+  });
+
+  scanner.render(onScanSuccess, onScanError);
+
+  function onScanSuccess(result) {
+      document.getElementById('result').innerHTML = `
+          <h2>Success!</h2>
+          <p><a href="${result}" target="_blank">${result}</a></p>
+      `;
+      scanner.clear();
+      document.getElementById('reader').remove();
+  }
+
+  function onScanError(err) {
+      console.error(err);
+  }
     
 });
