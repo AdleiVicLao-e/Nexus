@@ -49,15 +49,38 @@
 	// Function to start video stream
 	async function startVideo() {
 		try {
-			const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+			// Access the camera with higher resolution, framerate, and advanced settings
+			const constraints = {
+				video: {
+					facingMode: 'environment',
+					width: { ideal: 1920 },  // Increase resolution
+					height: { ideal: 1080 },
+					frameRate: { ideal: 240, max: 240 },  // Increase framerate
+					advanced: [
+						{ focusMode: 'continuous' },  // Enable continuous focus
+						{ exposureMode: 'continuous' },  // Enable continuous exposure
+						{ whiteBalanceMode: 'continuous' }  // Enable continuous white balance
+					]
+				}
+			};
+
+			const stream = await navigator.mediaDevices.getUserMedia(constraints); // Access the camera with the specified constraints
+
+			// Assign the video stream to the video element
 			video.srcObject = stream;
-			video.setAttribute('playsinline', true); // required to play video inline on iOS
+			video.setAttribute('playsinline', true);  // For iOS compatibility
 			video.play();
-			requestAnimationFrame(scanQRCode);
-		} catch (error) {
-			console.error('Error accessing webcam:', error);
+
+			// Throttle the scanning frequency
+			setInterval(() => requestAnimationFrame(scanQRCode), 100);  // Scan every 100ms (adjust if needed)
+
+		} catch (err) {
+			// Handle camera access errors
+			console.error('Camera access error:', err);
+			alert('Error accessing camera: ' + err.message);  // Notify the user of the error
 		}
 	}
+
 
 	// Function to scan QR code
 	function scanQRCode() {
