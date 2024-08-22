@@ -1,31 +1,139 @@
-<!doctype HTML>
-<html>
-<script src="js/aframe.min.js"></script>
-<script src="js/aframe-ar.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>QR Code Scanner with AR</title>
+	<script src="js/jsQR.js"></script>
+	<style>
+		#video {
+			width: 100%;
+			max-width: 400px;
+			display: block;
+		}
+		#canvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+		#result {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			color: white;
+			font-size: 24px;
+			font-weight: bold;
+			background-color: rgba(0, 0, 0, 0.5);
+			padding: 5px;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+<h1>QR Code Scanner with AR</h1>
+<video id="video" autoplay></video>
+<canvas id="canvas"></canvas>
+<div id="result">Scan a QR code</div>
 
-<script src="js/aframe-text-geometry-component.min.js"></script>
+<script>
+	const video = document.getElementById('video');
+	const canvas = document.getElementById('canvas');
+	const canvasContext = canvas.getContext('2d');
+	const resultDiv = document.getElementById('result');
 
-<body style="margin: 0px; overflow: hidden;">
+	let artifactInfo = "";
 
-<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false;">
+	// Function to start video stream
+	async function startVideo() {
+		try {
+			const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+			video.srcObject = stream;
+			video.setAttribute('playsinline', true); // required to play video inline on iOS
+			video.play();
+			requestAnimationFrame(scanQRCode);
+		} catch (error) {
+			console.error('Error accessing webcam:', error);
+		}
+	}
 
-	<a-assets>
-		<a-asset-item id="exoFont" src="fonts/exoBlack.typeface.json"></a-asset-item>
-		<img id="pixels" src="img/pixels.png" />
-	</a-assets>
+	// Function to scan QR code
+	function scanQRCode() {
+		if (video.readyState === video.HAVE_ENOUGH_DATA) {
+			canvas.width = video.videoWidth;
+			canvas.height = video.videoHeight;
+			canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+			const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+			const code = jsQR(imageData.data, canvas.width, canvas.height, {
+				inversionAttempts: "dontInvert",
+			});
 
-	<a-marker type="pattern" url="data/kanji.patt">
-		
-		<a-plane color="white" rotation="-90 0 0" position="0 -0.25 0" width="3" material="transparent: true; opacity: 0.90"></a-plane>
+			canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+			canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-		<a-text value="replace with info" font="fonts/Exo2Bold.fnt" color="red" rotation="-90 0 0" align="center" scale="1 1 1"></a-text>
-		
+			if (code) {
+				const artifactId = code.data;
+				resultDiv.textContent = `QR Code Data: ${artifactId}`;
+				fetchArtifactInfo(artifactId);
 
-	</a-marker>
-	
+				const centerX = (code.location.topLeftCorner.x + code.location.topRightCorner.x) / 2;
+				const centerY = (code.location.topLeftCorner.y + code.location.bottomLeftCorner.y) / 2;
 
-    <a-entity camera></a-entity>
-    
-</a-scene>
+				const boxWidth = 200;
+				const boxHeight = 100;
+
+				canvasContext.fillStyle = "rgba(0, 0, 0, 0.5)";
+				canvasContext.fillRect(centerX - boxWidth / 2, centerY - boxHeight / 2, boxWidth, boxHeight);
+
+				canvasContext.font = "14px Arial";
+				canvasContext.fillStyle = "white";
+				canvasContext.textAlign = "center";
+				canvasContext.textBaseline = "middle";
+				if (artifactInfo) {
+					const lines = artifactInfo.split('\n');
+					lines.forEach((line, index) => {
+						canvasContext.fillText(line, centerX, centerY - boxHeight / 2 + (index + 1) * 20);
+					});
+				}
+			} else {
+				resultDiv.textContent = 'No QR code detected';
+				artifactInfo = '';
+			}
+		}
+		requestAnimationFrame(scanQRCode);
+	}
+
+	function fetchArtifactInfo(artifactId) {
+		fetch(`getArtifact.php?artifactId=${artifactId}`)
+				.then(response => response.json())
+				.then(data => {
+					if (data) {
+						artifactInfo = `
+Catalogue No: ${data.catalogueNo}
+Class: ${data.class}
+Name: ${data.name}
+Description: ${data.description}
+                        `.trim();
+					} else {
+						artifactInfo = 'Artifact not found';
+					}
+				})
+				.catch(error => {
+					console.error('Error fetching artifact info:', error);
+					artifactInfo = 'Error fetching artifact info';
+				});
+	}
+
+	// Start the video stream when the page loads
+	startVideo();
+</script>
 </body>
 </html>
+
+
+
+
+
+
