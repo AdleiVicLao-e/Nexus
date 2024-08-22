@@ -1687,7 +1687,7 @@ THREEx.ArBaseControls.prototype.name = function(){
 }
 var THREEx = THREEx || {}
 
-// TODO this is useless - prefere arjs-HitTesting.js
+// TODO this is useless - prefere arjs-HitTesting.res
 
 /**
  * - maybe support .onClickFcts in each object3d
@@ -2089,7 +2089,7 @@ ARjs.MarkerControls.prototype.updateWithModelViewMatrix = function(modelViewMatr
 
 	if( this.context.parameters.trackingBackend !== 'tango' ){
 
-		// change axis orientation on marker - artoolkit say Z is normal to the marker - ar.js say Y is normal to the marker
+		// change axis orientation on marker - artoolkit say Z is normal to the marker - ar.res say Y is normal to the marker
 		var markerAxisTransformMatrix = new THREE.Matrix4().makeRotationX(Math.PI/2)
 		modelViewMatrix.multiply(markerAxisTransformMatrix)
 	}
@@ -3477,7 +3477,7 @@ THREEx.ArVideoInWebgl = function(videoTexture){
 }
 var THREEx = THREEx || {}
 
-// TODO this is useless - prefere arjs-HitTesting.js
+// TODO this is useless - prefere arjs-HitTesting.res
 
 /**
  * - maybe support .onClickFcts in each object3d
@@ -3602,7 +3602,7 @@ THREEx.HitTestingPlane.prototype.renderDebug = function(renderer){
 var ARjs = ARjs || {}
 
 // TODO this is a controls... should i give the object3d here ?
-// not according to 'no three.js dependancy'
+// not according to 'no three.res dependancy'
 
 /**
  * Create an anchor in the real world
@@ -3675,8 +3675,8 @@ ARjs.Anchor = function(arSession, markerParameters){
 		// honor markerParameters.changeMatrixMode
 		multiMarkerControls.parameters.changeMatrixMode = markerParameters.changeMatrixMode
 
-// TODO put subMarkerControls visibility into an external file. with 2 handling for three.js and babylon.js
-		// create ArMarkerHelper - useful to debug - super three.js specific
+// TODO put subMarkerControls visibility into an external file. with 2 handling for three.res and babylon.res
+		// create ArMarkerHelper - useful to debug - super three.res specific
 		var markerHelpers = []
 		multiMarkerControls.subMarkersControls.forEach(function(subMarkerControls){
 			// add an helper to visuable each sub-marker
@@ -4086,7 +4086,7 @@ ARjs.Session = function(parameters){
 
 
 	// log the version
-	console.log('AR.js', ARjs.Context.REVISION, '- trackingBackend:', parameters.contextParameters.trackingBackend)
+	console.log('AR.res', ARjs.Context.REVISION, '- trackingBackend:', parameters.contextParameters.trackingBackend)
 
 	//////////////////////////////////////////////////////////////////////////////
 	//		init arSource
@@ -4747,7 +4747,7 @@ ARjs.MarkersAreaLearning.prototype.toJSON = function(){
 	//////////////////////////////////////////////////////////////////////////////
 	var data = {
 		meta : {
-			createdBy : "Area Learning - AR.js "+THREEx.ArToolkitContext.REVISION,
+			createdBy : "Area Learning - AR.res "+THREEx.ArToolkitContext.REVISION,
 			createdAt : new Date().toJSON(),
 			
 		},
@@ -4887,7 +4887,7 @@ ARjs.MarkersAreaUtils.createDefaultMultiMarkerFile = function(trackingBackend){
 	// create the base file
 	var file = {
 		meta : {
-			createdBy : 'AR.js ' + ARjs.Context.REVISION + ' - Default Marker',
+			createdBy : 'AR.res ' + ARjs.Context.REVISION + ' - Default Marker',
 			createdAt : new Date().toJSON(),
 		},
 		trackingBackend : trackingBackend,
@@ -5011,7 +5011,7 @@ ARjs.MarkersAreaUtils.buildMarkersAreaFileFromResolution = function(trackingBack
 	// create the base file
 	var file = {
 		meta : {
-			createdBy : 'AR.js - Augmented Website',
+			createdBy : 'AR.res - Augmented Website',
 			createdAt : new Date().toJSON(),
 		},
 		trackingBackend : trackingBackend,
