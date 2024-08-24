@@ -1,162 +1,187 @@
+<!-- TODO 
+	- Fix query getArtifact.php
+ 	- Remove/Disable VR Button
+	- Remove "trackingBackend : artoolkit"
+	- Performance Improvements (lag, camera quality, etc.)
+  -->
+
+<!-- NOTE Scanner works after a couple mins. Wait until "Error..." shows up -->
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>QR Code Scanner with AR</title>
-	<script src="res/jsQR.js"></script>
-	<style>
-		#video {
-			width: 100%;
-			max-width: 400px;
-			display: block;
-		}
-		#canvas {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			pointer-events: none;
-		}
-		#result {
-			position: absolute;
-			top: 10px;
-			left: 10px;
-			color: white;
-			font-size: 24px;
-			font-weight: bold;
-			background-color: rgba(0, 0, 0, 0.5);
-			padding: 5px;
-			border-radius: 5px;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLU Museum App</title>
+    <script src="js/jsQR.js"></script>
+    <script src="js/aframe.min.js"></script>
+    <script src="js/aframe-ar.js"></script>
+    <script src="js/aframe-text-geometry-component.min.js"></script>
+    <style>
+    /* To make the cammera/scanner full screen */
+    #video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    </style>
 </head>
+
 <body>
-<h1>QR Code Scanner with AR</h1>
-<video id="video" autoplay></video>
-<canvas id="canvas"></canvas>
-<div id="result">Scan a QR code</div>
+    <video id="video" autoplay></video>
+    <canvas id="canvas"></canvas>
 
-<script>
-	const video = document.getElementById('video');
-	const canvas = document.getElementById('canvas');
-	const canvasContext = canvas.getContext('2d');
-	const resultDiv = document.getElementById('result');
+    <!-- Font -->
+    <a-scene>
+        <a-assets>
+            <a-asset-item id="exoFont" src="fonts/exoBlack.typeface.json"></a-asset-item>
+            <img id="pixels" src="res/pixels.png" />
+        </a-assets>
+    </a-scene>
 
-	let artifactInfo = "";
+    <!-- Scene - object where the information is displayed -->
+    <a-scene id="scene">
+        <a-plane id="plane"></a-plane>
+        <a-text id="text"></a-text>
+        <a-image id="image" src="res/adlei.jpg"></a-image>
+    </a-scene>
 
-	// Function to start video stream
-	async function startVideo() {
-		try {
-			// Access the camera with higher resolution, framerate, and advanced settings
-			const constraints = {
-				video: {
-					facingMode: 'environment',
-					width: { ideal: 1920 },  // Increase resolution
-					height: { ideal: 1080 },
-					frameRate: { ideal: 240, max: 240 },  // Increase framerate
-					advanced: [
-						{ focusMode: 'continuous' },  // Enable continuous focus
-						{ exposureMode: 'continuous' },  // Enable continuous exposure
-						{ whiteBalanceMode: 'continuous' }  // Enable continuous white balance
-					]
-				}
-			};
+    <script>
+    // Initialize video and canvas elements
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const canvasContext = canvas.getContext('2d');
+    // const plane = document.getElementById("plane");
+    const text = document.getElementById("text");
+    const image = document.getElementById("image");
+    let currentCodeData = null;
+    let artifactInfo = "";
 
-			const stream = await navigator.mediaDevices.getUserMedia(constraints); // Access the camera with the specified constraints
+    // Start scanning when the page loads
+    startScanning();
 
-			// Assign the video stream to the video element
-			video.srcObject = stream;
-			video.setAttribute('playsinline', true);  // For iOS compatibility
-			video.play();
+    // Function to start the camera and scan QR codes
+    function startScanning() {
+        // Access the camera
+        navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: 'environment'
+                }
+            })
+            .then(stream => {
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true); // For iOS compatibility
+                video.play();
+                requestAnimationFrame(scanQRCode);
+            })
+            .catch(err => console.error('Camera access error:', err));
+    }
 
-			// Throttle the scanning frequency
-			setInterval(() => requestAnimationFrame(scanQRCode), 100);  // Scan every 100ms (adjust if needed)
+    // Function to scan QR codes
+    function scanQRCode() {
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-		} catch (err) {
-			// Handle camera access errors
-			console.error('Camera access error:', err);
-			alert('Error accessing camera: ' + err.message);  // Notify the user of the error
-		}
-	}
+            const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, canvas.width, canvas.height);
 
+            onQRCodeDetected(code);
+        }
+        // Continue scanning
+        requestAnimationFrame(scanQRCode);
+    }
 
-	// Function to scan QR code
-	function scanQRCode() {
-		if (video.readyState === video.HAVE_ENOUGH_DATA) {
-			canvas.width = video.videoWidth;
-			canvas.height = video.videoHeight;
-			canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
-			const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
-			const code = jsQR(imageData.data, canvas.width, canvas.height, {
-				inversionAttempts: "dontInvert",
-			});
+    // When QR code is detected
+    function onQRCodeDetected(code) {
+        if (code) {
+            const artifactId = code.data;
 
-			canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-			canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height)
+            // Check if the detected QR code is different from the current one
+            if (artifactId !== currentCodeData) {
+                // Update the current QR code data
+                currentCodeData = artifactId;
 
-			if (code) {
-				const artifactId = code.data;
-				resultDiv.textContent = `QR Code Data: ${artifactId}`;
-				fetchArtifactInfo(artifactId);
+                // Set the text attributes
+                text.setAttribute("font", "fonts/Exo2Bold.fnt");
+                text.setAttribute("color", "yellow");
+                text.setAttribute("rotation", "0 0 0");
+                text.setAttribute("position", "0 1.6 -10");
+                text.setAttribute("align", "center");
+                text.setAttribute("scale", "1 1 1");
 
-				const centerX = (code.location.topLeftCorner.x + code.location.topRightCorner.x) / 2;
-				const centerY = (code.location.topLeftCorner.y + code.location.bottomLeftCorner.y) / 2;
+                // Set the text value
+                // TODO replace with query
+				// For debugging:
+                // switch (artifactId) {
+                //     case "1":
+                //         text.setAttribute("value",
+                //             "001 Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                //         break;
+                //     case "2":
+                //         text.setAttribute("value",
+                //             "002 Suspendisse semper eros nibh, vitae lobortis leo vulputate nec");
+                //         break;
+                //     case "3":
+                //         text.setAttribute("value",
+                //             "003 Nunc a eleifend lacus. Ut vehicula nec enim non pulvinar");
+                //         break;
+                //     default:
+                //         text.setAttribute("value",
+                //             "Unknown QR code");
+                //         break;
+                // }
+                fetchArtifactInfo(artifactId)
+                if (artifactInfo) {
+                    const lines = artifactInfo.split('\n');
+                    text.setAttribute("value", lines);
+                }
+            }
+        } else {
+            // QR code not detected, reset or clear the display
+            currentCodeData = null;
+            text.setAttribute("value", ""); // Clear text 
+        }
+    }
 
-				const boxWidth = 200;
-				const boxHeight = 100;
-
-				canvasContext.fillStyle = "rgba(0, 0, 0, 0.5)";
-				canvasContext.fillRect(centerX - boxWidth / 2, centerY - boxHeight / 2, boxWidth, boxHeight);
-
-				canvasContext.font = "14px Arial";
-				canvasContext.fillStyle = "white";
-				canvasContext.textAlign = "center";
-				canvasContext.textBaseline = "middle";
-				if (artifactInfo) {
-					const lines = artifactInfo.split('\n');
-					lines.forEach((line, index) => {
-						canvasContext.fillText(line, centerX, centerY - boxHeight / 2 + (index + 1) * 20);
-					});
-				}
-			} else {
-				resultDiv.textContent = 'No QR code detected';
-				artifactInfo = '';
-			}
-		}
-		requestAnimationFrame(scanQRCode);
-	}
-
-	function fetchArtifactInfo(artifactId) {
-		fetch(`getArtifact.php?artifactId=${artifactId}`)
-				.then(response => response.json())
-				.then(data => {
-					if (data) {
-						artifactInfo = `
-Catalogue No: ${data.catalogueNo}
-Class: ${data.class}
-Name: ${data.name}
-Description: ${data.description}
+    // Query the artifact information from the database
+    function fetchArtifactInfo(artifactId) {
+        fetch(`getArtifact.php?artifact_id=${artifactId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    console.log("Data:");
+                    console.log(data);
+                    artifactInfo = `
+                            Artifact Id: ${data.artifact_id}
+                            Section Id: ${data.section_id}
+                            Catalogue Id: ${data.catalogue_id}
+                            Name: ${data.name}
+                            Description: ${data.description}
+                            Condition: ${data.condition}
                         `.trim();
-					} else {
-						artifactInfo = 'Artifact not found';
-					}
-				})
-				.catch(error => {
-					console.error('Error fetching artifact info:', error);
-					artifactInfo = 'Error fetching artifact info';
-				});
-	}
-
-	// Start the video stream when the page loads
-	startVideo();
-</script>
+                } else {
+                    artifactInfo = 'Artifact not found';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching artifact info:', error);
+                artifactInfo = 'Error fetching artifact info';
+            });
+    }
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
