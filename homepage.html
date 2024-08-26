@@ -22,6 +22,10 @@
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
   ></script>
+  <script src="res/jsQR.js"></script>
+  <script src="res/aframe.min.js"></script>
+  <script src="res/aframe-ar.js"></script>
+  <script src="res/aframe-text-geometry-component.min.js"></script>
   <!-- Boxicons CDN Link -->
   <link
           href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
@@ -75,50 +79,152 @@
   </div>
 </nav>
 <main>
-  <div id="reader"></div>
-  <div id="result"></div>
-  <div
-          id="mobileMessage"
-          style="display: none; text-align: center; padding: 20px"
-  >
-    <h2>Please Switch to a Mobile Device or Tablet to Use the Camera</h2>
-  </div>
-  <div class="qr_scan"></div>
+  <video id="video" autoplay style="visibility: hidden"></video>
+    <canvas id="canvas" style="visibility: hidden"></canvas>
+
+    <!-- Font -->
+    <a-scene vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;">
+        <a-assets>
+            <a-asset-item id="exoFont" src="fonts/exoBlack.typeface.json"></a-asset-item>
+            <img id="pixels" src="res/pixels.png" />
+        </a-assets>
+    </a-scene>
+
+    <!-- Scene - element where the information is displayed -->
+    <a-scene id="scene" vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;">
+        <a-plane id="plane"></a-plane>
+        <a-text id="text"></a-text>
+    </a-scene>
 </main>
 
 <script>
-  function isMobileDevice() {
-    return (
-            typeof window.orientation !== "undefined" ||
-            navigator.userAgent.indexOf("IEMobile") !== -1
-    );
+  // Initialize video and canvas elements
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const canvasContext = canvas.getContext('2d');
+  // const plane = document.getElementById("plane");
+  const text = document.getElementById("text");
+  const image = document.getElementById("image");
+  let currentCodeData = null;
+  let artifactInfo = "";
+
+  // Start scanning when the page loads
+  startScanning();
+
+  // Function to start the camera and scan QR codes
+  function startScanning() {
+      // Access the camera
+      navigator.mediaDevices.getUserMedia({
+              video: {
+                  facingMode: 'environment',
+              }
+          })
+          .then(stream => {
+              video.srcObject = stream;
+              video.setAttribute('playsinline', true); // For iOS compatibility
+              video.play();
+              requestAnimationFrame(scanQRCode);
+          })
+          .catch(err => console.error('Camera access error:', err));
   }
 
-  if (!isMobileDevice()) {
-    document.getElementById("reader").style.display = "none";
-    document.getElementById("mobileMessage").style.display = "block";
-  } else {
-    const scanner = new Html5QrcodeScanner("reader", {
-      qrbox: { width: 250, height: 250 },
-      fps: 20,
-      aspectRatio: 0.75,
-    });
-    scanner.render(success, error);
+  // Function to scan QR codes
+  function scanQRCode() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+          onQRCodeDetected(code);
+      }
+      // Continue scanning
+      requestAnimationFrame(scanQRCode);
   }
 
-  function success(result) {
-    document.getElementById("result").innerHTML = `
-                <h2>Success!</h2>
-                <p><a href="${result}">${result}</a></p>
-            `;
-    scanner.clear();
-    document.getElementById("reader").remove();
+  // When QR code is detected
+  function onQRCodeDetected(code) {
+      if (code) {
+          const artifactId = code.data;
+
+          // Check if the detected QR code is different from the current one
+          if (artifactId !== currentCodeData) {
+              // Update the current QR code data
+              currentCodeData = artifactId;
+
+              // @Paula you'll mostly work on this part kasi andito yung pag edit ng properties
+              // tapos yung <a-scene> na nasa <body>
+              // refer to https://aframe.io/docs/ dito mga pwedeng ilagay na elements and properties
+
+              // Set the text properties
+              text.setAttribute("font", "fonts/Exo2Bold.fnt");
+              text.setAttribute("color", "yellow");
+              text.setAttribute("rotation", "0 0 0");
+              text.setAttribute("position", "0 1.6 -10");
+              text.setAttribute("align", "center");
+              text.setAttribute("scale", "1 1 1");
+
+              // Set the text value
+              // TODO replace with query
+      // For debugging:
+              // switch (artifactId) {
+              //     case "1":
+              //         text.setAttribute("value",
+              //             "001 Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+              //         break;
+              //     case "2":
+              //         text.setAttribute("value",
+              //             "002 Suspendisse semper eros nibh, vitae lobortis leo vulputate nec");
+              //         break;
+              //     case "3":
+              //         text.setAttribute("value",
+              //             "003 Nunc a eleifend lacus. Ut vehicula nec enim non pulvinar");
+              //         break;
+              //     default:
+              //         text.setAttribute("value",
+              //             "Unknown QR code");
+              //         break;
+              // }
+              fetchArtifactInfo(artifactId)
+          }
+      } else {
+          // QR code not detected, reset or clear the display
+          currentCodeData = null;
+          text.setAttribute("value", ""); // Clear text 
+      }
   }
 
-  function error(err) {
-    console.error(err);
+  // Query the artifact information from the database
+  function fetchArtifactInfo(artifactId) {
+      fetch(`getArtifact.php?artifact_id=${artifactId}`)
+          .then(response => response.json())
+          .then(data => {
+              if (data) {
+                  console.log("Data:");
+                  console.log(data);
+                  artifactInfo = `
+                      Artifact Id: ${data.artifact_id}
+                      Section Name: ${data.section_name}
+                      Catalogue Name: ${data.catalogue_name}
+                      Name: ${data.name}
+                      Description: ${data.description}
+                      Condition: ${data.condition}
+              `.trim();
+              } else {
+                  artifactInfo = 'Artifact not found';
+              }
+
+              text.setAttribute("value", artifactInfo);
+          })
+          .catch(error => {
+              console.error('Error fetching artifact info:', error);
+              artifactInfo = 'Error fetching artifact info';
+              text.setAttribute("value", artifactInfo);
+          });
   }
-</script>
+  </script>
 
 <script src="res/scripts.js"></script>
 </body>
