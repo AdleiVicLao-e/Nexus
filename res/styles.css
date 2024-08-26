@@ -534,6 +534,74 @@ nav .navbar .links li:hover .js-sub-menu{
     animation: fadeIn 2s forwards;
 }
 
+/* Main container for the camera and AR scene */
+main {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Video stream for QR scanning */
+#video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    z-index: 1;
+    visibility: visible;
+}
+
+/* Canvas for processing the video stream */
+#canvas {
+    display: none;
+}
+
+/* AR Scene where text and elements will appear */
+a-scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none; /* Prevent interactions with the AR scene */
+}
+
+/* Styling for the displayed text */
+a-text {
+    font-family: 'Exo', sans-serif;
+    color: #ffcc00; /* Yellow text color */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Optional: Customize the AR plane if used */
+a-plane {
+    opacity: 0.8;
+    color: #333;
+}
+
+/* Loading or result message */
+#result {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 3;
+}
+
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -549,35 +617,6 @@ nav .navbar .links li:hover .js-sub-menu{
     margin-bottom: 10px;
 }
 
-/*Camera style*/
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    margin: 30px auto;
-}
-
-#reader {
-    width: 100%;
-    max-width: 350px;
-    height: auto;
-    margin-bottom: 20px;
-    align-items: center;
-}
-
-#result {
-    text-align: center;
-    font-size: 1.25rem;
-    color: #333;
-    word-wrap: break-word;
-}
 
 @media (min-width: 300px) and (max-width: 400px) {
     .controls {
@@ -857,6 +896,22 @@ main {
         padding: 20px;
     }
 
+    main {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    #video {
+        width: 100%;
+        height: auto;
+    }
+    
+    #result {
+        top: 5px;
+        font-size: 0.9em;
+    }
+
+
 }
 
 /*Phone*/
@@ -920,29 +975,7 @@ main {
         font-weight: lighter;
     }
 
-    /*Camera*/
-    main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 20px;
-    }
-
-    #reader {
-        padding: auto;
-        width: 100%;
-        max-width: 576px; /* Set to match the phone's resolution */
-        height: auto;
-        margin-bottom: 20px;
-    }
-
-    #result {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-top: 10px;
-    }
-
+    
     /**/
     .banner {
         display: flex;
