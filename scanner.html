@@ -14,10 +14,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SLU Museum App</title>
-    <script src="js/jsQR.js"></script>
-    <script src="js/aframe.min.js"></script>
-    <script src="js/aframe-ar.js"></script>
-    <script src="js/aframe-text-geometry-component.min.js"></script>
+    <script src="res/jsQR.js"></script>
+    <script src="res/aframe.min.js"></script>
+    <script src="res/aframe-ar.js"></script>
+    <script src="res/aframe-text-geometry-component.min.js"></script>
     <style>
     /* To make the cammera/scanner full screen */
     #video {
@@ -43,7 +43,7 @@
     <canvas id="canvas"></canvas>
 
     <!-- Font -->
-    <a-scene>
+    <a-scene vr-mode-ui="enabled: false">
         <a-assets>
             <a-asset-item id="exoFont" src="fonts/exoBlack.typeface.json"></a-asset-item>
             <img id="pixels" src="res/pixels.png" />
