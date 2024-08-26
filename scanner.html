@@ -1,5 +1,4 @@
 <!-- TODO 
-	- Fix query getArtifact.php
  	- Remove/Disable VR Button
 	- Remove "trackingBackend : artoolkit"
 	- Performance Improvements (lag, camera quality, etc.)
@@ -54,7 +53,7 @@
     <a-scene id="scene">
         <a-plane id="plane"></a-plane>
         <a-text id="text"></a-text>
-        <a-image id="image" src="res/adlei.jpg"></a-image>
+<!--        <a-image id="image" src="res/adlei.jpg"></a-image>-->
     </a-scene>
 
     <script>
@@ -165,23 +164,25 @@
                     console.log("Data:");
                     console.log(data);
                     artifactInfo = `
-                            Artifact Id: ${data.artifact_id}
-                            Section Id: ${data.section_id}
-                            Catalogue Id: ${data.catalogue_id}
-                            Name: ${data.name}
-                            Description: ${data.description}
-                            Condition: ${data.condition}
-                        `.trim();
+                        Artifact Id: ${data.artifact_id}
+                        Section Name: ${data.section_name}
+                        Catalogue Name: ${data.catalogue_name}
+                        Name: ${data.name}
+                        Description: ${data.description}
+                        Condition: ${data.condition}
+                `.trim();
                 } else {
                     artifactInfo = 'Artifact not found';
                 }
+
+                text.setAttribute("value", artifactInfo);
             })
             .catch(error => {
                 console.error('Error fetching artifact info:', error);
                 artifactInfo = 'Error fetching artifact info';
+                text.setAttribute("value", artifactInfo);
             });
     }
     </script>
 </body>
-
 </html>

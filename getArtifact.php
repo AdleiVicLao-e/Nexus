@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 
 // Database connection parameters
 $host = 'localhost'; // Update with your WAMP server hostname
-$dbname = 'kultour';
+$dbname = 'kultoura';
 $username = 'root'; // Update with your MySQL username
 $password = ''; // Update with your MySQL password
 
@@ -16,10 +16,26 @@ if ($mysqli->connect_error) {
 }
 
 // Get the artifactId from the request
-$artifactId = isset($_GET['artifactId']) ? intval($_GET['artifactId']) : 0;
+$artifactId = isset($_GET['artifact_id']) ? intval($_GET['artifact_id']) : 0;
 
 // Prepare and execute the query
-$query = "SELECT * FROM artifact WHERE artifactId = ?";
+$query = "
+    SELECT 
+        artifactinfo.artifact_id, 
+        artifactinfo.name, 
+        artifactinfo.description, 
+        artifactinfo.condition, 
+        catalogue.catalogue_Name AS catalogue_name, 
+        section.section_Name AS section_name
+    FROM 
+        artifactinfo
+    JOIN 
+        catalogue ON artifactinfo.catalogue_id = catalogue.catalogue_ID
+    JOIN 
+        section ON artifactinfo.section_id = section.section_ID
+    WHERE 
+        artifactinfo.artifact_id = ?";
+
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param('i', $artifactId);
 $stmt->execute();
