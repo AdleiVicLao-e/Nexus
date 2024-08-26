@@ -1,11 +1,4 @@
-<!-- TODO 
- 	- Remove/Disable VR Button
-	- Remove "trackingBackend : artoolkit"
-	- Performance Improvements (lag, camera quality, etc.)
-  -->
-
-<!-- NOTE Scanner works after a couple mins. Wait until "Error..." shows up -->
-
+<!-- TODO - Display design -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,43 +10,24 @@
     <script src="res/aframe.min.js"></script>
     <script src="res/aframe-ar.js"></script>
     <script src="res/aframe-text-geometry-component.min.js"></script>
-    <style>
-    /* To make the cammera/scanner full screen */
-    #video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    #canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    </style>
 </head>
 
 <body>
-    <video id="video" autoplay></video>
-    <canvas id="canvas"></canvas>
+    <video id="video" autoplay style="visibility: hidden"></video>
+    <canvas id="canvas" style="visibility: hidden"></canvas>
 
     <!-- Font -->
-    <a-scene vr-mode-ui="enabled: false">
+    <a-scene vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;">
         <a-assets>
             <a-asset-item id="exoFont" src="fonts/exoBlack.typeface.json"></a-asset-item>
             <img id="pixels" src="res/pixels.png" />
         </a-assets>
     </a-scene>
 
-    <!-- Scene - object where the information is displayed -->
-    <a-scene id="scene">
+    <!-- Scene - element where the information is displayed -->
+    <a-scene id="scene" vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;">
         <a-plane id="plane"></a-plane>
         <a-text id="text"></a-text>
-<!--        <a-image id="image" src="res/adlei.jpg"></a-image>-->
     </a-scene>
 
     <script>
@@ -75,7 +49,7 @@
         // Access the camera
         navigator.mediaDevices.getUserMedia({
                 video: {
-                    facingMode: 'environment'
+                    facingMode: 'environment',
                 }
             })
             .then(stream => {
@@ -113,7 +87,11 @@
                 // Update the current QR code data
                 currentCodeData = artifactId;
 
-                // Set the text attributes
+                // @Paula you'll mostly work on this part kasi andito yung pag edit ng properties
+                // tapos yung <a-scene> na nasa <body>
+                // refer to https://aframe.io/docs/ dito mga pwedeng ilagay na elements and properties
+
+                // Set the text properties
                 text.setAttribute("font", "fonts/Exo2Bold.fnt");
                 text.setAttribute("color", "yellow");
                 text.setAttribute("rotation", "0 0 0");
@@ -143,10 +121,6 @@
                 //         break;
                 // }
                 fetchArtifactInfo(artifactId)
-                if (artifactInfo) {
-                    const lines = artifactInfo.split('\n');
-                    text.setAttribute("value", lines);
-                }
             }
         } else {
             // QR code not detected, reset or clear the display
