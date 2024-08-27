@@ -587,12 +587,12 @@ a-scene {
 }
 
 /* Styling for the displayed text */
-a-text {
+/* a-text {
     font-family: 'Exo', sans-serif;
-    color: #ffcc00; /* Yellow text color */
+    color: #ffcc00; 
     font-weight: bold;
     text-align: center;
-}
+} */
 
 /* Optional: Customize the AR plane if used */
 a-plane {
@@ -960,6 +960,53 @@ a-plane {
         font-family: 'Jomolhari', serif;
     }
 
+    .floating-button {
+        position: fixed;
+        bottom: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #073066;
+        color: white;
+        font-size: 24px;
+        border: none;
+        cursor: pointer;
+        z-index: 1000;
+      }
+
+    .floating-button.left {
+        left: 20px;
+      }
+
+    .floating-button.right {
+        right: 20px;
+      }
+
+      #viewDetailsButton {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: #FAC301;
+        color: white;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        z-index: 1000;
+      }
+      
+      #viewDetailsButton:hover {
+        background-color: #FAC301;
+      }
+      
     /* Welcome Page Styles */
     .welcome-body {
         background: url('../img/bulul.png') no-repeat center center fixed, #1C1C1C; /* Image overlaid on a dark background */
