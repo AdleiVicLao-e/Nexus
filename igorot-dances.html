@@ -47,21 +47,11 @@
             <i class="bx bx-x"></i>
           </div>
           <ul class="links">
-            <li><a href="igorot-dances.html" class="close-nav">&larr;</a></li>
+            <li><a href="homepage.html" class="close-nav"><i class="fa fa-chevron-circle-left"></i></a></li>
             <li><a href="homepage.html">Home</a></li>
-            <li>
-              <a href="#">Artifact Categories</a>
-              <i class="bx bxs-chevron-down js-arrow arrow"></i>
-              <ul class="js-sub-menu sub-menu">
-                <li><a href="#">Wood Arts</a></li>
-                <li><a href="#">Musical Instruments</a></li>
-                <li><a href="#">Funerary Articles</a></li>
-                <li><a href="#">Weaponry/Armaments</a></li>
-              </ul>
-            </li>
-            <li><a href="igorot-dances.html">Igorot Dances</a></li>
+            <li><a href="igorot-dances.html" class="active">Igorot Dances</a></li>
             <li><a href="about.html">About</a></li>
-            <li><a href="access.html">Switch User</a></li>
+            <li><a href="index.html">Log out</a></li>
           </ul>
         </div>
         <div class="search-box">
@@ -103,41 +93,6 @@
         </div>
       </div>
     </div>
-
-    <script>
-      function isMobileDevice() {
-        return (
-          typeof window.orientation !== "undefined" ||
-          navigator.userAgent.indexOf("IEMobile") !== -1
-        );
-      }
-
-      if (!isMobileDevice()) {
-        document.getElementById("reader").style.display = "none";
-        document.getElementById("mobileMessage").style.display = "block";
-      } else {
-        const scanner = new Html5QrcodeScanner("reader", {
-          qrbox: { width: 250, height: 250 },
-          fps: 20,
-          aspectRatio: 0.75,
-        });
-        scanner.render(success, error);
-      }
-
-      function success(result) {
-        document.getElementById("result").innerHTML = `
-                <h2>Success!</h2>
-                <p><a href="${result}">${result}</a></p>
-            `;
-        scanner.clear();
-        document.getElementById("reader").remove();
-      }
-
-      function error(err) {
-        console.error(err);
-      }
-    </script>
-
     <script src="res/scripts.js"></script>
   </body>
 </html>
