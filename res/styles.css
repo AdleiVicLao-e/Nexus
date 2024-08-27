@@ -490,6 +490,12 @@ nav .navbar .links li:hover .js-sub-menu{
     pointer-events: auto;
     background: #1C1C1C;
 }
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
 .search-box .input-box::before{
     content: '';
     position: absolute;
@@ -532,6 +538,12 @@ nav .navbar .links li:hover .js-sub-menu{
     z-index: 1000;
     opacity: 0;
     animation: fadeIn 2s forwards;
+}
+
+
+/* Hide .close-nav by default */
+.close-nav {
+    display: none;
 }
 
 /* Main container for the camera and AR scene */
@@ -911,7 +923,6 @@ a-plane {
         font-size: 0.9em;
     }
 
-
 }
 
 /*Phone*/
@@ -1268,5 +1279,11 @@ a-plane {
         0%, 100% { transform: translateX(0); }
         10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
         20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    .close-nav {
+        display: inline-block;
+        font-size: 1.5rem; /* Adjust the icon size */
+        color: #333; /* Change the icon color if needed */
     }
 }
