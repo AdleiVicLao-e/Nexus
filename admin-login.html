@@ -30,7 +30,7 @@
       </div>
       <div class="login-container">
         <h1>Log In</h1>
-        <form>
+        <form action="include/admin.php" method="post">
           <div class="input-container">
             <p style="text-align: left; font-weight: lighter; font-size: 16px">
               Admin ID
@@ -39,6 +39,7 @@
               type="text"
               class="input-field"
               placeholder="Enter Admin ID"
+              name="admin_username"
             />
             <i class="fa fa-user"></i>
           </div>
@@ -51,6 +52,7 @@
               class="input-field"
               placeholder="Enter Password"
               id="password-field"
+              name="admin_password"
             />
             <i class="fa fa-lock icon-left"></i>
             <i class="fa fa-eye toggle-password" id="toggle-password"></i>
