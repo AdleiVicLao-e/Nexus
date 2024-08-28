@@ -55,8 +55,10 @@
 
   <!-- Floating Buttons -->
   <button class="floating-button left" onclick="viewDetails()">i</button>
-  <button class="floating-button right" onclick="reloadPage()">🔄</button>
-  <button id="viewDetailsButton" class="floating-button" style="display: none;" onclick="viewDetails()">View More Details</button>
+  <button id="viewDetailsButton" class="floating-button" style="display: none;" onclick="viewDetailsButton()">View More Details</button>
+  <button class="floating-button right" onclick="reloadPage()">
+    <img src="assets/img/reload.png" alt="Reload" style="width: 20px; height: 20px;">
+  </button>
 
   <script>
     // Initialize video and canvas elements
@@ -178,12 +180,11 @@
     }
 
     function viewDetails() {
-      if (currentCodeData) {
-        alert(`View more details for artifact ID: ${currentCodeData}`);
-        // Implement further logic to show detailed information
-      } else {
-        alert("No artifact detected.");
-      }
+      alert("Welcome! This is a QR code scanning application designed to provide you with more information about the museum artifacts. \nTo use it, simply position your phone's camera in front of the QR codes located near the artifacts. \nThe app will automatically detect the codes and display detailed information about each artifact.");
+    }
+
+    function viewDetailsButton(){
+      
     }
 
     // Query the artifact information from the database
