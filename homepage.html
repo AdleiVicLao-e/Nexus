@@ -47,27 +47,9 @@
       </a-assets>
 
       <!-- Text Box Background -->
-      <a-plane
-              id="textBox"
-              color="white"
-              opacity="0.8"
-              width="6"
-              height="4"
-              position="0 1.6 -10.1"
-              visible="false"
-      ></a-plane>
-
+      <a-plane id="textBox"></a-plane>
       <!-- Main Text -->
-      <a-text
-              id="text"
-              font="exoFont"
-              color="#073066"
-              position="0 1.6 -10"
-              text-align="left"
-              width="5"
-              wrap-count="30"
-              visible="false"
-      ></a-text>
+      <a-text id="text"></a-text>
     </a-scene>
   </main>
 
@@ -81,9 +63,8 @@
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");
     const canvasContext = canvas.getContext("2d");
-    // const plane = document.getElementById("plane");
     const text = document.getElementById("text");
-    const image = document.getElementById("image");
+    const textBox = document.getElementById("textBox");
     let currentCodeData = null;
     let artifactInfo = "";
 
@@ -115,12 +96,7 @@
         canvas.height = video.videoHeight;
         canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        const imageData = canvasContext.getImageData(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-        );
+        const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
         const code = jsQR(imageData.data, canvas.width, canvas.height);
 
         onQRCodeDetected(code);
@@ -139,13 +115,13 @@
           // Update the current QR code data
           currentCodeData = artifactId;
 
-          // Set the text properties
-          const textBox = document.getElementById("textBox");
-          const text = document.getElementById("text");
-
           // Set text box visibility and position
+          textBox.setAttribute("color", "white");
+          textBox.setAttribute("opacity", "0.8");
+          textBox.setAttribute("width", "6");
+          textBox.setAttribute("height", "4");
+          textBox.setAttribute("position", "0 1 -10.5");
           textBox.setAttribute("visible", "true");
-          textBox.setAttribute("position", "0 1.6 -10.1"); // Adjust as needed
 
           // Set the text properties
           text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
@@ -155,7 +131,6 @@
           text.setAttribute("align", "center");
           text.setAttribute("width", "5");
           text.setAttribute("wrap-count", "30");
-          text.setAttribute("visible", "true");
 
           // Set the text value
           switch (artifactId) {
@@ -194,11 +169,8 @@
       } else {
         // QR code not detected, reset or clear the display
         currentCodeData = null;
-        const textBox = document.getElementById("textBox");
-        const text = document.getElementById("text");
-        text.setAttribute("value", "");
-        text.setAttribute("visible", "false");
         textBox.setAttribute("visible", "false");
+        text.setAttribute("value", ""); // Clear text
 
         // Hide the view details button
         document.getElementById("viewDetailsButton").style.display = "none";
