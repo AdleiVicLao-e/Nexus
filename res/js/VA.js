@@ -13,17 +13,17 @@ const app = new PIXI.Application({
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
-
     live2dModel.scale.set(0.3);
-
-    // Set the anchor to center the model properly
     live2dModel.anchor.set(0.5, 0.5);
-
-    // Position the model at the center of the container
     live2dModel.position.set(app.screen.width / 2, app.screen.height / 2);
+
+    // Make the model interactive
+    live2dModel.interactive = true;
+    live2dModel.buttonMode = true; // Change cursor to pointer on hover
 
     app.stage.addChild(live2dModel);
 
+    // Load mouth motion data
     PIXI.Loader.shared
         .add('mouthMotion', './assets/VAmodel/VA Character.motionsync3.json')
         .load((loader, resources) => {
@@ -31,12 +31,12 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
             applyMotionData();
         });
 
-    document.getElementById('va-container').addEventListener('click', handleInteraction);
-    document.getElementById('va-container').addEventListener('touchstart', handleInteraction);
+    // Add event listeners to the model
+    live2dModel.on('pointerdown', handleInteraction); // Handle touch/click events
 
     function handleInteraction(event) {
         // Prevent default behavior to avoid unintended actions, especially on mobile
-        event.preventDefault();
+        event.stopPropagation();
 
         // Example text to speak when the VA model is touched or clicked
         speakText('The sky is blue, the clouds are white, the leaves are green, the sun is bright');

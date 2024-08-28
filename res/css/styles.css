@@ -1340,8 +1340,8 @@ a-plane {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 550px; /* Adjust width as needed */
-        height: 400px; /* Adjust height as needed */
+        width: 485px; /* Adjust width as needed */
+        height: 500px; /* Adjust height as needed */
         overflow: hidden;
         z-index: 9999; /* High z-index to ensure it's on top */
     }
@@ -1354,4 +1354,5 @@ a-plane {
         height: 100%;
         z-index: 2; /* Ensure AR scene is below VA model */
     }
+
 }
