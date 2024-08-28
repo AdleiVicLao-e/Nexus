@@ -32,7 +32,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body data-rsssl="1">
-<nav>
+<nav></nav>
 
   <main>
     <video id="video" autoplay style="visibility: hidden"></video>
@@ -60,6 +60,9 @@
     <img src="assets/img/reload.png" alt="Reload" style="width: 20px; height: 20px;">
   </button>
 
+  <div id="va-container">
+    <canvas id="va-canvas"></canvas>
+  </div>
   <script>
     // Initialize video and canvas elements
     const video = document.getElementById("video");
@@ -216,7 +219,12 @@
     //     });
     // }
   </script>
-
+  <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
+  <script src="./res/js/VA.js"></script>
+  <script src="./res/js/speakClient.js"></script>
   <script src="./res/js/scripts.js"></script>
 </body>
 </html>
