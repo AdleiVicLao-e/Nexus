@@ -30,7 +30,7 @@ p {
 
 /* Welcome Page Styles */
 .welcome-body {
-    background: url('../img/bulul.png') no-repeat center center fixed, #272626; /* Image overlaid on a dark background */
+    background: url('bulul.png') no-repeat center center fixed, #272626; /* Image overlaid on a dark background */
     background-size: cover; /* Ensure the image covers the entire container */
     box-shadow: none; /* Remove the box-shadow */
     display: flex;
@@ -70,7 +70,7 @@ p {
 
 /* Login Page Styles */
 .login-body {
-    background: url('../img/bulul-low-op.png') no-repeat center center fixed;
+    background: url('bulul-low-op.png') no-repeat center center fixed;
     background-color: #272626;
     background-size: 300px; /* Adjust as needed */
     box-shadow: none; /* Remove the box-shadow */
@@ -261,7 +261,7 @@ button:hover {
 
 .access-body {
     font-family: 'Inter', sans-serif;
-    background: url('../img/bulul-low-op.png') no-repeat center center fixed, #272626; /* Image overlaid on a dark background */
+    background: url('bulul-low-op.png') no-repeat center center fixed, #272626; /* Image overlaid on a dark background */
     background-size: 300px;
     display: flex;
     justify-content: center;
@@ -939,7 +939,7 @@ a-plane {
 
     body {
         font-family: 'Inter', sans-serif;
-        background-image: url('../img/homepage_background.png'); /* Replace with the path to your image */
+        background-image: url('homepage_background.png'); /* Replace with the path to your image */
         background-size: cover; /* Ensure the image covers the entire background */
         background-position: center; /* Center the image */
         background-repeat: no-repeat; /* Prevent the image from repeating */
@@ -1009,7 +1009,7 @@ a-plane {
       
     /* Welcome Page Styles */
     .welcome-body {
-        background: url('../img/bulul.png') no-repeat center center fixed, #1C1C1C; /* Image overlaid on a dark background */
+        background: url('bulul.png') no-repeat center center fixed, #1C1C1C; /* Image overlaid on a dark background */
         background-size: 300px; /* Adjust as needed */
         box-shadow: none; /* Remove the box-shadow */
         display: flex;
@@ -1046,7 +1046,7 @@ a-plane {
 
     /* Login Page Styles */
     .login-body {
-        background: url('../img/bulul-low-op.png') no-repeat center center fixed;
+        background: url('bulul-low-op.png') no-repeat center center fixed;
         background-color: #1C1C1C;
         background-size: 300px; /* Adjust as needed */
         box-shadow: none; /* Remove the box-shadow */
@@ -1237,7 +1237,7 @@ a-plane {
 
     .access-body {
         font-family: 'Inter', sans-serif;
-        background: url('../img/bulul-low-op.png') no-repeat center center fixed, #1C1C1C; /* Image overlaid on a dark background */
+        background: url('bulul-low-op.png') no-repeat center center fixed, #1C1C1C; /* Image overlaid on a dark background */
         background-size: 300px; /* Adjust as needed */
         display: flex;
         justify-content: center;

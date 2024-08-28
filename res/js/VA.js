@@ -12,7 +12,7 @@ const app = new PIXI.Application({
 });
 
 // Load the Live2D model
-PIXI.live2d.Live2DModel.from('./VAmodel/VA Character.model3.json').then(model => {
+PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
     live2dModel.scale.set(0.5); // Adjust the model size
     live2dModel.anchor.set(0.5, 0.5);
@@ -21,7 +21,7 @@ PIXI.live2d.Live2DModel.from('./VAmodel/VA Character.model3.json').then(model =>
 
     // Load the motion sync data from the JSON file
     PIXI.Loader.shared
-        .add('mouthMotion', './VAmodel/VA Character.motionsync3.json')
+        .add('mouthMotion', './assets/VAmodel/VA Character.motionsync3.json')
         .load((loader, resources) => {
             mouthMotionData = resources.mouthMotion ? resources.mouthMotion.data : null;  // Save the motion data
             applyMotionData(); // Apply motion data after loading
@@ -36,7 +36,7 @@ function applyMotionData() {
 
         // Initialize audio parameter values
         settings.AudioParameters.forEach(param => {
-            audioParameterValues[param.Id] = 0;
+            audioParameterValues[param.Id] = 0; // Ensure audioParameterValues is initialized
         });
 
         // Function to update model parameters based on audio parameters
@@ -52,12 +52,12 @@ function applyMotionData() {
             }
         }
 
-        // Example: Update model parameters every 100ms
+        // Update model parameters every 150ms
         setInterval(updateModelParameters, 150);
     }
 }
 
-// Function to simulate audio parameter changes (for testing)
+// Simulate audio parameter changes (for testing)
 function simulateAudioParameterChange() {
     // Example simulation
     audioParameterValues["A"] = Math.random();
@@ -67,10 +67,35 @@ function simulateAudioParameterChange() {
     audioParameterValues["U"] = Math.random();
 }
 
-// TTS Functionality
+// Function to handle the click event for the speak button
+function setupSpeakButton() {
+    const speakButton = document.getElementById('speakButton');
+    if (speakButton) {
+        speakButton.addEventListener('click', function () {
+            speakText('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
+        });
+    } else {
+        console.error('Speak button not found');
+    }
+}
+
+// Function to speak the provided text with the selected voice and parameters
 function speakText(text) {
+    const selectedVoice = window.getSelectedVoice();
+    if (!selectedVoice) {
+        console.warn("Voice not selected or not available.");
+        // Log available voices for debugging
+        const voices = window.speechSynthesis.getVoices();
+        console.log("Available voices:", voices);
+        return;
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
+    utterance.voice = selectedVoice;
+    utterance.lang = selectedVoice.lang;
+
+    // Set default values for pitch, rate, and volume
+    window.setTTSParameters(utterance);
 
     utterance.onstart = function () {
         if (live2dModel) {
@@ -100,7 +125,18 @@ function speakText(text) {
     speechSynthesis.speak(utterance);
 }
 
-// Event Listener for Speak Button
-document.getElementById('speakButton').addEventListener('click', function () {
-    speakText('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
-});
+// Initialize voice list and set up button
+window.onload = function () {
+    if (typeof window.populateVoiceList === 'function') {
+        window.populateVoiceList(); // Populate voice list on load
+    } else {
+        console.error('populateVoiceList function is not defined');
+    }
+
+    setupSpeakButton(); // Set up the speak button event listener
+};
+
+// Set the voice selection change event to update the selected voice
+if (typeof window.populateVoiceList === 'function') {
+    window.speechSynthesis.onvoiceschanged = window.populateVoiceList;
+}
