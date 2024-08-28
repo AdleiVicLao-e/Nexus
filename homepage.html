@@ -90,7 +90,6 @@
 
       // Function to start the camera and scan QR codes
       function startScanning() {
-        // Access the camera
         navigator.mediaDevices
           .getUserMedia({
             video: {
@@ -132,9 +131,7 @@
         if (code) {
           const artifactId = code.data;
 
-          // Check if the detected QR code is different from the current one
           if (artifactId !== currentCodeData) {
-            // Update the current QR code data
             currentCodeData = artifactId;
 
             // Set text box properties
@@ -208,6 +205,10 @@
 
       function watchVideos() {
         window.location.href = "igorot-dances.html";
+      }
+
+      function reloadPage() {
+        location.reload();
       }
 
       // Query the artifact information from the database
