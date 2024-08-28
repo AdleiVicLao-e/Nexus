@@ -7,215 +7,216 @@
   <link rel="stylesheet" href="./res/css/styles.css" />
   <link rel="icon" href="./assets/img/favicon.png" type="image/x-icon" />
   <link href="./assets/img/favicon.png" rel="icon" />
-  <link
-          rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-  />
-  <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-  />
-  <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js"
-          integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"
-  ></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./res/js/jsQR.js"></script>
   <script src="./res/js/aframe.min.js"></script>
   <script src="./res/js/aframe-ar.js"></script>
   <script src="./res/js/aframe-text-geometry-component.min.js"></script>
-  <link
-          href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
-          rel="stylesheet"
-  />
+  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* Add this style for VA model container */
+    #va-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 200px; /* Adjust width as needed */
+      height: 200px; /* Adjust height as needed */
+      overflow: hidden;
+    }
+    #va-container canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body data-rsssl="1">
 <nav>
+  <!-- Your navigation content -->
+</nav>
 
-  <main>
-    <video id="video" autoplay style="visibility: hidden"></video>
-    <canvas id="canvas" style="visibility: hidden"></canvas>
+<main>
+  <video id="video" autoplay style="visibility: hidden"></video>
+  <canvas id="canvas" style="visibility: hidden"></canvas>
 
-    <a-scene vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;">
-      <a-assets>
-        <a-asset-item
-                id="exoFont"
-                src="./assets/fonts/exoBlack.typeface.json"
-        ></a-asset-item>
-      </a-assets>
+  <a-scene vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;">
+    <a-assets>
+      <a-asset-item id="exoFont" src="./assets/fonts/exoBlack.typeface.json"></a-asset-item>
+    </a-assets>
 
-      <!-- Text Box Background -->
-      <a-plane id="textBox"></a-plane>
-      <!-- Main Text -->
-      <a-text id="text"></a-text>
-    </a-scene>
-  </main>
+    <!-- Text Box Background -->
+    <a-plane id="textBox" color="white" opacity="0.8" width="6" height="4" position="0 1.6 -10.1" visible="false"></a-plane>
+
+    <!-- Main Text -->
+    <a-text id="text" font="exoFont" color="#073066" position="0 1.6 -10" text-align="left" width="5" wrap-count="30" visible="false"></a-text>
+  </a-scene>
 
   <!-- Floating Buttons -->
   <button class="floating-button left" onclick="viewDetails()">i</button>
   <button class="floating-button right" onclick="reloadPage()">🔄</button>
   <button id="viewDetailsButton" class="floating-button" style="display: none;" onclick="viewDetails()">View More Details</button>
 
-  <script>
-    // Initialize video and canvas elements
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
-    const canvasContext = canvas.getContext("2d");
-    const text = document.getElementById("text");
-    const textBox = document.getElementById("textBox");
-    let currentCodeData = null;
-    let artifactInfo = "";
+  <!-- VA model container -->
+  <div id="va-container">
+    <canvas id="va-canvas"></canvas>
+  </div>
+</main>
 
-    // Start scanning when the page loads
-    startScanning();
+<!-- Existing scripts -->
+<script>
+  // Initialize video and canvas elements
+  const video = document.getElementById("video");
+  const canvas = document.getElementById("canvas");
+  const canvasContext = canvas.getContext("2d");
+  const text = document.getElementById("text");
+  let currentCodeData = null;
 
-    // Function to start the camera and scan QR codes
-    function startScanning() {
-      // Access the camera
-      navigator.mediaDevices
-              .getUserMedia({
-                video: {
-                  facingMode: "environment",
-                },
-              })
-              .then((stream) => {
-                video.srcObject = stream;
-                video.setAttribute("playsinline", true); // For iOS compatibility
-                video.play();
-                requestAnimationFrame(scanQRCode);
-              })
-              .catch((err) => console.error("Camera access error:", err));
+  // Start scanning when the page loads
+  startScanning();
+
+  // Function to start the camera and scan QR codes
+  function startScanning() {
+    // Access the camera
+    navigator.mediaDevices
+            .getUserMedia({
+              video: { facingMode: "environment" },
+            })
+            .then((stream) => {
+              video.srcObject = stream;
+              video.setAttribute("playsinline", true); // For iOS compatibility
+              video.play();
+              requestAnimationFrame(scanQRCode);
+            })
+            .catch((err) => console.error("Camera access error:", err));
+  }
+
+  // Function to scan QR codes
+  function scanQRCode() {
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+      onQRCodeDetected(code);
     }
+    // Continue scanning
+    requestAnimationFrame(scanQRCode);
+  }
 
-    // Function to scan QR codes
-    function scanQRCode() {
-      if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+  // When QR code is detected
+  function onQRCodeDetected(code) {
+    if (code) {
+      const artifactId = code.data;
 
-        const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, canvas.width, canvas.height);
+      // Check if the detected QR code is different from the current one
+      if (artifactId !== currentCodeData) {
+        // Update the current QR code data
+        currentCodeData = artifactId;
 
-        onQRCodeDetected(code);
-      }
-      // Continue scanning
-      requestAnimationFrame(scanQRCode);
-    }
+        // Set the text properties
+        const textBox = document.getElementById("textBox");
+        const text = document.getElementById("text");
 
-    // When QR code is detected
-    function onQRCodeDetected(code) {
-      if (code) {
-        const artifactId = code.data;
+        // Set text box visibility and position
+        textBox.setAttribute("visible", "true");
+        textBox.setAttribute("position", "0 1.6 -10.1"); // Adjust as needed
 
-        // Check if the detected QR code is different from the current one
-        if (artifactId !== currentCodeData) {
-          // Update the current QR code data
-          currentCodeData = artifactId;
+        // Set the text properties
+        text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
+        text.setAttribute("color", "black");
+        text.setAttribute("rotation", "0 0 0");
+        text.setAttribute("position", "0 1.6 -10");
+        text.setAttribute("align", "center");
+        text.setAttribute("width", "5");
+        text.setAttribute("wrap-count", "30");
+        text.setAttribute("visible", "true");
 
-          // Set text box visibility and position
-          textBox.setAttribute("color", "white");
-          textBox.setAttribute("opacity", "0.8");
-          textBox.setAttribute("width", "6");
-          textBox.setAttribute("height", "4");
-          textBox.setAttribute("position", "0 1 -10.5");
-          textBox.setAttribute("visible", "true");
-
-          // Set the text properties
-          text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
-          text.setAttribute("color", "black");
-          text.setAttribute("rotation", "0 0 0");
-          text.setAttribute("position", "0 1.6 -10");
-          text.setAttribute("align", "center");
-          text.setAttribute("width", "5");
-          text.setAttribute("wrap-count", "30");
-
-          // Set the text value
-          switch (artifactId) {
-            case "1":
-              text.setAttribute(
-                      "value",
-                      `Artifact Id: 1\nSection Name: Wood arts\nCatalogue Name: Traditional wood arts\nName: House door\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
-              );
-              break;
-            case "2":
-              text.setAttribute(
-                      "value",
-                      `Artifact Id: 2\nSection Name: Wood arts\nCatalogue Name: Contemporary wood arts\nName: Panel wall\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
-              );
-              break;
-            case "3":
-              text.setAttribute(
-                      "value",
-                      `Artifact Id: THREE\nSection Name: Musical instruments\nCatalogue Name: Gongs and drums\nName: Gong handle 1\nDescription: With back-to-back anthropomorphic motif\nCondition: No problem.\n`
-              );
-              break;
-            default:
-              text.setAttribute(
-                      "value",
-                      "Whoops! We couldn't fetch the artifact details. Please try again!"
-              );
-              text.setAttribute("color", "red");
-              break;
-          }
-
-          // Show the view details button
-          document.getElementById("viewDetailsButton").style.display = "block";
-
-          fetchArtifactInfo(artifactId);
+        // Set the text value
+        switch (artifactId) {
+          case "1":
+            text.setAttribute("value", `Artifact Id: 1\nSection Name: Wood arts\nCatalogue Name: Traditional wood arts\nName: House door\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`);
+            break;
+          case "2":
+            text.setAttribute("value", `Artifact Id: 2\nSection Name: Wood arts\nCatalogue Name: Contemporary wood arts\nName: Panel wall\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`);
+            break;
+          case "3":
+            text.setAttribute("value", `Artifact Id: THREE\nSection Name: Musical instruments\nCatalogue Name: Gongs and drums\nName: Gong handle 1\nDescription: With back-to-back anthropomorphic motif\nCondition: No problem.\n`);
+            break;
+          default:
+            text.setAttribute("value", "Whoops! We couldn't fetch the artifact details. Please try again!");
+            text.setAttribute("color", "red");
+            break;
         }
-      } else {
-        // QR code not detected, reset or clear the display
-        currentCodeData = null;
-        textBox.setAttribute("visible", "false");
-        text.setAttribute("value", ""); // Clear text
 
-        // Hide the view details button
-        document.getElementById("viewDetailsButton").style.display = "none";
+        // Show the view details button
+        document.getElementById("viewDetailsButton").style.display = "block";
+
+        fetchArtifactInfo(artifactId);
       }
+    } else {
+      // QR code not detected, reset or clear the display
+      currentCodeData = null;
+      const textBox = document.getElementById("textBox");
+      const text = document.getElementById("text");
+      text.setAttribute("value", "");
+      text.setAttribute("visible", "false");
+      textBox.setAttribute("visible", "false");
+
+      // Hide the view details button
+      document.getElementById("viewDetailsButton").style.display = "none";
     }
+  }
 
-    function viewDetails() {
-      if (currentCodeData) {
-        alert(`View more details for artifact ID: ${currentCodeData}`);
-        // Implement further logic to show detailed information
-      } else {
-        alert("No artifact detected.");
-      }
+  function viewDetails() {
+    if (currentCodeData) {
+      alert(`View more details for artifact ID: ${currentCodeData}`);
+      // Implement further logic to show detailed information
+    } else {
+      alert("No artifact detected.");
     }
+  }
 
-    // Query the artifact information from the database
-    // function fetchArtifactInfo(artifactId) {
-    //   fetch(`getArtifact.php?artifact_id=${artifactId}`)
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       if (data) {
-    //         console.log("Data:");
-    //         console.log(data);
-    //         artifactInfo = `
-    //                 Artifact Id: ${data.artifact_id}
-    //                 Section Name: ${data.section_name}
-    //                 Catalogue Name: ${data.catalogue_name}
-    //                 Name: ${data.name}
-    //                 Description: ${data.description}
-    //                 Condition: ${data.condition}
-    //         `.trim();
-    //       } else {
-    //         artifactInfo = "Artifact not found";
-    //       }
+  // Query the artifact information from the database
+  // function fetchArtifactInfo(artifactId) {
+  //   fetch(`getArtifact.php?artifact_id=${artifactId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data) {
+  //         console.log("Data:");
+  //         console.log(data);
+  //         artifactInfo = `
+  //                 Artifact Id: ${data.artifact_id}
+  //                 Section Name: ${data.section_name}
+  //                 Catalogue Name: ${data.catalogue_name}
+  //                 Name: ${data.name}
+  //                 Description: ${data.description}
+  //                 Condition: ${data.condition}
+  //         `.trim();
+  //       } else {
+  //         artifactInfo = "Artifact not found";
+  //       }
 
-    //       text.setAttribute("value", artifactInfo);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching artifact info:", error);
-    //       artifactInfo = "Error fetching artifact info";
-    //       text.setAttribute("value", artifactInfo);
-    //     });
-    // }
-  </script>
+  //       text.setAttribute("value", artifactInfo);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching artifact information:", error);
+  //     });
+  // }
 
-  <script src="./res/js/scripts.js"></script>
+  function reloadPage() {
+    window.location.reload();
+  }
+</script>
+<script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
+<script src="./res/js/speakClient.js"></script>
+<script src="./res/js/VA.js"></script>
 </body>
 </html>
