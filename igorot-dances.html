@@ -33,7 +33,11 @@
         <i class="bx bx-menu"></i>
         <div class="logo">
           <a href="index.html">
-            <img src="assets/img/logo.png" style="height: auto" alt="Kultoura Logo" />
+            <img
+              src="assets/img/logo.png"
+              style="height: auto"
+              alt="Kultoura Logo"
+            />
           </a>
         </div>
         <div class="nav-links">
@@ -47,9 +51,15 @@
             <i class="bx bx-x"></i>
           </div>
           <ul class="links">
-            <li><a href="homepage.html" class="close-nav"><i class="fa fa-chevron-circle-left"></i></a></li>
+            <li>
+              <a href="homepage.html" class="close-nav"
+                ><i class="fa fa-chevron-circle-left"></i
+              ></a>
+            </li>
             <li><a href="homepage.html">Home</a></li>
-            <li><a href="igorot-dances.html" class="active">Igorot Dances</a></li>
+            <li>
+              <a href="igorot-dances.html" class="active">Igorot Dances</a>
+            </li>
             <li><a href="about.html">About</a></li>
             <li><a href="index.html">Log out</a></li>
           </ul>
@@ -93,6 +103,40 @@
         </div>
       </div>
     </div>
+
+    <script>
+      function isMobileDevice() {
+        return (
+          typeof window.orientation !== "undefined" ||
+          navigator.userAgent.indexOf("IEMobile") !== -1
+        );
+      }
+
+      if (!isMobileDevice()) {
+        document.getElementById("reader").style.display = "none";
+        document.getElementById("mobileMessage").style.display = "block";
+      } else {
+        const scanner = new Html5QrcodeScanner("reader", {
+          qrbox: { width: 250, height: 250 },
+          fps: 20,
+          aspectRatio: 0.75,
+        });
+        scanner.render(success, error);
+      }
+
+      function success(result) {
+        document.getElementById("result").innerHTML = `
+                <h2>Success!</h2>
+                <p><a href="${result}">${result}</a></p>
+            `;
+        scanner.clear();
+        document.getElementById("reader").remove();
+      }
+
+      function error(err) {
+        console.error(err);
+      }
+    </script>
     <script src="res/js/scripts.js"></script>
   </body>
 </html>

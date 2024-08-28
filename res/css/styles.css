@@ -749,8 +749,9 @@ a-plane {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
-    padding: 20px; /* Add padding to the grid */
-    margin: 0; /* Ensure no extra margin */
+    padding: 20px; 
+    margin: 0; 
+    margin-top: 680px;
 }
 
 /* Individual video card styles */
@@ -939,17 +940,21 @@ a-plane {
 
     body {
         font-family: 'Inter', sans-serif;
-        background-image: url('../../assets/img/homepage_background.png'); /* Replace with the path to your image */
-        background-size: cover; /* Ensure the image covers the entire background */
-        background-position: center; /* Center the image */
-        background-repeat: no-repeat; /* Prevent the image from repeating */
+        background-image: url('../../assets/img/homepage_background.png'); 
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat;
+        background-attachment: fixed;
         color: #FFFFFF;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
     }
-
+   
     h1 {
         font-family: 'Jomolhari', serif;
         color: #073066;
