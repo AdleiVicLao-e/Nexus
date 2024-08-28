@@ -3,6 +3,7 @@ let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
 
+// Create a PIXI application
 const app = new PIXI.Application({
     view: document.getElementById('va-canvas'),
     autoStart: true,
@@ -12,18 +13,17 @@ const app = new PIXI.Application({
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
-    // Adjust the scale to prevent squeezing, preserving aspect ratio
-    const scaleFactor = Math.min(app.screen.width / live2dModel.width, app.screen.height / live2dModel.height);
-    live2dModel.scale.set(scaleFactor);
-
-    // Set the anchor to center the model properly
+    live2dModel.scale.set(0.3);
     live2dModel.anchor.set(0.5, 0.5);
-
-    // Position the model at the center of the container
     live2dModel.position.set(app.screen.width / 2, app.screen.height / 2);
+
+    // Make the model interactive
+    live2dModel.interactive = true;
+    live2dModel.buttonMode = true; // Change cursor to pointer on hover
 
     app.stage.addChild(live2dModel);
 
+    // Load mouth motion data
     PIXI.Loader.shared
         .add('mouthMotion', './assets/VAmodel/VA Character.motionsync3.json')
         .load((loader, resources) => {
@@ -31,10 +31,16 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
             applyMotionData();
         });
 
-    // Add event listener to va-canvas for speech synthesis when clicked
-    document.getElementById('va-container').addEventListener('touchstart', function() {
+    // Add event listeners to the model
+    live2dModel.on('pointerdown', handleInteraction); // Handle touch/click events
+
+    function handleInteraction(event) {
+        // Prevent default behavior to avoid unintended actions, especially on mobile
+        event.stopPropagation();
+
+        // Example text to speak when the VA model is touched or clicked
         speakText('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
-    });
+    }
 });
 
 function applyMotionData() {
@@ -70,6 +76,12 @@ function simulateAudioParameterChange() {
     audioParameterValues["U"] = Math.random();
 }
 
+// Define getSelectedVoice to select a voice for speech synthesis
+window.getSelectedVoice = function() {
+    const voices = window.speechSynthesis.getVoices();
+    return voices.find(voice => voice.lang === 'en-US') || voices[0];
+};
+
 function speakText(text) {
     const selectedVoice = window.getSelectedVoice();
     if (!selectedVoice) {
@@ -83,7 +95,9 @@ function speakText(text) {
     utterance.voice = selectedVoice;
     utterance.lang = selectedVoice.lang;
 
-    window.setTTSParameters(utterance);
+    if (typeof window.setTTSParameters === 'function') {
+        window.setTTSParameters(utterance);
+    }
 
     utterance.onstart = function () {
         if (live2dModel) {
@@ -108,12 +122,14 @@ function speakText(text) {
     speechSynthesis.speak(utterance);
 }
 
+// Ensure voice list is populated after page load
 window.onload = function () {
     if (typeof window.populateVoiceList === 'function') {
         window.populateVoiceList();
     }
 };
 
+// Re-populate the voice list when voices are changed
 if (typeof window.populateVoiceList === 'function') {
     window.speechSynthesis.onvoiceschanged = window.populateVoiceList;
 }
