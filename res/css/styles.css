@@ -961,7 +961,7 @@ a-plane {
     }
 
     .floating-button {
-        position: fixed;
+        position: absolute;
         bottom: 20px;
         width: 60px;
         height: 60px;
@@ -975,7 +975,7 @@ a-plane {
         font-size: 24px;
         border: none;
         cursor: pointer;
-        z-index: 1000;
+        z-index: 1001;
       }
 
     .floating-button.left {
@@ -986,7 +986,7 @@ a-plane {
         right: 20px;
       }
 
-      #viewDetailsButton {
+      #watchVideosButton {
         position: fixed;
         bottom: 20px;
         left: 50%;
@@ -995,16 +995,28 @@ a-plane {
         padding: 10px 20px;
         border-radius: 50px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        background-color: #FAC301;
+        background-image: url('/assets/img/button_background.png');
+        background-size: cover; 
+        background-position: center; 
         color: white;
         font-size: 16px;
-        font: bold;
+        font-weight: bold; 
         border: none;
         cursor: pointer;
-        z-index: 1000;
-      }
+        z-index: 1002;
+        animation: zoomIn 3s; 
+    }
+
+    @keyframes zoomIn {
+        0% {
+            transform: translateX(-50%) scale(0.8); 
+        }
+        100% {
+            transform: translateX(-50%) scale(1); 
+        }
+    }
       
-      #viewDetailsButton:hover {
+      #watchVideosButton:hover {
         background-color: #FAC301;
       }
       
@@ -1345,6 +1357,7 @@ a-plane {
         height: 500px; /* Adjust height as needed */
         overflow: hidden;
         z-index: 9999; /* High z-index to ensure it's on top */
+        pointer-events: none;
     }
 
     a-scene {
