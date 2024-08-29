@@ -26,128 +26,39 @@
         ></a>
       </div>
       <div class="access-container">
-        <h1 style="color: #ffffff">Access as Guest</h1>
         <form>
-          <div class="checkbox-container">
-            <label class="custom-radio">
-              <input
-                type="radio"
-                name="access-type"
-                value="student"
-                id="student-radio"
-                onchange="toggleForm('student');"
-              />
-              <span class="custom-radio-span"></span>
-              I am an SLU student ────────────
-            </label>
-            <label class="custom-radio">
-              <input
-                type="radio"
-                name="access-type"
-                value="visitor"
-                id="visitor-radio"
-                onchange="toggleForm('visitor');"
-              />
-              <span class="custom-radio-span"></span>
-              I am a visitor ─────────────────
-            </label>
-          </div>
-          <div id="student-form" class="form-container hidden">
+          <div id="general-form">
             <div class="input-container">
               <p
                 style="text-align: left; font-weight: lighter; font-size: 16px"
               >
-                ID Number
+                Name
               </p>
               <input
                 type="text"
                 class="input-field"
-                placeholder="Enter ID Number"
+                placeholder="First and last name"
               />
             </div>
             <div class="input-container">
               <p
                 style="text-align: left; font-weight: lighter; font-size: 16px"
               >
-                School
-              </p>
-              <select class="input-field">
-                <option value="" disabled selected>Select School</option>
-                <option value="school1">Basic Education School</option>
-                <option value="school1">
-                  School of Accountancy, Management, Computing and Information
-                  Studies
-                </option>
-                <option value="school1">School of Advanced Studies</option>
-                <option value="school2">
-                  School of Engineering and Architecture
-                </option>
-                <option value="school2">School of Law</option>
-                <option value="school2">School of Medicine</option>
-                <option value="school2">
-                  School of Nursing, Allied Health, and Biological Sciences
-                </option>
-                <option value="school2">
-                  School of Teacher Education and Liberal Arts
-                </option>
-                <!-- Add more schools as needed -->
-              </select>
-            </div>
-          </div>
-          <div id="visitor-form" class="form-container hidden">
-            <div class="input-container">
-              <p
-                style="text-align: left; font-weight: lighter; font-size: 16px"
-              >
-                Visitor Name
+                School/ Organization
               </p>
               <input
                 type="text"
                 class="input-field"
-                placeholder="Enter Visitor Name"
-              />
-            </div>
-            <div class="input-container">
-              <p
-                style="text-align: left; font-weight: lighter; font-size: 16px"
-              >
-                School
-              </p>
-              <input
-                type="text"
-                class="input-field"
-                placeholder="Enter School"
+                placeholder="School or organization"
               />
             </div>
           </div>
-          <button
-            type="submit"
-            class="btn-access"
-            id="btn-submit"
-            style="display: none"
-          >
+          <button type="submit" class="btn-access" id="btn-submit">
             Submit
           </button>
         </form>
       </div>
     </div>
     <script src="res/js/scripts.js"></script>
-    <script>
-      function toggleForm(type) {
-        var studentForm = document.getElementById("student-form");
-        var visitorForm = document.getElementById("visitor-form");
-        var submitButton = document.getElementById("btn-submit");
-
-        if (type === "student") {
-          studentForm.classList.remove("hidden");
-          visitorForm.classList.add("hidden");
-          submitButton.style.display = "block";
-        } else if (type === "visitor") {
-          visitorForm.classList.remove("hidden");
-          studentForm.classList.add("hidden");
-          submitButton.style.display = "block";
-        }
-      }
-    </script>
   </body>
 </html>
