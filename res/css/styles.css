@@ -986,7 +986,7 @@ a-plane {
         font-size: 24px;
         border: none;
         cursor: pointer;
-        z-index: 1001;
+        z-index: 1002;
       }
 
     .floating-button.left {
@@ -1014,7 +1014,7 @@ a-plane {
         font-weight: bold; 
         border: none;
         cursor: pointer;
-        z-index: 1002;
+        z-index: 1003;
         animation: zoomIn 3s; 
     }
 
@@ -1356,12 +1356,12 @@ a-plane {
     #va-container {
         position: fixed;
         bottom: 20px;
-        right: 20px;
-        width: 485px; /* Adjust width as needed */
-        height: 500px; /* Adjust height as needed */
+        right: 1px;
+        width: 465px; /* Adjust width as needed */
+        height: 425px; /* Adjust height as needed */
         overflow: hidden;
-        z-index: 9999; /* High z-index to ensure it's on top */
-        pointer-events: none;
+        z-index: 1001; /* High z-index to ensure it's on top */
+        pointer-events: auto;
     }
 
     a-scene {
@@ -1371,6 +1371,9 @@ a-plane {
         width: 100%;
         height: 100%;
         z-index: 2; /* Ensure AR scene is below VA model */
+    }
+    a-plane, a-text, a-box {
+        pointer-events: none; /* Prevent AR elements from blocking interactions */
     }
 
 }

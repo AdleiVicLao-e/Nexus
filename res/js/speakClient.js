@@ -8,12 +8,24 @@ function populateVoiceList() {
   // Log available voices for debugging
   console.log("Available voices:", voices);
 
-  // Set the desired voice as the default selected voice
-  selectedVoice = voices.find(voice => voice.name === 'Microsoft Mark - English (United States)');
+  // Prioritize selecting a male voice if available
+  selectedVoice = voices.find(voice => voice.name.includes('Male') || voice.gender === 'male');
+
+  // If no male voice is found, fall back to the first available voice
+  if (!selectedVoice && voices.length > 0) {
+    selectedVoice = voices[0];
+  }
+
+  // If no voices are found, use the browser's or device's default voice
+  if (!selectedVoice) {
+    selectedVoice = new SpeechSynthesisUtterance().voice;
+    console.warn("Using default voice as no specific voices were found.");
+  }
+
   if (selectedVoice) {
-    console.log("Selected voice:", selectedVoice.name);
+    console.log("Selected voice:", selectedVoice.name || "Default voice");
   } else {
-    console.warn("Desired voice not found.");
+    console.warn("No available voices found.");
   }
 }
 
@@ -36,3 +48,6 @@ window.setTTSParameters = setTTSParameters;
 
 // Initialize voice list population on voices changed
 window.speechSynthesis.onvoiceschanged = populateVoiceList;
+
+// Call populateVoiceList on page load to ensure voices are available immediately
+populateVoiceList();

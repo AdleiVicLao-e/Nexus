@@ -13,7 +13,7 @@ const app = new PIXI.Application({
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
-    live2dModel.scale.set(0.3);
+    live2dModel.scale.set(0.15);
     live2dModel.anchor.set(0.5, 0.5);
     live2dModel.position.set(app.screen.width / 2, app.screen.height / 2);
 
@@ -35,12 +35,15 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
     live2dModel.on('pointerdown', handleInteraction); // Handle touch/click events
 
     function handleInteraction(event) {
-        // Prevent default behavior to avoid unintended actions, especially on mobile
-        event.stopPropagation();
+        event.stopPropagation(); // Prevent default behavior
 
-        // Example text to speak when the VA model is touched or clicked
-        speakText('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
+        alert("Model tapped!"); // Confirm tap is registered
+
+        // Directly create and speak an utterance
+        const utterance = new SpeechSynthesisUtterance('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
+        speechSynthesis.speak(utterance);
     }
+
 });
 
 function applyMotionData() {
