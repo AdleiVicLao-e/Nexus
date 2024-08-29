@@ -665,11 +665,11 @@ a-plane {
 }
 
 .controls button:nth-child(3) {
-    border: 2px solid #00B541;
+    border: 2px solid #073066;
 }
 
 .controls button:nth-child(3) svg {
-    color: #00B541;
+    color: #073066;
 }
 
 .controls > button {
@@ -742,6 +742,11 @@ a-plane {
     .logo {
         margin-left: 50px;
     }
+
+    .floating-button.left, .floating-button.right {
+        display: none;
+    }
+
 }
 
 /* Video grid styles */
@@ -923,7 +928,6 @@ a-plane {
         top: 5px;
         font-size: 0.9em;
     }
-
 }
 
 /*Phone*/
@@ -1096,13 +1100,6 @@ a-plane {
         max-width: 400px;
         width: 100%;
         box-shadow: none;
-    }
-
-    .checkbox-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 20px;
     }
 
     .input-container {
