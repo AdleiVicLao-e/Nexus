@@ -87,8 +87,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const submitButton = document.getElementById('btn-submit');
     if (submitButton) {
         submitButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default form submission if it's inside a form
-            window.location.href = 'homepage.html'; // Replace 'your-target-page.html' with the actual target page
+            event.preventDefault();
+
+            const userName = document.getElementById('user_name').value;
+            const userSchool = document.getElementById('user_school').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'include/user.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    window.location.href = 'homepage.html';
+                } else {
+                }
+            };
+
+            xhr.send(`user_name=${encodeURIComponent(userName)}&user_school=${encodeURIComponent(userSchool)}`);
         });
     }
 
