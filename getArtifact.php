@@ -21,20 +21,23 @@ $artifactId = isset($_GET['artifact_id']) ? intval($_GET['artifact_id']) : 0;
 // Prepare and execute the query
 $query = "
     SELECT 
-        artifactinfo.artifact_id, 
-        artifactinfo.name, 
-        artifactinfo.description, 
-        artifactinfo.condition, 
-        catalogue.catalogue_Name AS catalogue_name, 
-        section.section_Name AS section_name
+        a.artifact_id AS 'Artifact Id',
+        s.section_name AS 'Section Name',
+        c.catalogue_name AS 'Catalogue Name',
+        sc.subcat_name AS 'Subcatalogue Name',
+        a.name AS 'Name',
+        a.description AS 'Description',
+        a.condition AS 'Condition'
     FROM 
-        artifactinfo
-    JOIN 
-        catalogue ON artifactinfo.catalogue_id = catalogue.catalogue_ID
-    JOIN 
-        section ON artifactinfo.section_id = section.section_ID
+        artifact_info a
+    LEFT JOIN 
+        section s ON a.section_id = s.section_id
+    LEFT JOIN 
+        catalogue c ON a.catalogue_id = c.catalogue_id
+    LEFT JOIN 
+        subcatalogue sc ON a.subcat_id = sc.subcat_id
     WHERE 
-        artifactinfo.artifact_id = ?";
+        a.artifact_id = ?;";
 
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param('i', $artifactId);

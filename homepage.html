@@ -160,33 +160,33 @@
             box.setAttribute("material", "opacity", 0.8);
 
             // Set the text value
-            switch (artifactId) {
-              case "1":
-                text.setAttribute(
-                  "value",
-                  `Artifact Id: 1\nSection Name: Wood arts\nCatalogue Name: Traditional wood arts\nName: House door\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
-                );
-                break;
-              case "2":
-                text.setAttribute(
-                  "value",
-                  `Artifact Id: 2\nSection Name: Wood arts\nCatalogue Name: Contemporary wood arts\nName: Panel wall\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
-                );
-                break;
-              case "3":
-                text.setAttribute(
-                  "value",
-                  `Artifact Id: THREE\nSection Name: Musical instruments\nCatalogue Name: Gongs and drums\nName: Gong handle 1\nDescription: With back-to-back anthropomorphic motif\nCondition: No problem.\n`
-                );
-                break;
-              default:
-                text.setAttribute(
-                  "value",
-                  "Whoops! We couldn't fetch the artifact details. Please try again!"
-                );
-                text.setAttribute("color", "red");
-                break;
-            }
+            // switch (artifactId) {
+            //   case "1":
+            //     text.setAttribute(
+            //       "value",
+            //       `Artifact Id: 1\nSection Name: Wood arts\nCatalogue Name: Traditional wood arts\nName: House door\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
+            //     );
+            //     break;
+            //   case "2":
+            //     text.setAttribute(
+            //       "value",
+            //       `Artifact Id: 2\nSection Name: Wood arts\nCatalogue Name: Contemporary wood arts\nName: Panel wall\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
+            //     );
+            //     break;
+            //   case "3":
+            //     text.setAttribute(
+            //       "value",
+            //       `Artifact Id: THREE\nSection Name: Musical instruments\nCatalogue Name: Gongs and drums\nName: Gong handle 1\nDescription: With back-to-back anthropomorphic motif\nCondition: No problem.\n`
+            //     );
+            //     break;
+            //   default:
+            //     text.setAttribute(
+            //       "value",
+            //       "Whoops! We couldn't fetch the artifact details. Please try again!"
+            //     );
+            //     text.setAttribute("color", "red");
+            //     break;
+            // }
 
             // Show the view details button
             document.getElementById("watchVideosButton").style.display =
@@ -219,34 +219,31 @@
         location.reload();
       }
 
-      // Query the artifact information from the database
-      // function fetchArtifactInfo(artifactId) {
-      //   fetch(`getArtifact.php?artifact_id=${artifactId}`)
-      //     .then((response) => response.json())
-      //     .then((data) => {
-      //       if (data) {
-      //         console.log("Data:");
-      //         console.log(data);
-      //         artifactInfo = `
-      //                 Artifact Id: ${data.artifact_id}
-      //                 Section Name: ${data.section_name}
-      //                 Catalogue Name: ${data.catalogue_name}
-      //                 Name: ${data.name}
-      //                 Description: ${data.description}
-      //                 Condition: ${data.condition}
-      //         `.trim();
-      //       } else {
-      //         artifactInfo = "Artifact not found";
-      //       }
-
-      //       text.setAttribute("value", artifactInfo);
-      //     })
-      //     .catch((error) => {
-      //       console.error("Error fetching artifact info:", error);
-      //       artifactInfo = "Error fetching artifact info";
-      //       text.setAttribute("value", artifactInfo);
-      //     });
-      // }
+      function fetchArtifactInfo(artifactId) {
+        fetch(`getArtifact.php?artifact_id=${artifactId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data) {
+                    console.log("Data:", data);
+                    const artifactInfo = `
+                    Artifact Id: ${data['Artifact Id']}
+                    Section Name: ${data['Section Name']}
+                    Catalogue Name: ${data['Catalogue Name']}
+                    Subcatalogue Name: ${data['Subcatalogue Name']}
+                    Name: ${data['Name']}
+                    Description: ${data['Description']}
+                    Condition: ${data['Condition']}
+                `.trim();
+                    text.setAttribute("value", artifactInfo);
+                  } else {
+                    text.setAttribute("value", "Artifact not found");
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error fetching artifact info:", error);
+                  text.setAttribute("value", "Error fetching artifact info");
+                });
+      }
     </script>
     <!-- <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
