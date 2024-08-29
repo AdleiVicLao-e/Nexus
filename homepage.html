@@ -50,6 +50,7 @@
         <a-plane id="textBox"></a-plane>
         <!-- Main Text -->
         <a-text id="text"></a-text>
+        <a-box id="cube"></a-box>
       </a-scene>
     </main>
 
@@ -81,7 +82,8 @@
       const canvas = document.getElementById("canvas");
       const canvasContext = canvas.getContext("2d");
       const text = document.getElementById("text");
-      const textBox = document.getElementById("textBox");
+      // const textBox = document.getElementById("textBox");
+      const box = document.getElementById("cube");
       let currentCodeData = null;
       let artifactInfo = "";
 
@@ -135,21 +137,27 @@
             currentCodeData = artifactId;
 
             // Set text box properties
-            textBox.setAttribute("color", "white");
-            textBox.setAttribute("opacity", "0.8");
-            textBox.setAttribute("width", "6");
-            textBox.setAttribute("height", "4");
-            textBox.setAttribute("position", "0 1 -10.5");
-            textBox.setAttribute("visible", "true");
+            // textBox.setAttribute("color", "white");
+            // textBox.setAttribute("opacity", "0.8");
+            // textBox.setAttribute("width", "6");
+            // textBox.setAttribute("height", "4");
+            // textBox.setAttribute("position", "0 1 -10.5");
+            // textBox.setAttribute("visible", "true");
 
             // Set the text properties
             text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
-            text.setAttribute("color", "black");
-            text.setAttribute("rotation", "0 0 0");
+            text.setAttribute("color", "white");
+            text.setAttribute("rotation", "-5 20 0");
             text.setAttribute("position", "0 1.6 -10");
             text.setAttribute("align", "center");
             text.setAttribute("width", "5");
             text.setAttribute("wrap-count", "30");
+
+            box.setAttribute("position", { x: 0.2, y: 1.2, z: -12 });
+            box.setAttribute("rotation", { x: -5, y: 20, z: 0 });
+            box.setAttribute("scale", { x: 6, y: 5, z: 3 });
+            box.setAttribute("color", "#073066");
+            box.setAttribute("material", "opacity", 0.8);
 
             // Set the text value
             switch (artifactId) {
@@ -240,12 +248,14 @@
       //     });
       // }
     </script>
-    <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+    <!-- <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
     <script src="./res/js/VA.js"></script>
     <script src="./res/js/speakClient.js"></script>
-    <script src="./res/js/scripts.js"></script>
+    <script src="./res/js/scripts.js"></script> -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
   </body>
 </html>
