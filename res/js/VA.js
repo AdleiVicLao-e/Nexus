@@ -37,8 +37,6 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
     function handleInteraction(event) {
         event.stopPropagation(); // Prevent default behavior
 
-        alert("Model tapped!"); // Confirm tap is registered
-
         // Directly create and speak an utterance
         const utterance = new SpeechSynthesisUtterance('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
         speechSynthesis.speak(utterance);
