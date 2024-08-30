@@ -38,7 +38,7 @@
       <video id="video" autoplay style="visibility: hidden"></video>
       <canvas id="canvas" style="visibility: hidden"></canvas>
 
-      <a-scene vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;">
+      <a-scene vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;" device-orientation-permission-ui="enabled: false">
         <a-assets>
           <a-asset-item id="exoFont" src="./assets/fonts/exoBlack.typeface.json"></a-asset-item>
           <img id="pixels" src="./assets/img/pixels.png" />
@@ -191,7 +191,7 @@
         } else {
           // QR code not detected, reset or clear the display
           currentCodeData = null;
-          textBox.setAttribute("visible", "false");
+          box.setAttribute("visible", "false");
           text.setAttribute("value", ""); // Clear text
 
           // Hide the view details button
