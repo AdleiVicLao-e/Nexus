@@ -39,6 +39,26 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
 
         // Directly create and speak an utterance
         const utterance = new SpeechSynthesisUtterance('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
+        utterance.onstart = function () {
+            if (live2dModel) {
+                let startTime = Date.now();
+                animationIntervalId = setInterval(() => {
+                    let elapsed = Date.now() - startTime;
+                    simulateAudioParameterChange();
+                }, 150);
+            }
+        };
+
+        utterance.onend = function () {
+            clearInterval(animationIntervalId);
+            animationIntervalId = null;
+
+            if (live2dModel) {
+                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
+            }
+        };
+
         speechSynthesis.speak(utterance);
     }
 
