@@ -6,7 +6,8 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #272626; /* Dark background */
+    background-color: #272626;
+    /* Dark background */
     color: #FFFFFF;
     display: flex;
     justify-content: center;
@@ -14,7 +15,8 @@ body {
     height: 100vh;
 }
 
-h1, h2 {
+h1,
+h2 {
     font-family: 'Jomolhari', serif;
     color: #073066;
     margin-bottom: 10px;
@@ -30,16 +32,21 @@ p {
 
 /* Welcome Page Styles */
 .welcome-body {
-    background: url('../../assets/img/bulul.png') no-repeat center center fixed, #272626; /* Image overlaid on a dark background */
-    background-size: cover; /* Ensure the image covers the entire container */
-    box-shadow: none; /* Remove the box-shadow */
+    background: url('../../assets/img/bulul.png') no-repeat center center fixed, #272626;
+    /* Image overlaid on a dark background */
+    background-size: cover;
+    /* Ensure the image covers the entire container */
+    box-shadow: none;
+    /* Remove the box-shadow */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #272626(0, 0, 0, 0.8); /* Dark overlay for better visibility */
+    background-color: #272626(0, 0, 0, 0.8);
+    /* Dark overlay for better visibility */
     opacity: 0;
-    animation: backgroundAnimation 5s forwards; /* Adjust duration as needed */
+    animation: backgroundAnimation 5s forwards;
+    /* Adjust duration as needed */
 }
 
 @keyframes backgroundAnimation {
@@ -47,6 +54,7 @@ p {
         opacity: 0;
         background-size: 300px;
     }
+
     to {
         opacity: 1;
         background-size: 310px;
@@ -72,8 +80,10 @@ p {
 .login-body {
     background: url('../../assets/img/bulul-low-op.png') no-repeat center center fixed;
     background-color: #272626;
-    background-size: 300px; /* Adjust as needed */
-    box-shadow: none; /* Remove the box-shadow */
+    background-size: 300px;
+    /* Adjust as needed */
+    box-shadow: none;
+    /* Remove the box-shadow */
 }
 
 .login-container {
@@ -131,7 +141,8 @@ p {
     display: none;
 }
 
-h1, .header1 {
+h1,
+.header1 {
     font-family: 'Jomolhari', serif;
     color: #073066;
     margin-bottom: 20px;
@@ -181,7 +192,8 @@ form {
     left: 10px;
     top: 50%;
     transform: translateY(-10%);
-    color: #073066; /* Adjust icon color as needed */
+    color: #073066;
+    /* Adjust icon color as needed */
 }
 
 .input-container .icon-left {
@@ -210,7 +222,8 @@ button {
     font-size: 16px;
     text-decoration: none;
     transition: background-color 0.3s ease-in-out;
-    margin-top: 55px; /* Adjusted margin */
+    margin-top: 55px;
+    /* Adjusted margin */
 }
 
 button:hover {
@@ -240,7 +253,7 @@ button:hover {
 
 /* White button styles */
 .btn-white {
-    background-color:#FFFFFF;
+    background-color: #FFFFFF;
     color: #073066;
     border: 1.25px solid #073066;
     padding: 12px 50px;
@@ -261,7 +274,8 @@ button:hover {
 
 .access-body {
     font-family: 'Inter', sans-serif;
-    background: url('../../assets/img/bulul-low-op.png') no-repeat center center fixed, #272626; /* Image overlaid on a dark background */
+    background: url('../../assets/img/bulul-low-op.png') no-repeat center center fixed, #272626;
+    /* Image overlaid on a dark background */
     background-size: 300px;
     display: flex;
     justify-content: center;
@@ -289,7 +303,7 @@ button:hover {
     display: none;
 }
 
-.custom-radio input[type="radio"] + .custom-radio-span {
+.custom-radio input[type="radio"]+.custom-radio-span {
     width: 20px;
     height: 20px;
     border: 2px solid #073066;
@@ -299,7 +313,7 @@ button:hover {
     margin-right: 10px;
 }
 
-.custom-radio input[type="radio"]:checked + .custom-radio-span::before {
+.custom-radio input[type="radio"]:checked+.custom-radio-span::before {
     content: '';
     width: 10px;
     height: 10px;
@@ -337,7 +351,7 @@ button:hover {
 }
 
 /* Navbar styles */
-nav{
+nav {
     position: fixed;
     top: 0;
     left: 0;
@@ -348,7 +362,8 @@ nav{
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     z-index: 99;
 }
-nav .navbar{
+
+nav .navbar {
     height: 100%;
     max-width: 1250px;
     width: 100%;
@@ -358,25 +373,30 @@ nav .navbar{
     margin: auto;
     padding: 0 50px;
 }
-.navbar .logo a{
+
+.navbar .logo a {
     font-size: 30px;
     color: #fff;
     text-decoration: none;
     font-weight: 600;
 }
 
-.navbar .logo img{
+.navbar .logo img {
     margin: 10px;
-    width: 50%;;
+    width: 50%;
+    ;
 }
-nav .navbar .nav-links{
+
+nav .navbar .nav-links {
     line-height: 70px;
     height: 100%;
 }
-nav .navbar .links{
+
+nav .navbar .links {
     display: flex;
 }
-nav .navbar .links li{
+
+nav .navbar .links li {
     position: relative;
     display: flex;
     align-items: center;
@@ -386,7 +406,7 @@ nav .navbar .links li{
     color: #fff;
 }
 
-nav .navbar .links li a{
+nav .navbar .links li a {
     height: 100%;
     text-decoration: none;
     white-space: nowrap;
@@ -394,12 +414,13 @@ nav .navbar .links li a{
     font-size: 16px;
     font-weight: 500;
 }
+
 .links li:hover .htmlcss-arrow,
-.links li:hover .js-arrow{
+.links li:hover .js-arrow {
     transform: rotate(180deg);
 }
 
-nav .navbar .links li .arrow{
+nav .navbar .links li .arrow {
     height: 100%;
     width: 22px;
     line-height: 70px;
@@ -408,7 +429,8 @@ nav .navbar .links li .arrow{
     color: #fff;
     transition: all 0.3s ease;
 }
-nav .navbar .links li .sub-menu{
+
+nav .navbar .links li .sub-menu {
     position: absolute;
     top: 70px;
     left: 0;
@@ -419,8 +441,9 @@ nav .navbar .links li .sub-menu{
     display: none;
     z-index: 2;
 }
+
 nav .navbar .links li:hover .htmlCss-sub-menu,
-nav .navbar .links li:hover .js-sub-menu{
+nav .navbar .links li:hover .js-sub-menu {
     display: block;
 }
 
@@ -429,22 +452,26 @@ nav .navbar .links li:hover .js-sub-menu{
     font-weight: 550;
 }
 
-.navbar .links li .sub-menu li{
+.navbar .links li .sub-menu li {
     padding: 0 22px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-.navbar .links li .sub-menu a{
+
+.navbar .links li .sub-menu a {
     color: #fff;
     font-size: 15px;
     font-weight: 500;
 }
-.navbar .links li .sub-menu .more-arrow{
+
+.navbar .links li .sub-menu .more-arrow {
     line-height: 40px;
 }
-.navbar .links li .htmlCss-more-sub-menu{
+
+.navbar .links li .htmlCss-more-sub-menu {
     line-height: 40px;
 }
-.navbar .links li .sub-menu .more-sub-menu{
+
+.navbar .links li .sub-menu .more-sub-menu {
     position: absolute;
     top: 0;
     left: 100%;
@@ -452,15 +479,18 @@ nav .navbar .links li:hover .js-sub-menu{
     z-index: 1;
     display: none;
 }
-.links li .sub-menu .more:hover .more-sub-menu{
+
+.links li .sub-menu .more:hover .more-sub-menu {
     display: block;
 }
-.navbar .search-box{
+
+.navbar .search-box {
     position: relative;
     height: 40px;
     width: 40px;
 }
-.navbar .search-box i{
+
+.navbar .search-box i {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -472,7 +502,8 @@ nav .navbar .links li:hover .js-sub-menu{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-.navbar .search-box .input-box{
+
+.navbar .search-box .input-box {
     position: absolute;
     right: calc(100% - 40px);
     top: 80px;
@@ -484,7 +515,8 @@ nav .navbar .links li:hover .js-sub-menu{
     pointer-events: none;
     transition: all 0.4s ease;
 }
-.navbar.showInput .search-box .input-box{
+
+.navbar.showInput .search-box .input-box {
     top: 65px;
     opacity: 1;
     pointer-events: auto;
@@ -496,7 +528,7 @@ nav .navbar .links li:hover .js-sub-menu{
     color: var(--primary);
 }
 
-.search-box .input-box::before{
+.search-box .input-box::before {
     content: '';
     position: absolute;
     height: 20px;
@@ -507,7 +539,7 @@ nav .navbar .links li:hover .js-sub-menu{
     transform: rotate(45deg);
 }
 
-.search-box .input-box input{
+.search-box .input-box input {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -520,10 +552,12 @@ nav .navbar .links li:hover .js-sub-menu{
     font-size: 16px;
     border: none;
 }
-.navbar .nav-links .sidebar-logo{
+
+.navbar .nav-links .sidebar-logo {
     display: none;
 }
-.navbar .bx-menu{
+
+.navbar .bx-menu {
     display: none;
 }
 
@@ -583,7 +617,8 @@ a-scene {
     top: 0;
     left: 0;
     z-index: 2;
-    pointer-events: none; /* Prevent interactions with the AR scene */
+    pointer-events: none;
+    /* Prevent interactions with the AR scene */
 }
 
 /* Styling for the displayed text */
@@ -620,6 +655,7 @@ a-plane {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -642,7 +678,7 @@ a-plane {
     }
 }
 
-.controls > button > svg {
+.controls>button>svg {
     height: 20px;
     width: 18px;
     text-align: center;
@@ -674,7 +710,7 @@ a-plane {
     color: #073066;
 }
 
-.controls > button {
+.controls>button {
     width: 45px;
     height: 45px;
     text-align: center;
@@ -683,22 +719,28 @@ a-plane {
     background: transparent;
 }
 
-.controls > button:hover svg {
+.controls>button:hover svg {
     color: white;
 }
 
 /*Widescreen monitor*/
 @media screen and (min-width: 1920px) {
-    .welcome-body, .login-body, .access-body {
+
+    .welcome-body,
+    .login-body,
+    .access-body {
         background-size: cover;
     }
 
-    .welcome-container, .login-container, .access-container {
+    .welcome-container,
+    .login-container,
+    .access-container {
         max-width: 1600px;
         padding: 100px;
     }
 
-    .btn-red, .btn-white {
+    .btn-red,
+    .btn-white {
         padding: 15px 60px;
         background-color: #073066;
         color: #FFFFFF;
@@ -725,15 +767,16 @@ a-plane {
     .nav {
         padding: 15px 100px;
     }
+
     .nav .search-box {
         right: 150px;
     }
 
-    nav .navbar{
+    nav .navbar {
         padding: 0 25px;
     }
 
-    nav .navbar .logo a{
+    nav .navbar .logo a {
         size: 30px;
     }
 
@@ -745,7 +788,8 @@ a-plane {
         margin-left: 50px;
     }
 
-    .floating-button.left, .floating-button.right {
+    .floating-button.left,
+    .watchVideosButton {
         display: none;
     }
 
@@ -756,8 +800,8 @@ a-plane {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
-    padding: 20px; 
-    margin: 0; 
+    padding: 20px;
+    margin: 0;
     margin-top: 680px;
 }
 
@@ -766,7 +810,7 @@ a-plane {
     background: white;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Video image styles */
@@ -793,36 +837,39 @@ a-plane {
 
 /*Laptop*/
 @media (max-width: 992px) {
-    nav .navbar{
+    nav .navbar {
         padding: 0 25px;
     }
 
-    nav .navbar .logo a{
+    nav .navbar .logo a {
         font-size: 27px;
     }
-    nav .navbar .links li{
+
+    nav .navbar .links li {
         padding: 0 10px;
         white-space: nowrap;
     }
-    nav .navbar .links li a{
+
+    nav .navbar .links li a {
         font-size: 15px;
     }
 }
 
 /*Tablet*/
-@media (max-width:800px){
+@media (max-width:800px) {
 
-    .navbar .bx-menu{
+    .navbar .bx-menu {
         display: block;
     }
-    nav .navbar .nav-links{
+
+    nav .navbar .nav-links {
         position: fixed;
         top: 0;
         left: -100%;
         display: block;
         max-width: 270px;
         width: 100%;
-        background:  #1C1C1C;
+        background: #1C1C1C;
         line-height: 40px;
         padding: 20px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -830,82 +877,97 @@ a-plane {
         z-index: 1000;
     }
 
-    .navbar .nav-links{
+    .navbar .nav-links {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
 
-    .sidebar-logo .logo-name{
+    .sidebar-logo .logo-name {
         font-size: 25px;
         color: #073066;
     }
-    .sidebar-logo  i,
-    .navbar .bx-menu{
+
+    .sidebar-logo i,
+    .navbar .bx-menu {
         font-size: 25px;
         color: #073066;
     }
-    nav .navbar .links{
+
+    nav .navbar .links {
         display: block;
         margin-top: 20px;
     }
-    nav .navbar .links li .arrow{
+
+    nav .navbar .links li .arrow {
         line-height: 40px;
     }
-    nav .navbar .links li{
+
+    nav .navbar .links li {
         display: block;
     }
-    nav .navbar .links li .sub-menu{
+
+    nav .navbar .links li .sub-menu {
         position: relative;
         top: 0;
         box-shadow: none;
         display: none;
     }
-    nav .navbar .links li .sub-menu li{
+
+    nav .navbar .links li .sub-menu li {
         border-bottom: none;
 
     }
-    .navbar .links li .sub-menu .more-sub-menu{
+
+    .navbar .links li .sub-menu .more-sub-menu {
         display: none;
         position: relative;
         left: 0;
     }
-    .navbar .links li .sub-menu .more-sub-menu li{
+
+    .navbar .links li .sub-menu .more-sub-menu li {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
+
     .links li:hover .htmlcss-arrow,
-    .links li:hover .js-arrow{
+    .links li:hover .js-arrow {
         transform: rotate(0deg);
     }
-    .navbar .links li .sub-menu .more-sub-menu{
+
+    .navbar .links li .sub-menu .more-sub-menu {
         display: none;
     }
-    .navbar .links li .sub-menu .more span{
+
+    .navbar .links li .sub-menu .more span {
         /* background: red; */
         display: flex;
         align-items: center;
         /* justify-content: space-between; */
     }
 
-    .links li .sub-menu .more:hover .more-sub-menu{
+    .links li .sub-menu .more:hover .more-sub-menu {
         display: none;
     }
+
     nav .navbar .links li:hover .htmlCss-sub-menu,
-    nav .navbar .links li:hover .js-sub-menu{
+    nav .navbar .links li:hover .js-sub-menu {
         display: none;
     }
+
     .navbar .nav-links.show1 .links .htmlCss-sub-menu,
     .navbar .nav-links.show3 .links .js-sub-menu,
-    .navbar .nav-links.show2 .links .more .more-sub-menu{
+    .navbar .nav-links.show2 .links .more .more-sub-menu {
         display: block;
     }
+
     .navbar .nav-links.show1 .links .htmlcss-arrow,
-    .navbar .nav-links.show3 .links .js-arrow{
+    .navbar .nav-links.show3 .links .js-arrow {
         transform: rotate(180deg);
     }
-    .navbar .nav-links.show2 .links .more-arrow{
+
+    .navbar .nav-links.show2 .links .more-arrow {
         transform: rotate(90deg);
     }
 }
@@ -920,12 +982,12 @@ a-plane {
         max-width: 100%;
         height: auto;
     }
-    
+
     #video {
         width: 100%;
         height: auto;
     }
-    
+
     #result {
         top: 5px;
         font-size: 0.9em;
@@ -946,7 +1008,7 @@ a-plane {
 
     body {
         font-family: 'Inter', sans-serif;
-        background-image: url('../../assets/img/homepage_background.png'); 
+        background-image: url('../../assets/img/homepage_background.png');
         background-size: cover;
         background-position: center;
         background-repeat: repeat;
@@ -960,7 +1022,7 @@ a-plane {
         justify-content: center;
         align-items: center;
     }
-   
+
     h1 {
         font-family: 'Jomolhari', serif;
         color: #073066;
@@ -987,55 +1049,70 @@ a-plane {
         border: none;
         cursor: pointer;
         z-index: 1002;
-      }
+    }
 
     .floating-button.left {
         left: 20px;
-      }
+    }
 
-    .floating-button.right {
-        right: 20px;
-      }
-
-      #watchVideosButton {
+    #watchVideosButton {
         position: fixed;
         bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: auto;
-        padding: 10px 20px;
-        border-radius: 50px;
+        right: 20px;
+        /* Move to the lower right side of the screen */
+        width: 60px;
+        /* Adjust size to fit the play button */
+        height: 60px;
+        /* Make it square for the play button */
+        padding: 0;
+        border-radius: 50%;
+        /* Make the button circular */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         background-image: url('/assets/img/button_background.png');
-        background-size: cover; 
-        background-position: center; 
-        color: white;
-        font-size: 16px;
-        font-weight: bold; 
+        background-size: cover;
+        background-position: center;
         border: none;
         cursor: pointer;
         z-index: 1003;
-        animation: zoomIn 3s; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: zoomIn 3s;
+    }
+
+    #watchVideosButton::before {
+        content: '\25B6';
+        /* Unicode for the play button icon */
+        color: white;
+        /* Color of the play icon */
+        font-size: 30px;
+        /* Adjust icon size */
+        display: block;
     }
 
     @keyframes zoomIn {
         0% {
-            transform: translateX(-50%) scale(0.8); 
+            transform: scale(0.8);
         }
+
         100% {
-            transform: translateX(-50%) scale(1); 
+            transform: scale(1);
         }
     }
-      
-      #watchVideosButton:hover {
+
+    #watchVideosButton:hover {
         background-color: #FAC301;
-      }
-      
+    }
+
+
     /* Welcome Page Styles */
     .welcome-body {
-        background: url('../../assets/img/bulul.png') no-repeat center center fixed, #1C1C1C; /* Image overlaid on a dark background */
-        background-size: 300px; /* Adjust as needed */
-        box-shadow: none; /* Remove the box-shadow */
+        background: url('../../assets/img/bulul.png') no-repeat center center fixed, #1C1C1C;
+        /* Image overlaid on a dark background */
+        background-size: 300px;
+        /* Adjust as needed */
+        box-shadow: none;
+        /* Remove the box-shadow */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1057,23 +1134,27 @@ a-plane {
         font-weight: lighter;
     }
 
-    
+
     /**/
     .banner {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        margin-bottom: 30px; /* Adjust for spacing between banner and button */
+        margin-bottom: 30px;
+        /* Adjust for spacing between banner and button */
     }
+
     /**/
 
     /* Login Page Styles */
     .login-body {
         background: url('../../assets/img/bulul-low-op.png') no-repeat center center fixed;
         background-color: #1C1C1C;
-        background-size: 300px; /* Adjust as needed */
-        box-shadow: none; /* Remove the box-shadow */
+        background-size: 300px;
+        /* Adjust as needed */
+        box-shadow: none;
+        /* Remove the box-shadow */
     }
 
     .login-container {
@@ -1124,7 +1205,8 @@ a-plane {
         display: none;
     }
 
-    h1, .header1 {
+    h1,
+    .header1 {
         font-family: 'Jomolhari', serif;
         color: #073066;
         margin-bottom: 20px;
@@ -1142,14 +1224,20 @@ a-plane {
     }
 
     .input-container input {
-        padding-left: 30px; /* Space for the icon */
-        padding-right: 12px; /* Adjust as necessary */
-        padding-top: 10px; /* Adjust vertical padding to center text */
-        padding-bottom: 10px; /* Adjust vertical padding to center text */
-        width: 100%; /* Ensures the input field spans the container */
+        padding-left: 30px;
+        /* Space for the icon */
+        padding-right: 12px;
+        /* Adjust as necessary */
+        padding-top: 10px;
+        /* Adjust vertical padding to center text */
+        padding-bottom: 10px;
+        /* Adjust vertical padding to center text */
+        width: 100%;
+        /* Ensures the input field spans the container */
         border: 1px solid #073066;
         border-radius: 5px;
-        text-indent: 30px; /* Creates a tabbed effect for the input text */
+        text-indent: 30px;
+        /* Creates a tabbed effect for the input text */
         background-color: rgba(0, 0, 0, 0.2);
         color: #073066;
         outline: none;
@@ -1170,7 +1258,8 @@ a-plane {
         left: 10px;
         top: 50%;
         transform: translateY(-10%);
-        color: #073066; /* Adjust icon color as needed */
+        color: #073066;
+        /* Adjust icon color as needed */
     }
 
     .input-container .icon-left {
@@ -1199,7 +1288,8 @@ a-plane {
         font-size: 16px;
         text-decoration: none;
         transition: background-color 0.3s ease-in-out;
-        margin-top: 55px; /* Adjusted margin */
+        margin-top: 55px;
+        /* Adjusted margin */
     }
 
     button:hover {
@@ -1224,14 +1314,15 @@ a-plane {
     }
 
     .btn-red:hover {
-        background-color: #FFFFFF; /* Darkened primary color */
+        background-color: #FFFFFF;
+        /* Darkened primary color */
         color: #073066;
         border: 1.25px solid #073066;
     }
 
     /* White button styles */
     .btn-white {
-        background-color:#FFFFFF;
+        background-color: #FFFFFF;
         color: #073066;
         border: 1.25px solid #073066;
         padding: 12px 50px;
@@ -1243,31 +1334,38 @@ a-plane {
         margin: 5px;
         transition: background-color 0.3s ease-in-out;
         position: relative;
-        z-index: 10; /* Ensures the button is clickable */
+        z-index: 10;
+        /* Ensures the button is clickable */
     }
 
     .btn-white:hover {
-        background-color: #073066; /* Darkened primary color */
+        background-color: #073066;
+        /* Darkened primary color */
         color: #FFFFFF;
         border: 1.25px solid #FFFFFF;
     }
 
     .access-body {
         font-family: 'Inter', sans-serif;
-        background: url('../../assets/img/bulul-low-op.png') no-repeat center center fixed, #1C1C1C; /* Image overlaid on a dark background */
-        background-size: 300px; /* Adjust as needed */
+        background: url('../../assets/img/bulul-low-op.png') no-repeat center center fixed, #1C1C1C;
+        /* Image overlaid on a dark background */
+        background-size: 300px;
+        /* Adjust as needed */
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        position: relative; /* Ensure relative positioning for absolute logo */
+        position: relative;
+        /* Ensure relative positioning for absolute logo */
         color: #FFFFFF;
     }
 
     .access-buttons {
         display: flex;
-        flex-direction: column; /* Ensure buttons stack vertically */
-        align-items: center; /* Center align items horizontally */
+        flex-direction: column;
+        /* Ensure buttons stack vertically */
+        align-items: center;
+        /* Center align items horizontally */
     }
 
     .custom-radio {
@@ -1279,10 +1377,11 @@ a-plane {
     }
 
     .custom-radio input[type="radio"] {
-        display: none; /* Hide the actual radio button */
+        display: none;
+        /* Hide the actual radio button */
     }
 
-    .custom-radio input[type="radio"] + .custom-radio-span {
+    .custom-radio input[type="radio"]+.custom-radio-span {
         width: 20px;
         height: 20px;
         border: 2px solid #073066;
@@ -1292,7 +1391,7 @@ a-plane {
         margin-right: 10px;
     }
 
-    .custom-radio input[type="radio"]:checked + .custom-radio-span::before {
+    .custom-radio input[type="radio"]:checked+.custom-radio-span::before {
         content: '';
         width: 10px;
         height: 10px;
@@ -1305,10 +1404,14 @@ a-plane {
     }
 
     .form-container {
-        width: 100%; /* Ensures both forms take up the same width */
-        max-width: 100%; /* Prevents overflow beyond container */
-        box-sizing: border-box; /* Includes padding and border in the element's total width and height */
-        min-height: 200px; /* Set a minimum height for consistency */
+        width: 100%;
+        /* Ensures both forms take up the same width */
+        max-width: 100%;
+        /* Prevents overflow beyond container */
+        box-sizing: border-box;
+        /* Includes padding and border in the element's total width and height */
+        min-height: 200px;
+        /* Set a minimum height for consistency */
     }
 
     .back-button-container {
@@ -1335,20 +1438,41 @@ a-plane {
         padding-right: 25px;
         margin-bottom: 10px;
 
-        animation: shake 1.0s ease-in-out; /* Duration of the shake and timing function */
-        animation-iteration-count: forwards; /* The shake repeats infinitely */
+        animation: shake 1.0s ease-in-out;
+        /* Duration of the shake and timing function */
+        animation-iteration-count: forwards;
+        /* The shake repeats infinitely */
     }
 
     @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+            transform: translateX(-5px);
+        }
+
+        20%,
+        40%,
+        60%,
+        80% {
+            transform: translateX(5px);
+        }
     }
 
     .close-nav {
         display: inline-block;
-        font-size: 1.5rem; /* Adjust the icon size */
-        color: #333; /* Change the icon color if needed */
+        font-size: 1.5rem;
+        /* Adjust the icon size */
+        color: #333;
+        /* Change the icon color if needed */
     }
 
 
@@ -1357,10 +1481,13 @@ a-plane {
         position: fixed;
         bottom: 20px;
         right: 1px;
-        width: 465px; /* Adjust width as needed */
-        height: 425px; /* Adjust height as needed */
+        width: 465px;
+        /* Adjust width as needed */
+        height: 425px;
+        /* Adjust height as needed */
         overflow: hidden;
-        z-index: 1001; /* High z-index to ensure it's on top */
+        z-index: 1001;
+        /* High z-index to ensure it's on top */
         pointer-events: auto;
     }
 
@@ -1370,10 +1497,15 @@ a-plane {
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 2; /* Ensure AR scene is below VA model */
+        z-index: 2;
+        /* Ensure AR scene is below VA model */
     }
-    a-plane, a-text, a-box {
-        pointer-events: none; /* Prevent AR elements from blocking interactions */
+
+    a-plane,
+    a-text,
+    a-box {
+        pointer-events: none;
+        /* Prevent AR elements from blocking interactions */
     }
 
 }

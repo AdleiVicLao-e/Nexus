@@ -49,6 +49,7 @@
         <!-- Main Text -->
         <a-text id="text"></a-text>
         <a-box id="cube"></a-box>
+
       </a-scene>
     </main>
     <div id="va-container">
@@ -60,20 +61,9 @@
     <button
       id="watchVideosButton"
       class="floating-button"
-      style="display: none"
       onclick="watchVideos()"
     >
-      Watch Videos
     </button>
-    <button class="floating-button right" onclick="reloadPage()">
-      <img
-        src="assets/img/reload.png"
-        alt="Reload"
-        style="width: 20px; height: 20px"
-        >
-    </button>
-
-
 
     <script>
       // Initialize video and canvas elements
@@ -129,14 +119,6 @@
 
           if (artifactId !== currentCodeData) {
             currentCodeData = artifactId;
-
-            // Set text box properties
-            // textBox.setAttribute("color", "white");
-            // textBox.setAttribute("opacity", "0.8");
-            // textBox.setAttribute("width", "6");
-            // textBox.setAttribute("height", "4");
-            // textBox.setAttribute("position", "0 1 -10.5");
-            // textBox.setAttribute("visible", "true");
 
             // Set the text properties
             text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
@@ -235,8 +217,17 @@
                 })
                 .catch((error) => {
                   console.error("Error fetching artifact info:", error);
-                  text.setAttribute("value", "Error fetching artifact info");
-                });
+                  text.setAttribute("value", "ERROR: \nUnable to fetch artifact information.");
+                  text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
+                  text.setAttribute("color", "red");
+                  text.setAttribute("rotation", "0 0 0");
+                  text.setAttribute("position", "0 1.6 -10");
+                  text.setAttribute("align", "center");
+                  text.setAttribute("width", "5");
+                  text.setAttribute("wrap-count", "30");
+
+                  box.setAttribute("visible", "false"); 
+                  });
       }
     </script>
 
