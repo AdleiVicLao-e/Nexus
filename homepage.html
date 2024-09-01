@@ -42,16 +42,24 @@
         <a-assets>
           <a-asset-item id="exoFont" src="./assets/fonts/exoBlack.typeface.json"></a-asset-item>
           <img id="pixels" src="./assets/img/pixels.png" alt="pixels">
+          <img id="errorImage" src="./assets/img/Error.png" alt="error message">
         </a-assets>
 
-        <!-- Text Box Background -->
+        <!-- Add AR components here -->
         <a-plane id="textBox"></a-plane>
-        <!-- Main Text -->
         <a-text id="text"></a-text>
         <a-box id="cube"></a-box>
-
-      </a-scene>
+        <a-image 
+        id="error-image" 
+        src="./assets/img/Error.png" 
+        position="0 1.6 -3" 
+        width="2" 
+        height="1" 
+        visible="false" 
+        material="opacity: 0.9; transparent: true;">
+      </a-image>      
     </main>
+
     <div id="va-container">
       <canvas id="va-canvas"></canvas>
     </div>
@@ -67,13 +75,14 @@
 
     <script>
       // Initialize video and canvas elements
+      // const textBox = document.getElementById("textBox");
       const video = document.getElementById("video");
       const canvas = document.getElementById("canvas");
       const canvasContext = canvas.getContext("2d");
       const text = document.getElementById("text");
-      // const textBox = document.getElementById("textBox");
       const box = document.getElementById("cube");
       let currentCodeData = null;
+      const errorImage = document.getElementById("error-image");
       let artifactInfo = "";
 
       // Start scanning when the page loads
@@ -135,35 +144,6 @@
             box.setAttribute("color", "#073066");
             box.setAttribute("material", "opacity", 0.8);
 
-            // Set the text value
-            // switch (artifactId) {
-            //   case "1":
-            //     text.setAttribute(
-            //       "value",
-            //       `Artifact Id: 1\nSection Name: Wood arts\nCatalogue Name: Traditional wood arts\nName: House door\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
-            //     );
-            //     break;
-            //   case "2":
-            //     text.setAttribute(
-            //       "value",
-            //       `Artifact Id: 2\nSection Name: Wood arts\nCatalogue Name: Contemporary wood arts\nName: Panel wall\nDescription: With surface carvings of animals and other designs\nCondition: With cracks\n`
-            //     );
-            //     break;
-            //   case "3":
-            //     text.setAttribute(
-            //       "value",
-            //       `Artifact Id: THREE\nSection Name: Musical instruments\nCatalogue Name: Gongs and drums\nName: Gong handle 1\nDescription: With back-to-back anthropomorphic motif\nCondition: No problem.\n`
-            //     );
-            //     break;
-            //   default:
-            //     text.setAttribute(
-            //       "value",
-            //       "Whoops! We couldn't fetch the artifact details. Please try again!"
-            //     );
-            //     text.setAttribute("color", "red");
-            //     break;
-            // }
-
             // Show the view details button
             document.getElementById("watchVideosButton").style.display =
               "block";
@@ -174,7 +154,8 @@
           // QR code not detected, reset or clear the display
           currentCodeData = null;
           box.setAttribute("visible", "false");
-          text.setAttribute("value", ""); // Clear text
+          text.setAttribute("value", ""); 
+          errorImage.setAttribute("visible", "false");
 
           // Hide the view details button
           document.getElementById("watchVideosButton").style.display = "none";
@@ -189,10 +170,6 @@
 
       function watchVideos() {
         window.location.href = "igorot-dances.html";
-      }
-
-      function reloadPage() {
-        location.reload();
       }
 
       function fetchArtifactInfo(artifactId) {
@@ -217,18 +194,13 @@
                 })
                 .catch((error) => {
                   console.error("Error fetching artifact info:", error);
-                  text.setAttribute("value", "ERROR: \nUnable to fetch artifact information.");
-                  text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
+                  text.setAttribute("value", "");
                   text.setAttribute("color", "red");
-                  text.setAttribute("rotation", "0 0 0");
-                  text.setAttribute("position", "0 1.6 -10");
-                  text.setAttribute("align", "center");
-                  text.setAttribute("width", "5");
-                  text.setAttribute("wrap-count", "30");
-
                   box.setAttribute("visible", "false"); 
+                  errorImage.setAttribute("visible", "true");
                   });
       }
+
     </script>
 
      <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
