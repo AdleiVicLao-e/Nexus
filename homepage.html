@@ -189,15 +189,13 @@
                 `.trim();
                     text.setAttribute("value", artifactInfo);
                   } else {
-                    text.setAttribute("value", "Artifact not found");
+                    text.setAttribute("value", "");
+                    box.setAttribute("visible", "false"); 
+                    errorImage.setAttribute("visible", "true");
                   }
                 })
                 .catch((error) => {
                   console.error("Error fetching artifact info:", error);
-                  text.setAttribute("value", "");
-                  text.setAttribute("color", "red");
-                  box.setAttribute("visible", "false"); 
-                  errorImage.setAttribute("visible", "true");
                   });
       }
 
