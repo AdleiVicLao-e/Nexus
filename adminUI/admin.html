@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="javascript.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="artifact_div">
+            <div class="tabs">
+                <div class="tab active" onclick="openTab('search')">Search Artifact</div>
+                <div class="tab" onclick="openTab('add')">Add Artifact</div>
+                <div class="tab" onclick="openTab('upload')">Upload Media</div>
+                <div class="tab" onclick="openTab('edit')">Edit Media</div>
+            </div>
+        
+            <div id="search" class="tab-content active">
+                <input type="text" class="search-input" placeholder="Search artifact...">
+                <button class="search-button">Search</button>
+            </div>
+            <div id="add" class="tab-content">
+                <div class="form-container">
+                    <form action="submit.php" method="post">
+                    <div class="form-group">
+                        <label for="artifact-name">Artifact Name:</label>
+                        <input type="text" id="artifact-name" name="artifact-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="section">Section:</label>
+                        <select id="section" name="section" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="catalog">Catalog:</label>
+                        <select id="catalog" name="catalog" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sub-catalog">Sub Catalog:</label>
+                        <select id="sub-catalog" name="sub-catalog" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="condition">Condition:</label>
+                        <textarea id="condition" name="condition" required></textarea>
+                    </div>
+                    <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div id="upload" class="tab-content">
+                Upload me
+            </div>
+            <div id="edit" class="tab-content">
+                Edit me
+            </div>
+        </div>
+
+<!--        <div class="analytics_div">-->
+<!--            <h1 id="visit">Visitor Analytics</h1>-->
+
+<!--            <div class="buttons">-->
+<!--                <button>View Today's Analytics</button>-->
+<!--                <button>View Weekly Analytics</button>-->
+<!--                <button>View Monthly Analytics</button>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+    <script>
+        // Function to fetch artifact options
+        function fetchArtifactOptions() {
+            fetch('get.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the section select
+                    let sectionSelect = document.getElementById('section');
+                    sectionSelect.innerHTML = '<option value="create_section">Create Section</option>';
+                    data.sections.forEach(section => {
+                        let option = document.createElement('option');
+                        option.value = section.section_id;
+                        option.textContent = section.section_name;
+                        sectionSelect.appendChild(option);
+                    });
+
+                    // Populate the catalogue select
+                    let catalogueSelect = document.getElementById('catalog');
+                    catalogueSelect.innerHTML = '<option value="create_catalog">Create Catalog</option>';
+                    data.catalogues.forEach(catalogue => {
+                        let option = document.createElement('option');
+                        option.value = catalogue.catalogue_id;
+                        option.textContent = catalogue.catalogue_name;
+                        catalogueSelect.appendChild(option);
+                    });
+
+                    // Populate the subcatalogue select
+                    let subcatalogueSelect = document.getElementById('sub-catalog');
+                    subcatalogueSelect.innerHTML = '<option value="create_subcatalog">Create Sub Catalog</option>';
+                    data.subcatalogues.forEach(subcatalogue => {
+                        let option = document.createElement('option');
+                        option.value = subcatalogue.subcat_id;
+                        option.textContent = subcatalogue.subcat_name;
+                        subcatalogueSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching options:', error));
+        }
+        document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
+    </script>
+</body>
+</html>
