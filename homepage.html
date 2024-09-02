@@ -43,21 +43,50 @@
           <a-asset-item id="exoFont" src="./assets/fonts/exoBlack.typeface.json"></a-asset-item>
           <img id="pixels" src="./assets/img/pixels.png" alt="pixels">
           <img id="errorImage" src="./assets/img/Error.png" alt="error message">
+          <img id="artifactDetected" src="./assets/img/artifact_Detected.png" alt="error message">
+          <img id="artifactBackground" src="./assets/img/artifact_background.png" alt="artifact background">
         </a-assets>
 
-        <!-- Add AR components here -->
-        <a-plane id="textBox"></a-plane>
-        <a-text id="text"></a-text>
-        <a-box id="cube"></a-box>
-        <a-image 
+      <!-- Add AR components here -->           
+      <a-image 
+        id="artifact-background" 
+        src="./assets/img/artifact_background.png" 
+        position="0 1.65 -3" 
+        width="2.2" 
+        height="2" 
+        visible="false" 
+        material="opacity: 0.9; transparent: true;">
+      </a-image> 
+
+      <a-image 
+        id="artifact-detected" 
+        src="./assets/img/artifact_Detected.png" 
+        position="0 2.28 -3" 
+        width="1" 
+        height="0.5" 
+        visible="false" 
+        material="opacity: 0.8; transparent: true;">
+      </a-image>
+      
+      <a-image 
         id="error-image" 
         src="./assets/img/Error.png" 
-        position="0 1.6 -3" 
+        position="0 1.6 -2.5"
         width="2" 
         height="1" 
         visible="false" 
         material="opacity: 0.9; transparent: true;">
-      </a-image>      
+      </a-image> 
+
+      <a-text 
+        id="text" 
+        font="./assets/fonts/Exo2Bold.fnt"
+        position="-0.5 1.65 -2.5" 
+        width="1"
+        rotation="0 0 0" 
+        wrap-count="25"
+        color="black">
+      </a-text>
     </main>
 
     <div id="va-container">
@@ -68,19 +97,18 @@
     <button class="floating-button left" onclick="viewDetails()">i</button>
     <button
       id="watchVideosButton"
-      class="floating-button"
       onclick="watchVideos()"
     >
     </button>
 
     <script>
       // Initialize video and canvas elements
-      // const textBox = document.getElementById("textBox");
       const video = document.getElementById("video");
       const canvas = document.getElementById("canvas");
+      const artifactDetected= document.getElementById("artifact-detected");
+      const artifactBackground=document.getElementById("artifact-background");
       const canvasContext = canvas.getContext("2d");
       const text = document.getElementById("text");
-      const box = document.getElementById("cube");
       let currentCodeData = null;
       const errorImage = document.getElementById("error-image");
       let artifactInfo = "";
@@ -129,21 +157,6 @@
           if (artifactId !== currentCodeData) {
             currentCodeData = artifactId;
 
-            // Set the text properties
-            text.setAttribute("font", "./assets/fonts/Exo2Bold.fnt");
-            text.setAttribute("color", "white");
-            text.setAttribute("rotation", "-5 20 0");
-            text.setAttribute("position", "0 1.6 -10");
-            text.setAttribute("align", "center");
-            text.setAttribute("width", "5");
-            text.setAttribute("wrap-count", "30");
-
-            box.setAttribute("position", { x: 0.2, y: 1.2, z: -12 });
-            box.setAttribute("rotation", { x: -5, y: 20, z: 0 });
-            box.setAttribute("scale", { x: 6, y: 5, z: 3 });
-            box.setAttribute("color", "#073066");
-            box.setAttribute("material", "opacity", 0.8);
-
             // Show the view details button
             document.getElementById("watchVideosButton").style.display =
               "block";
@@ -153,11 +166,10 @@
         } else {
           // QR code not detected, reset or clear the display
           currentCodeData = null;
-          box.setAttribute("visible", "false");
           text.setAttribute("value", ""); 
+          artifactDetected.setAttribute("visible", "false");
           errorImage.setAttribute("visible", "false");
-
-          // Hide the view details button
+          artifactBackground.setAttribute("visible", "false");
           document.getElementById("watchVideosButton").style.display = "none";
         }
       }
@@ -188,10 +200,13 @@
                     Condition: ${data['Condition']}
                 `.trim();
                     text.setAttribute("value", artifactInfo);
+                    artifactDetected.setAttribute("visible", "true");
+                    artifactBackground.setAttribute("visible", "true")
                   } else {
                     text.setAttribute("value", "");
-                    box.setAttribute("visible", "false"); 
                     errorImage.setAttribute("visible", "true");
+                    artifactDetected.setAttribute("visible", "false");
+                    artifactBackground.setAttribute("visible", "false");
                   }
                 })
                 .catch((error) => {
