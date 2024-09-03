@@ -18,7 +18,7 @@ body {
 h1,
 h2 {
     font-family: 'Jomolhari', serif;
-    color: #073066;
+    color: #0E1644;
     margin-bottom: 10px;
 }
 
@@ -103,6 +103,10 @@ p {
     color: #FFFFFF;
 }
 
+.login-container .input-container input {
+    text-indent: 30px; /* Adjust this value as needed */
+}
+
 /*Access as Guest Styles*/
 .access-container {
     text-align: center;
@@ -129,7 +133,7 @@ p {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
-    border: 1px solid #073066;
+    border: 1px solid #0E1644;
     border-radius: 5px;
     background-color: rgba(28, 28, 28, 0.8);
     color: #FFFFFF;
@@ -144,7 +148,7 @@ p {
 h1,
 .header1 {
     font-family: 'Jomolhari', serif;
-    color: #073066;
+    color: #0E1644;
     margin-bottom: 20px;
 }
 
@@ -169,11 +173,11 @@ form {
     padding-top: 10px;
     padding-bottom: 10px;
     width: 100%;
-    border: 1px solid #073066;
+    border: 1px solid #0E1644;
     border-radius: 5px;
-    text-indent: 30px;
+    text-indent: 10px;
     background-color: rgba(0, 0, 0, 0.2);
-    color: #073066;
+    color: #0E1644;
     outline: none;
     font-size: 16px;
 }
@@ -184,7 +188,7 @@ form {
     left: 195px;
     transform: translateY(-15%);
     cursor: pointer;
-    color: #073066;
+    color: #0E1644;
 }
 
 .input-container i {
@@ -192,7 +196,7 @@ form {
     left: 10px;
     top: 50%;
     transform: translateY(-10%);
-    color: #073066;
+    color: #0E1644;
     /* Adjust icon color as needed */
 }
 
@@ -205,7 +209,7 @@ input[type="text"],
 input[type="password"] {
     padding: 12px;
     margin-bottom: 10px;
-    border: 3px solid #073066;
+    border: 3px solid #0E1644;
     border-radius: 10px;
     outline: none;
     font-size: 16px;
@@ -213,7 +217,7 @@ input[type="password"] {
 }
 
 button {
-    background-color: #073066;
+    background-color: #0E1644;
     color: #FFFFFF;
     border: none;
     padding: 12px 20px;
@@ -223,18 +227,21 @@ button {
     text-decoration: none;
     transition: background-color 0.3s ease-in-out;
     margin-top: 55px;
+    font-weight: bold;
     /* Adjusted margin */
 }
 
 button:hover {
-    background-color: #073066;
+    background-color: #FAC301;
+    color: #0E1644;
+    font-weight: bold;
 }
 
 /* Blue button styles */
 .btn-red {
-    background-color: #073066;
+    background-color: #0E1644;
     color: #FFFFFF;
-    border: 1.25px solid #073066;
+    border: 1.25px solid #0E1644;
     padding: 12px 50px;
     cursor: pointer;
     border-radius: 20px;
@@ -247,15 +254,15 @@ button:hover {
 
 .btn-red:hover {
     background-color: #FFFFFF;
-    color: #073066;
-    border: 1.25px solid #073066;
+    color: #0E1644;
+    border: 1.25px solid #0E1644;
 }
 
 /* White button styles */
 .btn-white {
     background-color: #FFFFFF;
-    color: #073066;
-    border: 1.25px solid #073066;
+    color: #0E1644;
+    border: 1.25px solid #0E1644;
     padding: 12px 50px;
     cursor: pointer;
     border-radius: 20px;
@@ -267,7 +274,7 @@ button:hover {
 }
 
 .btn-white:hover {
-    background-color: #073066;
+    background-color: #0E1644;
     color: #FFFFFF;
     border: 1.25px solid #FFFFFF;
 }
@@ -306,7 +313,7 @@ button:hover {
 .custom-radio input[type="radio"]+.custom-radio-span {
     width: 20px;
     height: 20px;
-    border: 2px solid #073066;
+    border: 2px solid #0E1644;
     border-radius: 50%;
     display: inline-block;
     position: relative;
@@ -317,7 +324,7 @@ button:hover {
     content: '';
     width: 10px;
     height: 10px;
-    background-color: #073066;
+    background-color: #0E1644;
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -334,14 +341,14 @@ button:hover {
 
 .back-button-container {
     position: absolute;
-    top: 50px;
+    top: 35px;
     left: 20px;
 }
 
 .logo-container {
     position: absolute;
     top: 20px;
-    left: 10px;
+    left: 5px;
 }
 
 .logo {
@@ -448,7 +455,7 @@ nav .navbar .links li:hover .js-sub-menu {
 }
 
 .navbar .nav-links ul.links li a:hover {
-    color: #073066;
+    color: #0E1644;
     font-weight: 550;
 }
 
@@ -703,11 +710,11 @@ a-plane {
 }
 
 .controls button:nth-child(3) {
-    border: 2px solid #073066;
+    border: 2px solid #0E1644;
 }
 
 .controls button:nth-child(3) svg {
-    color: #073066;
+    color: #0E1644;
 }
 
 .controls>button {
@@ -742,9 +749,9 @@ a-plane {
     .btn-red,
     .btn-white {
         padding: 15px 60px;
-        background-color: #073066;
+        background-color: #0E1644;
         color: #FFFFFF;
-        border: 1.25px solid #073066;
+        border: 1.25px solid #0E1644;
         padding: 12px 50px;
         cursor: pointer;
         border-radius: 20px;
@@ -761,7 +768,7 @@ a-plane {
         top: 50%;
         transform: translateY(-100%);
         cursor: pointer;
-        color: #073066;
+        color: #0E1644;
     }
 
     .nav {
@@ -885,13 +892,13 @@ a-plane {
 
     .sidebar-logo .logo-name {
         font-size: 25px;
-        color: #073066;
+        color: #0E1644;
     }
 
     .sidebar-logo i,
     .navbar .bx-menu {
         font-size: 25px;
-        color: #073066;
+        color: #0E1644;
     }
 
     nav .navbar .links {
@@ -1025,7 +1032,7 @@ a-plane {
 
     h1 {
         font-family: 'Jomolhari', serif;
-        color: #073066;
+        color: #0E1644;
         margin-bottom: 10px;
     }
 
@@ -1043,7 +1050,7 @@ a-plane {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #073066;
+        background-color: #0E1644;
         color: white;
         font-size: 24px;
         border: none;
@@ -1186,7 +1193,7 @@ a-plane {
         width: 100%;
         padding: 10px;
         margin-top: 5px;
-        border: 1px solid #073066;
+        border: 1px solid #0E1644;
         border-radius: 5px;
         background-color: rgba(28, 28, 28, 0.8);
         color: #FFFFFF;
@@ -1201,7 +1208,7 @@ a-plane {
     h1,
     .header1 {
         font-family: 'Jomolhari', serif;
-        color: #073066;
+        color: #0E1644;
         margin-bottom: 20px;
     }
 
@@ -1227,12 +1234,12 @@ a-plane {
         /* Adjust vertical padding to center text */
         width: 100%;
         /* Ensures the input field spans the container */
-        border: 1px solid #073066;
+        border: 1px solid #0E1644;
         border-radius: 5px;
-        text-indent: 30px;
+        text-indent: 10px;
         /* Creates a tabbed effect for the input text */
         background-color: rgba(0, 0, 0, 0.2);
-        color: #073066;
+        color: #0E1644;
         outline: none;
         font-size: 16px;
     }
@@ -1243,7 +1250,7 @@ a-plane {
         left: 195px;
         transform: translateY(-15%);
         cursor: pointer;
-        color: #073066;
+        color: #0E1644;
     }
 
     .input-container i {
@@ -1251,7 +1258,7 @@ a-plane {
         left: 10px;
         top: 50%;
         transform: translateY(-10%);
-        color: #073066;
+        color: #0E1644;
         /* Adjust icon color as needed */
     }
 
@@ -1264,7 +1271,7 @@ a-plane {
     input[type="password"] {
         padding: 12px;
         margin-bottom: 10px;
-        border: 3px solid #073066;
+        border: 3px solid #0E1644;
         border-radius: 10px;
         outline: none;
         font-size: 16px;
@@ -1272,7 +1279,7 @@ a-plane {
     }
 
     button {
-        background-color: #073066;
+        background-color: #0E1644;
         color: #FFFFFF;
         border: none;
         padding: 12px 20px;
@@ -1286,14 +1293,14 @@ a-plane {
     }
 
     button:hover {
-        background-color: #073066;
+        background-color: #FAC301;
     }
 
     /* Red button styles */
     .btn-red {
-        background-color: #073066;
+        background-color: #0E1644;
         color: #FFFFFF;
-        border: 1.25px solid #073066;
+        border: 1.25px solid #0E1644;
         padding: 12px 50px;
         cursor: pointer;
         border-radius: 20px;
@@ -1309,15 +1316,15 @@ a-plane {
     .btn-red:hover {
         background-color: #FFFFFF;
         /* Darkened primary color */
-        color: #073066;
-        border: 1.25px solid #073066;
+        color: #0E1644;
+        border: 1.25px solid #0E1644;
     }
 
     /* White button styles */
     .btn-white {
         background-color: #FFFFFF;
-        color: #073066;
-        border: 1.25px solid #073066;
+        color: #0E1644;
+        border: 1.25px solid #0E1644;
         padding: 12px 50px;
         cursor: pointer;
         border-radius: 20px;
@@ -1332,7 +1339,7 @@ a-plane {
     }
 
     .btn-white:hover {
-        background-color: #073066;
+        background-color: #0E1644;
         /* Darkened primary color */
         color: #FFFFFF;
         border: 1.25px solid #FFFFFF;
@@ -1377,7 +1384,7 @@ a-plane {
     .custom-radio input[type="radio"]+.custom-radio-span {
         width: 20px;
         height: 20px;
-        border: 2px solid #073066;
+        border: 2px solid #0E1644;
         border-radius: 50%;
         display: inline-block;
         position: relative;
@@ -1388,7 +1395,7 @@ a-plane {
         content: '';
         width: 10px;
         height: 10px;
-        background-color: #073066;
+        background-color: #0E1644;
         border-radius: 50%;
         position: absolute;
         top: 50%;
@@ -1409,20 +1416,18 @@ a-plane {
 
     .back-button-container {
         position: absolute;
-        top: 50px;
+        top: 35px;
         left: 20px;
     }
 
     .logo-container {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
+        text-align: center; /* Center the logo horizontally */
+        margin: 0 auto; /* Ensure the container is centered within its parent */
     }
 
     .logo {
-        max-width: 180px;
-        height: auto;
+        max-width: 65%; /* Adjust the width for smaller screens */
+        height: auto; /* Maintain the logo's aspect ratio */
     }
 
     #html5-qrcode-button-camera-permission {
