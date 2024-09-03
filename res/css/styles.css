@@ -235,6 +235,7 @@ button:hover {
     background-color: #FAC301;
     color: #0E1644;
     font-weight: bold;
+    border: 1.25px solid #0E1644;
 }
 
 /* Blue button styles */
@@ -253,8 +254,9 @@ button:hover {
 }
 
 .btn-red:hover {
-    background-color: #FFFFFF;
+    background-color: #FAC301;
     color: #0E1644;
+    font-weight: bold;
     border: 1.25px solid #0E1644;
 }
 
