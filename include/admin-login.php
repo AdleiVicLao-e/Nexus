@@ -1,16 +1,5 @@
 <?php
-require("db.php");
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "admin";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'admin-db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['admin_username'];
@@ -22,9 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        echo "Login Success";
+        header("Location: ../admin.html");
+        exit();
     } else {
-        echo "Login Not Successful. Please check your credentials.1";
+        echo "Login Not Successful. Please check your credentials.";
     }
     $stmt->close();
     $conn->close();

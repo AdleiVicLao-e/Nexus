@@ -23,7 +23,7 @@
             </div>
             <div id="add" class="tab-content">
                 <div class="form-container">
-                    <form action="submit.php" method="post">
+                    <form action="/include/addArtifact.php" method="post">
                     <div class="form-group">
                         <label for="artifact-name">Artifact Name:</label>
                         <input type="text" id="artifact-name" name="artifact-name" required>
@@ -76,7 +76,7 @@
     <script>
         // Function to fetch artifact options
         function fetchArtifactOptions() {
-            fetch('get.php')
+            fetch('include/get.php')
                 .then(response => response.json())
                 .then(data => {
                     // Populate the section select

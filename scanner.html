@@ -131,7 +131,7 @@
 
     // Query the artifact information from the database
     function fetchArtifactInfo(artifactId) {
-        fetch(`getArtifact.php?artifact_id=${artifactId}`)
+        fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
             .then(response => response.json())
             .then(data => {
                 if (data) {

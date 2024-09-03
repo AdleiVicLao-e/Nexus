@@ -1,17 +1,7 @@
 <?php
+include 'artifact-db.php';
+
 header('Content-Type: application/json');
-
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "kultoura";
-
-$conn = new mysqli($host, $user, $password, $database);
-
-if ($conn->connect_error) {
-    echo json_encode(['status' => 'error', 'message' => 'Connection failed: ' . $conn->connect_error]);
-    exit;
-}
 
 $artifactName = $_POST['artifact-name'];
 $sectionId = $_POST['section'];
@@ -21,7 +11,7 @@ $description = $_POST['description'];
 $condition = $_POST['condition'];
 
 $sql = "INSERT INTO artifact_info (section_id, catalogue_id, subcat_id, name, description, `condition`) VALUES (?, ?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
+$stmt = $mysqli->prepare($sql);
 $stmt->bind_param("iiisss", $sectionId, $catalogId, $subCatalogId, $artifactName, $description, $condition);
 
 if ($stmt->execute()) {
@@ -31,5 +21,5 @@ if ($stmt->execute()) {
 }
 
 $stmt->close();
-$conn->close();
+$mysqli->close();
 ?>

@@ -1,17 +1,8 @@
 <?php
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "kultoura";
-
-$conn = new mysqli($host, $user, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'artifact-db.php';
 
 $sectionQuery = "SELECT section_id, section_name FROM section";
-$sectionResult = $conn->query($sectionQuery);
+$sectionResult = $mysqli->query($sectionQuery);
 $sections = [];
 if ($sectionResult->num_rows > 0) {
     while ($row = $sectionResult->fetch_assoc()) {
@@ -20,7 +11,7 @@ if ($sectionResult->num_rows > 0) {
 }
 
 $catalogueQuery = "SELECT catalogue_id, catalogue_name FROM catalogue";
-$catalogueResult = $conn->query($catalogueQuery);
+$catalogueResult = $mysqli->query($catalogueQuery);
 $catalogues = [];
 if ($catalogueResult->num_rows > 0) {
     while ($row = $catalogueResult->fetch_assoc()) {
@@ -29,7 +20,7 @@ if ($catalogueResult->num_rows > 0) {
 }
 
 $subcatalogueQuery = "SELECT subcat_id, subcat_name FROM subcatalogue";
-$subcatalogueResult = $conn->query($subcatalogueQuery);
+$subcatalogueResult = $mysqli->query($subcatalogueQuery);
 $subcatalogues = [];
 if ($subcatalogueResult->num_rows > 0) {
     while ($row = $subcatalogueResult->fetch_assoc()) {
@@ -37,7 +28,7 @@ if ($subcatalogueResult->num_rows > 0) {
     }
 }
 
-$conn->close();
+$mysqli->close();
 
 echo json_encode([
     'sections' => $sections,

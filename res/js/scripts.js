@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const userSchool = document.getElementById('user_school').value;
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'include/user.php', true);
+            xhr.open('POST', 'include/user-db.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
             xhr.onload = function() {
