@@ -104,7 +104,8 @@ p {
 }
 
 .login-container .input-container input {
-    text-indent: 30px; /* Adjust this value as needed */
+    text-indent: 30px;
+    /* Adjust this value as needed */
 }
 
 /*Access as Guest Styles*/
@@ -213,8 +214,10 @@ input[type="password"] {
     border-radius: 10px;
     outline: none;
     font-size: 16px;
-    background-color: #ffffffa8; /* Changed to white */
-    color: #0E1644; /* Changed text color to match the border color */
+    background-color: #ffffffa8;
+    /* Changed to white */
+    color: #0E1644;
+    /* Changed text color to match the border color */
 }
 
 button {
@@ -812,7 +815,6 @@ a-plane {
     gap: 20px;
     padding: 20px;
     margin: 0;
-    margin-top: 680px;
 }
 
 /* Individual video card styles */
@@ -1062,6 +1064,7 @@ a-plane {
     }
 
     .floating-button.left {
+        border: 3px solid #FAC301;
         left: 20px;
     }
 
@@ -1084,6 +1087,7 @@ a-plane {
         justify-content: center;
         align-items: center;
         animation: zoomIn 3s;
+        border: 3px solid white;
     }
 
     #watchVideosButton::before {
@@ -1198,8 +1202,10 @@ a-plane {
         margin-top: 5px;
         border: 1px solid #0E1644;
         border-radius: 5px;
-        background-color: #ffffff; /* Changed to white */
-        color: #0E1644; /* Changed text color to match the border color */
+        background-color: #ffffff;
+        /* Changed to white */
+        color: #0E1644;
+        /* Changed text color to match the border color */
         outline: none;
         font-size: 16px;
     }
@@ -1237,8 +1243,10 @@ a-plane {
         border: 1px solid #0E1644;
         border-radius: 5px;
         text-indent: 10px;
-        background-color: #ffffff; /* Changed to white */
-        color: #0E1644; /* Changed text color to match the border color */
+        background-color: #ffffff;
+        /* Changed to white */
+        color: #0E1644;
+        /* Changed text color to match the border color */
         outline: none;
         font-size: 16px;
     }
@@ -1273,8 +1281,10 @@ a-plane {
         border-radius: 10px;
         outline: none;
         font-size: 16px;
-        background-color: #ffffff9f; /* Changed to white */
-        color: #0E1644; /* Changed text color to match the border color */
+        background-color: #ffffff9f;
+        /* Changed to white */
+        color: #0E1644;
+        /* Changed text color to match the border color */
     }
 
     button {
@@ -1420,13 +1430,17 @@ a-plane {
     }
 
     .logo-container {
-        text-align: center; /* Center the logo horizontally */
-        margin: 0 auto; /* Ensure the container is centered within its parent */
+        text-align: center;
+        /* Center the logo horizontally */
+        margin: 0 auto;
+        /* Ensure the container is centered within its parent */
     }
 
     .logo {
-        max-width: 65%; /* Adjust the width for smaller screens */
-        height: auto; /* Maintain the logo's aspect ratio */
+        max-width: 65%;
+        /* Adjust the width for smaller screens */
+        height: auto;
+        /* Maintain the logo's aspect ratio */
     }
 
     #html5-qrcode-button-camera-permission {

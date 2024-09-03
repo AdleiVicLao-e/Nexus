@@ -43,7 +43,7 @@
           <a-asset-item id="exoFont" src="./assets/fonts/exoBlack.typeface.json"></a-asset-item>
           <img id="pixels" src="assets/img/pixels.png" alt="pixels">
           <img id="errorImage" src="assets/img/Error.png" alt="error message">
-          <img id="artifactDetected" src="assets/img/artifact_Detected.png" alt="error message">
+          <!-- <img id="artifactDetected" src="assets/img/artifact_Detected.png" alt="error message"> -->
           <img id="artifactBackground" src="assets/img/artifact_background.png" alt="artifact background">
         </a-assets>
 
@@ -58,15 +58,15 @@
         material="opacity: 0.9; transparent: true;">
       </a-image> 
 
-      <a-image 
+      <!-- <a-image 
         id="artifact-detected" 
         src="./assets/img/artifact_Detected.png" 
-        position="0 2.28 -3" 
+        position="0 0.7 -3" 
         width="1" 
-        height="0.5" 
+        height="0.3" 
         visible="false" 
         material="opacity: 0.8; transparent: true;">
-      </a-image>
+      </a-image> -->
       
       <a-image 
         id="error-image" 
@@ -75,8 +75,15 @@
         width="2" 
         height="1" 
         visible="false" 
-        material="opacity: 0.9; transparent: true;">
-      </a-image> 
+        material="opacity: 0.9; transparent: true;"
+        animation__shake="
+            property: position;
+            dir: alternate;
+            dur: 100;
+            easing: easeInOutQuad;
+            loop: true;
+            to: 0.1 1.6 -2.5;">
+      </a-image>
 
       <a-text 
         id="text" 
@@ -106,7 +113,7 @@
       // Initialize video and canvas elements
       const video = document.getElementById("video");
       const canvas = document.getElementById("canvas");
-      const artifactDetected= document.getElementById("artifact-detected");
+      // const artifactDetected= document.getElementById("artifact-detected");
       const artifactBackground=document.getElementById("artifact-background");
       const canvasContext = canvas.getContext("2d");
       const text = document.getElementById("text");
@@ -158,17 +165,13 @@
           if (artifactId !== currentCodeData) {
             currentCodeData = artifactId;
 
-            // Show the view details button
-            document.getElementById("watchVideosButton").style.display =
-              "block";
-
             fetchArtifactInfo(artifactId);
           }
         } else {
           // QR code not detected, reset or clear the display
           currentCodeData = null;
           text.setAttribute("value", ""); 
-          artifactDetected.setAttribute("visible", "false");
+          // artifactDetected.setAttribute("visible", "false");
           errorImage.setAttribute("visible", "false");
           artifactBackground.setAttribute("visible", "false");
           document.getElementById("watchVideosButton").style.display = "none";
@@ -201,13 +204,15 @@
                     Condition: ${data['Condition']}
                 `.trim();
                     text.setAttribute("value", artifactInfo);
-                    artifactDetected.setAttribute("visible", "true");
+                    // artifactDetected.setAttribute("visible", "true");
                     artifactBackground.setAttribute("visible", "true")
+                    document.getElementById("watchVideosButton").style.display ="block";
                   } else {
                     text.setAttribute("value", "");
                     errorImage.setAttribute("visible", "true");
-                    artifactDetected.setAttribute("visible", "false");
+                    // artifactDetected.setAttribute("visible", "false");
                     artifactBackground.setAttribute("visible", "false");
+                    document.getElementById("watchVideosButton").style.display = "none";
                   }
                 })
                 .catch((error) => {
@@ -217,7 +222,7 @@
 
     </script>
 
-     <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+    <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
