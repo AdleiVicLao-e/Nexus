@@ -213,7 +213,8 @@ input[type="password"] {
     border-radius: 10px;
     outline: none;
     font-size: 16px;
-    color: #FFFFFF;
+    background-color: #ffffffa8; /* Changed to white */
+    color: #0E1644; /* Changed text color to match the border color */
 }
 
 button {
@@ -1197,8 +1198,8 @@ a-plane {
         margin-top: 5px;
         border: 1px solid #0E1644;
         border-radius: 5px;
-        background-color: rgba(28, 28, 28, 0.8);
-        color: #FFFFFF;
+        background-color: #ffffff; /* Changed to white */
+        color: #0E1644; /* Changed text color to match the border color */
         outline: none;
         font-size: 16px;
     }
@@ -1231,17 +1232,13 @@ a-plane {
         padding-right: 12px;
         /* Adjust as necessary */
         padding-top: 10px;
-        /* Adjust vertical padding to center text */
         padding-bottom: 10px;
-        /* Adjust vertical padding to center text */
         width: 100%;
-        /* Ensures the input field spans the container */
         border: 1px solid #0E1644;
         border-radius: 5px;
         text-indent: 10px;
-        /* Creates a tabbed effect for the input text */
-        background-color: rgba(0, 0, 0, 0.2);
-        color: #0E1644;
+        background-color: #ffffff; /* Changed to white */
+        color: #0E1644; /* Changed text color to match the border color */
         outline: none;
         font-size: 16px;
     }
@@ -1261,7 +1258,6 @@ a-plane {
         top: 50%;
         transform: translateY(-10%);
         color: #0E1644;
-        /* Adjust icon color as needed */
     }
 
     .input-container .icon-left {
@@ -1277,7 +1273,8 @@ a-plane {
         border-radius: 10px;
         outline: none;
         font-size: 16px;
-        color: #FFFFFF;
+        background-color: #ffffff9f; /* Changed to white */
+        color: #0E1644; /* Changed text color to match the border color */
     }
 
     button {
