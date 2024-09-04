@@ -1,48 +1,117 @@
 body {
-    overflow: auto;
-}
-
-.analytics_div {
-    border: 1px solid;
-    position: fixed;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    width: 800px;
-    top: 50px;
-    right: 50px;
-    bottom: 50px;
+    background-color: #f0f0f0;
+    height: 100vh;
 }
 
-#visit {
-    text-align: center;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    background-color: #162749;
+    color: rgb(255, 255, 255);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
-.buttons {
-    position: absolute;
-    top: 80px;
-    bottom: 30px;
-    left: 30px;
-    right: 30px;
-    background-color: antiquewhite;
+header .logo {
+    font-size: 2.5vmin;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.artifact_div {
-    float: left;
-    top: 50px;
-    left: 50px;
-    /* height: 100%; */
-    position: relative;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+header .logo img {
+    height: 35px;
 }
 
-.tabs {
+header .greetings {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .greetings img {
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+header .greeting {
+    font-size: 2.1vmin;
+    margin-left: auto;
+    padding-right: 30px;
+}
+
+header .curator {
+    border-bottom: 1px solid #ffbb00;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.7vmin;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    max-width: 1500px;
+    margin: 0 auto;
+    gap: 20px;
+    height: 100%;
+}
+
+.left-container, .right-container {
+    flex: 1;
+    display: flex;
+}
+
+.left-container {
+    align-items: center;
+}
+
+.right-container {
+    align-items: flex-start;
+    padding-top: 10vmin;
+}
+
+.analytics, .artifacts {
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.analytics {
+    background-color: #cce5ff;
+}
+
+.artifacts {
+    background-color: #e2e3e5;
+}
+
+.right-container .artifacts .tabs {
     display: flex;
     cursor: pointer;
     background-color: #f1f1f1;
     padding: 10px;
-    border-bottom: 2px solid #ddd;
 }
 
-.tab {
+.right-container .artifacts .tabs .tab {
     padding: 10px 20px;
     margin-right: 5px;
     border: 1px solid #ddd;
@@ -50,34 +119,48 @@ body {
     background-color: #f1f1f1;
 }
 
-.tab.active {
+.right-container .artifacts .tabs .tab.active {
     background-color: #fff;
-    border-top: 2px solid #007BFF;
+    border-top: 3px solid #ffbb00;
     font-weight: bold;
 }
 
-.tab-content {
+.right-container .artifacts .tabs .tab-content {
     display: none;
     padding: 20px;
     border: 1px solid #ddd;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
-.tab-content.active {
+.right-container .artifacts .tab-content.active {
     display: block;
 }
 
-.search-input {
-    flex: 1;
-    padding: 10px;
-    border: 1;
-    border-color: #b6b6b6;
-    outline: none;
-    font-size: 16px;
-    margin-right: 20px;
+.right-container .artifacts #search .search-container {
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background-color:#f1f1f1;
 }
 
-.search-button {
+.right-container .artifacts #search .search-container .search-input {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #b6b6b6;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.right-container .artifacts .search-container .search-button,
+.right-container .artifacts button {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     padding: 10px 20px;
     border: none;
     background-color: #4376ad;
@@ -86,45 +169,74 @@ body {
     cursor: pointer;
     outline: none;
     transition: background-color 0.3s;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    margin-right: 10px;
 }
 
-.form-container {
+.right-container .artifacts .search-container button:hover,
+.right-container .artifacts button:hover {
+    background-color: #ffbb00;
+    color: black;
+}
+
+.right-container .artifacts .form-container {
     display: flex;
     flex-direction: column;
+    padding-top: 15px;
+    padding-right: 15px;
+    background-color:#f1f1f1;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-.form-group {
+.right-container .artifacts .form-group {
     margin-bottom: 15px;
 }
 
-label {
+.right-container .artifacts label {
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-input[type="text"],
-select,
-textarea {
+.right-container .artifacts input[type="text"],
+.right-container .artifacts select,
+.right-container .artifacts textarea {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-top: 7px;
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 15px;
 }
 
-textarea {
+.right-container .artifacts textarea {
     resize: vertical;
     height: 100px;
 }
 
-button {
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
+.right-container .artifacts input[type="file"] {
+    margin-top: 7px;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 15px;
 }
 
-button:hover {
-    background-color: #0056b3;
+.right-container .artifacts .upload-container, .right-container .artifacts .edit-container {
+    background-color:#f1f1f1;
+    padding: 10px;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    justify-content: center;
 }

@@ -7,72 +7,156 @@
     <link rel="stylesheet" href="../res/css/adminStyle.css">
     <script src="../res/js/javascript.js"></script>
 </head>
+
 <body>
-    <div class="container">
-        <div class="artifact_div">
-            <div class="tabs">
-                <div class="tab active" onclick="openTab('search')">Search Artifact</div>
-                <div class="tab" onclick="openTab('add')">Add Artifact</div>
-                <div class="tab" onclick="openTab('upload')">Upload Media</div>
-                <div class="tab" onclick="openTab('edit')">Edit Media</div>
+    <header>
+        <div class="logo">
+            <img src="slu-logo.png" alt="Saint Louis University Logo">
+            Museum of Igorot Culture and Arts - Admin Dashboard
+        </div>
+
+        <div class="greetings">
+            <img src="user-image.png" alt="User Icon">
+            <div class="greeting">
+                <div class="curator">Hi, Curator!</div>
+                <nav><a href="#home">Logout</a></nav>
             </div>
-        
-            <div id="search" class="tab-content active">
-                <input type="text" class="search-input" placeholder="Search artifact...">
-                <button class="search-button">Search</button>
-            </div>
-            <div id="add" class="tab-content">
-                <div class="form-container">
-                    <form action="../include/addArtifact.php" method="post">
-                    <div class="form-group">
-                        <label for="artifact-name">Artifact Name:</label>
-                        <input type="text" id="artifact-name" name="artifact-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="section">Section:</label>
-                        <select id="section" name="section" required>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="catalog">Catalog:</label>
-                        <select id="catalog" name="catalog" required>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sub-catalog">Sub Catalog:</label>
-                        <select id="sub-catalog" name="sub-catalog" required>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea id="description" name="description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="condition">Condition:</label>
-                        <textarea id="condition" name="condition" required></textarea>
-                    </div>
-                    <button type="submit">Submit</button>
-                    </form>
-                </div>
-            </div>
-            <div id="upload" class="tab-content">
-                Upload me
-            </div>
-            <div id="edit" class="tab-content">
-                Edit me
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="left-container">
+            <div class="analytics">
+                Visitor analytics
             </div>
         </div>
 
-<!--        <div class="analytics_div">-->
-<!--            <h1 id="visit">Visitor Analytics</h1>-->
+        <div class="right-container">
+            <div class="artifacts">
+                <div class="tabs">
+                    <div class="tab active" onclick="openTab('search')">Search Artifact</div>
+                    <div class="tab" onclick="openTab('add')">Add Artifact</div>
+                    <div class="tab" onclick="openTab('upload')">Upload Media</div>
+                    <div class="tab" onclick="openTab('edit')">Edit Media</div>
+                </div>
+            
+                <div id="search" class="tab-content active">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search artifact...">
+                        <button class="search-button">Search</button>
+                    </div>
+                </div>
 
-<!--            <div class="buttons">-->
-<!--                <button>View Today's Analytics</button>-->
-<!--                <button>View Weekly Analytics</button>-->
-<!--                <button>View Monthly Analytics</button>-->
-<!--            </div>-->
-<!--        </div>-->
+                <div id="add" class="tab-content">
+                    <div class="form-container">
+                        <form action="" method="post"> <!--add database .php, action="-here-" "/include/addArtifact.php"-->
+                            <div class="form-group">
+                                <label for="artifact-name">Artifact Name:</label>
+                                <input type="text" id="artifact-name" name="artifact-name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="section">Section:</label>
+                                <select id="section" name="section" required>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="catalog">Catalog:</label>
+                                <select id="catalog" name="catalog" required>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sub-catalog">Sub Catalog:</label>
+                                <select id="sub-catalog" name="sub-catalog" required>
+                                </select>
+                            </div>
+
+                            <div class="button-container">
+                                <button type="button" class="btn">Add New Section</button>
+                                <button type="button" class="btn">Add New Catalog</button>
+                                <button type="button" class="btn">Add New Sub Catalog</button>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea id="description" name="description" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="condition">Condition:</label>
+                                <textarea id="condition" name="condition" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="script">Virtual Avatar Script:</label>
+                                <textarea id="script" name="script" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="media-upload">Upload Media:</label>
+                                <input type="file" id="media-upload" name="media-upload" accept="image/*,video/*">
+                            </div>
+
+                            <button type="submit">Add Artifact</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="upload" class="tab-content">
+                    <div class="upload-container">
+                        <form action="" method="post"> <!--add database .php, action="-here-" "/include/addArtifact.php"-->
+                            <div class="form-group">
+                                <label for="media-upload">Upload Media:</label>
+                                <input type="file" id="media-upload" name="media-upload" accept="image/*,video/*">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vid-title">Video Title:</label>
+                                <input type="text" id="vid-title" name="vid-title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vid-description">Video Description:</label>
+                                <textarea id="vid-description" name="vid-description" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn">Add New Video</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="edit" class="tab-content">
+                    <div class="edit-container">
+                        <form action="" method="post"> <!--add database .php, action="-here-" "/include/addArtifact.php"-->
+                            <div class="form-group">
+                                <label for="vid-select">Select Video:</label>
+                                <select id="vid-select" name="vid-select" required>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-vidtit">Edit Video Title:</label>
+                                <input type="text" id="edit-vidtit" name="edit-vidtit" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-videsc">Edit Video Description:</label>
+                                <textarea id="edit-videsc" name="edit-videsc" required></textarea>
+                            </div>
+
+                            <div class="button-container">
+                                <button type="submit" class="btn">Make Changes</button>
+                                <button type="button" class="del-btn">Delete Video</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script>
         // Function to fetch artifact options
         function fetchArtifactOptions() {
