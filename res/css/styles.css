@@ -280,9 +280,10 @@ button:hover {
 }
 
 .btn-white:hover {
-    background-color: #0E1644;
-    color: #FFFFFF;
-    border: 1.25px solid #FFFFFF;
+    background-color: #FAC301;
+    color: #0E1644;
+    font-weight: bold;
+    border: 1.25px solid #0E1644;
 }
 
 .access-body {
