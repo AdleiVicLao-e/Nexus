@@ -11,12 +11,12 @@
 <body>
     <header>
         <div class="logo">
-            <img src="slu-logo.png" alt="Saint Louis University Logo">
+            <img src="../res/images/slu-logo.png" alt="Saint Louis University Logo">
             Museum of Igorot Culture and Arts - Admin Dashboard
         </div>
 
         <div class="greetings">
-            <img src="user-image.png" alt="User Icon">
+            <img src="../res/images/user-image.png" alt="User Icon">
             <div class="greeting">
                 <div class="curator">Hi, Curator!</div>
                 <nav><a href="#home">Logout</a></nav>
@@ -49,7 +49,7 @@
 
                 <div id="add" class="tab-content">
                     <div class="form-container">
-                        <form action="" method="post"> <!--add database .php, action="-here-" "/include/addArtifact.php"-->
+                        <form action="" method="post"> <!--add database here i think??? .php, action="-here-" "/include/addArtifact.php"-->
                             <div class="form-group">
                                 <label for="artifact-name">Artifact Name:</label>
                                 <input type="text" id="artifact-name" name="artifact-name" required>
@@ -74,9 +74,9 @@
                             </div>
 
                             <div class="button-container">
-                                <button type="button" class="btn">Add New Section</button>
-                                <button type="button" class="btn">Add New Catalog</button>
-                                <button type="button" class="btn">Add New Sub Catalog</button>
+                                <button type="button" class="btn" id="section-btn">Add New Section</button>
+                                <button type="button" class="btn" id="catalog-btn">Add New Catalog</button>
+                                <button type="button" class="btn" id="subcat-btn">Add New Sub Catalog</button>
                             </div>
 
                             <div class="form-group">
@@ -106,7 +106,7 @@
 
                 <div id="upload" class="tab-content">
                     <div class="upload-container">
-                        <form action="" method="post"> <!--add database .php, action="-here-" "/include/addArtifact.php"-->
+                        <form action="" method="post"> <!--add database here i think??? .php, action="-here-" "/include/addArtifact.php"-->
                             <div class="form-group">
                                 <label for="media-upload">Upload Media:</label>
                                 <input type="file" id="media-upload" name="media-upload" accept="image/*,video/*">
@@ -129,7 +129,7 @@
 
                 <div id="edit" class="tab-content">
                     <div class="edit-container">
-                        <form action="" method="post"> <!--add database .php, action="-here-" "/include/addArtifact.php"-->
+                        <form action="" method="post"> <!--add database here i think??? .php, action="-here-" "/include/addArtifact.php"-->
                             <div class="form-group">
                                 <label for="vid-select">Select Video:</label>
                                 <select id="vid-select" name="vid-select" required>
@@ -153,6 +153,59 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup">
+        <div class="popup-section">
+            <img src="../res/images/exit-icon.png" alt="Close" class="close">
+
+            <div class="form-group">
+                <label for="new-section">New Section Title:</label>
+                <input type="text" id="new-section" name="new-section" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="btn">Create Section</button>
+            </div>
+        </div>
+
+        <div class="popup-catalog">
+            <img src="../res/images/exit-icon.png" alt="Close" class="close">
+
+            <div class="form-group">
+                <label for="sub-catalog">Choose Section:</label>
+                <select id="sub-catalog" name="sub-catalog" required>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="new-section">New Catalog Name:</label>
+                <input type="text" id="new-section" name="new-section" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="btn">Create Catalog</button>
+            </div>
+        </div>
+
+        <div class="popup-subcat">
+            <img src="../res/images/exit-icon.png" alt="Close" class="close">
+
+            <div class="form-group">
+                <label for="sub-catalog">Choose Catalog:</label>
+                <select id="sub-catalog" name="sub-catalog" required>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="new-section">New Sub Catalog Name:</label>
+                <input type="text" id="new-section" name="new-section" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="btn">Create Sub Catalog</button>
             </div>
         </div>
     </div>
@@ -196,6 +249,37 @@
                 .catch(error => console.error('Error fetching options:', error));
         }
         document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
+
+        const sectionBtn = document.getElementById('section-btn');
+        const catalogBtn = document.getElementById('catalog-btn');
+        const subcatBtn = document.getElementById('subcat-btn');
+
+        const sectionPopup = document.querySelector('.popup-section');
+        const catalogPopup = document.querySelector('.popup-catalog');
+        const subcatPopup = document.querySelector('.popup-subcat');
+
+        const popupOverlay = document.querySelector('.popup');
+        const closeIcons = document.querySelectorAll('.close');
+
+        function showPopup(popup) {
+            popupOverlay.style.display = 'flex';
+            popup.style.display = 'block';
+        }
+
+        function hidePopup() {
+            popupOverlay.style.display = 'none';
+            sectionPopup.style.display = 'none';
+            catalogPopup.style.display = 'none';
+            subcatPopup.style.display = 'none';
+        }
+
+        sectionBtn.addEventListener('click', () => showPopup(sectionPopup));
+        catalogBtn.addEventListener('click', () => showPopup(catalogPopup));
+        subcatBtn.addEventListener('click', () => showPopup(subcatPopup));
+
+        closeIcons.forEach(icon => {
+            icon.addEventListener('click', hidePopup);
+        });
     </script>
 </body>
 </html>
