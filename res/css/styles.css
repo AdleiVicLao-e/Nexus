@@ -186,7 +186,7 @@ form {
 .input-container .toggle-password {
     position: absolute;
     right: 100px;
-    left: 195px;
+    left: 225px;
     transform: translateY(-15%);
     cursor: pointer;
     color: #0E1644;
@@ -220,6 +220,9 @@ input[type="password"] {
     /* Changed text color to match the border color */
 }
 
+.fa {
+    right: 220px;
+}
 button {
     background-color: #0E1644;
     color: #FFFFFF;
@@ -1255,7 +1258,7 @@ a-plane {
     .input-container .toggle-password {
         position: absolute;
         right: 100px;
-        left: 195px;
+        left: 225px;
         transform: translateY(-15%);
         cursor: pointer;
         color: #0E1644;
@@ -1324,9 +1327,9 @@ a-plane {
     }
 
     .btn-red:hover {
-        background-color: #FFFFFF;
-        /* Darkened primary color */
+        background-color: #FAC301;
         color: #0E1644;
+        font-weight: bold;
         border: 1.25px solid #0E1644;
     }
 
