@@ -109,6 +109,19 @@
 >
 </button>
 
+<!-- Overlay with the info box -->
+<div class="overlay" id="infoOverlay">
+  <div class="info-box">
+    <p class="welcome-2">WELCOME!</p>
+    <p class="info-box-text">This is application will provide you with more information about the museum artifacts.</p>
+    <p class="info-box-text">To use it, simply position your phone's camera in front of the QR codes located near the artifacts.</p>
+    <p class="info-box-text">It will automatically detect the codes and display detailed information about each artifact.</p>
+
+    <!-- Timer -->
+    <p class="timer">This message will disappear in <span id="countdown">8</span> seconds.</p>
+  </div>
+</div>
+
 <script>
   // Initialize video and canvas elements
   const video = document.getElementById("video");
@@ -178,14 +191,25 @@
     }
   }
 
+  // Function to show the overlay
   function viewDetails() {
-    alert(
-            "Welcome! \nThis is a QR code scanning application designed to provide you with more information about the museum artifacts. \nTo use it, simply position your phone's camera in front of the QR codes located near the artifacts. \nThe app will automatically detect the codes and display detailed information about each artifact."
-    );
-  }
+    const overlay = document.getElementById("infoOverlay");
+    overlay.style.display = "flex";
 
-  function watchVideos() {
-    window.location.href = "igorot-dances.html";
+    let countdownTime = 8;
+    const countdownElement = document.getElementById("countdown");
+
+    // Update the countdown every second
+    const countdownInterval = setInterval(() => {
+      countdownTime--;
+      countdownElement.textContent = countdownTime;
+
+      // When countdown reaches 0, hide the overlay
+      if (countdownTime <= 0) {
+        clearInterval(countdownInterval);
+        overlay.style.display = "none";
+      }
+    }, 1000);
   }
 
   function fetchArtifactInfo(artifactId) {
@@ -195,10 +219,10 @@
               if (data) {
                 console.log("Data:", data);
                 const artifactInfo = `
+                    Artifact Name: ${data['Name']}
                     Section Name: ${data['Section Name']}
                     Catalogue Name: ${data['Catalogue Name']}
                     Subcatalogue Name: ${data['Subcatalogue Name']}
-                    Name: ${data['Name']}
                     Description: ${data['Description']}
                 `.trim();
                 text.setAttribute("value", artifactInfo);
