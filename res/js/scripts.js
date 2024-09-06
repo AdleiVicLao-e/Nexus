@@ -208,5 +208,44 @@ document.addEventListener('DOMContentLoaded', function () {
   function onScanError(err) {
       console.error(err);
   }
+
+    // Function to show or hide the custom input field for "Other" schools
+function showOtherInput() {
+    var select = document.getElementById("schoolSelect");
+    var otherInput = document.getElementById("otherSchoolInput");
+  
+    if (select.value === "other") {
+      otherInput.style.display = "block"; // Show the input field
+    } else {
+      otherInput.style.display = "none"; // Hide the input field if "Others" is not selected
+    }
+  }
+  
+  // Function to validate the visitor login form before submission
+  function validateForm() {
+    var name = document.getElementById("user_name").value;
+    var school = document.getElementById("schoolSelect").value;
+    var otherSchool = document.getElementById("otherSchoolName").value;
+    var otherSchoolInput = document.getElementById("otherSchoolInput").style.display;
+    var errorMessage = document.getElementById("error-message");
+  
+    // Check if name is filled, school is selected, and otherSchool is filled if "Others" is selected
+    if (
+      name.trim() === "" ||
+      school === "" ||
+      (school === "other" && otherSchool.trim() === "")
+    ) {
+      errorMessage.style.display = "block"; // Show error message
+      return false; // Prevent form submission
+    } else {
+      errorMessage.style.display = "none"; // Hide error message
+      return true; // Allow form submission
+    }
+  }
+  
+  // Add event listener for form submission to trigger validation
+  document.getElementById("guest-form").onsubmit = function () {
+    return validateForm();
+  };
     
 });
