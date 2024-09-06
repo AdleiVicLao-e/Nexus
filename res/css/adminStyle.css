@@ -81,6 +81,7 @@ header nav a:hover {
 
 .left-container {
     align-items: center;
+    margin-top: 20px;
 }
 
 .right-container {
@@ -98,6 +99,201 @@ header nav a:hover {
 
 .analytics {
     background-color: #cce5ff;
+}
+
+.chart-container {
+    min-height: 300px;
+    position: relative; 
+}
+
+.btn {
+    padding: 0.65rem 1.4rem;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 1;
+    border-radius: 3px; 
+}
+    
+.btn:hover, .btn:focus {
+      opacity: 0.8; 
+}
+    
+.btn .btn-label {
+      display: inline-block; 
+}
+      
+.btn .btn-label i {
+        font-size: 16px;
+        vertical-align: middle;
+        margin-right: 2px;
+        margin-left: -2px;
+        line-height: 0;
+        margin-top: -2.5px; 
+}
+      
+.btn .btn-label.just-icon i {
+        margin-left: 0 !important;
+        margin-right: 0px !important; 
+}
+
+.btn-label i {
+    font-size: 27px;
+    vertical-align: middle;
+    margin-right: 2px;
+    margin-left: -7px;
+    line-height: 0;
+    margin-top: -2.5px; 
+}
+  
+.btn-lg .btn-label.just-icon i {
+    margin-left: 0 !important;
+    margin-right: 0px !important; 
+}
+
+.btn-label-info {
+    background: rgba(72, 171, 247, 0.1);
+    color: #4376ad !important;
+    border-color: transparent; 
+}
+    
+.btn-label-info:hover, .btn-label-info:focus, .btn-label-info:disabled {
+      background: #4376ad;
+      color: #fff !important;
+      opacity: 1; 
+}
+
+.btn-label-success {
+    background: rgba(49, 206, 54, 0.1);
+    color: #ffbb00 !important;
+    border-color: transparent; 
+}
+    
+.btn-label-success:hover, .btn-label-success:focus, .btn-label-success:disabled {
+      background: #ffbb00;
+      color: #fff !important;
+      opacity: 1; 
+}
+
+.btn-round {
+    border-radius: 100px !important; 
+}
+
+.btn-sm {
+    font-size: 11px;
+    padding: 7px 13px; 
+}
+
+.card {
+    border: 1px solid #eaeaea; 
+}
+
+
+.card-header {
+    border-bottom: 0px !important; 
+}
+
+.card .card-head-row, .card-light .card-head-row {
+    display: flex;
+    align-items: center; 
+}
+
+.card-title {
+    margin: 0;
+    color: #2A2F5B;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.6; 
+}
+
+.card-title a, .card-title a:hover, .card-title a:focus {
+    color: #2A2F5B;
+    text-decoration: none; 
+}
+
+.card-title {
+    margin-bottom: 0px !important; 
+}
+
+
+.card .card-tools .btn, .card-tools .btn {
+    margin-right: 10px; 
+}
+
+.card .card-head-row .card-tools, .card-light .card-head-row .card-tools {
+    margin-left: auto;
+    float: right;
+    padding-left: 15px; 
+}
+
+.card .card-head-row .card-tools .btn:last-child, .card-light .card-head-row .card-tools .btn:last-child {
+    margin-right: 0px; 
+}
+
+.card .card-footer .legend, .card-light .card-footer .legend {
+    display: inline-block; 
+}
+
+.html-legend {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    list-style: none;
+    cursor: pointer;
+    padding-left: 0;
+    text-align: center;
+    margin-top: 1rem; 
+}
+  
+.html-legend li {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    vertical-align: middle;
+    padding: 0 5px;
+    margin-right: 5px;
+    margin-bottom: 6px;
+    color: #8d9498;
+    font-size: 12px; 
+}
+  
+.html-legend li.hidden {
+    text-decoration: line-through; 
+}
+  
+.html-legend li span {
+    border-radius: 15px;
+    display: inline-block;
+    height: 15px;
+    margin-right: 10px;
+    width: 15px;
+    vertical-align: top; }
+
+
+.left-container, .right-container {
+    flex: 1;
+    display: flex;
+}
+
+.left-container {
+    align-items: center;
+}
+
+.right-container {
+    align-items: flex-start;
+    padding-top: 10vmin;
+}
+
+.analytics, .artifacts {
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.analytics {
+    background-color: #ffffff;
 }
 
 .artifacts {
