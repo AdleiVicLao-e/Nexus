@@ -103,7 +103,10 @@
           return false; // Prevent form submission
         } else {
           errorMessage.style.display = "none"; // Hide error message
-          return true; // Allow form submission
+
+          // Redirect to homepage.html
+          window.location.href = 'homepage.html';
+          return false; // Prevent the default form action to avoid page reload
         }
       }
     </script>
