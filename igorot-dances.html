@@ -1,143 +1,514 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Homepage</title>
-    <link rel="stylesheet" href="res/css/styles.css">
-    <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
-    <link href="assets/img/favicon.png" rel="icon">
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    >
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    >
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js"
-      integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <!-- Boxicons CDN Link -->
-    <link
-      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
-      rel="stylesheet"
-    >
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body data-rsssl="1">
-    <nav>
-      <div class="navbar">
-        <i class="bx bx-menu"></i>
-        <div class="logo">
-          <a href="index.html">
-            <img
-              src="assets/img/logo.png"
-              style="height: auto"
-              alt="Kultoura Logo"
-            >
-          </a>
-        </div>
-        <div class="nav-links">
-          <div class="sidebar-logo">
-            <img
-              src="assets/img/favicon.png"
-              style="justify-content: center"
-              alt="Kultoura Logo"
-              class="logo-name"
-            >
-            <i class="bx bx-x"></i>
-          </div>
-          <ul class="links">
-            <li>
-              <a href="homepage.html" class="close-nav"
-                ><i class="fa fa-chevron-circle-left"></i
-              ></a>
-            </li>
-            <li><a href="homepage.html">Home</a></li>
-            <li>
-              <a href="igorot-dances.html" class="active">Igorot Dances</a>
-            </li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="index.html">Log out</a></li>
-          </ul>
-        </div>
-        <div class="search-box">
-          <i class="bx bx-search"></i>
-          <div class="input-box">
-            <input type="text" placeholder="Search...">
-          </div>
-        </div>
-      </div>
-    </nav>
+<html lang="en">
+<head>
+    <title>Igorot Dances</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="content-language" content="en"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+<link rel="icon" href="assets\img\favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+<link rel="stylesheet"
+      href="res\css\dances.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>    
+</head>
+<body>
+<div id="app">    
+<div id="sidebar_menu_bg"></div>
+<div id="sidebar_menu">
+    <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar"><i class="fa fa-angle-left mr-2"></i>Close menu
+    </button>
+    <ul class="nav sidebar_menu-list">
+        <li class="nav-item active"><a class="nav-link" href="/"
+                                       title="Home">Home</a></li>
+        <li class="nav-item">
+            <div class="toggle-submenu" data-toggle="collapse" data-target="#sidebar_subs_genre" aria-expanded="false"
+                 aria-controls="sidebar_subs_genre"></div>
+            <div class="collapse multi-collapse sidebar_menu-sub" id="sidebar_subs_genre">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ethnic Groups
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Bontoc</a>
+                        <a class="dropdown-item" href="#">Ibaloi</a>
+                        <a class="dropdown-item" href="#">Ifugao</a>
+                        <a class="dropdown-item" href="#">Kalanguya</a>
+                        <a class="dropdown-item" href="#">Kankanaey</a>
+                        <a class="dropdown-item" href="#">Isinai</a>
+                        <a class="dropdown-item" href="#">Isneg</a>
+                        <a class="dropdown-item" href="#">Itneg/Tingguian</a>
+                        <a class="dropdown-item" href="#">Kalinga</a>
+                    </div>
+                </li>   
+                <div class="clearfix"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="clearfix"></div>
+</div>
 
-    <div class="video-grid">
-      <div class="video">
-        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
-        <div class="video-info">
-          <h3>Video Title 1</h3>
-          <p>Description</p>
+    <div id="wrapper">
+        <div id="header">
+    <div class="container">
+        <div id="mobile_menu"><i class="fa fa-bars"></i></div>
+        <a href="/" id="logo"><img src="assets\img\logo.png" alt="Logo">
+            
+        </a>
+        <!--Begin: Menu-->
+        <div id="header_menu">
+            <ul class="nav header_menu-list">
+                <li class="nav-item"><a href="/" title="Home">Home</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Genres
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Bontoc</a>
+                        <a class="dropdown-item" href="#">Ibaloi</a>
+                        <a class="dropdown-item" href="#">Ifugao</a>
+                        <a class="dropdown-item" href="#">Kalanguya</a>
+                        <a class="dropdown-item" href="#">Kankanaey</a>
+                        <a class="dropdown-item" href="#">Isinai</a>
+                        <a class="dropdown-item" href="#">Isneg</a>
+                        <a class="dropdown-item" href="#">Itneg/Tingguian</a>
+                        <a class="dropdown-item" href="#">Kalinga</a>
+                    </div>
+                </li>   
+                </li>
+            </ul>
+            <div class="clearfix"></div>
         </div>
-      </div>
-      <div class="video">
-        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
-        <div class="video-info">
-          <h3>Video Title 2</h3>
-          <p>Description</p>
+        <!--End: Menu-->
+        <div id="header_right">
+            <div id="search">
+                <div class="search-content">
+                    <form @submit="search">
+                        <div class="search-icon"><i class="fa fa-search"></i></div>
+                        <input v-model="keyword" type="text" class="form-control search-input" autocomplete="off"
+                               name="keyword" placeholder="Enter keywords...">
+                    </form>
+                    <div class="nav search-result-pop search-suggest"></div>
+                </div>
+            </div>
+            <div id="user-slot"></div>
+            <div class="clearfix"></div>
         </div>
-      </div>
-      <div class="video">
-        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
-        <div class="video-info">
-          <h3>Video Title 3</h3>
-          <p>Description</p>
-        </div>
-      </div>
-      <div class="video">
-        <img src="https://via.placeholder.com/300x200" alt="Video Thumbnail">
-        <div class="video-info">
-          <h3>Video Title 4</h3>
-          <p>Description</p>
-        </div>
-      </div>
+        <div class="clearfix"></div>
     </div>
+</div>
 
-    <script>
-      function isMobileDevice() {
-        return (
-          typeof window.orientation !== "undefined" ||
-          navigator.userAgent.indexOf("IEMobile") !== -1
-        );
-      }
+        <!--Begin: Main-->
+        <div id="main-wrapper">
+            <!--Begin: Detail-->
+            <div class="detail_page detail_page-style">
+                <div class="cover_follow"
+                     style="background-image: url(assets/img/preview-background.jpg);"></div>
+                <div class="container">
+                    <div class="prebreadcrumb">
+                    </div>
+                    <div style="text-align:center;margin-bottom: 20px;margin-top:20px;display:none;"
+                         id="hgiks-top"></div>
+                    <!--Begin: Watch-->
+                    <div class="detail_page-watch" data-id="112234" data-type="1">
+                        <div class="dp-w-cover">
+                            
+                                
+                                    <a href="#"
+                                       class="dp-w-c-play"><i class="fa fa-play"></i></a>
+                                
+                            
+                        </div>
+                        <div class="detail_page-infor">
+                            <div class="dp-i-content">
+                                <div class="dp-i-c-poster">
+                                    <div class="film-poster mb-2">
+                                        <img class="film-poster-img"
+                                             src="assets\img\igorot-dance.png"
+                                             title="igorot-dance"
+                                             alt="watch-igorot-dance">
+                                    </div>
+                                    <div class="block-rating" id="block-rating"></div>
+                                </div>
+                                <div class="dp-i-c-right">
+                                    <div class="dp-i-c-stick">
+                                        
+                                            
+                                                <a href="#"
+                                                   title="Watch preview"
+                                                   class="btn btn-radius btn-focus"><i
+                                                            class="fa fa-play mr-2"></i>Watch preview</a>
+                                            
+                                        
+                                        
+                                        <div id="favorite-state" class="float-right"></div>
+                                    </div>
+                                    <h2 class="heading-name"><a
+            href="#">Igorot Dances</a></h2>
+<div class="dp-i-stats">
+    <span class="item mr-1">
+      <a href="#more" class="btn btn-sm btn-trailer" title="Explore More">
+        Explore More
+      </a>
+    </span>
+    <span class="item mr-1"><button
+                class="btn btn-sm btn-quality"><strong>HD</strong></button></span>
+</div>
+<div class="description">
+    Experience the vibrant culture of the Igorot people through their traditional dances. Each movement tells a story—of celebration, unity, and deep connection to the land. Discover the rich heritage of the highlands through these sacred and timeless performances. 
+</div>
+<div class="elements">
+    <div class="row">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-12">
+            <div class="row-line">
+                <span class="type"><strong>Released: </strong></span> 2024-07-31
+            </div>
+            <div class="row-line">
+                <span class="type"><strong>Dancers: </strong></span>
+                SLU Center of Culture and the Arts
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-4 col-sm-12">
+            <div class="row-line">
+                <span class="type"><strong>Runtime:</strong></span> 2-minute preview 
+            </div>
+            <div class="row-line">
+                <span class="type"><strong>Curated by:</strong></span>
+                
+                    <a href="https://www.facebook.com/slumuseum"
+                       title="SLU Museum of Igorot Culture and Arts">SLU Museum of Igorot Culture and Arts</a>
+                
+            </div>
+            <div class="row-line">
+                <span class="type"><strong>Performed by: </strong></span>
+                
+                    <a href="#"
+                       title="SLU Center of Culture and the Arts">SLU Center of Culture and the Arts</a>
+                
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End: Detail-->
+            <!--Begin: Related-->
+            <div class="film_related file_realted-list">
+                <div class="container">
+                    
+                    <!--Begin: Section film list-->
+                    <section class="block_area block_area_category">
+                        <div class="block_area-header">
+                            <div class="float-left bah-heading mr-4">
+                                <h2 class="cat-heading" id="more">Dance Videos</h2>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="block_area-content block_area-list film_list film_list-grid">
+                            <div class="film_list-wrap">
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Tadok"
+             alt="watch-Tadok">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Tadok"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Tadok">Tadok</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">Community Dance</span>                
+            
+            <span class="float-right fdi-type">Kalinga</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
 
-      if (!isMobileDevice()) {
-        document.getElementById("reader").style.display = "none";
-        document.getElementById("mobileMessage").style.display = "block";
-      } else {
-        const scanner = new Html5QrcodeScanner("reader", {
-          qrbox: { width: 250, height: 250 },
-          fps: 20,
-          aspectRatio: 0.75,
-        });
-        scanner.render(success, error);
-      }
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Tupayya"
+             alt="watch-Tupayya">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Tupayya"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Tupayya">Tupayya</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">Pair</span>              
+            
+            <span class="float-right fdi-type">Kalinga</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
 
-      function success(result) {
-        document.getElementById("result").innerHTML = `
-                <h2>Success!</h2>
-                <p><a href="${result}">${result}</a></p>
-            `;
-        scanner.clear();
-        document.getElementById("reader").remove();
-      }
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Balliwes"
+             alt="watch-Balliwes">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Balliwes"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Balliwes">Balliwes</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">Community Dancee</span>               
+            
+            <span class="float-right fdi-type">Abra</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
 
-      function error(err) {
-        console.error(err);
-      }
-    </script>
-    <script src="res/js/scripts.js"></script>
-  </body>
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Lablabbaan"
+             alt="watch-Lablabbaan">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Lablabbaan"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Lablabbaan">Lablabbaan</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">Pair</span>                
+            
+            <span class="float-right fdi-type">Abra</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Boogie"
+             alt="watch-Boogie">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Boogie"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Boogie">Boogie</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">Courtship Dance</span>                
+            
+            <span class="float-right fdi-type">Bontoc</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Boogie Variance"
+             alt="watch-Boogie Variance">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Boogie Variance"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Boogie Variance">Boogie Variance</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">War Dance</span>
+            
+            <span class="float-right fdi-type">Kankanaey</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Takkik"
+             alt="watch-Takkik">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Takkik"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Takkik">Takkik</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">War Dance </span>
+            <span class="float-right fdi-type">Kankanaey</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+                                
+                                    
+<div class="flw-item">
+    <div class="film-poster">
+        
+            <div class="pick film-poster-quality">HD</div>
+        
+        <img data-src="assets\img\dance-igorot.jpg"
+             class="film-poster-img lazyload" title="Dinuyya"
+             alt="watch-Dinuyya">
+        <a href="#"
+           class="film-poster-ahref flw-item-tip" 
+           title="Dinuyya"><i class="fa fa-play"></i></a>
+    </div>
+    <div class="film-detail film-detail-fix">
+        
+            <h3 class="film-name"><a
+                        href="#" 
+                        title="Dinuyya">Dinuyya</a>
+            </h3>
+        
+        <div class="fd-infor">
+            
+                
+                    <span class="fdi-item">Community Dance</span>            
+            <span class="float-right fdi-type">Ifugao</span>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+                                                                    
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--End: Section film list-->
+                </div>
+            </div>
+            <!--End: Related-->
+        </div>
+        <!--End: Main-->
+<div id="footer">
+    <h1 style="display: none;">Watch Free Trap Full Movies Online HD</h1>
+    <div class="container">
+        <div class="footer-about">
+            <div class="footer-fa-text">We are dedicated to preserving and promoting the Igorot heritage through education, cultural displays, and community engagement. Our mission is to ensure that the traditions, dances, and stories of the Cordilleras are passed down to future generations, honoring the past and inspiring the future.
+            </div>
+        </div>
+        <div class="footer-notice">
+            <span>All videos on this site are produced by the SLU Museum of Igorot Culture and Arts to document and preserve Igorot heritage. Unauthorized reproduction or distribution is prohibited.</span>
+        </div>
+        <div class="footer-logo-block">
+            <a href="/" class="footer-logo"><img
+                        src="assets\img\logo.png" alt="Logo footer"></a>
+            <p class="copyright">© 2024 SLU Museum of Igorot Culture and Arts. All Rights Reserved.</p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+    </div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js"
+        async></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js"
+        async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
+<script type="text/javascript"
+        src="res/js/dances.js"></script>
+</body>
 </html>
