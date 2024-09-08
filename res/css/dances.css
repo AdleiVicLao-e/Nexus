@@ -43,6 +43,10 @@ a:hover {
     color: #111
 }
 
+strong {
+    font-weight: bold; /* This should make the text bold */
+  }
+
 #search,#sidebar_menu,.film-poster-ahref i,.film-poster-ahref:after,.film-poster-ahref:before,.film-poster-img,.search-content input.search-input {
     transition: all .5s ease 0s;
     -webkit-transition: all .5s ease 0s;
