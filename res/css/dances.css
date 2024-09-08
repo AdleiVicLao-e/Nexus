@@ -106,8 +106,8 @@ strong {
 }
 
 #header #logo img {
-    height: 100%;
-    width: auto;
+    height: auto;
+    width: 150px;
     margin-right: 10px;
     float: left
 }
@@ -552,7 +552,7 @@ strong {
 }
 
 #footer .footer-logo-block .footer-logo img {
-    height: 46px;
+    height: 72px;
     width: auto
 }
 
@@ -918,7 +918,8 @@ strong {
     }
 
     #footer .footer-logo-block .footer-logo {
-        display: none
+        text-align: center;
+        display: block
     }
 
     #footer .footer-logo-block p {
