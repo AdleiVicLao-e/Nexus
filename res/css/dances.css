@@ -1128,7 +1128,7 @@ strong {
     }
 }
 
-@media screen and (max-width: 479px) {
+@media (min-width: 300px) and (max-width: 479px) {
     .block_area .block_area-header {
         padding-right:40px;
         position: relative
