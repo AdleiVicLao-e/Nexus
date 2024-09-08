@@ -695,7 +695,9 @@ strong {
 }
 
 .dp-i-c-stick {
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    width: auto;
+    
 }
 
 .dp-i-c-stick .btn i {
