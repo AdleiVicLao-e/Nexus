@@ -1100,6 +1100,10 @@ strong {
         display: none
     }
 
+    .fd-infor .fdi-type {
+        display: block;
+      }
+
     .detail_page-watch .detail_page-infor .dp-i-stats .item {
         padding-right: 8px;
         border-right: 1px solid #666;
@@ -1179,7 +1183,7 @@ strong {
     }
 
     .film_list .film_list-wrap .flw-item .film-detail-fix .fd-infor .fdi-type {
-        display: none
+        display: block
     }
 
     .film_list .film_list-wrap .flw-item {
