@@ -185,6 +185,7 @@ header nav a:hover {
 
 .card {
     border: 1px solid #eaeaea; 
+    transform: scale(1); /* Scale up the element */
 }
 
 
@@ -476,4 +477,11 @@ input[type="file"] {
     right: 10px;
     height: 15px;
     cursor: pointer;
+}
+
+
+.card-body {
+    width: 100%;
+    max-width: 800px; /* Adjust as needed */
+    margin: 0 auto;
 }
