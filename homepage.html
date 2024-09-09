@@ -220,34 +220,54 @@
   }
 
   function fetchArtifactInfo(artifactId) {
-    fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
-            .then((response) => response.json())
-            .then((data) => {
-              if (data) {
-                console.log("Data:", data);
-                const artifactInfo = `
-                    Artifact Name: ${data['Name']}
-                    Section Name: ${data['Section Name']}
-                    Catalogue Name: ${data['Catalogue Name']}
-                    Subcatalogue Name: ${data['Subcatalogue Name']}
-                    Description: ${data['Description']}
-                `.trim();
-                text.setAttribute("value", artifactInfo);
-                // artifactDetected.setAttribute("visible", "true");
-                artifactBackground.setAttribute("visible", "true")
-                document.getElementById("watchVideosButton").style.display ="block";
-              } else {
-                text.setAttribute("value", "");
-                errorImage.setAttribute("visible", "true");
-                // artifactDetected.setAttribute("visible", "false");
-                artifactBackground.setAttribute("visible", "false");
-                document.getElementById("watchVideosButton").style.display = "none";
-              }
-            })
-            .catch((error) => {
-              console.error("Error fetching artifact info:", error);
-            });
-  }
+      fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data:", data); // Log the data to inspect
+
+          if (data) {
+            // Build artifactInfo dynamically
+            let artifactInfo = '';
+
+            if (data['Name'] && data['Name'] !== 'N/A') {
+            artifactInfo += `Name: ${data['Name']}\n`;
+          }
+          
+          if (data['Section Name'] && data['Section Name'] !== 'N/A') {
+            artifactInfo += `Section Name: ${data['Section Name']}\n`;
+          }
+
+          if (data['Catalogue Name'] && data['Catalogue Name'] !== 'N/A') {
+            artifactInfo += `Catalogue Name: ${data['Catalogue Name']}\n`;
+          }
+
+          if (data['Subcatalogue Name'] && data['Subcatalogue Name'] !== 'N/A') {
+            artifactInfo += `Subcatalogue Name: ${data['Subcatalogue Name']}\n`;
+          }
+
+          if (data['Description'] && data['Description'] !== 'No description available') {
+            artifactInfo += `Description: ${data['Description']}`;
+          }
+            text.setAttribute("value", artifactInfo);
+            artifactBackground.setAttribute("visible", "true");
+            document.getElementById("watchVideosButton").style.display = "block";
+          } else {
+            // Handle the case where data is missing or empty
+            text.setAttribute("value", "");
+            errorImage.setAttribute("visible", "true");
+            artifactBackground.setAttribute("visible", "false");
+            document.getElementById("watchVideosButton").style.display = "none";
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching artifact info:", error);
+          // Handle the error scenario
+          text.setAttribute("value", "");
+          artifactBackground.setAttribute("visible", "false");
+          errorImage.setAttribute("visible", "true");
+          document.getElementById("watchVideosButton").style.display = "none";
+        });
+    }
 
    // Function to detect screen width
    function checkDevice() {
