@@ -122,7 +122,14 @@
   </div>
 </div>
 
+<div id="desktop-warning">
+  Mobile Only Site.
+</div>
+
 <script>
+  // Run the function on load
+  window.onload = checkDevice;
+  
   // Initialize video and canvas elements
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
@@ -241,6 +248,20 @@
               console.error("Error fetching artifact info:", error);
             });
   }
+
+   // Function to detect screen width
+   function checkDevice() {
+        // Define a breakpoint for mobile devices (e.g., 768px)
+        if (window.innerWidth > 768) {
+            // Show the overlay and alert the user
+            document.getElementById('desktop-warning').style.display = 'flex';
+            alert("Please use your mobile phone to access this site.");
+        }
+    }
+
+    // Optionally, rerun when the window is resized
+    window.onresize = checkDevice;
+</script>
 
 </script>
 

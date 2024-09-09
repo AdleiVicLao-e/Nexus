@@ -29,6 +29,26 @@ p {
     font-family: 'Jomolhari', serif;
 }
 
+/* CSS for the black overlay */
+#desktop-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/assets/img/mobile_only.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-size: 24px;
+    text-align: center;
+    display: none;
+}
+
 /* Welcome Page Styles */
 .welcome-body {
     background: url('../../assets/img/bulul.png') no-repeat center center fixed, #272626;
