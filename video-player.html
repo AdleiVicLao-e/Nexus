@@ -565,26 +565,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal premodal premodal-share modalshare-1" id="modalshare">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h5 class="modal-title mb-2" style="font-size: 23px; line-height: 1.3em;">
-                                <strong>Sharing is caring.</strong>
-                            </h5>
-                            <div class="desc mb-4">It's the biggest motivation to help us to make the site better.</div>
-                            <div class="modalsharebuttons mb-2">
-                                <div class="sharethis-inline-share-buttons" data-url="https://hdtoday.tv/watch-movie/watch-rebel-ridge-hd-113755.10670431"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!--End: Modal-->
             <div id="mask-overlay"></div>
         </div>
@@ -606,29 +586,6 @@
                 } catch (e) {}
             }
             )('rndskittytor.com', 4773649, document.createElement('script'))
-        </script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                check_favorite();
-                // get_episodes();
-                vote_info();
-                if (Cookies.get('show_share') === undefined) {
-                    $('#modalshare').modal('show');
-                    Cookies.set('show_share', true, {
-                        expires: 1
-                    });
-                }
-
-                if (movie.type == 2) {
-                    $.get("/ajax/season/list/" + movie.id, function(res) {
-                        $('#content-episodes').html(res);
-                    });
-                } else {
-                    $.get("/ajax/episode/list/" + movie.id, function(res) {
-                        $('#content-episodes').html(res);
-                    });
-                }
-            });
         </script>
         <script src="res\js\jwplayer.js"></script>
         <script src="res\js\player.js"></script>
