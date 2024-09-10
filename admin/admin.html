@@ -75,12 +75,13 @@
                     <div class="tab" onclick="openTab('upload')">Upload Media</div>
                     <div class="tab" onclick="openTab('edit')">Edit Media</div>
                 </div>
-            
+
                 <div id="search" class="tab-content active">
                     <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Search artifact...">
-                        <button class="search-button">Search</button>
+                        <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
+                        <button class="search-button" onclick="searchArtifact()">Search</button>
                     </div>
+                    <div id="search-results"></div>
                 </div>
 
                 <div id="add" class="tab-content">
@@ -145,7 +146,7 @@
                         <form action="" method="post"> <!--add database here i think??? .php, action="-here-" "/include/addArtifact.php"-->
                             <div class="form-group">
                                 <label for="media-upload">Upload Media:</label>
-                                <input type="file" id="media-upload" name="media-upload" accept="image/*,video/*">
+                                <input type="file" id="media-upload2" name="media-upload" accept="image/*,video/*">
                             </div>
 
                             <div class="form-group">
@@ -199,7 +200,7 @@
 
             <div class="form-group">
                 <label for="new-section">New Section Title:</label>
-                <input type="text" id="new-section" name="new-section" required>
+                <input type="text" id="add-new-section" name="new-section" required>
             </div>
 
             <div class="button-container">
@@ -211,14 +212,14 @@
             <img src="../res/images/exit-icon.png" alt="Close" class="close">
 
             <div class="form-group">
-                <label for="sub-catalog">Choose Section:</label>
-                <select id="sub-catalog" name="sub-catalog" required>
+                <label for="new-section">Choose Section:</label>
+                <select id="select-section" name="section" required>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="new-section">New Catalog Name:</label>
-                <input type="text" id="new-section" name="new-section" required>
+                <input type="text" id="add-new-catalog" name="new-catalog" required>
             </div>
 
             <div class="button-container">
@@ -230,14 +231,14 @@
             <img src="../res/images/exit-icon.png" alt="Close" class="close">
 
             <div class="form-group">
-                <label for="sub-catalog">Choose Catalog:</label>
-                <select id="sub-catalog" name="sub-catalog" required>
+                <label for="add-new-catalog">Choose Catalog:</label>
+                <select id="select-catalog" name="catalog" required>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="new-section">New Sub Catalog Name:</label>
-                <input type="text" id="new-section" name="new-section" required>
+                <input type="text" id="new-section" name="new-sub-cat" required>
             </div>
 
             <div class="button-container">
@@ -245,267 +246,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Function to fetch artifact options
-        function fetchArtifactOptions() {
-            fetch('include/get.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Populate the section select
-                    let sectionSelect = document.getElementById('section');
-                    sectionSelect.innerHTML = '<option value="create_section">Create Section</option>';
-                    data.sections.forEach(section => {
-                        let option = document.createElement('option');
-                        option.value = section.section_id;
-                        option.textContent = section.section_name;
-                        sectionSelect.appendChild(option);
-                    });
-
-                    // Populate the catalogue select
-                    let catalogueSelect = document.getElementById('catalog');
-                    catalogueSelect.innerHTML = '<option value="create_catalog">Create Catalog</option>';
-                    data.catalogues.forEach(catalogue => {
-                        let option = document.createElement('option');
-                        option.value = catalogue.catalogue_id;
-                        option.textContent = catalogue.catalogue_name;
-                        catalogueSelect.appendChild(option);
-                    });
-
-                    // Populate the subcatalogue select
-                    let subcatalogueSelect = document.getElementById('sub-catalog');
-                    subcatalogueSelect.innerHTML = '<option value="create_subcatalog">Create Sub Catalog</option>';
-                    data.subcatalogues.forEach(subcatalogue => {
-                        let option = document.createElement('option');
-                        option.value = subcatalogue.subcat_id;
-                        option.textContent = subcatalogue.subcat_name;
-                        subcatalogueSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching options:', error));
-        }
-        document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
-
-        const sectionBtn = document.getElementById('section-btn');
-        const catalogBtn = document.getElementById('catalog-btn');
-        const subcatBtn = document.getElementById('subcat-btn');
-
-        const sectionPopup = document.querySelector('.popup-section');
-        const catalogPopup = document.querySelector('.popup-catalog');
-        const subcatPopup = document.querySelector('.popup-subcat');
-
-        const popupOverlay = document.querySelector('.popup');
-        const closeIcons = document.querySelectorAll('.close');
-
-        function showPopup(popup) {
-            popupOverlay.style.display = 'flex';
-            popup.style.display = 'block';
-        }
-
-        function hidePopup() {
-            popupOverlay.style.display = 'none';
-            sectionPopup.style.display = 'none';
-            catalogPopup.style.display = 'none';
-            subcatPopup.style.display = 'none';
-        }
-
-        sectionBtn.addEventListener('click', () => showPopup(sectionPopup));
-        catalogBtn.addEventListener('click', () => showPopup(catalogPopup));
-        subcatBtn.addEventListener('click', () => showPopup(subcatPopup));
-
-        closeIcons.forEach(icon => {
-            icon.addEventListener('click', hidePopup);
-        });
-
-        // Function to fetch artifact options
-        function fetchArtifactOptions() {
-            fetch('include/get.php')
-                .then(response => response.json())
-                .then(data => {
-                    // Populate the section select
-                    let sectionSelect = document.getElementById('section');
-                    sectionSelect.innerHTML = '<option value="create_section">Create Section</option>';
-                    data.sections.forEach(section => {
-                        let option = document.createElement('option');
-                        option.value = section.section_id;
-                        option.textContent = section.section_name;
-                        sectionSelect.appendChild(option);
-                    });
-
-                    // Populate the catalogue select
-                    let catalogueSelect = document.getElementById('catalog');
-                    catalogueSelect.innerHTML = '<option value="create_catalog">Create Catalog</option>';
-                    data.catalogues.forEach(catalogue => {
-                        let option = document.createElement('option');
-                        option.value = catalogue.catalogue_id;
-                        option.textContent = catalogue.catalogue_name;
-                        catalogueSelect.appendChild(option);
-                    });
-
-                    // Populate the subcatalogue select
-                    let subcatalogueSelect = document.getElementById('sub-catalog');
-                    subcatalogueSelect.innerHTML = '<option value="create_subcatalog">Create Sub Catalog</option>';
-                    data.subcatalogues.forEach(subcatalogue => {
-                        let option = document.createElement('option');
-                        option.value = subcatalogue.subcat_id;
-                        option.textContent = subcatalogue.subcat_name;
-                        subcatalogueSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching options:', error));
-        }
-        document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
-
-        
-//Chart
-
-var ctx = document.getElementById('statisticsChart').getContext('2d');
-
-var statisticsChart = new Chart(ctx, {
-	type: 'line',
-	data: {
-		labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-		datasets: [ {
-			label: "Louisians",
-			borderColor: '#fdaf4b',
-			pointBackgroundColor: 'rgba(253, 175, 75, 0.6)',
-			pointRadius: 0,
-			backgroundColor: 'rgba(253, 175, 75, 0.4)',
-			legendColor: '#fdaf4b',
-			fill: true,
-			borderWidth: 2,
-			data: [456, 430, 345, 287, 340, 450, 630, 595, 331, 431, 456, 521]
-		}, {
-			label: "Out-of-School Visitors",
-			borderColor: '#177dff',
-			pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
-			pointRadius: 0,
-			backgroundColor: 'rgba(23, 125, 255, 0.4)',
-			legendColor: '#177dff',
-			fill: true,
-			borderWidth: 2,
-			data: [42, 480, 430, 150, 330, 453, 380, 334, 268, 210, 300, 500]
-		}]
-	},
-	options : {
-		responsive: true, 
-		maintainAspectRatio: false,
-		legend: {
-			display: false
-		},
-		tooltips: {
-			bodySpacing: 4,
-			mode:"nearest",
-			intersect: 0,
-			position:"nearest",
-			xPadding:10,
-			yPadding:10,
-			caretPadding:10
-		},
-		layout:{
-			padding:{left:5,right:5,top:15,bottom:15}
-		},
-		scales: {
-			yAxes: [{
-				ticks: {
-					fontStyle: "500",
-					beginAtZero: false,
-					maxTicksLimit: 5,
-					padding: 10
-				},
-				gridLines: {
-					drawTicks: false,
-					display: false
-				}
-			}],
-			xAxes: [{
-				gridLines: {
-					zeroLineColor: "transparent"
-				},
-				ticks: {
-					padding: 10,
-					fontStyle: "500"
-				}
-			}]
-		}, 
-		legendCallback: function(chart) { 
-			var text = []; 
-			text.push('<ul class="' + chart.id + '-legend html-legend">'); 
-			for (var i = 0; i < chart.data.datasets.length; i++) { 
-				text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>'); 
-				if (chart.data.datasets[i].label) { 
-					text.push(chart.data.datasets[i].label); 
-				} 
-				text.push('</li>'); 
-			} 
-			text.push('</ul>'); 
-			return text.join(''); 
-		}  
-	}
-});
-
-var myLegendContainer = document.getElementById("myChartLegend");
-
-// generate HTML legend
-myLegendContainer.innerHTML = statisticsChart.generateLegend();
-
-// bind onClick event to all LI-tags of the legend
-var legendItems = myLegendContainer.getElementsByTagName('li');
-for (var i = 0; i < legendItems.length; i += 1) {
-	legendItems[i].addEventListener("click", legendClickCallback, false);
-}
-
-function legendClickCallback(event) {
-	event = event || window.event;
-
-	var target = event.target || event.srcElement;
-	while (target.nodeName !== 'LI') {
-		target = target.parentElement;
-	}
-	var parent = target.parentElement;
-	var chartId = parseInt(parent.classList[0].split("-")[0], 10);
-	var chart = Chart.instances[chartId];
-	var index = Array.prototype.slice.call(parent.children).indexOf(target);
-
-	chart.legend.options.onClick.call(chart, event, chart.legend.legendItems[index]);
-	if (chart.isDatasetVisible(index)) {
-		target.classList.remove('hidden');
-	} else {
-		target.classList.add('hidden');
-	}
-}
-
-document.getElementById("savePdfBtn").addEventListener("click", function() {
-        // Capture the chart div with a higher scale for better resolution
-        html2canvas(document.querySelector(".card"), {
-            scale: 20 // Increase scale for better resolution
-        }).then(canvas => {
-            // Convert the canvas to an image
-            var imgData = canvas.toDataURL('image/png');
-            
-            // Create a jsPDF instance with landscape orientation ('l'), A4 page size
-            var pdf = new jsPDF('l', 'mm', 'a4');
-            
-            // Image dimensions
-            var imgWidth = 200; // Width of A4 paper in landscape in mm
-            var imgHeight = canvas.height * imgWidth / canvas.width;
-            
-            // Centering calculations
-            var pdfWidth = 297; // A4 width in mm
-            var pdfHeight = 210; // A4 height in mm
-            var x = (pdfWidth - imgWidth) / 2;
-            var y = (pdfHeight - imgHeight) / 2;
-            
-            // Add the image to the PDF
-            pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
-            
-            // Save the PDF
-            pdf.save("visitor-analytics.pdf");
-        });
-    });
-
-    
-
-    </script>
+    <script src="/res/js/admin.js"></script>
 </body>
 </html>
