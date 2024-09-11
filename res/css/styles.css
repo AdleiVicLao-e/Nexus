@@ -49,6 +49,24 @@ p {
     display: none;
 }
 
+.animated {
+    animation: wave 3s infinite ease-in-out;
+}
+
+@keyframes wave {
+    0% {
+        position: 0 0 0;
+    }
+
+    50% {
+        position: 0 0.1 0;
+    }
+
+    100% {
+        position: 0 0 0;
+    }
+}
+
 /* Welcome Page Styles */
 .welcome-body {
     background: url('../../assets/img/bulul.png') no-repeat center center fixed, #272626;
