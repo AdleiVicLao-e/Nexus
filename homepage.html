@@ -43,7 +43,6 @@
       <a-asset-item id="exoFont" src="./assets/fonts/exoBlack.typeface.json"></a-asset-item>
       <img id="pixels" src="assets/img/pixels.png" alt="pixels">
       <img id="errorImage" src="assets/img/Error.png" alt="error message">
-      <!-- <img id="artifactDetected" src="assets/img/artifact_Detected.png" alt="error message"> -->
       <img id="artifactBackground" src="assets/img/artifact_background.png" alt="artifact background">
     </a-assets>
 
@@ -57,16 +56,6 @@
             visible="false"
             material="opacity: 0.9; transparent: true;">
     </a-image>
-
-    <!-- <a-image
-      id="artifact-detected"
-      src="./assets/img/artifact_Detected.png"
-      position="0 0.7 -3"
-      width="1"
-      height="0.3"
-      visible="false"
-      material="opacity: 0.8; transparent: true;">
-    </a-image> -->
 
     <a-image
             id="error-image"
@@ -104,8 +93,8 @@
 <!-- Floating Buttons -->
 <button class="floating-button left" onclick="viewDetails()">i</button>
 <button
-        id="watchVideosButton"
-        onclick="watchVideos()"
+    id="watchVideosButton"
+    onclick="window.location.href='igorot-dances.html';"
 >
 </button>
 
@@ -133,7 +122,6 @@
   // Initialize video and canvas elements
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
-  // const artifactDetected= document.getElementById("artifact-detected");
   const artifactBackground=document.getElementById("artifact-background");
   const canvasContext = canvas.getContext("2d");
   const text = document.getElementById("text");
