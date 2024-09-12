@@ -84,6 +84,27 @@
                     <div id="search-results"></div>
                 </div>
 
+                <div id="edit-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeModal()">&times;</span>
+                        <h2>Edit Artifact</h2>
+                        <form id="edit-form">
+                            <input type="hidden" id="artifact-id">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name"><br>
+                            <label for="section">Section:</label>
+                            <input type="text" id="section" name="section"><br>
+                            <label for="catalogue">Catalogue:</label>
+                            <input type="text" id="catalogue" name="catalogue"><br>
+                            <label for="subcatalogue">Subcatalogue:</label>
+                            <input type="text" id="subcatalogue" name="subcatalogue"><br>
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description"></textarea><br>
+                            <button type="button" onclick="saveChanges()">Save</button>
+                        </form>
+                    </div>
+                </div>
+
                 <div id="add" class="tab-content">
                     <div class="form-container">
                         <form action="" method="post"> <!--add database here i think??? .php, action="-here-" "/include/addArtifact.php"-->
