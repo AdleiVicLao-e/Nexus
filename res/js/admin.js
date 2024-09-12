@@ -3,40 +3,97 @@ function fetchArtifactOptions() {
     fetch('/include/get.php')
         .then(response => response.json())
         .then(data => {
-            // Populate the section select
-            let sectionSelect = document.getElementById('section');
-            sectionSelect.innerHTML = '<option value="create_section">Create Section</option>';
+            const sectionSelect = document.getElementById('section');
+            sectionSelect.innerHTML = '<option value="">Select Section</option>';
             data.sections.forEach(section => {
-                let option = document.createElement('option');
+                const option = document.createElement('option');
                 option.value = section.section_id;
                 option.textContent = section.section_name;
                 sectionSelect.appendChild(option);
             });
 
-            // Populate the catalogue select
-            let catalogueSelect = document.getElementById('catalog');
-            catalogueSelect.innerHTML = '<option value="create_catalog">Create Catalog</option>';
-            data.catalogues.forEach(catalogue => {
-                let option = document.createElement('option');
-                option.value = catalogue.catalogue_id;
-                option.textContent = catalogue.catalogue_name;
-                catalogueSelect.appendChild(option);
+            sectionSelect.addEventListener('change', (e) => {
+                const sectionId = e.target.value;
+                updateCatalogOptions(sectionId);
             });
 
-            // Populate the subcatalogue select
-            let subcatalogueSelect = document.getElementById('sub-catalog');
-            subcatalogueSelect.innerHTML = '<option value="create_subcatalog">Create Sub Catalog</option>';
-            data.subcatalogues.forEach(subcatalogue => {
-                let option = document.createElement('option');
-                option.value = subcatalogue.subcat_id;
-                option.textContent = subcatalogue.subcat_name;
-                subcatalogueSelect.appendChild(option);
-            });
+            const catalogSelect = document.getElementById('catalog');
+            const subCatalogSelect = document.getElementById('sub-catalog');
+            catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
+            catalogSelect.disabled = true;
+            subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
+            subCatalogSelect.disabled = true;
         })
         .catch(error => console.error('Error fetching options:', error));
 }
+
+function updateCatalogOptions(sectionId) {
+    const catalogSelect = document.getElementById('catalog');
+    const subCatalogSelect = document.getElementById('sub-catalog');
+
+    if (sectionId) {
+        fetch('/include/get.php?section_id=' + sectionId)
+            .then(response => response.json())
+            .then(data => {
+                catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
+                if (data.catalogues.length > 0) {
+                    data.catalogues.forEach(catalogue => {
+                        const option = document.createElement('option');
+                        option.value = catalogue.catalogue_id;
+                        option.textContent = catalogue.catalogue_name;
+                        catalogSelect.appendChild(option);
+                    });
+                    catalogSelect.disabled = false;
+                } else {
+                    catalogSelect.disabled = true;
+                }
+                subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
+                subCatalogSelect.disabled = true;
+            })
+            .catch(error => console.error('Error fetching catalog options:', error));
+    } else {
+        catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
+        catalogSelect.disabled = true;
+        subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
+        subCatalogSelect.disabled = true;
+    }
+}
+
+document.getElementById('catalog').addEventListener('change', (e) => {
+    const catalogId = e.target.value;
+    updateSubCatalogOptions(catalogId);
+});
+
+function updateSubCatalogOptions(catalogId) {
+    const subCatalogSelect = document.getElementById('sub-catalog');
+
+    if (catalogId) {
+        fetch('/include/get.php?catalog_id=' + catalogId)
+            .then(response => response.json())
+            .then(data => {
+                subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
+                if (data.subcatalogues.length > 0) {
+                    data.subcatalogues.forEach(subcatalogue => {
+                        const option = document.createElement('option');
+                        option.value = subcatalogue.subcat_id;
+                        option.textContent = subcatalogue.subcat_name;
+                        subCatalogSelect.appendChild(option);
+                    });
+                    subCatalogSelect.disabled = false;
+                } else {
+                    subCatalogSelect.disabled = true;
+                }
+            })
+            .catch(error => console.error('Error fetching sub-catalog options:', error));
+    } else {
+        subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
+        subCatalogSelect.disabled = true;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
 
+//Function to search artifact information
 function searchArtifact() {
     const query = document.querySelector('.search-input').value;
 
