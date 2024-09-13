@@ -25,10 +25,10 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            color: white;
-            font-size: 14px;
+            color: #0E1644;
+            font-size: 12px;
             font-weight: bold;
-            background-color: #0E1644;
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 5px;
             border-radius: 5px;
         }
@@ -106,7 +106,7 @@
 
             if (code) {
                 const artifactId = code.data;
-                resultDiv.textContent = `Artifact Number: ${artifactId}`;
+                resultDiv.textContent = `QR Code Data: ${artifactId}`;
                 fetchArtifactInfo(artifactId);
 
                 if (displayBox) { // Check if the box should be displayed

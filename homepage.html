@@ -21,10 +21,10 @@
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
   ></script>
-  <script src="res/js/jsQR.js"></script>
-  <script src="res/js/aframe.min.js"></script>
-  <script src="res/js/aframe-ar.js"></script>
-  <script src="res/js/aframe-text-geometry-component.min.js"></script>
+  <script src="res/js/client/jsQR.js"></script>
+  <script src="res/js/client/aframe.min.js"></script>
+  <script src="res/js/client/aframe-ar.js"></script>
+  <script src="res/js/client/aframe-text-geometry-component.min.js"></script>
   <link
           href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
           rel="stylesheet"
@@ -93,7 +93,7 @@
             wrap-count="25"
             color="black">
     </a-text>
-    
+
   </a-scene>
 </main>
 
@@ -129,7 +129,7 @@
 <script>
   // Run the function on load
   window.onload = checkDevice;
-  
+
   // Initialize video and canvas elements
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
@@ -259,9 +259,9 @@
             artifactBackground.setAttribute("visible", "true");
             document.getElementById("watchVideosButton").style.display = "block";
 
-            adjustTextAndBackground(); 
+            adjustTextAndBackground();
             updatePositions();
-            
+
           } else {
             // Handle the case where data is missing or empty
             // artifactTitle.setAttribute("value", "");
@@ -302,24 +302,24 @@
     const textContent = textElement.getAttribute("value");
 
     // Approximate text dimensions
-    const averageCharWidth = 0.1; 
-    const averageCharHeight = 0.3; 
-    const padding = 0.5; 
+    const averageCharWidth = 0.1;
+    const averageCharHeight = 0.3;
+    const padding = 0.5;
 
     // Estimate text size
     const textWidth = textContent.length * averageCharWidth + padding * 2;
-    const textHeight = averageCharHeight * 2 + padding; 
+    const textHeight = averageCharHeight * 2 + padding;
 
     // Set maximum width and height
-    const maxWidth = 2;  
-    const maxHeight = 6; 
+    const maxWidth = 2;
+    const maxHeight = 6;
 
     // Ensure width does not exceed maxWidth
-    const adjustedWidth = Math.min(textWidth * 1.1, maxWidth); 
-    const adjustedHeight = Math.min(textHeight * 1.4, maxHeight); 
+    const adjustedWidth = Math.min(textWidth * 1.1, maxWidth);
+    const adjustedHeight = Math.min(textHeight * 1.4, maxHeight);
 
-    artifactBackground.setAttribute("width", adjustedWidth); 
-    artifactBackground.setAttribute("height", adjustedHeight); 
+    artifactBackground.setAttribute("width", adjustedWidth);
+    artifactBackground.setAttribute("height", adjustedHeight);
 
     // Make the background visible
     artifactBackground.setAttribute("visible", "true");
@@ -330,10 +330,10 @@ function updatePositions() {
     const textElement = document.getElementById("text");
 
     // Get the current time
-    const time = Date.now() * 0.002; 
+    const time = Date.now() * 0.002;
 
     // Calculate wave effect
-    const waveHeight = 0.1; 
+    const waveHeight = 0.1;
     const frequency = 1;
 
     // Calculate new positions
@@ -353,8 +353,8 @@ function updatePositions() {
 <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
-<script src="res/js/VA.js"></script>
-<script src="res/js/speakClient.js"></script>
+<script src="res/js/client/VA.js"></script>
+<script src="res/js/client/speakClient.js"></script>
 <script src="res/js/scripts.js"></script>
 <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
