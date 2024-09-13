@@ -1144,6 +1144,62 @@ a-plane {
         background-color: #FAC301;
     }
 
+    #result {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #0E1644;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    @keyframes shake {
+        0% {
+            transform: translate(-50%, -50%) translateX(-10px);
+        }
+
+        25% {
+            transform: translate(-50%, -50%) translateX(10px);
+        }
+
+        50% {
+            transform: translate(-50%, -50%) translateX(-10px);
+        }
+
+        75% {
+            transform: translate(-50%, -50%) translateX(10px);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) translateX(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    #noArtifactImage {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: auto;
+        z-index: 10;
+        animation: shake 1.0s ease-in-out infinite;
+    }
+
     /* Overlay style */
     .overlay {
         display: none;
