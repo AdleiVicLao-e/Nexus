@@ -25,11 +25,11 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            color: #0E1644;
-            font-size: 12px;
+            color: white;
+            font-size: 15px;
             font-weight: bold;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 5px;
+            background-color: #0E1644;
+            padding: 10px;
             border-radius: 5px;
         }
 
@@ -106,7 +106,7 @@
 
             if (code) {
                 const artifactId = code.data;
-                resultDiv.textContent = `QR Code Data: ${artifactId}`;
+                resultDiv.textContent = `Artifact ID: ${artifactId}`;
                 fetchArtifactInfo(artifactId);
 
                 if (displayBox) { // Check if the box should be displayed
@@ -158,6 +158,7 @@
                 `.trim();
                 noArtifactImage.style.display = 'none'; 
                 displayBox = true;   
+                document.getElementById('result').style.display = 'block';
             } else {
                 // If artifact is not found
                 artifactInfo = '';
@@ -173,7 +174,7 @@
                         noArtifactImage.style.display = 'none'; 
                         noArtifactImage.style.opacity = 1; 
                     }, 1000); 
-                }, 3000); 
+                }, 2000); 
             }
         })
         .catch(error => {
