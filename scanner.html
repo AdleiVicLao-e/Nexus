@@ -24,13 +24,12 @@
             top: 10px;
             left: 10px;
             color: white;
-            font-size: 14px;
+            font-size: 24px;
             font-weight: bold;
-            background-color: #0E1644;
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 5px;
             border-radius: 5px;
         }
-        
     </style>
 </head>
 <body>
@@ -38,7 +37,6 @@
 <video id="video" autoplay></video>
 <canvas id="canvas"></canvas>
 <div id="result">Scan a QR code</div>
-
 
 <script>
     const video = document.getElementById('video');
@@ -77,30 +75,26 @@
 
             if (code) {
                 const artifactId = code.data;
-                resultDiv.textContent = `Artifact Number: ${artifactId}`;
+                resultDiv.textContent = `QR Code Data: ${artifactId}`;
                 fetchArtifactInfo(artifactId);
 
                 const centerX = (code.location.topLeftCorner.x + code.location.topRightCorner.x) / 2;
                 const centerY = (code.location.topLeftCorner.y + code.location.bottomLeftCorner.y) / 2;
 
-                const boxWidth = 300;
-                const boxHeight = 150;
-                const padding = 10;
-                const marginTop = 20;   
-                const marginBottom = 20; 
+                const boxWidth = 200;
+                const boxHeight = 100;
 
-                canvasContext.fillStyle = "rgba(14, 22, 68, 0.9)"; 
+                canvasContext.fillStyle = "rgba(0, 0, 0, 0.5)";
                 canvasContext.fillRect(centerX - boxWidth / 2, centerY - boxHeight / 2, boxWidth, boxHeight);
 
-                canvasContext.font = "15px Arial";
+                canvasContext.font = "14px Arial";
                 canvasContext.fillStyle = "white";
                 canvasContext.textAlign = "center";
                 canvasContext.textBaseline = "middle";
-                
                 if (artifactInfo) {
                     const lines = artifactInfo.split('\n');
                     lines.forEach((line, index) => {
-                        canvasContext.fillText(line, centerX, centerY - boxHeight / 2 + padding + (index + 1) * 15);
+                        canvasContext.fillText(line, centerX, centerY - boxHeight / 2 + (index + 1) * 20);
                     });
                 }
             } else {
@@ -112,29 +106,24 @@
     }
 
     function fetchArtifactInfo(artifactId) {
-    fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("Data:", data);
-
-            if (data && Object.keys(data).length > 0) {
-                // Format the artifact information if valid data is found
-                artifactInfo = `
-                    \nArtifact Name: ${data['Name'] || 'N/A'} 
-                    \nCatalogue Name: ${data['Catalogue Name'] || 'N/A'} 
-                    \nSubcatalogue Name: ${data['Subcatalogue Name'] || 'N/A'} 
-                    \nDescription: ${data['Description'] || 'N/A'} 
-                `.trim();
-            } else {
-                // Clear artifactInfo if no valid data is found
-                artifactInfo = 'No artifact found';
-                resultDiv.textContent = `No artifact found`;            
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching artifact info:', error);
-            artifactInfo = 'Error fetching artifact info';
-        });
+        fetch(`include/getArtifact.php?artifactId=${artifactId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    artifactInfo = `
+Catalogue No: ${data.catalogueNo}
+Class: ${data.class}
+Name: ${data.name}
+Description: ${data.description}
+                        `.trim();
+                } else {
+                    artifactInfo = 'Artifact not found';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching artifact info:', error);
+                artifactInfo = 'Error fetching artifact info';
+            });
     }
 
     // Start the video stream when the page loads
