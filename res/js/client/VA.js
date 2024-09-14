@@ -3,6 +3,11 @@ let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
 
+// Variables to track dragging state
+let isDragging = false;
+let startPoint = { x: 0, y: 0 };
+let dragThreshold = 10; // Minimum movement to qualify as a drag
+
 // Create a PIXI application
 const app = new PIXI.Application({
     view: document.getElementById('va-canvas'),
@@ -10,6 +15,7 @@ const app = new PIXI.Application({
     backgroundAlpha: 0, // Transparent background
 });
 
+// Load and display the Live2D model
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
@@ -31,39 +37,14 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
             applyMotionData();
         });
 
-    // Add event listeners to the model
-    live2dModel.on('pointerdown', handleInteraction); // Handle touch/click events
-
-    function handleInteraction(event) {
-        event.stopPropagation(); // Prevent default behavior
-
-        // Directly create and speak an utterance
-        const utterance = new SpeechSynthesisUtterance('The sky is blue, the clouds are white, the leaves are green, the sun is bright');
-        utterance.onstart = function () {
-            if (live2dModel) {
-                let startTime = Date.now();
-                animationIntervalId = setInterval(() => {
-                    let elapsed = Date.now() - startTime;
-                    simulateAudioParameterChange();
-                }, 150);
-            }
-        };
-
-        utterance.onend = function () {
-            clearInterval(animationIntervalId);
-            animationIntervalId = null;
-
-            if (live2dModel) {
-                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
-                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
-            }
-        };
-
-        speechSynthesis.speak(utterance);
-    }
-
+    // Add event listeners for tap/drag functionality
+    live2dModel.on('pointerdown', onPointerDown);
+    live2dModel.on('pointerup', onPointerUp);
+    live2dModel.on('pointerupoutside', onPointerUp);
+    live2dModel.on('pointermove', onPointerMove);
 });
 
+// Synchronize lip movement based on the motion data
 function applyMotionData() {
     if (mouthMotionData) {
         const settings = mouthMotionData.Settings[0];
@@ -85,10 +66,12 @@ function applyMotionData() {
             }
         }
 
+        // Update the mouth motion parameters at regular intervals
         setInterval(updateModelParameters, 150);
     }
 }
 
+// Simulate mouth movement based on random audio parameter values (for testing purposes)
 function simulateAudioParameterChange() {
     audioParameterValues["A"] = Math.random();
     audioParameterValues["E"] = Math.random();
@@ -97,50 +80,52 @@ function simulateAudioParameterChange() {
     audioParameterValues["U"] = Math.random();
 }
 
-// Define getSelectedVoice to select a voice for speech synthesis
-window.getSelectedVoice = function() {
-    const voices = window.speechSynthesis.getVoices();
-    return voices.find(voice => voice.lang === 'en-US') || voices[0];
-};
+// Event handler for pointer down
+function onPointerDown(event) {
+    isDragging = false; // Reset dragging flag
+    startPoint = event.data.global.clone(); // Record the start position
+}
 
-function speakText(text) {
-    const selectedVoice = window.getSelectedVoice();
-    if (!selectedVoice) {
-        console.warn("Voice not selected or not available.");
-        const voices = window.speechSynthesis.getVoices();
-        console.log("Available voices:", voices);
-        return;
+// Event handler for pointer move (dragging)
+function onPointerMove(event) {
+    const currentPoint = event.data.global;
+    const distance = Math.sqrt(
+        Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2)
+    );
+
+    // If the mouse/touch moves more than the threshold, consider it a drag
+    if (distance > dragThreshold) {
+        isDragging = true;
+        // Move the model as per the drag
+        live2dModel.position.set(currentPoint.x, currentPoint.y);
+    }
+}
+
+// Event handler for pointer up (tap detection)
+function onPointerUp(event) {
+    const currentPoint = event.data.global;
+    const distance = Math.sqrt(
+        Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2)
+    );
+
+    // If the drag distance is less than the threshold, consider it a tap
+    if (!isDragging && distance < dragThreshold) {
+        handleTap(event);
     }
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.voice = selectedVoice;
-    utterance.lang = selectedVoice.lang;
+    // Reset dragging state
+    isDragging = false;
+}
 
-    if (typeof window.setTTSParameters === 'function') {
-        window.setTTSParameters(utterance);
-    }
+// Handle tap interaction (trigger speech)
+function handleTap(event) {
+    event.stopPropagation(); // Prevent default behavior
 
-    utterance.onstart = function () {
-        if (live2dModel) {
-            let startTime = Date.now();
-            animationIntervalId = setInterval(() => {
-                let elapsed = Date.now() - startTime;
-                simulateAudioParameterChange();
-            }, 150);
-        }
-    };
+    // Text the VA will say when tapped
+    const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
 
-    utterance.onend = function () {
-        clearInterval(animationIntervalId);
-        animationIntervalId = null;
-
-        if (live2dModel) {
-            live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
-            live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
-        }
-    };
-
-    speechSynthesis.speak(utterance);
+    // Call the speakText function (handles TTS and lip-syncing)
+    speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
 }
 
 // Ensure voice list is populated after page load
