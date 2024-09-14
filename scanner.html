@@ -28,17 +28,127 @@
             color: white;
             font-size: 15px;
             font-weight: bold;
-            background-color: #0E1644;
+            background-color: #FAC301;
+            font-family: Arial, sans-serif;
             padding: 10px;
             border-radius: 5px;
         }
 
+        .floating-button {
+            position: absolute;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0E1644;
+            color: white;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .floating-button.left {
+            display: block; 
+            border: 3px solid #FAC301;
+            left: 20px;
+        }
+
+        #watchVideosButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-image: url('/assets/img/button_background.png');
+            background-size: cover;
+            background-position: center;
+            border: none;
+            cursor: pointer;
+            z-index: 1003;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: zoomIn 3s;
+            border: 3px solid white;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Box style */
+        .info-box {
+            background-color: #fff;
+            font-family: 'Inter', sans-serif;
+            background-image: url('/assets/img/info_box.png');
+            background-size: cover;
+            background-position: center;
+            width: 80%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border: 3px solid #363636;
+        }
+
+        /* Timer styling */
+        .timer {
+            margin-top: 10px;
+            font-size: 0.7em;
+            color: #8a8989;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .info-box-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9em;
+        }
+
+        #watchVideosButton::before {
+            content: '\25B6';
+            color: white;
+            font-size: 30px;
+            display: block;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0.8);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #watchVideosButton:hover {
+            background-color: #FAC301;
+        }
+
         @keyframes shake {
-        0% { transform: translate(-50%, -50%) translateX(-10px); }
-        25% { transform: translate(-50%, -50%) translateX(10px); }
-        50% { transform: translate(-50%, -50%) translateX(-10px); }
-        75% { transform: translate(-50%, -50%) translateX(10px); }
-        100% { transform: translate(-50%, -50%) translateX(0); }
+            0% { transform: translate(-50%, -50%) translateX(-10px); }
+            25% { transform: translate(-50%, -50%) translateX(10px); }
+            50% { transform: translate(-50%, -50%) translateX(-10px); }
+            75% { transform: translate(-50%, -50%) translateX(10px); }
+            100% { transform: translate(-50%, -50%) translateX(0); }
         }
 
         @keyframes fadeOut {
@@ -61,11 +171,33 @@
 
 </head>
 <body>
-<h1>QR Code Scanner with AR</h1>
+
+<!-- AR Elements -->
 <video id="video" autoplay></video>
 <canvas id="canvas"></canvas>
 <div id="result">Scan a QR code</div>
 <img id="noArtifactImage" src="assets/img/Error.png" alt="No Artifact Found">
+
+<!-- Floating Buttons -->
+<button class="floating-button left" onclick="viewDetails()">i</button>
+<button
+    id="watchVideosButton"
+    onclick="window.location.href='igorot-dances.html';"
+>
+</button>
+
+<!-- Overlay with the info box -->
+<div class="overlay" id="infoOverlay">
+    <div class="info-box">
+      <p class="welcome-2">WELCOME!</p>
+      <p class="info-box-text">This is application will provide you with more information about the museum artifacts.</p>
+      <p class="info-box-text">To use it, simply position your phone's camera in front of the QR codes located near the artifacts.</p>
+      <p class="info-box-text">It will automatically detect the codes and display detailed information about each artifact.</p>
+  
+      <!-- Timer -->
+      <p class="timer">This message will disappear in <span id="countdown">8</span> seconds.</p>
+    </div>
+  </div>
 
 <script>
     const video = document.getElementById('video');
@@ -115,18 +247,51 @@
                     const centerX = (code.location.topLeftCorner.x + code.location.topRightCorner.x) / 2;
                     const centerY = (code.location.topLeftCorner.y + code.location.bottomLeftCorner.y) / 2;
 
-                    const boxWidth = 300;
-                    const boxHeight = 150;
-                    const padding = 10;
+                    const boxWidth = 350; 
+                    const boxHeight = 200; 
+                    const depth = 20; 
+                    const padding = 20;
 
-                    canvasContext.fillStyle = "rgba(14, 22, 68, 0.9)"; 
+                    // Front face of the rectangle (Book cover)
+                    canvasContext.fillStyle = "rgba(14, 22, 68, 0.95)";  
                     canvasContext.fillRect(centerX - boxWidth / 2, centerY - boxHeight / 2, boxWidth, boxHeight);
 
+                    // Right side of the cube (Spine of the book)
+                    canvasContext.beginPath();
+                    canvasContext.moveTo(centerX + boxWidth / 2, centerY - boxHeight / 2);  
+                    canvasContext.lineTo(centerX + boxWidth / 2 + depth, centerY - boxHeight / 2 - depth);  
+                    canvasContext.lineTo(centerX + boxWidth / 2 + depth, centerY + boxHeight / 2 - depth); 
+                    canvasContext.lineTo(centerX + boxWidth / 2, centerY + boxHeight / 2);  
+                    canvasContext.closePath();
+                    canvasContext.fillStyle = "rgba(14, 22, 68, 0.95)";  
+                    canvasContext.fill();
+
+                    // Top side of the cube (Pages of the book)
+                    canvasContext.beginPath();
+                    canvasContext.moveTo(centerX - boxWidth / 2, centerY - boxHeight / 2);  
+                    canvasContext.lineTo(centerX - boxWidth / 2 + depth, centerY - boxHeight / 2 - depth); 
+                    canvasContext.lineTo(centerX + boxWidth / 2 + depth, centerY - boxHeight / 2 - depth);  
+                    canvasContext.lineTo(centerX + boxWidth / 2, centerY - boxHeight / 2);  
+                    canvasContext.closePath();
+                    canvasContext.fillStyle = "rgba(250, 195, 1, 0.6)";  
+                    canvasContext.fill();
+
+                    // Left side of the cube (Back cover of the book or edge)
+                    canvasContext.beginPath();
+                    canvasContext.moveTo(centerX - boxWidth / 2, centerY - boxHeight / 2);  
+                    canvasContext.lineTo(centerX - boxWidth / 2 + depth, centerY - boxHeight / 2 - depth);  
+                    canvasContext.lineTo(centerX - boxWidth / 2 + depth, centerY + boxHeight / 2 - depth);  
+                    canvasContext.lineTo(centerX - boxWidth / 2, centerY + boxHeight / 2);  
+                    canvasContext.closePath();
+                    canvasContext.fillStyle = "rgba(14, 22, 68, 0.8)";  
+                    canvasContext.fill();
+
+                    // Add the text inside the front face of the rectangle (Book title or information)
                     canvasContext.font = "15px Arial";
                     canvasContext.fillStyle = "white";
                     canvasContext.textAlign = "center";
                     canvasContext.textBaseline = "middle";
-                    
+
                     if (artifactInfo) {
                         const lines = artifactInfo.split('\n');
                         lines.forEach((line, index) => {
@@ -136,6 +301,7 @@
                 }
             } else {
                 resultDiv.textContent = 'No QR code detected';
+                document.getElementById("watchVideosButton").style.display = "none";
                 artifactInfo = '';
             }
         }
@@ -159,6 +325,7 @@
                 noArtifactImage.style.display = 'none'; 
                 displayBox = true;   
                 document.getElementById('result').style.display = 'block';
+                document.getElementById("watchVideosButton").style.display = "block";
             } else {
                 // If artifact is not found
                 artifactInfo = '';
@@ -166,6 +333,7 @@
                 resultDiv.textContent = `No artifact found`;  
                 displayBox = false;   
                 document.getElementById('result').style.display = 'none';
+                document.getElementById("watchVideosButton").style.display = "none";
 
                 setTimeout(() => {
                     noArtifactImage.style.animation = 'none'; 
@@ -178,10 +346,32 @@
             }
         })
         .catch(error => {
+            document.getElementById("watchVideosButton").style.display = "none";
             console.error('Error fetching artifact info:', error);
             artifactInfo = 'Error fetching artifact info';
             noArtifactImage.style.display = 'block';
         });
+    }
+
+    // Function to show the overlay
+    function viewDetails() {
+        const overlay = document.getElementById("infoOverlay");
+        overlay.style.display = "flex";
+
+        let countdownTime = 8;
+        const countdownElement = document.getElementById("countdown");
+
+        // Update the countdown every second
+        const countdownInterval = setInterval(() => {
+        countdownTime--;
+        countdownElement.textContent = countdownTime;
+
+        // When countdown reaches 0, hide the overlay
+        if (countdownTime <= 0) {
+            clearInterval(countdownInterval);
+            overlay.style.display = "none";
+        }
+        }, 1000);
     }
 
     // Start the video stream when the page loads
@@ -189,9 +379,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
