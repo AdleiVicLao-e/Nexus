@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Speech Example</title>
+</head>
+<body>
+<h1>Text-to-Speech Example</h1>
+<button onclick="speakText()">Speak Test Phrase</button>
+
+<script>
+    function speakText() {
+        // Define the text to be spoken
+        const text = "mic test. mic test. 1. 2.";
+
+        // Check if the browser supports speech synthesis
+        if ('speechSynthesis' in window) {
+            // Create a new SpeechSynthesisUtterance object with the text
+            const utterance = new SpeechSynthesisUtterance(text);
+
+            // Optionally set voice, rate, pitch, etc.
+            // utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google US English');
+            // utterance.rate = 1; // Speed (0.1 to 10)
+            // utterance.pitch = 1; // Pitch (0 to 2)
+
+            // Speak the text
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert('Your browser does not support Speech Synthesis.');
+        }
+    }
+</script>
+</body>
+</html>
