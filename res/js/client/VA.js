@@ -12,7 +12,8 @@ const app = new PIXI.Application({
     backgroundAlpha: 0, // Transparent background
 });
 
-let audioContext = new (window.AudioContext || window.webkitAudioContext)(); // AudioContext for audio playback
+// Initialize SpeechSynthesis API
+const synth = window.speechSynthesis;
 
 // Unlock AudioContext on user interaction (for iOS support)
 function unlockAudioContext() {
@@ -115,16 +116,14 @@ function speakText(text, live2dModel, simulateAudioParameterChange, animationInt
     if ('speechSynthesis' in window) {
         console.log('Using speechSynthesis API for TTS.');
 
-        let utterance = new SpeechSynthesisUtterance(text);
+        // Create a new SpeechSynthesisUtterance object with the text
+        const utterance = new SpeechSynthesisUtterance(text);
 
-        // Select a male voice
-        let voices = speechSynthesis.getVoices();
-        utterance.voice = voices.find(v => v.name.toLowerCase().includes('male'));
-
-        if (!utterance.voice) {
-            // Fallback to the first available voice if no male voice is found
-            utterance.voice = voices[0];
-        }
+        // Optionally set voice, rate, pitch, etc.
+        const voices = synth.getVoices();
+        utterance.voice = voices.find(voice => voice.lang === 'en-US') || voices[0];
+        utterance.rate = 1; // Speed (0.1 to 10)
+        utterance.pitch = 1; // Pitch (0 to 2)
 
         // Lip sync while the speech is happening
         utterance.onstart = function() {
@@ -147,10 +146,22 @@ function speakText(text, live2dModel, simulateAudioParameterChange, animationInt
         };
 
         // Speak the text
-        speechSynthesis.speak(utterance);
-
+        synth.speak(utterance);
+        console.log('Speaking:', text);
     } else {
-        console.log('speechSynthesis API is not supported.');
-        isDialogueOngoing = false;
+        alert('Your browser does not support Speech Synthesis.');
+    }
+}
+
+// Ensure voice list is populated on page load
+window.onload = function () {
+    populateVoiceList();
+};
+
+// Function to populate the list of voices
+function populateVoiceList() {
+    if ('speechSynthesis' in window) {
+        const voices = speechSynthesis.getVoices();
+        console.log('Available voices:', voices);
     }
 }
