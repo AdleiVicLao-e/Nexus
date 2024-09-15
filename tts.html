@@ -4,30 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text-to-Speech Example</title>
+    <!-- Include the speak.js library -->
+    <script src="path/to/speak.js"></script>
 </head>
 <body>
 <h1>Text-to-Speech Example</h1>
 <button onclick="speakText()">Speak Test Phrase</button>
 
 <script>
+    let speakWorker;
+
+    function initializeWorker() {
+        if (window.Worker) {
+            speakWorker = new Worker('res/js/client/speakWorker.js');
+            speakWorker.onmessage = function(event) {
+                const { type, audioData, error } = event.data;
+                if (type === 'success') {
+                    // Handle the audioData (e.g., play it or process it further)
+                    console.log('Speech data received:', audioData);
+                    // For example, you could play the audio data here
+                } else if (type === 'error') {
+                    console.error('Speech error:', error);
+                }
+            };
+            speakWorker.onerror = function(error) {
+                console.error('Worker error:', error.message);
+            };
+        } else {
+            alert('Web Workers are not supported in your browser.');
+        }
+    }
+
     function speakText() {
         // Define the text to be spoken
         const text = "mic test. mic test. 1. 2.";
 
-        // Check if the browser supports speech synthesis
-        if ('speechSynthesis' in window) {
-            // Create a new SpeechSynthesisUtterance object with the text
-            const utterance = new SpeechSynthesisUtterance(text);
+        // Initialize the worker if it's not already initialized
+        if (!speakWorker) {
+            initializeWorker();
+        }
 
-            // Optionally set voice, rate, pitch, etc.
-            // utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google US English');
-            // utterance.rate = 1; // Speed (0.1 to 10)
-            // utterance.pitch = 1; // Pitch (0 to 2)
-
-            // Speak the text
-            window.speechSynthesis.speak(utterance);
-        } else {
-            alert('Your browser does not support Speech Synthesis.');
+        // Check if the worker is available
+        if (speakWorker) {
+            // Post message to the worker with the text and options
+            speakWorker.postMessage({
+                text: text,
+                options: {
+                    amplitude: 200,   // Volume (0-200)
+                    wordgap: 1,       // Gap between words
+                    pitch: 60,        // Pitch (0-100)
+                    speed: 185,       // Speed (words per minute)
+                    voice: 'en',      // Language code
+                    base64: true      // Ensure this is set to true to get base64-encoded output
+                }
+            });
         }
     }
 </script>
