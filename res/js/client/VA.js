@@ -2,8 +2,11 @@ let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
-let isAudioContextUnlocked = false;
-let isDialogueOngoing = false; // Flag to prevent triggering another dialogue during ongoing speech
+
+// Variables to track dragging state
+let isDragging = false;
+let startPoint = { x: 0, y: 0 };
+let dragThreshold = 10; // Minimum movement to qualify as a drag
 
 // Create a PIXI application
 const app = new PIXI.Application({
@@ -12,21 +15,7 @@ const app = new PIXI.Application({
     backgroundAlpha: 0, // Transparent background
 });
 
-// Initialize SpeechSynthesis API
-const synth = window.speechSynthesis;
-
-// Unlock AudioContext on user interaction (for iOS support)
-function unlockAudioContext() {
-    if (!isAudioContextUnlocked && audioContext.state !== 'running') {
-        audioContext.resume().then(() => {
-            console.log("Audio context resumed.");
-            isAudioContextUnlocked = true;
-        }).catch(error => {
-            console.error("Error unlocking AudioContext:", error);
-        });
-    }
-}
-
+// Load and display the Live2D model
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
@@ -34,7 +23,7 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
     live2dModel.anchor.set(0.5, 0.5);
     live2dModel.position.set(app.screen.width / 2, app.screen.height / 2);
 
-    // Make the model interactive, but prevent dragging
+    // Make the model interactive
     live2dModel.interactive = true;
     live2dModel.buttonMode = true; // Change cursor to pointer on hover
 
@@ -48,31 +37,10 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
             applyMotionData();
         });
 
-    // Add event listeners to the model for interaction without dragging
-    live2dModel.on('pointerdown', handleInteraction); // Handle touch/click events
-
-    // Interaction handler: Trigger speech or other actions when clicked or tapped
-    function handleInteraction(event) {
-        event.stopPropagation(); // Prevent default behavior
-
-        // Prevent triggering a new dialogue if one is ongoing
-        if (isDialogueOngoing) {
-            console.log("Dialogue is already ongoing. Please wait.");
-            return;
-        }
-
-        // Unlock AudioContext for iOS if not already unlocked
-        unlockAudioContext();
-
-        // Text the VA will say when clicked
-        const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
-
-        // Set dialogue as ongoing
-        isDialogueOngoing = true;
-
-        // Call the speakText function (handles TTS)
-        speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
-    }
+    // Event listeners for tap interaction
+    live2dModel.on('pointerdown', onPointerDown);
+    live2dModel.on('pointerup', onPointerUp);
+    live2dModel.on('pointerupoutside', onPointerUp);
 });
 
 // Synchronize lip movement based on the motion data
@@ -111,57 +79,51 @@ function simulateAudioParameterChange() {
     audioParameterValues["U"] = Math.random();
 }
 
-// TTS logic for speaking text and syncing with the model
-function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
-    if ('speechSynthesis' in window) {
-        console.log('Using speechSynthesis API for TTS.');
+// Track the starting point when the user taps
+function onPointerDown(event) {
+    startPoint = event.data.global;
+    isDragging = false;
+}
 
-        // Create a new SpeechSynthesisUtterance object with the text
-        const utterance = new SpeechSynthesisUtterance(text);
+// Event handler for pointer up (tap detection)
+function onPointerUp(event) {
+    const currentPoint = event.data.global;
+    const distance = Math.sqrt(
+        Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2)
+    );
 
-        // Optionally set voice, rate, pitch, etc.
-        const voices = synth.getVoices();
-        utterance.voice = voices.find(voice => voice.lang === 'en-US') || voices[0];
-        utterance.rate = 1; // Speed (0.1 to 10)
-        utterance.pitch = 1; // Pitch (0 to 2)
+    // If the drag distance is less than the threshold, consider it a tap
+    if (!isDragging && distance < dragThreshold) {
+        handleTap(event);
+    }
 
-        // Lip sync while the speech is happening
-        utterance.onstart = function() {
-            animationIntervalId = setInterval(simulateAudioParameterChange, 150);
-        };
+    // Reset dragging state
+    isDragging = false;
+}
 
-        // Stop lip sync when speech ends
-        utterance.onend = function() {
-            clearInterval(animationIntervalId);
-            animationIntervalId = null;
+// Handle tap interaction (trigger speech)
+function handleTap(event) {
+    event.stopPropagation(); // Prevent default behavior
 
-            // Reset the mouth movement
-            if (live2dModel) {
-                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
-                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
-            }
+    // Text the VA will say when tapped
+    const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
 
-            // Mark the dialogue as finished
-            isDialogueOngoing = false;
-        };
-
-        // Speak the text
-        synth.speak(utterance);
-        console.log('Speaking:', text);
+    // Call the speakText function (handles TTS and lip-syncing)
+    if (typeof window.speakText === 'function') {
+        window.speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
     } else {
-        alert('Your browser does not support Speech Synthesis.');
+        console.error("speakText function is not available.");
     }
 }
 
-// Ensure voice list is populated on page load
+// Ensure voice list is populated after page load
 window.onload = function () {
-    populateVoiceList();
+    if (typeof window.populateVoiceList === 'function') {
+        window.populateVoiceList();
+    }
 };
 
-// Function to populate the list of voices
-function populateVoiceList() {
-    if ('speechSynthesis' in window) {
-        const voices = speechSynthesis.getVoices();
-        console.log('Available voices:', voices);
-    }
+// Re-populate the voice list when voices are changed
+if (typeof window.populateVoiceList === 'function') {
+    window.speechSynthesis.onvoiceschanged = window.populateVoiceList;
 }

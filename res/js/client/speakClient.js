@@ -102,4 +102,3 @@ function speak(text, args) {
     speakWorker.postMessage({ text: text, args: args });
   }
 }
-

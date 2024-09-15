@@ -4,62 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text-to-Speech Example</title>
-    <!-- Include the speak.js library -->
-    <script src="path/to/speak.js"></script>
 </head>
 <body>
 <h1>Text-to-Speech Example</h1>
 <button onclick="speakText()">Speak Test Phrase</button>
 
 <script>
-    let speakWorker;
+    // Initialize the speakWorker.js engine (WebAssembly) for TTS
+    const speakWorker = new Worker('/res/js/client/speakWorker.js'); // Update this path with the correct location of speakWorker.js
 
-    function initializeWorker() {
-        if (window.Worker) {
-            speakWorker = new Worker('res/js/client/speakWorker.js');
-            speakWorker.onmessage = function(event) {
-                const { type, audioData, error } = event.data;
-                if (type === 'success') {
-                    // Handle the audioData (e.g., play it or process it further)
-                    console.log('Speech data received:', audioData);
-                    // For example, you could play the audio data here
-                } else if (type === 'error') {
-                    console.error('Speech error:', error);
-                }
-            };
-            speakWorker.onerror = function(error) {
-                console.error('Worker error:', error.message);
-            };
-        } else {
-            alert('Web Workers are not supported in your browser.');
-        }
+    // Function to generate audio from text using speak.js
+    function generateTTS(text, callback) {
+        const message = {
+            text: text,
+            amplitude: 200,   // Volume (0-200)
+            wordgap: 1,       // Gap between words
+            pitch: 60,        // Pitch (0-100)
+            speed: 175,       // Speed (words per minute)
+            voice: 'en',      // Language code (adjust to your needs)
+            base64: true      // Get base64-encoded output
+        };
+
+        // Use the worker to process the text
+        speakWorker.postMessage(message);
+
+        // When speakWorker finishes, call the provided callback with the audio data
+        speakWorker.onmessage = function (event) {
+            callback(event.data);
+        };
     }
 
-    function speakText() {
-        // Define the text to be spoken
-        const text = "mic test. mic test. 1. 2.";
-
-        // Initialize the worker if it's not already initialized
-        if (!speakWorker) {
-            initializeWorker();
+    // Function to play audio in the browser using AudioContext
+    // Function to play audio in the browser using AudioContext
+    function playTTS(audioData) {
+        if (!(audioData instanceof Uint8Array)) {
+            console.error("Invalid audio data received:", audioData);
+            return;
         }
 
-        // Check if the worker is available
-        if (speakWorker) {
-            // Post message to the worker with the text and options
-            speakWorker.postMessage({
-                text: text,
-                options: {
-                    amplitude: 200,   // Volume (0-200)
-                    wordgap: 1,       // Gap between words
-                    pitch: 60,        // Pitch (0-100)
-                    speed: 185,       // Speed (words per minute)
-                    voice: 'en',      // Language code
-                    base64: true      // Ensure this is set to true to get base64-encoded output
-                }
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        audioContext.decodeAudioData(audioData.buffer, function (buffer) {
+            let source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioContext.destination);
+
+            // Ensure the AudioContext is resumed (required for iOS)
+            audioContext.resume().then(() => {
+                source.start(0); // Play the audio
+            }).catch((err) => {
+                console.error("Error resuming AudioContext:", err);
             });
-        }
+        }, function (error) {
+            console.error("Error decoding audio data:", error);
+        });
     }
+
+
+    // Function to handle the TTS generation and playback
+    function speakText() {
+        const text = "mic test. mic test. 1. 2."; // The text to be spoken
+
+        // Generate TTS audio using speakWorker.js
+        generateTTS(text, function (audioData) {
+            // Play the generated TTS audio
+            playTTS(audioData);
+        });
+    }
+
 </script>
 </body>
 </html>
