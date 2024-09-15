@@ -2,11 +2,8 @@ let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
-
-// Variables to track dragging state
-let isDragging = false;
-let startPoint = { x: 0, y: 0 };
-let dragThreshold = 10; // Minimum movement to qualify as a drag
+let isAudioContextUnlocked = false;
+let isDialogueOngoing = false; // Flag to prevent triggering another dialogue during ongoing speech
 
 // Create a PIXI application
 const app = new PIXI.Application({
@@ -15,7 +12,22 @@ const app = new PIXI.Application({
     backgroundAlpha: 0, // Transparent background
 });
 
-// Load and display the Live2D model
+let audioContext = null; // Moved initialization to be inside the unlockAudioContext function
+
+// Unlock AudioContext on user interaction (for iOS support)
+function unlockAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)(); // Create AudioContext when unlocking
+    }
+
+    if (!isAudioContextUnlocked && audioContext.state !== 'running') {
+        audioContext.resume().then(() => {
+            console.log("Audio context resumed.");
+            isAudioContextUnlocked = true;
+        });
+    }
+}
+
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
@@ -23,7 +35,7 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
     live2dModel.anchor.set(0.5, 0.5);
     live2dModel.position.set(app.screen.width / 2, app.screen.height / 2);
 
-    // Make the model interactive
+    // Make the model interactive, but prevent dragging
     live2dModel.interactive = true;
     live2dModel.buttonMode = true; // Change cursor to pointer on hover
 
@@ -37,11 +49,31 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
             applyMotionData();
         });
 
-    // Add event listeners for tap/drag functionality
-    live2dModel.on('pointerdown', onPointerDown);
-    live2dModel.on('pointerup', onPointerUp);
-    live2dModel.on('pointerupoutside', onPointerUp);
-    live2dModel.on('pointermove', onPointerMove);
+    // Add event listeners to the model for interaction without dragging
+    live2dModel.on('pointerdown', handleInteraction); // Handle touch/click events
+
+    // Interaction handler: Trigger speech or other actions when clicked or tapped
+    function handleInteraction(event) {
+        event.stopPropagation(); // Prevent default behavior
+
+        // Prevent triggering a new dialogue if one is ongoing
+        if (isDialogueOngoing) {
+            console.log("Dialogue is already ongoing. Please wait.");
+            return;
+        }
+
+        // Unlock AudioContext for iOS if not already unlocked
+        unlockAudioContext();
+
+        // Text the VA will say when clicked
+        const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
+
+        // Set dialogue as ongoing
+        isDialogueOngoing = true;
+
+        // Call the speakText function (handles TTS)
+        speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
+    }
 });
 
 // Synchronize lip movement based on the motion data
@@ -80,59 +112,65 @@ function simulateAudioParameterChange() {
     audioParameterValues["U"] = Math.random();
 }
 
-// Event handler for pointer down
-function onPointerDown(event) {
-    isDragging = false; // Reset dragging flag
-    startPoint = event.data.global.clone(); // Record the start position
+// TTS logic for speaking text and syncing with the model
+function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+    // Unlock AudioContext on iOS if not already unlocked
+    unlockAudioContext();
+
+    // Generate audio using speak.js
+    generateTTS(text, function (audioData) {
+        // Play the generated audio and sync with the model
+        playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId);
+    });
 }
 
-// Event handler for pointer move (dragging)
-function onPointerMove(event) {
-    const currentPoint = event.data.global;
-    const distance = Math.sqrt(
-        Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2)
-    );
-
-    // If the mouse/touch moves more than the threshold, consider it a drag
-    if (distance > dragThreshold) {
-        isDragging = true;
-        // Move the model as per the drag
-        live2dModel.position.set(currentPoint.x, currentPoint.y);
-    }
-}
-
-// Event handler for pointer up (tap detection)
-function onPointerUp(event) {
-    const currentPoint = event.data.global;
-    const distance = Math.sqrt(
-        Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2)
-    );
-
-    // If the drag distance is less than the threshold, consider it a tap
-    if (!isDragging && distance < dragThreshold) {
-        handleTap(event);
+// Function to play audio in the browser and synchronize it with the model
+function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+    // Decode base64 audio data to binary
+    let binaryString = window.atob(audioData);
+    let len = binaryString.length;
+    let bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
     }
 
-    // Reset dragging state
-    isDragging = false;
+    // Decode the audio data into an audio buffer
+    audioContext.decodeAudioData(bytes.buffer, function (buffer) {
+        // Create an audio source
+        let source = audioContext.createBufferSource();
+        source.buffer = buffer;
+        source.connect(audioContext.destination);
+        source.start(0);
+
+        // Start lip sync when audio starts
+        source.onended = function () {
+            clearInterval(animationIntervalId);
+            animationIntervalId = null;
+
+            // Reset the mouth movement
+            if (live2dModel) {
+                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
+            }
+
+            // Mark the dialogue as finished
+            isDialogueOngoing = false;
+        };
+
+        // Lip sync while the audio is playing
+        if (live2dModel) {
+            let startTime = Date.now();
+            animationIntervalId = setInterval(() => {
+                let elapsed = Date.now() - startTime;
+                simulateAudioParameterChange();
+            }, 150);
+        }
+    });
 }
 
-// Handle tap interaction (trigger speech)
-function handleTap(event) {
-    event.stopPropagation(); // Prevent default behavior
-
-    // Text the VA will say when tapped
-    const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
-
-    // Call the speakText function (handles TTS and lip-syncing)
-    speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
-}
-
-// Ensure voice list is populated after page load
+// Ensure voice list is populated on page load
 window.onload = function () {
-    if (typeof window.populateVoiceList === 'function') {
-        window.populateVoiceList();
-    }
+    populateVoiceList();
 };
 
 // Re-populate the voice list when voices are changed
