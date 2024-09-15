@@ -12,14 +12,10 @@ const app = new PIXI.Application({
     backgroundAlpha: 0, // Transparent background
 });
 
-let audioContext = null; // Moved initialization to be inside the unlockAudioContext function
+let audioContext = new (window.AudioContext || window.webkitAudioContext)(); // AudioContext for audio playback
 
 // Unlock AudioContext on user interaction (for iOS support)
 function unlockAudioContext() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)(); // Create AudioContext when unlocking
-    }
-
     if (!isAudioContextUnlocked && audioContext.state !== 'running') {
         audioContext.resume().then(() => {
             console.log("Audio context resumed.");
@@ -114,17 +110,47 @@ function simulateAudioParameterChange() {
 
 // TTS logic for speaking text and syncing with the model
 function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
-    // Unlock AudioContext on iOS if not already unlocked
-    unlockAudioContext();
+    // Fallback to native speechSynthesis if available (works on iOS)
+    if ('speechSynthesis' in window) {
+        console.log('Using speechSynthesis API for TTS.');
 
-    // Generate audio using speak.js
-    generateTTS(text, function (audioData) {
-        // Play the generated audio and sync with the model
-        playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId);
-    });
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.voice = speechSynthesis.getVoices().find(v => v.lang === 'en-US');
+
+        // Lip sync while the speech is happening
+        utterance.onstart = function() {
+            animationIntervalId = setInterval(simulateAudioParameterChange, 150);
+        };
+
+        // Stop lip sync when speech ends
+        utterance.onend = function() {
+            clearInterval(animationIntervalId);
+            animationIntervalId = null;
+
+            // Reset the mouth movement
+            if (live2dModel) {
+                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
+            }
+
+            // Mark the dialogue as finished
+            isDialogueOngoing = false;
+        };
+
+        // Speak the text
+        speechSynthesis.speak(utterance);
+
+    } else {
+        console.log('Using speak.js for TTS.');
+        // Use speak.js for TTS if speechSynthesis is not available
+        generateTTS(text, function (audioData) {
+            // Play the generated audio and sync with the model
+            playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId);
+        });
+    }
 }
 
-// Function to play audio in the browser and synchronize it with the model
+// Function to play audio in the browser and synchronize it with the model (for speak.js)
 function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
     // Decode base64 audio data to binary
     let binaryString = window.atob(audioData);
