@@ -2,7 +2,6 @@ let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
-let useSpeechSynthesisFallback = false; // Flag to decide if we use fallback
 
 // Variables to track dragging state
 let isDragging = false;
@@ -109,19 +108,8 @@ function handleTap(event) {
     // Text the VA will say when tapped
     const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
 
-    // Try speak.js first, if it fails or is unavailable, use Speech Synthesis
-    if (typeof window.speakText === 'function' && !useSpeechSynthesisFallback) {
-        try {
-            window.speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
-        } catch (error) {
-            console.error("speak.js failed, switching to Speech Synthesis", error);
-            useSpeechSynthesisFallback = true;
-            speakWithNativeTTS(text);
-        }
-    } else {
-        // Fallback to speech synthesis
-        speakWithNativeTTS(text);
-    }
+    // Use speech synthesis directly, with Fred voice for iOS or fallback to en-US
+    speakWithNativeTTS(text);
 }
 
 // Function to speak using Speech Synthesis API, prioritize Fred for iOS
@@ -142,7 +130,7 @@ function speakWithNativeTTS(text) {
         selectedVoice = voices.find(voice => voice.name === 'Fred');
     }
 
-    // If Fred is not available or not iOS, fall back to the default voice
+    // If Fred is not available or not iOS, fall back to the default en-US voice
     if (!selectedVoice) {
         selectedVoice = voices.find(voice => voice.lang === 'en-US');
     }
@@ -157,12 +145,7 @@ function speakWithNativeTTS(text) {
 
 // Ensure voice list is populated after page load
 window.onload = function () {
-    if (typeof window.populateVoiceList === 'function') {
-        window.populateVoiceList();
-    }
+    window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.getVoices();
+    };
 };
-
-// Re-populate the voice list when voices are changed
-if (typeof window.populateVoiceList === 'function') {
-    window.speechSynthesis.onvoiceschanged = window.populateVoiceList;
-}
