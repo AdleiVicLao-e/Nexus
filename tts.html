@@ -126,8 +126,19 @@
         });
     }
 
-    // Populate voice list when voices are available
-    window.speechSynthesis.onvoiceschanged = populateVoiceList;
+    // Ensure voice list is populated properly, especially for iOS
+    function ensureVoicesLoaded() {
+        const synth = window.speechSynthesis;
+        if (synth.getVoices().length > 0) {
+            populateVoiceList();
+        } else {
+            // In some cases (especially iOS), voices are only available after a delay
+            window.speechSynthesis.onvoiceschanged = populateVoiceList;
+        }
+    }
+
+    // Trigger voices loading on page load
+    ensureVoicesLoaded();
 </script>
 </body>
 </html>
