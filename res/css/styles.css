@@ -651,9 +651,21 @@ main {
 }
 
 /* Canvas for processing the video stream */
-#canvas {
-    display: none;
+#video {
+    width: 100%;
+    max-width: 400px;
+    display: block;
 }
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
 
 /* AR Scene where text and elements will appear */
 a-scene {
@@ -667,13 +679,7 @@ a-scene {
     /* Prevent interactions with the AR scene */
 }
 
-/* Styling for the displayed text */
-/* a-text {
-    font-family: 'Exo', sans-serif;
-    color: #ffcc00; 
-    font-weight: bold;
-    text-align: center;
-} */
+
 
 /* Optional: Customize the AR plane if used */
 a-plane {
