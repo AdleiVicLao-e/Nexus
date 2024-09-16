@@ -8,6 +8,11 @@
 <body>
 <h1>Text-to-Speech Example</h1>
 
+<!-- Voice selection dropdown -->
+<label for="voiceSelect">Choose a voice:</label>
+<select id="voiceSelect"></select>
+<br><br>
+
 <!-- Buttons to select which TTS engine to use -->
 <button onclick="toggleTTSEngine()">Toggle TTS Engine (Current: <span id="tts-engine">Speak.js</span>)</button>
 <br><br>
@@ -16,6 +21,7 @@
 <script>
     let useNativeTTS = false; // Switch between native TTS and speakWorker.js
     const ttsEngineLabel = document.getElementById('tts-engine');
+    const voiceSelect = document.getElementById('voiceSelect');
 
     // Initialize the speakWorker.js engine (WebAssembly) for TTS
     const speakWorker = new Worker('/res/js/client/speakWorker.js'); // Update this path with the correct location of speakWorker.js
@@ -72,21 +78,18 @@
         });
     }
 
-    // Native Speech Synthesis API with en-US voice and lower pitch for a male-sounding voice
+    // Native Speech Synthesis API with selectable voice
     function speakWithNativeTTS(text) {
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Get available voices and select a US English voice
-        const voices = synth.getVoices();
-        let selectedVoice = voices.find(voice => voice.lang === 'en-US');
+        // Get the selected voice from the dropdown
+        const selectedVoiceIndex = voiceSelect.selectedIndex;
+        const selectedVoice = synth.getVoices()[selectedVoiceIndex];
 
         if (selectedVoice) {
             utterance.voice = selectedVoice;
         }
-
-        // Set pitch to 0.6 to make the voice sound deeper (lower pitch gives a male-like voice)
-        utterance.pitch = 0.3;
 
         synth.speak(utterance);
     }
@@ -107,11 +110,24 @@
         }
     }
 
-    // On iOS, voices may not be available until after the first call to getVoices()
-    window.speechSynthesis.onvoiceschanged = function() {
-        console.log('Available voices:', window.speechSynthesis.getVoices());
-    };
+    // Populate the voice select dropdown with available voices
+    function populateVoiceList() {
+        const synth = window.speechSynthesis;
+        const voices = synth.getVoices();
 
+        // Clear previous options
+        voiceSelect.innerHTML = '';
+
+        voices.forEach((voice, index) => {
+            const option = document.createElement('option');
+            option.textContent = `${voice.name} (${voice.lang})`;
+            option.value = index;
+            voiceSelect.appendChild(option);
+        });
+    }
+
+    // Populate voice list when voices are available
+    window.speechSynthesis.onvoiceschanged = populateVoiceList;
 </script>
 </body>
 </html>
