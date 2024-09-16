@@ -7,11 +7,24 @@
 </head>
 <body>
 <h1>Text-to-Speech Example</h1>
+
+<!-- Buttons to select which TTS engine to use -->
+<button onclick="toggleTTSEngine()">Toggle TTS Engine (Current: <span id="tts-engine">Speak.js</span>)</button>
+<br><br>
 <button onclick="speakText()">Speak Test Phrase</button>
 
 <script>
+    let useNativeTTS = false; // Switch between native TTS and speakWorker.js
+    const ttsEngineLabel = document.getElementById('tts-engine');
+
     // Initialize the speakWorker.js engine (WebAssembly) for TTS
     const speakWorker = new Worker('/res/js/client/speakWorker.js'); // Update this path with the correct location of speakWorker.js
+
+    // Function to toggle between native TTS and speakWorker.js
+    function toggleTTSEngine() {
+        useNativeTTS = !useNativeTTS;
+        ttsEngineLabel.textContent = useNativeTTS ? 'Speech Synthesis' : 'Speak.js';
+    }
 
     // Function to generate audio from text using speak.js
     function generateTTS(text, callback) {
@@ -34,7 +47,6 @@
         };
     }
 
-    // Function to play audio in the browser using AudioContext
     // Function to play audio in the browser using AudioContext
     function playTTS(audioData) {
         if (!(audioData instanceof Uint8Array)) {
@@ -60,17 +72,50 @@
         });
     }
 
+    // Native Speech Synthesis API with male pitch and en-US voice
+    function speakWithNativeTTS(text) {
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        // Get available voices and select a US English male voice
+        const voices = synth.getVoices();
+        let selectedVoice = voices.find(voice => voice.lang === 'en-US' && voice.name.includes('Male'));
+
+        // Fallback to any en-US voice if no male voice is found
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice => voice.lang === 'en-US');
+        }
+
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+        }
+
+        utterance.pitch = 0.8; // Adjust pitch to sound more male
+        utterance.rate = 1; // Default rate
+
+        synth.speak(utterance);
+    }
 
     // Function to handle the TTS generation and playback
     function speakText() {
-        const text = "mic test. mic test. 1. 2."; // The text to be spoken
+        const text = "mic test, mic test, 1. 2."; // The text to be spoken
 
-        // Generate TTS audio using speakWorker.js
-        generateTTS(text, function (audioData) {
-            // Play the generated TTS audio
-            playTTS(audioData);
-        });
+        if (useNativeTTS) {
+            // Use native Speech Synthesis API
+            speakWithNativeTTS(text);
+        } else {
+            // Generate TTS audio using speakWorker.js
+            generateTTS(text, function (audioData) {
+                // Play the generated TTS audio
+                playTTS(audioData);
+            });
+        }
     }
+
+    // On iOS, voices may not be available until after the first call to getVoices()
+    window.speechSynthesis.onvoiceschanged = function() {
+        console.log('Available voices:', window.speechSynthesis.getVoices());
+    };
 
 </script>
 </body>
