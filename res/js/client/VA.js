@@ -2,6 +2,7 @@ let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
+let useSpeechSynthesisFallback = false; // Flag to decide if we use fallback
 
 // Variables to track dragging state
 let isDragging = false;
@@ -108,12 +109,50 @@ function handleTap(event) {
     // Text the VA will say when tapped
     const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
 
-    // Call the speakText function (handles TTS and lip-syncing)
-    if (typeof window.speakText === 'function') {
-        window.speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
+    // Try speak.js first, if it fails or is unavailable, use Speech Synthesis
+    if (typeof window.speakText === 'function' && !useSpeechSynthesisFallback) {
+        try {
+            window.speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId);
+        } catch (error) {
+            console.error("speak.js failed, switching to Speech Synthesis", error);
+            useSpeechSynthesisFallback = true;
+            speakWithNativeTTS(text);
+        }
     } else {
-        console.error("speakText function is not available.");
+        // Fallback to speech synthesis
+        speakWithNativeTTS(text);
     }
+}
+
+// Function to speak using Speech Synthesis API, prioritize Fred for iOS
+function speakWithNativeTTS(text) {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
+
+    // Get the list of available voices
+    const voices = synth.getVoices();
+
+    // Check if the device is running iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    let selectedVoice;
+
+    // If on iOS, attempt to use the 'Fred' voice
+    if (isIOS) {
+        selectedVoice = voices.find(voice => voice.name === 'Fred');
+    }
+
+    // If Fred is not available or not iOS, fall back to the default voice
+    if (!selectedVoice) {
+        selectedVoice = voices.find(voice => voice.lang === 'en-US');
+    }
+
+    // Set the voice for the utterance
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    }
+
+    synth.speak(utterance);
 }
 
 // Ensure voice list is populated after page load
