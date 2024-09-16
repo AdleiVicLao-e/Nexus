@@ -72,25 +72,21 @@
         });
     }
 
-    // Native Speech Synthesis API with male pitch and en-US voice
+    // Native Speech Synthesis API with en-US voice and lower pitch for a male-sounding voice
     function speakWithNativeTTS(text) {
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Get available voices and select a US English male voice
+        // Get available voices and select a US English voice
         const voices = synth.getVoices();
-        let selectedVoice = voices.find(voice => voice.lang === 'en-US' && voice.name.includes('Male'));
-
-        // Fallback to any en-US voice if no male voice is found
-        if (!selectedVoice) {
-            selectedVoice = voices.find(voice => voice.lang === 'en-US');
-        }
+        let selectedVoice = voices.find(voice => voice.lang === 'en-US');
 
         if (selectedVoice) {
             utterance.voice = selectedVoice;
         }
 
-        utterance.pitch = 0.8; // Adjust pitch to sound more male
+        // Set pitch to 0.6 to make the voice sound deeper (lower pitch gives a male-like voice)
+        utterance.pitch = 0.6;
         utterance.rate = 1; // Default rate
 
         synth.speak(utterance);
