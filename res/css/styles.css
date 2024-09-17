@@ -1637,4 +1637,44 @@ a-plane {
         /* Prevent AR elements from blocking interactions */
     }
 
+    .artifact-info {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 15px;
+        border: 2px solid #FAC301;
+        background-color: rgba(14, 22, 68, 0.9);
+        /* 90% opacity */
+        color: white;
+        border-radius: 20px;
+        font-family: Arial, sans-serif;
+        z-index: 10;
+    }
+
+    .magnifying-glass {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        transform: translate(-50%, -50%);
+        display: none;
+        animation: wave 1s ease-out;
+    }
+
+    /* Keyframes for waving animation */
+    @keyframes wave {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        50% {
+            transform: translate(-50%, -50%) rotate(15deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotate(-15deg);
+        }
+    }
+
 }
