@@ -38,6 +38,7 @@
   <video id="video" autoplay style="visibility: hidden"></video>
   <canvas id="canvas" style="visibility: hidden"></canvas>
 
+  <!-- Add AR components here -->
   <a-scene vr-mode-ui="enabled: false" arjs="debugUIEnabled: false;" device-orientation-permission-ui="enabled: false">
     <a-assets>
       <a-asset-item id="exoFont" src="./assets/fonts/exoBlack.typeface.json"></a-asset-item>
@@ -46,7 +47,7 @@
       <img id="artifactBackground" src="assets/img/artifact_background.png" alt="artifact background">
     </a-assets>
 
-    <!-- Add AR components here -->
+    <!-- Add AR elements here -->
     <a-image
             id="artifact-background"
             src="./assets/img/artifact_background.png"
@@ -75,16 +76,6 @@
     </a-image>
 
     <a-text
-            id="artifact-title"
-            font="./assets/fonts/Exo2Bold.fnt"
-            position="-0.5 2 -2.5"
-            width="1.25"
-            rotation="0 0 0"
-            wrap-count="25"
-            color="black">
-    </a-text>
-
-    <a-text
             id="text"
             font="./assets/fonts/Exo2Bold.fnt"
             position="-0.5 1.65 -2.5"
@@ -93,7 +84,6 @@
             wrap-count="25"
             color="black">
     </a-text>
-
   </a-scene>
 </main>
 
@@ -109,7 +99,7 @@
 >
 </button>
 
-<!-- Overlay with the info box -->
+<!-- Information Box -->
 <div class="overlay" id="infoOverlay">
   <div class="info-box">
     <p class="welcome-2">WELCOME!</p>
@@ -122,24 +112,28 @@
   </div>
 </div>
 
+<!-- Desktop Warning -->
 <div id="desktop-warning">
   Mobile Only Site.
 </div>
 
+<!-- Script cCode -->
 <script>
   // Run the function on load
   window.onload = checkDevice;
 
-  // Initialize video and canvas elements
+  // Initialize Video and Canvas Elements
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
-  const artifactBackground=document.getElementById("artifact-background");
   const canvasContext = canvas.getContext("2d");
+
+  //AR Elements
   const text = document.getElementById("text");
-  const artifactTitle = document.getElementById("artifact-title");
-  let currentCodeData = null;
   const errorImage = document.getElementById("error-image");
+  const artifactBackground=document.getElementById("artifact-background");
+
   let artifactInfo = "";
+  let currentCodeData = null;
 
   // Start scanning when the page loads
   startScanning();
@@ -154,7 +148,8 @@
             })
             .then((stream) => {
               video.srcObject = stream;
-              video.setAttribute("playsinline", true); // For iOS compatibility
+              // For iOS compatibility
+              video.setAttribute("playsinline", true); 
               video.play();
               requestAnimationFrame(scanQRCode);
             })
@@ -172,7 +167,6 @@
       const code = jsQR(imageData.data, canvas.width, canvas.height);
 
       onQRCodeDetected(code);
-      drawBoxOnQRCode(canvas, canvasContext, code);
     }
     // Continue scanning
     requestAnimationFrame(scanQRCode);
@@ -192,7 +186,6 @@
       // QR code not detected, reset or clear the display
       currentCodeData = null;
       text.setAttribute("value", "");
-      artifactTitle.setAttribute("value","");
       errorImage.setAttribute("visible", "false");
       artifactBackground.setAttribute("visible", "false");
       document.getElementById("watchVideosButton").style.display = "none";
@@ -203,11 +196,12 @@
       fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
         .then(response => response.json())
         .then(data => {
-          console.log("Data:", data); // Log the data to inspect
+          // Log the data to inspect
+          console.log("Data:", data); 
 
           if (data) {
-            // Build artifactInfo dynamically
 
+          // Build artifactInfo dynamically
           let artifactInfo = '';
 
           if (data['Name'] && data['Name'] !== 'N/A') {
@@ -229,7 +223,6 @@
           if (data['Description'] && data['Description'] !== 'No description available') {
             artifactInfo += `Description: ${data['Description']}`;
           }
-            // artifactTitle.setAttribute("value", title);
             text.setAttribute("value", artifactInfo);
             artifactBackground.setAttribute("visible", "true");
             document.getElementById("watchVideosButton").style.display = "block";
@@ -247,8 +240,8 @@
         })
         .catch(error => {
           // Handle the error scenario
-          errorImage.setAttribute("visible", "true");
           text.setAttribute("value", "");
+          errorImage.setAttribute("visible", "true");
           artifactBackground.setAttribute("visible", "false");
           document.getElementById("watchVideosButton").style.display = "none";
         });
@@ -289,7 +282,7 @@
     window.onresize = checkDevice;
 
     function adjustTextAndBackground() {
-    const textElement = document.getElementById("text"); // Changed to target the text element directly
+    const textElement = document.getElementById("text");
     const artifactBackground = document.getElementById("artifact-background");
 
     // Get the text content
@@ -340,31 +333,6 @@ function updatePositions() {
 
     // Request the next frame
     requestAnimationFrame(updatePositions);
-}
-
-function drawBoxOnQRCode(canvas, canvasContext, code) {
-    if (code) {
-        // Clear any previous drawings
-        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the QR code box
-        canvasContext.strokeStyle = "#FF0000"; // Red color for the box
-        canvasContext.lineWidth = 4; // Thickness of the box border
-
-        // Define the corners of the box
-        const { topLeftCorner, topRightCorner, bottomRightCorner, bottomLeftCorner } = code.location;
-
-        // Draw the rectangle around the QR code
-        canvasContext.beginPath();
-        canvasContext.moveTo(topLeftCorner.x, topLeftCorner.y);
-        canvasContext.lineTo(topRightCorner.x, topRightCorner.y);
-        canvasContext.lineTo(bottomRightCorner.x, bottomRightCorner.y);
-        canvasContext.lineTo(bottomLeftCorner.x, bottomLeftCorner.y);
-        canvasContext.closePath();
-
-        // Stroke the rectangle
-        canvasContext.stroke();
-    }
 }
 </script>
 
