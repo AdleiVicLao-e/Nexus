@@ -2,6 +2,7 @@ let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
+let isSpeaking = false; // Track if speech is active
 
 // Variables to track dragging state
 let isDragging = false;
@@ -105,6 +106,9 @@ function onPointerUp(event) {
 function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
 
+    // If already speaking, ignore further taps
+    if (isSpeaking) return;
+
     // Text the VA will say when tapped
     const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
 
@@ -142,7 +146,6 @@ function speakWithNativeTTS(text) {
                 voice.name.toLowerCase().includes('microsoft guy') ||
                 voice.name.toLowerCase().includes('Mark') ||
                 voice.name.toLowerCase().includes('en-US-Wavenet-B'))
-
         );
     }
 
@@ -155,6 +158,14 @@ function speakWithNativeTTS(text) {
     if (selectedVoice) {
         utterance.voice = selectedVoice;
     }
+
+    // Set the isSpeaking flag to true when speech starts
+    isSpeaking = true;
+
+    // Reset the flag when speech ends
+    utterance.onend = function () {
+        isSpeaking = false;
+    };
 
     synth.speak(utterance);
 }
