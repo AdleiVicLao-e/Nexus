@@ -85,26 +85,26 @@
                     <div id="search-results"></div>
                 </div>
 
-<!--                <div id="edit-modal" class="modal">-->
-<!--                    <div class="modal-content">-->
-<!--                        <span class="close-button" onclick="closeModal()">&times;</span>-->
-<!--                        <h2>Edit Artifact</h2>-->
-<!--                        <form id="edit-form">-->
-<!--                            <input type="hidden" id="artifact-id">-->
-<!--                            <label for="name">Name:</label>-->
-<!--                            <input type="text" id="name" name="name"><br>-->
-<!--                            <label for="section">Section:</label>-->
-<!--                            <input type="text" id="section2" name="section"><br>-->
-<!--                            <label for="catalogue">Catalogue:</label>-->
-<!--                            <input type="text" id="catalogue" name="catalogue"><br>-->
-<!--                            <label for="subcatalogue">Subcatalogue:</label>-->
-<!--                            <input type="text" id="subcatalogue" name="subcatalogue"><br>-->
-<!--                            <label for="description">Description:</label>-->
-<!--                            <textarea id="description2" name="description"></textarea><br>-->
-<!--                            <button type="button" onclick="saveChanges()">Save</button>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div id="edit-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeModal()">&times;</span>
+                        <h2>Edit Artifact</h2>
+                        <form id="edit-form">
+                            <input type="hidden" id="artifact-id">
+                            <label for="editName">Name:</label>
+                            <input type="text" id="editName" name="name"><br>
+                            <label for="section">Section:</label>
+                            <input type="text" id="editSection" name="section"><br>
+                            <label for="catalog">Catalogue:</label>
+                            <input type="text" id="editCatalog" name="catalog"><br>
+                            <label for="editSubcatalog">Subcatalogue:</label>
+                            <input type="text" id="editSubcatalog" name="subcatalog"><br>
+                            <label for="description">Description:</label>
+                            <textarea id="editDescription" name="description"></textarea><br>
+                            <button type="button" onclick="saveChanges()">Save</button>
+                        </form>
+                    </div>
+                </div>
 
                 <div id="add" class="tab-content">
                     <div class="form-container">
@@ -130,12 +130,6 @@
                                 <label for="sub-catalog">Sub Catalog:</label>
                                 <select id="sub-catalog" name="sub-catalog" required>
                                 </select>
-                            </div>
-
-                            <div class="button-container">
-                                <button type="button" class="btn" id="section-btn">Add New Section</button>
-                                <button type="button" class="btn" id="catalog-btn">Add New Catalog</button>
-                                <button type="button" class="btn" id="subcat-btn">Add New Sub Catalog</button>
                             </div>
 
                             <div class="form-group">
@@ -172,11 +166,11 @@
                                 <label for="new-section">New Section Title:</label>
                                 <input type="text" id="add-new-section" name="new-section" required>
                             </div>
-                
+
                             <div class="button-container">
                                 <button type="submit" class="btn">Create Section</button>
                             </div>
-                            
+
                             <h1> </h1>
                             <hr>
 
@@ -187,12 +181,12 @@
                                 <select id="select-section" name="section" required>
                                 </select>
                             </div>
-                
+
                             <div class="form-group">
                                 <label for="new-section">New Catalog Name:</label>
                                 <input type="text" id="add-new-catalog" name="new-catalog" required>
                             </div>
-                
+
                             <div class="button-container">
                                 <button type="submit" class="btn">Create Catalog</button>
                             </div>
@@ -207,16 +201,16 @@
                                 <select id="select-catalog" name="catalog" required>
                                 </select>
                             </div>
-                
+
                             <div class="form-group">
                                 <label for="new-section">New Subcatalog Name:</label>
                                 <input type="text" id="new-section" name="new-sub-cat" required>
                             </div>
-                
+
                             <div class="button-container">
                                 <button type="submit" class="btn">Create Subcatalog</button>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>
