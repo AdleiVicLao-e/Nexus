@@ -2,9 +2,10 @@ let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
+let isAudioContextUnlocked = false;
 let isSpeaking = false; // Track if speech is active
 let scriptData; // Store the loaded script data
-
+let script;
 // Variables to track dragging state
 let isDragging = false;
 let startPoint = { x: 0, y: 0 };
@@ -15,17 +16,36 @@ let app = new PIXI.Application({
     view: document.getElementById('va-canvas'),
     autoStart: true,
     backgroundAlpha: 0, // Transparent background
-}), scriptInfo, script;
+}), scriptInfo;
 
 // Load the VA script from assets/VAmodel/script.json
 fetch('./assets/VAmodel/script.json')
     .then(response => response.json())
     .then(data => {
         scriptData = data; // Store the script data
+        scriptInfo = scriptData.scripts[1302];
+        script = scriptInfo.script;
     })
     .catch(error => console.error('Error loading script:', error));
 
 // Load and display the Live2D model
+
+let audioContext = null; // Moved initialization to be inside the unlockAudioContext function
+
+// Unlock AudioContext on user interaction (for iOS support)
+function unlockAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)(); // Create AudioContext when unlocking
+    }
+
+    if (!isAudioContextUnlocked && audioContext.state !== 'running') {
+        audioContext.resume().then(() => {
+            console.log("Audio context resumed.");
+            isAudioContextUnlocked = true;
+        });
+    }
+}
+
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
@@ -151,14 +171,12 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
             }
 
             // Mark the dialogue as finished
-            isDialogueOngoing = false;
+            isSpeaking = false;
         };
 
         // Lip sync while the audio is playing
         if (live2dModel) {
-            let startTime = Date.now();
             animationIntervalId = setInterval(() => {
-                let elapsed = Date.now() - startTime;
                 simulateAudioParameterChange();
             }, 150);
         }
@@ -206,11 +224,13 @@ function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
 
     // If already speaking, ignore further taps
-    if (isSpeaking || !script) return;
+    if (isSpeaking) return;
 
     // Check if the device is running iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
+    // const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
+    unlockAudioContext();
+    isSpeaking = true;
     if (isIOS) {
         speakWithNativeTTS(script, live2dModel, simulateAudioParameterChange, animationIntervalId); // Use native TTS for iOS
     } else {
@@ -241,7 +261,6 @@ function speakWithNativeTTS(text, live2dModel, simulateAudioParameterChange, ani
     }
 
 
-    isSpeaking = true;
     // Lip sync while the speech is happening
     utterance.onstart = function() {
         animationIntervalId = setInterval(simulateAudioParameterChange, 150);
