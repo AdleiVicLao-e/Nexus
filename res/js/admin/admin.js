@@ -1,4 +1,4 @@
-// Function to fetch artifact options
+// Adding Artifact Tab
 function fetchArtifactOptions() {
     fetch('/include/get.php')
         .then(response => response.json())
@@ -93,7 +93,7 @@ function updateSubCatalogOptions(catalogId) {
 
 document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
 
-//Function to search artifact information
+// Searching Artifact Tab
 function searchArtifact() {
     const query = document.querySelector('.search-input').value;
 
@@ -139,45 +139,7 @@ function displayResults(data) {
     resultsContainer.appendChild(list);
 }
 
-function editArtifact(id, name, section, catalogue, subcatalogue, description) {
-    // Set the values in the form fields
-    document.getElementById('artifact-id').value = id;
-    document.getElementById('name').value = name;
-    document.getElementById('section').value = section;
-    document.getElementById('catalogue').value = catalogue;
-    document.getElementById('subcatalogue').value = subcatalogue;
-    document.getElementById('description').value = description;
 
-    // Display the modal
-    document.getElementById('edit-modal').style.display = 'block';
-}
-
-function closeModal() {
-    document.getElementById('edit-modal').style.display = 'none';
-}
-
-function saveChanges() {
-    const id = document.getElementById('artifact-id').value;
-    const name = document.getElementById('name').value;
-    const section = document.getElementById('section').value;
-    const catalogue = document.getElementById('catalogue').value;
-    const subcatalogue = document.getElementById('subcatalogue').value;
-    const description = document.getElementById('description').value;
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '../include/update_artifact.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        if (this.status === 200) {
-            alert('Artifact updated successfully');
-            closeModal();
-            searchArtifact();
-        } else {
-            alert('Failed to update artifact');
-        }
-    };
-    xhr.send(`id=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}&section=${encodeURIComponent(section)}&catalogue=${encodeURIComponent(catalogue)}&subcatalogue=${encodeURIComponent(subcatalogue)}&description=${encodeURIComponent(description)}`);
-}
 
 
 const sectionBtn = document.getElementById('section-btn');
