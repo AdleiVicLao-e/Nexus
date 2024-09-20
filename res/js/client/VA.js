@@ -94,7 +94,6 @@ function applyMotionData() {
                 }
             }
         }
-
         // Update the mouth motion parameters at regular intervals
         setInterval(updateModelParameters, 150);
     }
@@ -110,22 +109,22 @@ function simulateAudioParameterChange() {
 }
 
 // TTS logic for speaking text and syncing with the model
-function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+function speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId) {
     // Generate audio using speak.js
-    generateTTS(text, function (audioData) {
+    generateTTS(script, function (audioData) {
         // Play the generated audio and sync with the model
         playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId);
     });
 }
 
-function generateTTS(text, callback) {
+function generateTTS(script, callback) {
     if (!speakWorker) {
         console.error("speakWorker has not been initialized.");
         return;
     }
 
     const message = {
-        text: text,
+        text: script,
         amplitude: 200,   // Volume (0-200)
         wordgap: 1,       // Gap between words
         pitch: 60,        // Pitch (0-100)
@@ -239,9 +238,9 @@ function handleTap(event) {
 }
 
 // Function to speak using Speech Synthesis API
-function speakWithNativeTTS(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+function speakWithNativeTTS(script, live2dModel, simulateAudioParameterChange, animationIntervalId) {
     const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(script);
 
     const voices = synth.getVoices();
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
