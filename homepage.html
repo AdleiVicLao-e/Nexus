@@ -256,10 +256,6 @@
                 adjustTextAndBackground();
                 updatePositions();
 
-                // Get the artifact name and trigger VA script reading
-                if (data['Name']) {
-                  getVAScript(data['Name']); // Call function to fetch and read the script
-                }
 
               } else {
                 text.setAttribute("value", "");
@@ -277,25 +273,6 @@
   }
 
 
-  function getVAScript(artifactName) {
-    fetch('assets/VAmodel/script.json')
-            .then(response => response.json())
-            .then(scriptData => {
-              if (scriptData[artifactName]) {
-                const scriptText = scriptData[artifactName];
-
-                // Assuming you have a method in VA.js to speak the text
-                if (typeof speakVA === 'function') {
-                  speakVA(scriptText);
-                } else {
-                  console.error('VA speaking function is not defined.');
-                }
-              } else {
-                console.error('No script found for artifact:', artifactName);
-              }
-            })
-            .catch(error => console.error('Error fetching VA script:', error));
-  }
 
 
   // Function to detect screen width

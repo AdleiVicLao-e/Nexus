@@ -179,6 +179,7 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
                 simulateAudioParameterChange();
             }, 150);
         }
+    }).then(function (r) {
     });
 }
 
@@ -206,7 +207,7 @@ function onPointerUp(event) {
 
 function handleArtifact(artifactId) {
     if (!scriptData) {
-        console.error('Scripts data is not loaded yet.');
+        alert('Scripts data is not loaded yet.');
         return;
     }
     // Find the script based on artifact ID
@@ -214,7 +215,7 @@ function handleArtifact(artifactId) {
     if (scriptInfo) {
         script = scriptInfo.script;
     } else {
-        console.error('No script found for artifact ID:', artifactId);
+        alert('No script found for artifact ID: ' + artifactId);
     }
 }
 
