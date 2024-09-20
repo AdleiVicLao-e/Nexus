@@ -34,6 +34,18 @@
         border-radius: 5px;
       }
 
+      #imgCatalogue {
+        max-width: 30%;
+        height: 50px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        background-color: #fac301;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
       .floating-button {
         position: absolute;
         bottom: 20px;
@@ -193,6 +205,12 @@
       alt="No Artifact Found"
     />
 
+    <img
+      id="imgCatalogue"
+      src="assets/catalogue/default.png"
+      alt="Placeholder Image"
+    />
+
     <!-- Floating Buttons -->
     <button class="floating-button left" onclick="viewDetails()">i</button>
     <button
@@ -230,9 +248,11 @@
       const canvasContext = canvas.getContext("2d");
       const resultDiv = document.getElementById("result");
       const noArtifactImage = document.getElementById("noArtifactImage");
+      const imgElement = document.getElementById("imgCatalogue");
 
       let artifactInfo = "";
       let displayBox = true;
+      let imageValue = "default";
 
       // Function to start video stream
       async function startVideo() {
@@ -401,11 +421,15 @@
             if (data && Object.keys(data).length > 0) {
               // If artifact is found
               artifactInfo = `
-                    \nArtifact Name: ${data["Name"] || "N/A"} 
-                    \n \nCatalogue Name: ${data["Catalogue Name"] || "N/A"} 
-                    \nSubcatalogue Name: ${data["Subcatalogue Name"] || "N/A"} 
-                    \nDescription: ${data["Description"] || "N/A"} 
+                    \nArtifact Name: ${data["Name"] || "N/A"}
+                    \n \nCatalogue Name: ${data["Catalogue Name"] || "N/A"}
+                    \nSubcatalogue Name: ${data["Subcatalogue Name"] || "N/A"}
+                    \nDescription: ${data["Description"] || "N/A"}
                 `.trim();
+
+              let imageValue = data["Catalogue Name"] || "default"; // Use a fallback value if needed
+              changeImage(imageValue); // Call the changeImage function here
+
               noArtifactImage.style.display = "none";
               displayBox = true;
               document.getElementById("result").style.display = "block";
@@ -414,6 +438,7 @@
             } else {
               // If artifact is not found
               artifactInfo = "";
+              let imageValue = data["Catalogue Name"] || "default";
               noArtifactImage.style.display = "block";
               resultDiv.textContent = `No artifact found`;
               displayBox = false;
@@ -432,6 +457,7 @@
             }
           })
           .catch((error) => {
+            let imageValue = data["Catalogue Name"] || "default";
             document.getElementById("watchVideosButton").style.display = "none";
             console.error("Error fetching artifact info:", error);
             artifactInfo = "Error fetching artifact info";
@@ -460,12 +486,31 @@
         }, 1000);
       }
 
+      function changeImage(value) {
+        if (value === "Traditional wood arts") {
+          imgElement.src = "assets/catalogue/1.png";
+        } else if (value === "Contemporary wood arts") {
+          imgElement.src = "assets/catalogue/2.png";
+        } else if (value === "Gongs and drums") {
+          imgElement.src = "assets/catalogue/3.png";
+        } else if (value === "Flute (nose and mouth)") {
+          imgElement.src = "assets/catalogue/4.png";
+        } else if (value === "Tambi (bamboo stringed percussion)") {
+          imgElement.src = "assets/catalogue/5.png";
+        } else if (value === "Food containers and storage bins") {
+          imgElement.src = "assets/catalogue/6.png";
+        } else {
+          imgElement.src = "assets/catalogue/default.png"; // Default image
+        }
+      }
+
       window.addEventListener("pageshow", (event) => {
         if (event.persisted) {
           // The page was loaded from the bfcache (back-forward cache)
           window.location.reload();
         }
       });
+
       // Start the video stream when the page loads
       startVideo();
     </script>
