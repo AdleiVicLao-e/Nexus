@@ -206,6 +206,7 @@ function onPointerUp(event) {
 }
 
 function handleArtifact(artifactId) {
+    alert("qr scanned");
     if (!scriptData) {
         alert('Scripts data is not loaded yet.');
         return;
