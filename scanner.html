@@ -290,7 +290,7 @@
 
           if (code) {
             const artifactId = code.data;
-            resultDiv.textContent = `Artifact Detected`;
+            resultDiv.textContent = `QR Code Detected`;
             fetchArtifactInfo(artifactId);
 
             if (displayBox) {
@@ -404,7 +404,7 @@
               }
             }
           } else {
-            resultDiv.textContent = "No QR code detected";
+            resultDiv.textContent = "No QR Code Detected";
             document.getElementById("watchVideosButton").style.display = "none";
             artifactInfo = "";
           }
@@ -426,22 +426,20 @@
                     \nSubcatalogue Name: ${data["Subcatalogue Name"] || "N/A"}
                     \nDescription: ${data["Description"] || "N/A"}
                 `.trim();
-
-              let imageValue = data["Catalogue Name"] || "default"; // Use a fallback value if needed
-              changeImage(imageValue); // Call the changeImage function here
-
               noArtifactImage.style.display = "none";
               displayBox = true;
               document.getElementById("result").style.display = "block";
               document.getElementById("watchVideosButton").style.display =
                 "block";
+              let imageValue = data["Catalogue Name"] || "default";
+              changeImage(imageValue);
             } else {
               // If artifact is not found
               artifactInfo = "";
-              let imageValue = data["Catalogue Name"] || "default";
               noArtifactImage.style.display = "block";
               resultDiv.textContent = `No artifact found`;
               displayBox = false;
+              let imageValue = data["Catalogue Name"] || "default";
               document.getElementById("result").style.display = "none";
               document.getElementById("watchVideosButton").style.display =
                 "none";
