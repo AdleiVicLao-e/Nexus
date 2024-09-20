@@ -165,12 +165,26 @@
         animation: fadeOut 3s ease-in-out infinite;
       }
 
-      @keyframes fadeOut {
+      .magnifying-glass {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        transform: translate(-50%, -50%);
+        display: none;
+        animation: wave 3s ease-out;
+      }
+
+      @keyframes wave {
         0% {
-          opacity: 1;
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        50% {
+          transform: translate(-50%, -50%) rotate(15deg);
         }
         100% {
-          opacity: 0;
+          transform: translate(-50%, -50%) rotate(-15deg);
         }
       }
     </style>
@@ -220,6 +234,14 @@
       onclick="window.location.href='igorot-dances.html';"
     ></button>
 
+    <!-- Magnifying Glass -->
+    <img
+      src="/assets/img/magnifying_glass.png"
+      class="magnifying-glass"
+      id="magnifying-glass"
+      alt="Magnifying Glass"
+    />
+
     <!-- Overlay with the info box -->
     <div class="overlay" id="infoOverlay">
       <div class="info-box">
@@ -252,6 +274,7 @@
       const noArtifactImage = document.getElementById("noArtifactImage");
       const imgCondition = document.getElementById("imgCondition");
       const conditionLabel = document.getElementById("conditionLabel");
+      const magnifyingGlass = document.getElementById("magnifying-glass");
 
       let artifactInfo = "";
       let displayBox = true;
@@ -450,6 +473,7 @@
               displayBox = false;
               noArtifactImage.style.display = "block";
               resultDiv.textContent = `No artifact found`;
+              magnifyingGlass.style.display = "none";
 
               setTimeout(() => {
                 noArtifactImage.style.animation = "none";
@@ -461,7 +485,6 @@
               }, 2000);
 
               let imageValue = data["condition"] || "default";
-              document.getElementById("result").style.display = "none";
               document.getElementById("watchVideosButton").style.display =
                 "none";
             }
@@ -524,6 +547,10 @@
         if (event.persisted) {
           window.location.reload();
         }
+        magnifyingGlass.style.display = "block";
+        setTimeout(() => {
+          magnifyingGlass.style.display = "none";
+        }, 3000);
       });
 
       // Start the video stream when the page loads
