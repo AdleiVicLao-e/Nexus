@@ -184,7 +184,7 @@
 
       if (artifactId !== currentCodeData) {
         currentCodeData = artifactId;
-
+        handleArtifact(artifactId);
         fetchArtifactInfo(artifactId);
       }
     } else {

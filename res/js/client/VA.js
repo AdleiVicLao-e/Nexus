@@ -1,23 +1,29 @@
-// va.js
-
-// Global variables
 let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
 let audioParameterValues = {};
 let isSpeaking = false; // Track if speech is active
+let scriptData; // Store the loaded script data
 
-// Speech synthesis variables
-let synth = window.speechSynthesis;
-let voices = [];
-let selectedVoice = null;
+// Variables to track dragging state
+let isDragging = false;
+let startPoint = { x: 0, y: 0 };
+let dragThreshold = 10; // Minimum movement to qualify as a drag
 
-// Initialize the PIXI application
-const app = new PIXI.Application({
+// Create a PIXI application
+let app = new PIXI.Application({
     view: document.getElementById('va-canvas'),
     autoStart: true,
     backgroundAlpha: 0, // Transparent background
-});
+}), scriptInfo, script;
+
+// Load the VA script from assets/VAmodel/script.json
+fetch('./assets/VAmodel/script.json')
+    .then(response => response.json())
+    .then(data => {
+        scriptData = data; // Store the script data
+    })
+    .catch(error => console.error('Error loading script:', error));
 
 // Load and display the Live2D model
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
@@ -41,7 +47,7 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
             applyMotionData();
         });
 
-    // Event listeners for tap interaction (optional, can be removed if not needed)
+    // Event listeners for tap interaction
     live2dModel.on('pointerdown', onPointerDown);
     live2dModel.on('pointerup', onPointerUp);
     live2dModel.on('pointerupoutside', onPointerUp);
@@ -63,33 +69,16 @@ function applyMotionData() {
                 const mapping = mappings.find(m => m.Id === audioParamId);
                 if (mapping) {
                     mapping.Targets.forEach(target => {
-                        live2dModel.internalModel.coreModel.setParameterValueById(
-                            target.Id,
-                            target.Value * value
-                        );
+                        live2dModel.internalModel.coreModel.setParameterValueById(target.Id, target.Value * value);
                     });
                 }
             }
         }
 
         // Update the mouth motion parameters at regular intervals
-        setInterval(updateModelParameters, 100);
+        setInterval(updateModelParameters, 150);
     }
 }
-
-// Simulate mouth movement based on random audio parameter values (for testing purposes)
-function simulateAudioParameterChange() {
-    audioParameterValues["A"] = Math.random();
-    audioParameterValues["E"] = Math.random();
-    audioParameterValues["I"] = Math.random();
-    audioParameterValues["O"] = Math.random();
-    audioParameterValues["U"] = Math.random();
-}
-
-// Variables to track dragging state (for touch interaction)
-let isDragging = false;
-let startPoint = { x: 0, y: 0 };
-let dragThreshold = 10; // Minimum movement to qualify as a drag
 
 // Track the starting point when the user taps
 function onPointerDown(event) {
@@ -113,121 +102,86 @@ function onPointerUp(event) {
     isDragging = false;
 }
 
-// Handle tap interaction (trigger speech) - Optional
+function handleArtifact(artifactId) {
+    if (!scriptData) {
+        console.error('Scripts data is not loaded yet.');
+        return;
+    }
+    // Find the script based on artifact ID
+    scriptInfo = scriptData.scripts[artifactId];
+    if (scriptInfo) {
+        script = scriptInfo.script;
+    } else {
+        console.error('No script found for artifact ID:', artifactId);
+    }
+}
+
+// Handle tap interaction (trigger speech)
 function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
 
     // If already speaking, ignore further taps
-    if (isSpeaking) return;
+    if (isSpeaking || !script) return;
 
-    // For testing purposes, you can have the VA speak a default text
-    const testText = "Hello! This is a test speech.";
-    speakVA(testText);
+    // Check if the device is running iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (isIOS) {
+        speakWithNativeTTS(script); // Use native TTS for iOS
+    } else {
+        speakWithSpeakJS(script);   // Use speak.js for non-iOS devices
+    }
 }
 
-// Load available voices
-function loadVoices() {
-    voices = synth.getVoices();
-    // Choose a default voice, prioritize male English voice
-    selectedVoice =
-        voices.find(voice => voice.name.includes('Google US English') && voice.name.includes('Male')) ||
-        voices.find(voice => voice.lang === 'en-US' && voice.name.includes('Male')) ||
-        voices.find(voice => voice.lang === 'en-US') ||
-        voices[0];
-}
+// Function to speak using Speech Synthesis API
+function speakWithNativeTTS(text) {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
 
-// Ensure voices are loaded
-if (synth.onvoiceschanged !== undefined) {
-    synth.onvoiceschanged = loadVoices;
-} else {
-    loadVoices();
-}
+    const voices = synth.getVoices();
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-// Function to speak text using the SpeechSynthesis API
-function speakVA(text) {
-    if (isSpeaking) {
-        console.warn("VA is already speaking.");
-        return;
+    let selectedVoice;
+
+    if (isIOS) {
+        selectedVoice = voices.find(voice => voice.name === 'Fred');
     }
 
-    if (!text) {
-        console.error("No text provided for the VA to speak.");
-        return;
+    if (!selectedVoice) {
+        selectedVoice = voices.find(voice => voice.lang === 'en-US');
     }
 
-    let utterance = new SpeechSynthesisUtterance(text);
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    }
 
-    // Set voice parameters
-    utterance.voice = selectedVoice;
-    utterance.pitch = 1.0; // Adjust pitch (0 to 2)
-    utterance.rate = 1.0;  // Adjust rate (0.1 to 10)
-    utterance.volume = 1.0; // Adjust volume (0 to 1)
-
-    utterance.onstart = () => {
-        isSpeaking = true;
-        console.log("VA started speaking.");
-        startMouthMovement();
-    };
-
-    utterance.onend = () => {
+    isSpeaking = true;
+    utterance.onend = function () {
         isSpeaking = false;
-        console.log("VA finished speaking.");
-        stopMouthMovement();
     };
 
-    // Handle errors
-    utterance.onerror = (event) => {
-        isSpeaking = false;
-        console.error("SpeechSynthesis error:", event.error);
-        stopMouthMovement();
-    };
-
-    // Speak the text
     synth.speak(utterance);
 }
 
-// Start mouth movement by updating audio parameters
-function startMouthMovement() {
-    if (mouthMotionData) {
-        // Use regular updates based on motion sync data
-        if (!animationIntervalId) {
-            animationIntervalId = setInterval(simulateAudioParameterChange, 100); // Update every 100ms
-        }
-    }
-}
+// Function to speak using Speak.js for non-iOS devices
+function speakWithSpeakJS(text) {
+    const options = {
+        pitch: 0.8,
+        rate: 0.8,
+        volume: 1.0
+    };
 
-// Stop mouth movement
-function stopMouthMovement() {
-    if (animationIntervalId) {
-        clearInterval(animationIntervalId);
-        animationIntervalId = null;
-    }
-}
+    speak(text, options);
 
-// Function to fetch the VA script based on artifact name
-function getVAScript(artifactName) {
-    fetch('assets/VAmodel/script.json')
-        .then(response => response.json())
-        .then(scriptData => {
-            if (scriptData[artifactName]) {
-                const scriptText = scriptData[artifactName];
-                speakVA(scriptText);
-            } else {
-                console.error('No script found for artifact:', artifactName);
-            }
-        })
-        .catch(error => console.error('Error fetching VA script:', error));
-}
-
-// Expose getVAScript globally, so it can be called from other scripts
-window.getVAScript = getVAScript;
-
-// Optional: Stop VA speaking function
-function stopVASpeaking() {
-    if (isSpeaking) {
-        synth.cancel();
+    isSpeaking = true;
+    speakWorker.onmessage = function(event) {
         isSpeaking = false;
-        stopMouthMovement();
-        console.log("VA speech stopped.");
-    }
+    };
 }
+
+// Ensure voice list is populated after page load
+window.onload = function () {
+    window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.getVoices();
+    };
+};
