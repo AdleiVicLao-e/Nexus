@@ -209,21 +209,21 @@
         if (code) {
           const artifactId = code.data;
 
-      if (artifactId !== currentCodeData) {
-        currentCodeData = artifactId;
-        handleArtifact(artifactId);
-        fetchArtifactInfo(artifactId);
+          if (artifactId !== currentCodeData) {
+            currentCodeData = artifactId;
+            handleArtifact(artifactId);
+            fetchArtifactInfo(artifactId);
+          }
+        } else {
+          // QR code not detected, reset or clear the display
+          currentCodeData = null;
+          text.setAttribute("value", "");
+          artifactTitle.setAttribute("value", "");
+          errorImage.setAttribute("visible", "false");
+          artifactBackground.setAttribute("visible", "false");
+          document.getElementById("watchVideosButton").style.display = "none";
+        }
       }
-    } else {
-      // QR code not detected, reset or clear the display
-      currentCodeData = null;
-      text.setAttribute("value", "");
-      artifactTitle.setAttribute("value","");
-      errorImage.setAttribute("visible", "false");
-      artifactBackground.setAttribute("visible", "false");
-      document.getElementById("watchVideosButton").style.display = "none";
-    }
-  }
 
       // Function to show the overlay
       function viewDetails() {
@@ -289,48 +289,21 @@
 
               adjustTextAndBackground();
               updatePositions();
-
-                // Get the artifact name and trigger VA script reading
-                if (data['Name']) {
-                  getVAScript(data['Name']); // Call function to fetch and read the script
-                }
-
-              } else {
-                text.setAttribute("value", "");
-                errorImage.setAttribute("visible", "true");
-                artifactBackground.setAttribute("visible", "false");
-                document.getElementById("watchVideosButton").style.display = "none";
-              }
-            })
-            .catch(error => {
-              errorImage.setAttribute("visible", "true");
+            } else {
               text.setAttribute("value", "");
+              errorImage.setAttribute("visible", "true");
               artifactBackground.setAttribute("visible", "false");
-              document.getElementById("watchVideosButton").style.display = "none";
-            });
-  }
-
-
-  function getVAScript(artifactName) {
-    fetch('assets/VAmodel/script.json')
-            .then(response => response.json())
-            .then(scriptData => {
-              if (scriptData[artifactName]) {
-                const scriptText = scriptData[artifactName];
-
-                // Assuming you have a method in VA.js to speak the text
-                if (typeof speakVA === 'function') {
-                  speakVA(scriptText);
-                } else {
-                  console.error('VA speaking function is not defined.');
-                }
-              } else {
-                console.error('No script found for artifact:', artifactName);
-              }
-            })
-            .catch(error => console.error('Error fetching VA script:', error));
-  }
-
+              document.getElementById("watchVideosButton").style.display =
+                "none";
+            }
+          })
+          .catch((error) => {
+            errorImage.setAttribute("visible", "true");
+            text.setAttribute("value", "");
+            artifactBackground.setAttribute("visible", "false");
+            document.getElementById("watchVideosButton").style.display = "none";
+          });
+      }
 
       // Function to detect screen width
       function checkDevice() {
