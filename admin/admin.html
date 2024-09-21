@@ -82,29 +82,37 @@
                         <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
                         <button class="search-button" onclick="searchArtifact()">Search</button>
                     </div>
+                    <button id="toggle-multi-select" onclick="toggleMultiSelect()">Enable Multi-Select</button>
+                    <button id="delete-selected-button" style="display: none;" onclick="deleteSelectedArtifacts()">Delete Selected</button>
+
                     <div id="search-results"></div>
+
                 </div>
 
+                <!-- Edit Popup Window -->
                 <div id="edit-modal" class="modal">
                     <div class="modal-content">
                         <span class="close-button" onclick="closeModal()">&times;</span>
                         <h2>Edit Artifact</h2>
                         <form id="edit-form">
                             <input type="hidden" id="artifact-id">
+                            <label for="artifact-id">Artifact ID:</label>
+                            <span id="artifact-id-display"></span><br>
                             <label for="editName">Name:</label>
                             <input type="text" id="editName" name="name"><br>
-                            <label for="section">Section:</label>
-                            <input type="text" id="editSection" name="section"><br>
-                            <label for="catalog">Catalogue:</label>
-                            <input type="text" id="editCatalog" name="catalog"><br>
+                            <label for="editSection">Section:</label>
+                            <select id="editSection" name="section" onchange="fetchCatalogs(this.value)"></select><br>
+                            <label for="editCatalog">Catalogue:</label>
+                            <select id="editCatalog" name="catalog" onchange="fetchSubcatalogs(this.value)"></select><br>
                             <label for="editSubcatalog">Subcatalogue:</label>
-                            <input type="text" id="editSubcatalog" name="subcatalog"><br>
+                            <select id="editSubcatalog" name="subcatalog"></select><br>
                             <label for="description">Description:</label>
                             <textarea id="editDescription" name="description"></textarea><br>
                             <button type="button" onclick="saveChanges()">Save</button>
                         </form>
                     </div>
                 </div>
+
 
                 <div id="add" class="tab-content">
                     <div class="form-container">

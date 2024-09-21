@@ -93,7 +93,12 @@ function updateSubCatalogOptions(catalogId) {
 
 document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
 
+
 // Searching Artifact Tab
+
+let selectedArtifact = null;
+let highlightedItem = null;
+
 function searchArtifact() {
     const query = document.querySelector('.search-input').value;
 
@@ -113,6 +118,8 @@ function searchArtifact() {
     xhr.send();
 }
 
+let isMultiSelectEnabled = false;
+
 function displayResults(data) {
     const resultsContainer = document.getElementById('search-results');
     resultsContainer.innerHTML = '';
@@ -125,14 +132,18 @@ function displayResults(data) {
     const list = document.createElement('ul');
     data.forEach(item => {
         const listItem = document.createElement('li');
+
         listItem.innerHTML = `
+            <input type="checkbox" class="artifact-checkbox" data-id="${item['ID']}">
+            <strong>Artifact Number:</strong> ${item['ID']}<br>
             <strong>Name:</strong> ${item['Name']}<br>
             <strong>Section:</strong> ${item['Section Name']}<br>
             <strong>Catalogue:</strong> ${item['Catalogue Name']}<br>
             <strong>Subcatalogue:</strong> ${item['Subcatalogue Name']}<br>
             <strong>Description:</strong> ${item['Description']}<br>
-            <button onclick="editArtifact(${item['id']}, '${item['Name']}', '${item['Section Name']}', '${item['Catalogue Name']}', '${item['Subcatalogue Name']}', '${item['Description']}')">Edit</button>
         `;
+
+        listItem.onclick = () => toggleEditButton(item, listItem);
         list.appendChild(listItem);
     });
 
@@ -140,6 +151,272 @@ function displayResults(data) {
 }
 
 
+function toggleMultiSelect() {
+    isMultiSelectEnabled = !isMultiSelectEnabled;
+    const checkboxes = document.querySelectorAll('.artifact-checkbox');
+    const deleteButton = document.getElementById('delete-selected-button');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.style.display = isMultiSelectEnabled ? 'inline' : 'none';
+    });
+
+    // Show or hide the delete button
+    deleteButton.style.display = isMultiSelectEnabled ? 'inline' : 'none';
+
+    const buttonText = isMultiSelectEnabled ? 'Disable Multi-Select' : 'Enable Multi-Select';
+    document.getElementById('toggle-multi-select').textContent = buttonText;
+}
+
+function toggleEditButton(item, listItem) {
+    if (isMultiSelectEnabled) {
+        return; // Don't allow editing
+    }
+    const editButton = document.getElementById('edit-button');
+    const deleteButton = document.getElementById('delete-button');
+
+    if (selectedArtifact && selectedArtifact['ID'] === item['ID']) {
+        selectedArtifact = null;
+        if (editButton) editButton.remove();
+        if (deleteButton) deleteButton.remove();
+        if (highlightedItem) highlightedItem.classList.remove('highlight');
+        highlightedItem = null;
+        return;
+    }
+
+    selectedArtifact = item;
+
+    if (highlightedItem) {
+        highlightedItem.classList.remove('highlight');
+    }
+    highlightedItem = listItem;
+    highlightedItem.classList.add('highlight');
+
+    if (editButton) {
+        editButton.remove();
+    }
+
+    const newEditButton = document.createElement('button');
+    newEditButton.id = 'edit-button';
+    newEditButton.textContent = 'Edit';
+    newEditButton.onclick = () => openModal(item);
+
+    highlightedItem.parentNode.insertBefore(newEditButton, highlightedItem.nextSibling);
+
+    if (deleteButton) {
+        deleteButton.remove();
+    }
+
+    const newDeleteButton = document.createElement('button');
+    newDeleteButton.id = 'delete-button';
+    newDeleteButton.textContent = 'Delete';
+    newDeleteButton.onclick = () => confirmDelete(item['ID']);
+
+    highlightedItem.parentNode.insertBefore(newDeleteButton, highlightedItem.nextSibling);
+}
+
+function deleteSelectedArtifacts() {
+    const selectedCheckboxes = document.querySelectorAll('.artifact-checkbox:checked');
+    if (selectedCheckboxes.length === 0) {
+        alert('No artifacts selected.');
+        return;
+    }
+
+    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute('data-id'));
+
+    if (confirm(`Are you sure you want to delete ${selectedIds.length} artifacts?`)) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '../include/deleteMultipleArtifacts.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            const response = JSON.parse(this.responseText);
+            if (response.success) {
+                alert(response.message);
+                searchArtifact();
+            } else {
+                alert(response.message);
+            }
+        };
+        xhr.send(JSON.stringify({ ids: selectedIds }));
+    }
+}
+
+function confirmDelete(id) {
+    if (confirm("Are you sure you want to delete this artifact?")) {
+        deleteArtifact(id);
+    }
+}
+
+function deleteArtifact(id) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../include/deleteArtifact.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function () {
+        const response = JSON.parse(this.responseText);
+        if (response.success) {
+            alert(response.message);
+            searchArtifact(); // Refresh search results
+        } else {
+            alert(response.message);
+        }
+    };
+    xhr.send(JSON.stringify({ id: id }));
+}
+function openModal(item) {
+    document.getElementById('artifact-id').value = item['ID'];
+    document.getElementById('editName').value = item['Name'];
+
+    fetchSections(item['Section ID'], () => {
+        fetchCatalogs(item['Section ID'], item['Catalogue ID'], () => {
+            fetchSubcatalogs(item['Catalogue ID'], item['Subcatalogue ID']);
+        });
+    });
+
+    document.getElementById('editDescription').value = item['Description'];
+
+    document.getElementById('edit-modal').style.display = 'block';
+}
+
+function fetchSections(selectedSectionId) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '../include/get.php', true);
+    xhr.onload = function () {
+        if (this.status === 200) {
+            const data = JSON.parse(this.responseText);
+            const sectionSelect = document.getElementById('editSection');
+            sectionSelect.innerHTML = ''; // Clear existing options
+
+            data.sections.forEach(section => {
+                const option = document.createElement('option');
+                option.value = section.section_id;
+                option.textContent = section.section_name;
+                if (parseInt(section.section_id) === parseInt(selectedSectionId)) {
+                    option.selected = true;
+                }
+                sectionSelect.appendChild(option);
+            });
+
+            sectionSelect.addEventListener('change', function() {
+                fetchCatalogs(this.value);
+                document.getElementById('editCatalog').disabled = false;
+                document.getElementById('editSubcatalog').disabled = true;
+            });
+        }
+    };
+    xhr.send();
+}
+
+function fetchCatalogs(selectedSectionId, selectedCatalogId) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `../include/get.php?section_id=${selectedSectionId}`, true);
+    xhr.onload = function () {
+        if (this.status === 200) {
+            const data = JSON.parse(this.responseText);
+            const catalogSelect = document.getElementById('editCatalog');
+            catalogSelect.innerHTML = '';
+
+            if (data.catalogues.length === 0) {
+                const noCatalogOption = document.createElement('option');
+                noCatalogOption.textContent = 'No catalogs available under this section';
+                noCatalogOption.disabled = true;
+                noCatalogOption.selected = true;
+                catalogSelect.appendChild(noCatalogOption);
+                catalogSelect.disabled = true;
+                document.getElementById('editSubcatalog').disabled = true;
+
+                catalogSelect.value = null;
+            } else {
+                data.catalogues.forEach(catalog => {
+                    const option = document.createElement('option');
+                    option.value = catalog.catalogue_id;
+                    option.textContent = catalog.catalogue_name;
+                    if (catalog.catalogue_id === selectedCatalogId) {
+                        option.selected = true;
+                    }
+                    catalogSelect.appendChild(option);
+                });
+                catalogSelect.disabled = false;
+
+                catalogSelect.addEventListener('change', function() {
+                    fetchSubcatalogs(this.value);
+                    document.getElementById('editSubcatalog').disabled = false;
+                });
+            }
+        }
+    };
+    xhr.send();
+}
+
+function fetchSubcatalogs(selectedCatalogId, selectedSubcatalogId) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `../include/get.php?catalog_id=${selectedCatalogId}`, true);
+    xhr.onload = function () {
+        if (this.status === 200) {
+            const data = JSON.parse(this.responseText);
+            const subcatalogSelect = document.getElementById('editSubcatalog');
+            subcatalogSelect.innerHTML = '';
+
+            if (data.subcatalogues.length === 0) {
+                const noSubcatalogOption = document.createElement('option');
+                noSubcatalogOption.textContent = 'No subcatalogs available under this catalog';
+                noSubcatalogOption.disabled = true;
+                noSubcatalogOption.selected = true;
+                subcatalogSelect.appendChild(noSubcatalogOption);
+                subcatalogSelect.disabled = true;
+                subcatalogSelect.value = null;
+
+            } else {
+                data.subcatalogues.forEach(subcatalog => {
+                    const option = document.createElement('option');
+                    option.value = subcatalog.subcat_id;
+                    option.textContent = subcatalog.subcat_name;
+                    if (subcatalog.subcat_id === selectedSubcatalogId) {
+                        option.selected = true;
+                    }
+                    subcatalogSelect.appendChild(option);
+                });
+                subcatalogSelect.disabled = false;
+            }
+        }
+    };
+    xhr.send();
+}
+
+function closeModal() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
+function saveChanges() {
+    const id = document.getElementById('artifact-id').value;
+    const name = document.getElementById('editName').value;
+    const sectionId = document.getElementById('editSection').value;
+    const catalogId = document.getElementById('editCatalog').value || null;
+    const subcatalogId = document.getElementById('editSubcatalog').value || null;
+    const description = document.getElementById('editDescription').value;
+
+    const data = {
+        id: id,
+        name: name,
+        section_id: sectionId,
+        catalog_id: catalogId,
+        subcatalog_id: subcatalogId,
+        description: description,
+    };
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../include/editArtifact.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function () {
+        const response = JSON.parse(this.responseText);
+        if (response.success) {
+            closeModal();
+            searchArtifact();
+            alert(response.message);
+        } else {
+            alert(response.message);
+        }
+    };
+    xhr.send(JSON.stringify(data));
+}
 
 
 const sectionBtn = document.getElementById('section-btn');

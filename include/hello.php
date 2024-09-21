@@ -8,6 +8,7 @@ $searchTerm = isset($_GET['query']) ? $_GET['query'] : '';
 
 $query = "
     SELECT 
+        a.artifact_id AS 'ID', 
         a.name AS 'Name',
         s.section_name AS 'Section Name',
         c.catalogue_name AS 'Catalogue Name',

@@ -521,3 +521,11 @@ input[type="file"] {
     text-decoration: none;
     cursor: pointer;
 }
+
+.highlight {
+    background-color: white;
+}
+
+#search-results ul li {
+    cursor: pointer;
+}
