@@ -134,7 +134,7 @@ function displayResults(data) {
         const listItem = document.createElement('li');
 
         listItem.innerHTML = `
-            <input type="checkbox" class="artifact-checkbox" data-id="${item['ID']}">
+            <input type="checkbox" class="artifact-checkbox" data-id="${item['ID']}" style="display: ${isMultiSelectEnabled ? 'inline' : 'none'};">
             <strong>Artifact Number:</strong> ${item['ID']}<br>
             <strong>Name:</strong> ${item['Name']}<br>
             <strong>Section:</strong> ${item['Section Name']}<br>
