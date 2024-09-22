@@ -108,7 +108,7 @@ function searchArtifact() {
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `../include/hello.php?query=${encodeURIComponent(query)}`, true);
+    xhr.open('GET', `../include/searchArtifact.php?query=${encodeURIComponent(query)}`, true);
     xhr.onload = function () {
         if (this.status === 200) {
             const results = JSON.parse(this.responseText);
@@ -150,7 +150,7 @@ function displayResults(data) {
     resultsContainer.appendChild(list);
 }
 
-
+//Multiple Select Artifact Functionalities
 function toggleMultiSelect() {
     isMultiSelectEnabled = !isMultiSelectEnabled;
     const checkboxes = document.querySelectorAll('.artifact-checkbox');
@@ -240,10 +240,22 @@ function deleteSelectedArtifacts() {
     }
 }
 
-function confirmDelete(id) {
-    if (confirm("Are you sure you want to delete this artifact?")) {
-        deleteArtifact(id);
-    }
+
+//Single Selected Artifact Functionalities
+
+function openModal(item) {
+    document.getElementById('artifact-id').value = item['ID'];
+    document.getElementById('editName').value = item['Name'];
+
+    fetchSections(item['Section ID'], () => {
+        fetchCatalogs(item['Section ID'], item['Catalogue ID'], () => {
+            fetchSubcatalogs(item['Catalogue ID'], item['Subcatalogue ID']);
+        });
+    });
+
+    document.getElementById('editDescription').value = item['Description'];
+
+    document.getElementById('edit-modal').style.display = 'block';
 }
 
 function deleteArtifact(id) {
@@ -261,19 +273,11 @@ function deleteArtifact(id) {
     };
     xhr.send(JSON.stringify({ id: id }));
 }
-function openModal(item) {
-    document.getElementById('artifact-id').value = item['ID'];
-    document.getElementById('editName').value = item['Name'];
 
-    fetchSections(item['Section ID'], () => {
-        fetchCatalogs(item['Section ID'], item['Catalogue ID'], () => {
-            fetchSubcatalogs(item['Catalogue ID'], item['Subcatalogue ID']);
-        });
-    });
-
-    document.getElementById('editDescription').value = item['Description'];
-
-    document.getElementById('edit-modal').style.display = 'block';
+function confirmDelete(id) {
+    if (confirm("Are you sure you want to delete this artifact?")) {
+        deleteArtifact(id);
+    }
 }
 
 function fetchSections(selectedSectionId) {
@@ -296,10 +300,22 @@ function fetchSections(selectedSectionId) {
             });
 
             sectionSelect.addEventListener('change', function() {
-                fetchCatalogs(this.value);
-                document.getElementById('editCatalog').disabled = false;
-                document.getElementById('editSubcatalog').disabled = true;
+                const catalogSelect = document.getElementById('editCatalog');
+                const subcatalogSelect = document.getElementById('editSubcatalog');
+
+                catalogSelect.innerHTML = '';
+                subcatalogSelect.innerHTML = '';
+
+                catalogSelect.disabled = true;
+                subcatalogSelect.disabled = true;
+
+                fetchCatalogs(this.value, null);
             });
+
+            const selectedCatalogId = document.getElementById('editCatalog').value;
+            if (selectedCatalogId) {
+                fetchSubcatalogs(selectedCatalogId);
+            }
         }
     };
     xhr.send();
@@ -315,15 +331,13 @@ function fetchCatalogs(selectedSectionId, selectedCatalogId) {
             catalogSelect.innerHTML = '';
 
             if (data.catalogues.length === 0) {
+                // No catalogs available
                 const noCatalogOption = document.createElement('option');
                 noCatalogOption.textContent = 'No catalogs available under this section';
                 noCatalogOption.disabled = true;
                 noCatalogOption.selected = true;
                 catalogSelect.appendChild(noCatalogOption);
                 catalogSelect.disabled = true;
-                document.getElementById('editSubcatalog').disabled = true;
-
-                catalogSelect.value = null;
             } else {
                 data.catalogues.forEach(catalog => {
                     const option = document.createElement('option');
@@ -353,7 +367,7 @@ function fetchSubcatalogs(selectedCatalogId, selectedSubcatalogId) {
         if (this.status === 200) {
             const data = JSON.parse(this.responseText);
             const subcatalogSelect = document.getElementById('editSubcatalog');
-            subcatalogSelect.innerHTML = '';
+            subcatalogSelect.innerHTML = ''; // Clear existing options
 
             if (data.subcatalogues.length === 0) {
                 const noSubcatalogOption = document.createElement('option');
@@ -362,9 +376,8 @@ function fetchSubcatalogs(selectedCatalogId, selectedSubcatalogId) {
                 noSubcatalogOption.selected = true;
                 subcatalogSelect.appendChild(noSubcatalogOption);
                 subcatalogSelect.disabled = true;
-                subcatalogSelect.value = null;
-
             } else {
+                // Populate subcatalogs
                 data.subcatalogues.forEach(subcatalog => {
                     const option = document.createElement('option');
                     option.value = subcatalog.subcat_id;
@@ -379,10 +392,6 @@ function fetchSubcatalogs(selectedCatalogId, selectedSubcatalogId) {
         }
     };
     xhr.send();
-}
-
-function closeModal() {
-    document.getElementById('edit-modal').style.display = 'none';
 }
 
 function saveChanges() {
@@ -417,6 +426,11 @@ function saveChanges() {
     };
     xhr.send(JSON.stringify(data));
 }
+
+function closeModal() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
 
 
 const sectionBtn = document.getElementById('section-btn');

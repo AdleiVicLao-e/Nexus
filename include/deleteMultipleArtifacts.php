@@ -1,7 +1,6 @@
 <?php
 include 'artifact-db.php';
 
-
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['ids']) || empty($data['ids'])) {
@@ -13,11 +12,11 @@ $ids = $data['ids'];
 $idString = implode(',', array_map('intval', $ids)); // Sanitizing IDs
 
 $query = "DELETE FROM artifact_info WHERE artifact_id IN ($idString)";
-if (mysqli_query($conn, $query)) {
+if (mysqli_query($mysqli, $query)) {
     echo json_encode(['success' => true, 'message' => 'Selected artifacts deleted successfully.']);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Error deleting artifacts: ' . mysqli_error($conn)]);
+    echo json_encode(['success' => false, 'message' => 'Error deleting artifacts: ' . mysqli_error($mysqli)]);
 }
 
-mysqli_close($conn);
+mysqli_close($mysqli);
 ?>
