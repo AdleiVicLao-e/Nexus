@@ -338,6 +338,7 @@
           if (code) {
             const artifactId = code.data;
             resultDiv.textContent = `QR Code Detected`;
+            handleArtifact(artifactId);
             fetchArtifactInfo(artifactId);
 
             if (displayBox) {
