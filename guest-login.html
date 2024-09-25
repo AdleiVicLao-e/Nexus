@@ -16,7 +16,7 @@
   <body class="access-body">
     <div class="container">
       <div class="logo-container">
-        <img src="assets/img/logo.png" alt="Logo" class="logo">
+        <img src="assets/img/logo.png" alt="Logo" class="logo" />
       </div>
       <!-- Back button container -->
       <div class="back-button-container">
@@ -32,7 +32,9 @@
         <form id="guest-form" onsubmit="return validateForm()">
           <div id="general-form">
             <div class="input-container">
-              <p style="text-align: left; font-weight: lighter; font-size: 16px">
+              <p
+                style="text-align: left; font-weight: lighter; font-size: 16px"
+              >
                 Name
               </p>
               <input
@@ -43,40 +45,66 @@
                 required
               />
             </div>
-            <div class="input-container" style="width: 300px;">
-              <p style="text-align: left; font-weight: lighter; font-size: 16px">School</p>
-              <select id="schoolSelect" class="input-field" onchange="showOtherInput()">
+            <div class="input-container" style="width: 300px">
+              <p
+                style="text-align: left; font-weight: lighter; font-size: 16px"
+              >
+                School
+              </p>
+              <select
+                id="schoolSelect"
+                class="input-field"
+                onchange="showOtherInput()"
+              >
                 <option value="" disabled selected>Select School</option>
                 <option value="school1">Basic Education School</option>
-                <option value="school2">School of Accountancy, Management, Computing and Information Studies</option>
+                <option value="school2">
+                  School of Accountancy, Management, Computing and Information
+                  Studies
+                </option>
                 <option value="school3">School of Advanced Studies</option>
-                <option value="school4">School of Engineering and Architecture</option>
+                <option value="school4">
+                  School of Engineering and Architecture
+                </option>
                 <option value="school5">School of Law</option>
                 <option value="school6">School of Medicine</option>
-                <option value="school7">School of Nursing, Allied Health, and Biological Sciences</option>
-                <option value="school8">School of Teacher Education and Liberal Arts</option>
+                <option value="school7">
+                  School of Nursing, Allied Health, and Biological Sciences
+                </option>
+                <option value="school8">
+                  School of Teacher Education and Liberal Arts
+                </option>
                 <option value="other">Others</option>
               </select>
 
               <!-- Hidden input field for entering custom school name -->
-              <div id="otherSchoolInput" style="display: none; margin-top: 10px;">
-                <input type="text" id="otherSchoolName" class="input-field" placeholder="Enter your school name" />
+              <div
+                id="otherSchoolInput"
+                style="display: none; margin-top: 10px"
+              >
+                <input
+                  type="text"
+                  id="otherSchoolName"
+                  class="input-field"
+                  placeholder="Enter your school name"
+                />
               </div>
             </div>
           </div>
-          <div id="error-message" style="color: red; display: none; margin-top: 10px;">
+          <div
+            id="error-message"
+            style="color: red; display: none; margin-top: 10px"
+          >
             Please fill out all required fields.
           </div>
           <button type="submit" class="btn-access" id="btn-submit">
             Submit
-        </button>
+          </button>
         </form>
       </div>
     </div>
 
-    <div id="desktop-warning">
-      Mobile Only Site.
-    </div>
+    <div id="desktop-warning">Mobile Only Site.</div>
 
     <script>
       function showOtherInput() {
@@ -94,7 +122,8 @@
         var name = document.getElementById("user_name").value;
         var school = document.getElementById("schoolSelect").value;
         var otherSchool = document.getElementById("otherSchoolName").value;
-        var otherSchoolInput = document.getElementById("otherSchoolInput").style.display;
+        var otherSchoolInput =
+          document.getElementById("otherSchoolInput").style.display;
         var errorMessage = document.getElementById("error-message");
 
         // Check if name is filled, school is selected, and otherSchool is filled if "Others" is selected
@@ -108,8 +137,8 @@
         } else {
           errorMessage.style.display = "none"; // Hide error message
 
-          // Redirect to homepage.html
-          window.location.href = 'homepage.html';
+          // Redirect to scanner.html
+          window.location.href = "scanner.html";
           return false; // Prevent the default form action to avoid page reload
         }
       }
@@ -117,25 +146,27 @@
       function checkDevice() {
         // Define a breakpoint for mobile devices (e.g., 768px)
         if (window.innerWidth > 768) {
-            // Show the overlay first
-            document.getElementById('desktop-warning').style.display = 'flex';
+          // Show the overlay first
+          document.getElementById("desktop-warning").style.display = "flex";
 
-            // Delay the alert to ensure the overlay is visible first
-            setTimeout(function() {
-                alert("Please use your mobile phone to access this site.");
-            }, 100); // Adjust the delay (in ms) if necessary
+          // Delay the alert to ensure the overlay is visible first
+          setTimeout(function () {
+            alert("Please use your mobile phone to access this site.");
+          }, 100); // Adjust the delay (in ms) if necessary
         }
-    }
+      }
 
-    // Add event listener to the submit button
-    document.getElementById('btn-submit').addEventListener('click', function(event) {
-        // Prevent default form submission (optional, if this is part of a form)
-        event.preventDefault();
+      // Add event listener to the submit button
+      document
+        .getElementById("btn-submit")
+        .addEventListener("click", function (event) {
+          // Prevent default form submission (optional, if this is part of a form)
+          event.preventDefault();
 
-        // Check the device size when the user clicks Submit
-        validateForm();
-        checkDevice();
-    });
+          // Check the device size when the user clicks Submit
+          validateForm();
+          checkDevice();
+        });
     </script>
   </body>
 </html>
