@@ -14,7 +14,7 @@ let dragThreshold = 10; // Minimum movement to qualify as a drag
 let speakWorker;
 
 try {
-    speakWorker = new Worker('res/js/client/speakWorker.js');
+    speakWorker = new Worker('./res/js/client/speakWorker.js');
 } catch(e) {
     console.log('speak.js warning: no worker support');
 }
@@ -114,108 +114,77 @@ function simulateAudioParameterChange() {
     audioParameterValues["U"] = Math.random();
 }
 
-// TTS logic for speaking text and syncing with the model
-function speakText(script) {
-    console.log("Starting speakText function with script:", script);
-
-    // Generate audio using speak.js
-    generateTTS(script, function (audioData) {
-        if (audioData) {
-            console.log("Received valid audio data from worker, playing TTS.");
-            // Play the generated audio and sync with the model
-            playTTS(audioData);
-        } else {
-            console.error("No audio data received from worker.");
-        }
-    });
-}
-
-// Function to generate TTS using the worker
-function generateTTS(script, callback) {
-    if (!speakWorker) {
-        console.error('SpeakWorker is not initialized');
-        return;
-    }
-
-    console.log("Posting message to speakWorker for TTS generation");
-
+function generateTTS(text, callback) {
     const message = {
-        text: script,
+        text: text,
         amplitude: 200,
         wordgap: 1,
-        pitch: 90,
-        speed: 185,
-        voice: 'vi',
+        pitch: 20, // Test with the lowest pitch
+        speed: 10, // Test with a very slow speed
+        voice: 'en',
         base64: true
     };
 
-    // Send the TTS request to the worker
     speakWorker.postMessage(message);
 
-    // Listen for the worker response
-    speakWorker.onmessage = function(event) {
-        const audioData = event.data;
-        console.log("Received message from speakWorker:", audioData ? audioData.substring(0, 30) + '...' : "No audio data");
-
-        if (audioData && typeof audioData === 'string') {
-            callback(audioData);
-        } else {
-            console.error('Invalid audio data received from worker', audioData);
-        }
-    };
-
-    // Add error handling for worker messages
-    speakWorker.onerror = function(error) {
-        console.error('Error in speakWorker:', error.message);
+    speakWorker.onmessage = function (event) {
+        callback(event.data);
     };
 }
 
-// Function to play audio in the browser and synchronize it with the model
-function playTTS(audioData) {
-    console.log("Attempting to play TTS audio");
 
-    // Convert base64 to ArrayBuffer
-    const binaryString = window.atob(audioData);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
+// Function to play audio in browser using AudioContext
+function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+    // Check if audioData is a Uint8Array (binary data)
+    if (!(audioData instanceof Uint8Array)) {
+        console.error("Invalid audio data received:", audioData);
+        return;
     }
 
-    // Decode audio data and handle playback
-    audioContext.decodeAudioData(bytes.buffer)
+    // Decode the audio data into an AudioBuffer
+    audioContext.decodeAudioData(audioData.buffer)
         .then(buffer => {
-            const source = audioContext.createBufferSource();
+            // Create an audio source
+            let source = audioContext.createBufferSource();
             source.buffer = buffer;
             source.connect(audioContext.destination);
             source.start(0);
 
-            console.log("Audio is playing, syncing lip motion");
+            isSpeaking = true; // Mark that speech is ongoing
 
             // Start lip sync when audio starts
-            source.onended = function() {
-                console.log("Audio playback ended, stopping lip sync");
+            source.onended = function () {
                 clearInterval(animationIntervalId);
                 animationIntervalId = null;
+                isSpeaking = false; // Mark that speech is finished
 
-                // Reset mouth movement
+                // Reset the mouth movement
                 if (live2dModel) {
                     live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
                     live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
                 }
-
-                isSpeaking = false; // Mark speaking as finished
             };
 
             // Lip sync while the audio is playing
             if (live2dModel) {
-                animationIntervalId = setInterval(simulateAudioParameterChange, 150);
-                console.log("Lip sync started with interval ID:", animationIntervalId);
+                let startTime = Date.now();
+                animationIntervalId = setInterval(() => {
+                    let elapsed = Date.now() - startTime;
+                    simulateAudioParameterChange();
+                }, 150);
             }
         })
         .catch(error => {
-            console.error('Error decoding audio data:', error);
+            console.error("Error decoding audio data:", error);
         });
+}
+
+function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+    // Generate audio using speak.js
+    generateTTS(text, function (audioData) {
+        // Play the generated audio and sync with the model
+        playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId);
+    });
 }
 
 // Function to speak using Speech Synthesis API for iOS
@@ -256,7 +225,7 @@ function speakWithNativeTTS(script) {
         clearInterval(animationIntervalId);
         animationIntervalId = null;
 
-        // Reset the mouth movement
+        // Reset mouth movement
         if (live2dModel) {
             live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
             live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
@@ -265,6 +234,7 @@ function speakWithNativeTTS(script) {
         isSpeaking = false; // Mark speaking as finished
     };
 
+    // Start speaking
     synth.speak(utterance);
 }
 
@@ -298,6 +268,7 @@ function handleArtifact(artifactId) {
     scriptInfo = scriptData.scripts[artifactId];
     if (scriptInfo) {
         script = scriptInfo.script;
+        console.log(script);
     }
 }
 
