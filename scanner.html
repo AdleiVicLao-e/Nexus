@@ -79,7 +79,7 @@
         padding: 0;
         border-radius: 50%;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        background-image: url("/assets/img/button_background.png");
+        background-image: url("./assets/img/button_background.png");
         background-size: cover;
         background-position: center;
         border: none;
@@ -108,7 +108,7 @@
       .info-box {
         background-color: #fff;
         font-family: "Inter", sans-serif;
-        background-image: url("/assets/img/info_box.png");
+        background-image: url("./assets/img/info_box.png");
         background-size: cover;
         background-position: center;
         width: 0%;
@@ -187,6 +187,22 @@
           transform: translate(-50%, -50%) rotate(-15deg);
         }
       }
+
+      /* Add the CSS for VA model container */
+      #va-container {
+        position: fixed;
+        bottom: 20px;
+        right: 1px;
+        width: 465px;
+        /* Adjust width as needed */
+        height: 425px;
+        /* Adjust height as needed */
+        overflow: hidden;
+        z-index: 1001;
+        /* High z-index to ensure it's on top */
+        pointer-events: auto;
+      }
+
     </style>
   </head>
   <body>
@@ -265,6 +281,10 @@
         </p>
       </div>
     </div>
+    <div id="va-container">
+      <canvas id="va-canvas"></canvas>
+    </div>
+
 
     <script>
       const video = document.getElementById("video");
@@ -556,5 +576,13 @@
       // Start the video stream when the page loads
       startVideo();
     </script>
+    <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
+    <script src="./res/js/client/VA.js"></script>
+    <script src="./res/js/scripts.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
   </body>
 </html>

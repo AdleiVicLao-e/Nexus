@@ -6,10 +6,18 @@ let isAudioContextUnlocked = false;
 let isSpeaking = false; // Track if speech is active
 let scriptData; // Store the loaded script data
 let script;
+
 // Variables to track dragging state
 let isDragging = false;
 let startPoint = { x: 0, y: 0 };
 let dragThreshold = 10; // Minimum movement to qualify as a drag
+let speakWorker;
+
+try {
+    speakWorker = new Worker('res/js/client/speakWorker.js');
+} catch(e) {
+    console.log('speak.js warning: no worker support');
+}
 
 // Create a PIXI application
 let app = new PIXI.Application({
@@ -29,7 +37,6 @@ fetch('./assets/VAmodel/script.json')
     .catch(error => console.error('Error loading script:', error));
 
 // Load and display the Live2D model
-
 let audioContext = null; // Moved initialization to be inside the unlockAudioContext function
 
 // Unlock AudioContext on user interaction (for iOS support)
@@ -99,7 +106,6 @@ function applyMotionData() {
     }
 }
 
-// Simulate mouth movement based on random audio parameter values (for testing purposes)
 function simulateAudioParameterChange() {
     audioParameterValues["A"] = Math.random();
     audioParameterValues["E"] = Math.random();
@@ -109,78 +115,157 @@ function simulateAudioParameterChange() {
 }
 
 // TTS logic for speaking text and syncing with the model
-function speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+function speakText(script) {
+    console.log("Starting speakText function with script:", script);
+
     // Generate audio using speak.js
     generateTTS(script, function (audioData) {
-        // Play the generated audio and sync with the model
-        playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId);
+        if (audioData) {
+            console.log("Received valid audio data from worker, playing TTS.");
+            // Play the generated audio and sync with the model
+            playTTS(audioData);
+        } else {
+            console.error("No audio data received from worker.");
+        }
     });
 }
 
+// Function to generate TTS using the worker
 function generateTTS(script, callback) {
     if (!speakWorker) {
-        console.error("speakWorker has not been initialized.");
+        console.error('SpeakWorker is not initialized');
         return;
     }
 
+    console.log("Posting message to speakWorker for TTS generation");
+
     const message = {
         text: script,
-        amplitude: 200,   // Volume (0-200)
-        wordgap: 1,       // Gap between words
-        pitch: 60,        // Pitch (0-100)
-        speed: 185,       // Speed (words per minute)
-        voice: 'en',      // Language code
-        base64: true      // Ensure this is set to true to get base64-encoded output
+        amplitude: 200,
+        wordgap: 1,
+        pitch: 90,
+        speed: 185,
+        voice: 'vi',
+        base64: true
     };
 
+    // Send the TTS request to the worker
     speakWorker.postMessage(message);
 
-    speakWorker.onmessage = function (event) {
-        callback(event.data);
+    // Listen for the worker response
+    speakWorker.onmessage = function(event) {
+        const audioData = event.data;
+        console.log("Received message from speakWorker:", audioData ? audioData.substring(0, 30) + '...' : "No audio data");
+
+        if (audioData && typeof audioData === 'string') {
+            callback(audioData);
+        } else {
+            console.error('Invalid audio data received from worker', audioData);
+        }
+    };
+
+    // Add error handling for worker messages
+    speakWorker.onerror = function(error) {
+        console.error('Error in speakWorker:', error.message);
     };
 }
 
 // Function to play audio in the browser and synchronize it with the model
-function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
-    // Decode base64 audio data to binary
-    let binaryString = window.atob(audioData);
-    let len = binaryString.length;
-    let bytes = new Uint8Array(len);
+function playTTS(audioData) {
+    console.log("Attempting to play TTS audio");
+
+    // Convert base64 to ArrayBuffer
+    const binaryString = window.atob(audioData);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
     for (let i = 0; i < len; i++) {
         bytes[i] = binaryString.charCodeAt(i);
     }
 
-    // Decode the audio data into an audio buffer
-    audioContext.decodeAudioData(bytes.buffer, function (buffer) {
-        // Create an audio source
-        let source = audioContext.createBufferSource();
-        source.buffer = buffer;
-        source.connect(audioContext.destination);
-        source.start(0);
+    // Decode audio data and handle playback
+    audioContext.decodeAudioData(bytes.buffer)
+        .then(buffer => {
+            const source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioContext.destination);
+            source.start(0);
 
-        // Start lip sync when audio starts
-        source.onended = function () {
-            clearInterval(animationIntervalId);
-            animationIntervalId = null;
+            console.log("Audio is playing, syncing lip motion");
 
-            // Reset the mouth movement
+            // Start lip sync when audio starts
+            source.onended = function() {
+                console.log("Audio playback ended, stopping lip sync");
+                clearInterval(animationIntervalId);
+                animationIntervalId = null;
+
+                // Reset mouth movement
+                if (live2dModel) {
+                    live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+                    live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
+                }
+
+                isSpeaking = false; // Mark speaking as finished
+            };
+
+            // Lip sync while the audio is playing
             if (live2dModel) {
-                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
-                live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
+                animationIntervalId = setInterval(simulateAudioParameterChange, 150);
+                console.log("Lip sync started with interval ID:", animationIntervalId);
             }
+        })
+        .catch(error => {
+            console.error('Error decoding audio data:', error);
+        });
+}
 
-            // Mark the dialogue as finished
-            isSpeaking = false;
-        };
+// Function to speak using Speech Synthesis API for iOS
+function speakWithNativeTTS(script) {
+    console.log("Starting speakWithNativeTTS function with script:", script);
 
-        // Lip sync while the audio is playing
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(script);
+
+    const voices = synth.getVoices();
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    let selectedVoice;
+
+    if (isIOS) {
+        selectedVoice = voices.find(voice => voice.name === 'Fred');
+        console.log("Selected Fred voice for iOS");
+    }
+
+    if (!selectedVoice) {
+        selectedVoice = voices.find(voice => voice.lang === 'en-US');
+        console.log("Selected default en-US voice");
+    }
+
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    }
+
+    // Lip sync while the speech is happening
+    utterance.onstart = function() {
+        console.log("Speech started, beginning lip sync");
+        animationIntervalId = setInterval(simulateAudioParameterChange, 150);
+    };
+
+    // Stop lip sync when speech ends
+    utterance.onend = function() {
+        console.log("Speech ended, stopping lip sync");
+        clearInterval(animationIntervalId);
+        animationIntervalId = null;
+
+        // Reset the mouth movement
         if (live2dModel) {
-            animationIntervalId = setInterval(() => {
-                simulateAudioParameterChange();
-            }, 150);
+            live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+            live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
         }
-    }).then(function (r) {
-    });
+
+        isSpeaking = false; // Mark speaking as finished
+    };
+
+    synth.speak(utterance);
 }
 
 // Track the starting point when the user taps
@@ -206,17 +291,13 @@ function onPointerUp(event) {
 }
 
 function handleArtifact(artifactId) {
-    alert("qr scanned");
     if (!scriptData) {
-        alert('Scripts data is not loaded yet.');
         return;
     }
     // Find the script based on artifact ID
     scriptInfo = scriptData.scripts[artifactId];
     if (scriptInfo) {
         script = scriptInfo.script;
-    } else {
-        alert('No script found for artifact ID: ' + artifactId);
     }
 }
 
@@ -226,63 +307,17 @@ function handleTap(event) {
 
     // If already speaking, ignore further taps
     if (isSpeaking) return;
+    unlockAudioContext();
 
     // Check if the device is running iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    // const text = "The sky is blue, the clouds are white, the leaves are green, the sun is bright";
-    unlockAudioContext();
-    isSpeaking = true;
+
     if (isIOS) {
-        speakWithNativeTTS(script, live2dModel, simulateAudioParameterChange, animationIntervalId); // Use native TTS for iOS
+        speakWithNativeTTS(script); // Use native TTS for iOS
     } else {
-        speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId);
+        isSpeaking = true; // Mark speaking as active
+        speakText(script); // Use the TTS worker for non-iOS devices
     }
-}
-
-// Function to speak using Speech Synthesis API
-function speakWithNativeTTS(script, live2dModel, simulateAudioParameterChange, animationIntervalId) {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(script);
-
-    const voices = synth.getVoices();
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-    let selectedVoice;
-
-    if (isIOS) {
-        selectedVoice = voices.find(voice => voice.name === 'Fred');
-    }
-
-    if (!selectedVoice) {
-        selectedVoice = voices.find(voice => voice.lang === 'en-US');
-    }
-
-    if (selectedVoice) {
-        utterance.voice = selectedVoice;
-    }
-
-
-    // Lip sync while the speech is happening
-    utterance.onstart = function() {
-        animationIntervalId = setInterval(simulateAudioParameterChange, 150);
-    };
-
-    // Stop lip sync when speech ends
-    utterance.onend = function() {
-        clearInterval(animationIntervalId);
-        animationIntervalId = null;
-
-        // Reset the mouth movement
-        if (live2dModel) {
-            live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
-            live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
-        }
-    };
-    utterance.onend = function () {
-        isSpeaking = false;
-    };
-
-    synth.speak(utterance);
 }
 
 // Ensure voice list is populated after page load
