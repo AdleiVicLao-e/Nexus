@@ -1344,7 +1344,6 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (1292, 23, NULL, NULL, 'San Roque (Retablo of Saint Rock of Roch', NULL, 'Carved image', 'With crack, hole, and breakage'),
 (1293, 23, NULL, NULL, 'Mother Mary', NULL, 'Carved image', 'No problem (a) With broken hand (b)'),
 (1294, 23, NULL, NULL, 'Old CICM pictures', NULL, '15 pcs.', 'No problem'),
-(1296, 1, 2, 3, 'ahasd', NULL, 'asd', 'asd'),
 (1304, 6, 24, NULL, 'hello', NULL, 'asd', 'asd');
 
 -- --------------------------------------------------------

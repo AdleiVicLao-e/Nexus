@@ -268,7 +268,7 @@ function handleArtifact(artifactId) {
     scriptInfo = scriptData.scripts[artifactId];
     if (scriptInfo) {
         script = scriptInfo.script;
-        console.log(script);
+        alert(script);
     }
 }
 
