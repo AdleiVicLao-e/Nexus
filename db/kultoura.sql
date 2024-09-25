@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 11, 2024 at 04:14 AM
+-- Generation Time: Sep 25, 2024 at 08:43 AM
 -- Server version: 5.7.40
 -- PHP Version: 8.0.26
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `artifact_info` (
   KEY `artisect_idx` (`section_id`),
   KEY `articat_idx` (`catalogue_id`),
   KEY `artisubcat_idx` (`subcat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1303 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1305 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `artifact_info`
@@ -1344,7 +1344,8 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (1292, 23, NULL, NULL, 'San Roque (Retablo of Saint Rock of Roch', NULL, 'Carved image', 'With crack, hole, and breakage'),
 (1293, 23, NULL, NULL, 'Mother Mary', NULL, 'Carved image', 'No problem (a) With broken hand (b)'),
 (1294, 23, NULL, NULL, 'Old CICM pictures', NULL, '15 pcs.', 'No problem'),
-(1302, 1, 1, 1, 'Hello', NULL, 'asd', 'asd');
+(1296, 1, 2, 3, 'ahasd', NULL, 'asd', 'asd'),
+(1304, 6, 24, NULL, 'hello', NULL, 'asd', 'asd');
 
 -- --------------------------------------------------------
 
@@ -1428,10 +1429,10 @@ INSERT INTO `catalogue` (`catalogue_id`, `section_id`, `catalogue_name`) VALUES
 
 DROP TABLE IF EXISTS `section`;
 CREATE TABLE IF NOT EXISTS `section` (
-  `section_id` int(11) NOT NULL AUTO_INCREMENT,
+  `section_id` int(11) NOT NULL,
   `section_name` text NOT NULL,
   PRIMARY KEY (`section_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `section`
