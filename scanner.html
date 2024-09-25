@@ -202,7 +202,6 @@
         /* High z-index to ensure it's on top */
         pointer-events: auto;
       }
-
     </style>
   </head>
   <body>
@@ -285,7 +284,6 @@
       <canvas id="va-canvas"></canvas>
     </div>
 
-
     <script>
       const video = document.getElementById("video");
       const canvas = document.getElementById("canvas");
@@ -342,9 +340,6 @@
             fetchArtifactInfo(artifactId);
 
             if (displayBox) {
-              // Check if the box should be displayed
-              console.log("Drawing box..."); // Debugging log
-
               const centerX =
                 (code.location.topLeftCorner.x +
                   code.location.topRightCorner.x) /
@@ -368,86 +363,53 @@
                 boxHeight
               );
 
-              // Right side of the cube (Spine of the book)
-              canvasContext.beginPath();
-              canvasContext.moveTo(
-                centerX + boxWidth / 2,
-                centerY - boxHeight / 2
-              );
-              canvasContext.lineTo(
-                centerX + boxWidth / 2 + depth,
-                centerY - boxHeight / 2 - depth
-              );
-              canvasContext.lineTo(
-                centerX + boxWidth / 2 + depth,
-                centerY + boxHeight / 2 - depth
-              );
-              canvasContext.lineTo(
-                centerX + boxWidth / 2,
-                centerY + boxHeight / 2
-              );
-              canvasContext.closePath();
-              canvasContext.fillStyle = "rgba(14, 22, 68, 0.95)";
-              canvasContext.fill();
-
-              // Top side of the cube (Pages of the book)
-              canvasContext.beginPath();
-              canvasContext.moveTo(
-                centerX - boxWidth / 2,
-                centerY - boxHeight / 2
-              );
-              canvasContext.lineTo(
-                centerX - boxWidth / 2 + depth,
-                centerY - boxHeight / 2 - depth
-              );
-              canvasContext.lineTo(
-                centerX + boxWidth / 2 + depth,
-                centerY - boxHeight / 2 - depth
-              );
-              canvasContext.lineTo(
-                centerX + boxWidth / 2,
-                centerY - boxHeight / 2
-              );
-              canvasContext.closePath();
-              canvasContext.fillStyle = "rgba(14, 22, 68, 0.8)";
-              canvasContext.fill();
-
-              // Left side of the cube (Back cover of the book or edge)
-              canvasContext.beginPath();
-              canvasContext.moveTo(
-                centerX - boxWidth / 2,
-                centerY - boxHeight / 2
-              );
-              canvasContext.lineTo(
-                centerX - boxWidth / 2 + depth,
-                centerY - boxHeight / 2 - depth
-              );
-              canvasContext.lineTo(
-                centerX - boxWidth / 2 + depth,
-                centerY + boxHeight / 2 - depth
-              );
-              canvasContext.lineTo(
-                centerX - boxWidth / 2,
-                centerY + boxHeight / 2
-              );
-              canvasContext.closePath();
-              canvasContext.fillStyle = "rgba(14, 22, 68, 0.8)";
-              canvasContext.fill();
-
-              // Add the text inside the front face of the rectangle (Book title or information)
+              // Add text inside the front face of the rectangle (Book title or information)
               canvasContext.font = "15px Arial";
               canvasContext.fillStyle = "white";
-              canvasContext.textAlign = "center";
-              canvasContext.textBaseline = "middle";
+              canvasContext.textAlign = "left"; // Align left to control wrapping
+              canvasContext.textBaseline = "top";
 
               if (artifactInfo) {
                 const lines = artifactInfo.split("\n");
-                lines.forEach((line, index) => {
+                const lineHeight = 20; // Adjust the line height as necessary
+                const maxLineWidth = boxWidth - 2 * padding;
+
+                let currentY = centerY - boxHeight / 2 + padding;
+
+                lines.forEach((line) => {
+                  let words = line.split(" ");
+                  let currentLine = "";
+
+                  words.forEach((word, index) => {
+                    let testLine = currentLine + word + " ";
+                    let testWidth = canvasContext.measureText(testLine).width;
+
+                    if (testWidth > maxLineWidth && index > 0) {
+                      canvasContext.fillText(
+                        currentLine,
+                        centerX - boxWidth / 2 + padding,
+                        currentY
+                      );
+                      currentLine = word + " ";
+                      currentY += lineHeight;
+
+                      // Stop rendering if text exceeds the box height
+                      if (currentY > centerY + boxHeight / 2 - padding) return;
+                    } else {
+                      currentLine = testLine;
+                    }
+                  });
+
+                  // Render the last line of the paragraph
                   canvasContext.fillText(
-                    line,
-                    centerX,
-                    centerY - boxHeight / 2 + padding + (index + 1) * 15
+                    currentLine,
+                    centerX - boxWidth / 2 + padding,
+                    currentY
                   );
+                  currentY += lineHeight;
+
+                  // Stop rendering if text exceeds the box height
+                  if (currentY > centerY + boxHeight / 2 - padding) return;
                 });
               }
             }
@@ -472,7 +434,7 @@
               // If artifact is found
               artifactInfo = `
                     \n${data["Name"] || "N/A"}
-                    \n \nCatalogue: ${data["Catalogue Name"] || "N/A"}
+                    \nCatalogue: ${data["Catalogue Name"] || "N/A"}
                     \nSubcatalogue: ${data["Subcatalogue Name"] || "N/A"}
                     \nDescription: ${data["Description"] || "N/A"}
                 `.trim();
