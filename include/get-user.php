@@ -20,9 +20,9 @@ if ($result->num_rows > 0) {
     // Output data of each row
     echo "<table border='1'>
             <tr>
-                <th>User Number</th>  <!-- Change from ID to User Number -->
-                <th>User Name</th>
-                <th>User School</th>
+                <th>Visitor Number</th>  <!-- Change from ID to User Number -->
+                <th>Visitor Name</th>
+                <th>Visitor School</th>
                 <th>Time</th>
             </tr>";
     while($row = $result->fetch_assoc()) {

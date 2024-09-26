@@ -14,11 +14,11 @@ header {
     padding: 10px 10px;
     background-color: #162749;
     color: rgb(255, 255, 255);
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 10;
 }
 
 header .logo {
@@ -64,49 +64,30 @@ header nav a:hover {
     text-decoration: underline;
 }
 
-.main-container {
+ /* Add basic styles for the columns and cards */
+ .main-container {
     display: flex;
-    justify-content: center;
-    width: 90%;
-    max-width: 1500px;
-    margin: 0 auto;
-    gap: 20px;
-    height: 100%;
-}
-
-.left-container,
-.right-container {
-    flex: 1; /* Allow both containers to take equal space */
-    margin-right: 10px; /* Add space between the two containers */
+    justify-content: space-between;
+    padding: 20px;
 }
 
 .left-container {
-    flex: 1; /* Allow both containers to take equal space */
-    margin-right: 10px; /* Add space between the two containers */
-    margin-top: 20px; /* Add this line to lower the left-container */
+    margin-right: 20px;
 }
 
 .right-container {
-    align-items: flex-start;
-    padding-top: 10vmin;
+    margin-top: -105px;
 }
 
-.analytics {
-    background-color: #fff; /* Optional: background for the analytics section */
-    border: 1px solid #ccc; /* Optional: border for visibility */
-    padding: 10px; /* Add padding */
+.left-container, .right-container {
+    width: 48%;
 }
 
 .analytics, .artifacts {
-    padding: 20px;
-    background-color: #ffffff;
     border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-}
-
-.analytics {
-    background-color: #cce5ff;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
 .chart-container {
@@ -308,6 +289,31 @@ header nav a:hover {
 .artifacts {
     background-color: #e2e3e5;
 }
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tab {
+    padding: 10px 15px;
+    cursor: pointer;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+
+.tab.active {
+    background: #e0e0e0;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
 
 .right-container .artifacts .tabs {
     display: flex;
@@ -542,7 +548,21 @@ input[type="file"] {
     cursor: pointer;
 }
 
+.analytics-container {
+    justify-content: space-between; /* Distribute space between the table and chart */
+    margin-top: 20px; /* Add some spacing above the chart */
+}
+
+#chartContainer {
+    width: 400px; /* Set a specific width for the chart */
+}
+
+canvas {
+    max-width: 100%; /* Ensure the canvas fits within its container */
+}
+
 #userTableContainer {
+    flex: 1; /* Allow the table to take up available space */
     max-height: 400px; /* Set the desired height */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #162749; /* Darker border for better visibility */
@@ -604,19 +624,51 @@ td {
     transform: scale(0.95); /* Slightly shrink when pressed */
 }
 
+#donutChart {
+    max-width: 600px; /* Increased max width */
+    max-height: 400px; /* Increased max height */
+    margin: auto; /* Centers the chart */
+    padding: 10px; /* Adjusted padding */
+} 
 
-@media (max-width: 768px) {
+@media (min-width: 1024px) and (max-width: 1440px) {
+    /* Adjust logo size for medium screens */
     header .logo {
-        font-size: 3vmin; /* Adjust logo size for smaller screens */
+        font-size: 3vmin; 
     }
     
+    /* Main container layout adjustments */
     .main-container {
-        flex-direction: column; /* Stack left and right containers */
+        display: flex; /* Use flexbox for alignment */
+        align-items: flex-start; /* Align items at the top */
+    }
+    
+    /* Styling for left and right containers */
+    .left-container,
+    .right-container {
+        flex: 1; /* Make both containers take equal space */
+        margin-right: 10px; /* Add space between the two containers */
+        box-sizing: border-box; /* Include padding and borders in total width/height */
+    }
+    
+    /* Specific adjustments for the left container */
+    .left-container {
+        margin-top: 345px;
+        margin-right: 10px; /* Remove right margin for the left container */
+        height: 400px; /* Set a specific height for the left container */
+    }
+    
+    /* Specific adjustments for the right container */
+    .right-container {
+        margin-top: -60px;
+        margin-right: 0; /* Remove right margin for the right container */
+        height: 400px; /* Set a specific height for the right container */
     }
 
-    .left-container, .right-container {
-        width: 100%; /* Full width on smaller screens */
-        padding: 0; /* Remove padding for smaller screens */
+    /* Optional: Add styles for the buttons or forms if needed */
+    button {
+        padding: 10px 20px; /* Increase button padding for better click area */
+        font-size: 1.2em; /* Adjust button font size for readability */
     }
-
+    
 }
