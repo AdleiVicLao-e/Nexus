@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Scanner with AR</title>
     <script src="res/js/client/jsQR.js"></script>
+    <link rel="icon" href="assets\img\favicon.png" type="image/x-icon">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+
     <style>
       #video {
         width: 100%;
@@ -29,7 +32,7 @@
         font-size: 15px;
         font-weight: bold;
         background-color: #fac301;
-        font-family: Arial, sans-serif;
+        font-family: "Inter", sans-serif;
         padding: 10px;
         border-radius: 5px;
       }
@@ -220,7 +223,7 @@
       style="
         position: absolute;
         top: 90px;
-        font-family: Arial, sans-serif;
+        font-family: 'Inter', sans-serif;
         right: 10px;
         color: white;
         font-size: 12px;
@@ -364,7 +367,7 @@
               );
 
               // Add text inside the front face of the rectangle (Book title or information)
-              canvasContext.font = "15px Arial";
+              canvasContext.font = "bold 15px 'Inter', sans-serif";
               canvasContext.fillStyle = "white";
               canvasContext.textAlign = "left"; // Align left to control wrapping
               canvasContext.textBaseline = "top";

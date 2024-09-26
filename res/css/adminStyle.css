@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box; /* Apply to all elements */
+}
+
 body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin: 0;
@@ -11,7 +15,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px;
+    padding: 10px; /* Consider reducing the padding */
     background-color: #162749;
     color: rgb(255, 255, 255);
     position: relative;
@@ -36,6 +40,11 @@ header .greetings {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+header .logo,
+header .greetings {
+    flex-shrink: 1; /* Allow flex items to shrink */
 }
 
 header .greetings img {
@@ -632,6 +641,10 @@ td {
 } 
 
 @media (min-width: 1024px) and (max-width: 1440px) {
+
+    header {
+        width: 1329px;
+    }
     /* Adjust logo size for medium screens */
     header .logo {
         font-size: 3vmin; 
@@ -647,7 +660,6 @@ td {
     .left-container,
     .right-container {
         flex: 1; /* Make both containers take equal space */
-        margin-right: 10px; /* Add space between the two containers */
         box-sizing: border-box; /* Include padding and borders in total width/height */
     }
     
@@ -661,7 +673,6 @@ td {
     /* Specific adjustments for the right container */
     .right-container {
         margin-top: -60px;
-        margin-right: 0; /* Remove right margin for the right container */
         height: 400px; /* Set a specific height for the right container */
     }
 
