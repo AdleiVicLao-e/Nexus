@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code Scanner with AR</title>
     <script src="res/js/client/jsQR.js"></script>
-    <link rel="icon" href="assets\img\favicon.png" type="image/x-icon">
-    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link rel="icon" href="assets\img\favicon.png" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter"
+      rel="stylesheet"
+    />
 
     <style>
       #video {
@@ -114,7 +117,7 @@
         background-image: url("./assets/img/info_box.png");
         background-size: cover;
         background-position: center;
-        width: 100%;
+        width: 70%;
         padding: 30px;
         align-self: center;
         border-radius: 20px;
@@ -176,7 +179,7 @@
         height: 100px;
         transform: translate(-50%, -50%);
         display: none;
-        animation: wave 3s ease-out;
+        animation: wave 2s ease-out;
       }
 
       @keyframes wave {
@@ -536,7 +539,7 @@
         magnifyingGlass.style.display = "block";
         setTimeout(() => {
           magnifyingGlass.style.display = "none";
-        }, 3000);
+        }, 2000);
       });
 
       // Start the video stream when the page loads
