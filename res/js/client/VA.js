@@ -5,7 +5,6 @@ let audioParameterValues = {};
 let isAudioContextUnlocked = false;
 let isSpeaking = false; // Track if speech is active
 let scriptData; // Store the loaded script data
-let script;
 
 // Variables to track dragging state
 let isDragging = false;
@@ -26,13 +25,37 @@ let app = new PIXI.Application({
     backgroundAlpha: 0, // Transparent background
 }), scriptInfo;
 
+// ScriptManager to handle current script
+const ScriptManager = {
+    currentScript: '',
+
+    setScript: function(artifactId) {
+        if (!scriptData) {
+            console.error('Script data not loaded yet.');
+            return;
+        }
+        const scriptInfo = scriptData.scripts[artifactId];
+        if (scriptInfo) {
+            this.currentScript = scriptInfo.script;
+            console.log(`ScriptManager: Updated script to "${this.currentScript}" for artifactId ${artifactId}`);
+        } else {
+            console.error(`ScriptManager: No script found for artifactId ${artifactId}`);
+        }
+    },
+
+    getScript: function() {
+        return this.currentScript;
+    }
+};
+
 // Load the VA script from assets/VAmodel/script.json
 fetch('./assets/VAmodel/script.json')
     .then(response => response.json())
     .then(data => {
         scriptData = data; // Store the script data
         scriptInfo = scriptData.scripts[1302];
-        script = scriptInfo.script;
+        ScriptManager.setScript(1302);
+        console.log(`Initial script loaded: ${ScriptManager.getScript()}`);
     })
     .catch(error => console.error('Error loading script:', error));
 
@@ -187,11 +210,11 @@ function speakText(text, live2dModel, simulateAudioParameterChange, animationInt
 }
 
 // Function to speak using Speech Synthesis API for iOS
-function speakWithNativeTTS(script) {
-    console.log("Starting speakWithNativeTTS function with script:", script);
+function speakWithNativeTTS(text) {
+    console.log(`speakWithNativeTTS: Speaking script "${text}"`);
 
     const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(script);
+    const utterance = new SpeechSynthesisUtterance(text);
 
     const voices = synth.getVoices();
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -216,6 +239,7 @@ function speakWithNativeTTS(script) {
     utterance.onstart = function() {
         console.log("Speech started, beginning lip sync");
         animationIntervalId = setInterval(simulateAudioParameterChange, 150);
+        isSpeaking = true; // Mark that speech is ongoing
     };
 
     // Stop lip sync when speech ends
@@ -235,6 +259,33 @@ function speakWithNativeTTS(script) {
 
     // Start speaking
     synth.speak(utterance);
+}
+
+// Handle artifact is able to get the proper script
+function handleArtifact(artifactId) {
+    ScriptManager.setScript(artifactId);
+}
+
+// Handle tap interaction (trigger speech)
+function handleTap(event) {
+    event.stopPropagation(); // Prevent default behavior
+    const script = ScriptManager.getScript();
+    console.log(`handleTap: Current script is "${script}"`);
+
+    // If already speaking, stop the current speech and return
+    if (isSpeaking) {
+        console.log("Currently speaking, ignoring tap.");
+        return;
+    }
+
+    unlockAudioContext();
+
+    // Trigger speech when the model is tapped
+    if (window.speechSynthesis && window.speechSynthesis.speak) {
+        speakWithNativeTTS(script);
+    } else {
+        speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId);
+    }
 }
 
 // Track the starting point when the user taps
@@ -257,37 +308,6 @@ function onPointerUp(event) {
 
     // Reset dragging state
     isDragging = false;
-}
-
-function handleArtifact(artifactId) {
-    if (!scriptData) {
-        return;
-    }
-    // Find the script based on artifact ID
-    scriptInfo = scriptData.scripts[artifactId];
-    if (scriptInfo) {
-        script = scriptInfo.script;
-    }
-}
-
-// Handle tap interaction (trigger speech)
-function handleTap(event) {
-    event.stopPropagation(); // Prevent default behavior
-
-    // If already speaking, stop the current speech and return
-    if (isSpeaking) {
-        console.log("Currently speaking, ignoring tap.");
-        return;
-    }
-
-    unlockAudioContext();
-
-    // Trigger speech when the model is tapped
-    if (window.speechSynthesis && window.speechSynthesis.speak) {
-        speakWithNativeTTS(script);
-    } else {
-        speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId);
-    }
 }
 
 // Stop TTS on page unload or visibility change
