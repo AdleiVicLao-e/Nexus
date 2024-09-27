@@ -1,4 +1,3 @@
-// Global Variables
 let live2dModel;
 let mouthMotionData;
 let animationIntervalId;
@@ -6,66 +5,39 @@ let audioParameterValues = {};
 let isAudioContextUnlocked = false;
 let isSpeaking = false; // Track if speech is active
 let scriptData; // Store the loaded script data
+var script;
 
-// Dragging State Variables
+// Variables to track dragging state
 let isDragging = false;
 let startPoint = { x: 0, y: 0 };
 let dragThreshold = 10; // Minimum movement to qualify as a drag
 let speakWorker;
 
-// Initialize Speak Worker
 try {
     speakWorker = new Worker('./res/js/client/speakWorker.js');
 } catch(e) {
     console.log('speak.js warning: no worker support');
 }
 
-// PIXI Application Setup
+// Create a PIXI application
 let app = new PIXI.Application({
     view: document.getElementById('va-canvas'),
     autoStart: true,
     backgroundAlpha: 0, // Transparent background
 }), scriptInfo;
 
-// ScriptManager Object
-const ScriptManager = {
-    currentScript: '',
-    setScript: function(artifactId) {
-        if (!scriptData) {
-            console.error('ScriptManager: Script data not loaded yet.');
-            return;
-        }
-        const scriptInfo = scriptData.scripts[artifactId];
-        if (scriptInfo) {
-            this.currentScript = scriptInfo.script;
-            console.log(`ScriptManager: Updated script to "${this.currentScript}" for artifactId ${artifactId}`);
-        } else {
-            console.error(`ScriptManager: No script found for artifactId ${artifactId}`);
-        }
-    },
-    getScript: function() {
-        return this.currentScript;
-    }
-};
-
 // Load the VA script from assets/VAmodel/script.json
 fetch('./assets/VAmodel/script.json')
     .then(response => response.json())
     .then(data => {
         scriptData = data; // Store the script data
-
-        // Check for artifactId in localStorage or default to 1302
-        let artifactId = localStorage.getItem('selectedArtifactId') || '1302';
-        if (scriptData.scripts[artifactId]) {
-            ScriptManager.setScript(artifactId);
-            console.log(`Initial script loaded: "${ScriptManager.getScript()}"`);
-        } else {
-            console.error(`No script found for initial artifactId ${artifactId}, defaulting to 1302.`);
-            artifactId = '1302';
-            ScriptManager.setScript(artifactId);
-        }
+        scriptInfo = scriptData.scripts[1302];
+        script = scriptInfo.script;
     })
     .catch(error => console.error('Error loading script:', error));
+
+// Load and display the Live2D model
+let audioContext = null; // Moved initialization to be inside the unlockAudioContext function
 
 // Unlock AudioContext on user interaction (for iOS support)
 function unlockAudioContext() {
@@ -81,7 +53,6 @@ function unlockAudioContext() {
     }
 }
 
-// Load and Display the Live2D Model
 PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
     live2dModel = model;
 
@@ -95,7 +66,7 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
 
     app.stage.addChild(live2dModel);
 
-    // Load Mouth Motion Data
+    // Load mouth motion data
     PIXI.Loader.shared
         .add('mouthMotion', './assets/VAmodel/VA Character.motionsync3.json')
         .load((loader, resources) => {
@@ -103,13 +74,13 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
             applyMotionData();
         });
 
-    // Event Listeners for Tap Interaction
+    // Event listeners for tap interaction
     live2dModel.on('pointerdown', onPointerDown);
     live2dModel.on('pointerup', onPointerUp);
     live2dModel.on('pointerupoutside', onPointerUp);
 });
 
-// Synchronize Lip Movement Based on Motion Data
+// Synchronize lip movement based on the motion data
 function applyMotionData() {
     if (mouthMotionData) {
         const settings = mouthMotionData.Settings[0];
@@ -135,7 +106,6 @@ function applyMotionData() {
     }
 }
 
-// Simulate Audio Parameter Changes for Lip Sync
 function simulateAudioParameterChange() {
     audioParameterValues["A"] = Math.random();
     audioParameterValues["E"] = Math.random();
@@ -144,7 +114,6 @@ function simulateAudioParameterChange() {
     audioParameterValues["U"] = Math.random();
 }
 
-// Generate TTS Using Speak Worker
 function generateTTS(text, callback) {
     const message = {
         text: text,
@@ -156,19 +125,14 @@ function generateTTS(text, callback) {
         base64: true
     };
 
-    if (speakWorker) {
-        speakWorker.postMessage(message);
-    } else {
-        console.error('SpeakWorker is not available.');
-        return;
-    }
+    speakWorker.postMessage(message);
 
     speakWorker.onmessage = function (event) {
         callback(event.data);
     };
 }
 
-// Play TTS Audio in Browser Using AudioContext
+// Function to play audio in browser using AudioContext
 function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
     // Check if audioData is a Uint8Array (binary data)
     if (!(audioData instanceof Uint8Array)) {
@@ -204,6 +168,7 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
             if (live2dModel) {
                 let startTime = Date.now();
                 animationIntervalId = setInterval(() => {
+                    let elapsed = Date.now() - startTime;
                     simulateAudioParameterChange();
                 }, 150);
             }
@@ -213,7 +178,6 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
         });
 }
 
-// Speak Text Using Speak Worker or Native TTS
 function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
     // Generate audio using speak.js
     generateTTS(text, function (audioData) {
@@ -222,12 +186,12 @@ function speakText(text, live2dModel, simulateAudioParameterChange, animationInt
     });
 }
 
-// Speak Using Native TTS (Speech Synthesis API)
-function speakWithNativeTTS(text) {
-    console.log(`speakWithNativeTTS: Speaking script "${text}"`);
+// Function to speak using Speech Synthesis API for iOS
+function speakWithNativeTTS(script) {
+    console.log("Starting speakWithNativeTTS function with script:", script);
 
     const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(script);
 
     const voices = synth.getVoices();
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -252,7 +216,6 @@ function speakWithNativeTTS(text) {
     utterance.onstart = function() {
         console.log("Speech started, beginning lip sync");
         animationIntervalId = setInterval(simulateAudioParameterChange, 150);
-        isSpeaking = true; // Mark that speech is ongoing
     };
 
     // Stop lip sync when speech ends
@@ -274,40 +237,13 @@ function speakWithNativeTTS(text) {
     synth.speak(utterance);
 }
 
-// Handle Artifact by Updating ScriptManager
-function handleArtifact(artifactId) {
-    ScriptManager.setScript(artifactId);
-}
-
-// Handle Tap Interaction (Trigger Speech)
-function handleTap(event) {
-    event.stopPropagation(); // Prevent default behavior
-    const currentScript = ScriptManager.getScript();
-    alert(`handleTap: Current script is "${currentScript}"`);
-
-    // If already speaking, stop the current speech and return
-    if (isSpeaking) {
-        alert("Currently speaking, ignoring tap.");
-        return;
-    }
-
-    unlockAudioContext();
-
-    // Trigger speech when the model is tapped
-    if (window.speechSynthesis && window.speechSynthesis.speak) {
-        speakWithNativeTTS(currentScript);
-    } else {
-        speakText(currentScript, live2dModel, simulateAudioParameterChange, animationIntervalId);
-    }
-}
-
-// Track the Starting Point When the User Taps
+// Track the starting point when the user taps
 function onPointerDown(event) {
     startPoint = event.data.global;
     isDragging = false;
 }
 
-// Event Handler for Pointer Up (Tap Detection)
+// Event handler for pointer up (tap detection)
 function onPointerUp(event) {
     const currentPoint = event.data.global;
     const distance = Math.sqrt(
@@ -323,7 +259,38 @@ function onPointerUp(event) {
     isDragging = false;
 }
 
-// Stop TTS on Page Unload or Visibility Change
+function handleArtifact(artifactId) {
+    if (!scriptData) {
+        return;
+    }
+    // Find the script based on artifact ID
+    scriptInfo = scriptData.scripts[artifactId];
+    if (scriptInfo) {
+        script = scriptInfo.script;
+    }
+}
+
+// Handle tap interaction (trigger speech)
+function handleTap(event) {
+    event.stopPropagation(); // Prevent default behavior
+
+    // If already speaking, stop the current speech and return
+    if (isSpeaking) {
+        console.log("Currently speaking, ignoring tap.");
+        return;
+    }
+
+    unlockAudioContext();
+
+    // Trigger speech when the model is tapped
+    if (window.speechSynthesis && window.speechSynthesis.speak) {
+        speakWithNativeTTS(script);
+    } else {
+        speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId);
+    }
+}
+
+// Stop TTS on page unload or visibility change
 function stopTTS() {
     if (window.speechSynthesis) {
         window.speechSynthesis.cancel(); // Cancel any ongoing speech
@@ -347,12 +314,18 @@ function stopTTS() {
     isSpeaking = false; // Reset the speaking flag
 }
 
-// Event Listeners for Page Unload and Visibility Change
+// Event listener for page unload
 window.addEventListener('beforeunload', stopTTS);
+
+// Event listener for visibility change
 document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
         stopTTS(); // Stop TTS when the page becomes hidden
     }
 });
+
+// Function to handle tab close or navigate away
 window.addEventListener('pagehide', stopTTS);
+
+// Function to handle tab or browser being inactive (onblur)
 window.addEventListener('blur', stopTTS);
