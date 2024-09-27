@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (isset($_SESSION["guest"])) {
+  header("Location: ../scanner.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +24,7 @@
   </div>
 </header>
 <div class="welcome-container">
-  <a href="guest-login.html" class="btn-red">Get Started</a>
+  <a href="guest-login.php" class="btn-red">Get Started</a>
 </div>
 </body>
 </html>

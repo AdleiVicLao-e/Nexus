@@ -1,3 +1,8 @@
+<?php
+if (is_null($_SESSION["guest"])) {
+  header("Location: ../guest-login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +29,7 @@
     <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar"><i class="fa fa-angle-left mr-2"></i>Close menu
     </button>
     <ul class="nav sidebar_menu-list">
-        <li class="nav-item active"><a class="nav-link" href="scanner.html"
+        <li class="nav-item active"><a class="nav-link" href="scanner.php"
                                        title="Home">Home</a></li>
         <li class="nav-item">
             <div class="toggle-submenu" data-toggle="collapse" data-target="#sidebar_subs_genre" aria-expanded="false"
@@ -57,13 +62,13 @@
         <div id="header">
     <div class="container">
         <div id="mobile_menu"><i class="fa fa-bars"></i></div>
-        <a href="scanner.html" id="logo"><img src="assets\img\logo.png" alt="Logo">
+        <a href="scanner.php" id="logo"><img src="assets\img\logo.png" alt="Logo">
             
         </a>
         <!--Begin: Menu-->
         <div id="header_menu">
             <ul class="nav header_menu-list">
-                <li class="nav-item"><a href="scanner.html" title="Home">Home</a></li>
+                <li class="nav-item"><a href="scanner.php" title="Home">Home</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Ethnic Groups
@@ -219,14 +224,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Taddok"
              alt="watch-Taddok">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Taddok"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Taddok"><strong>Taddok</strong></a>
             </h3>
         
@@ -251,14 +256,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Tupayya"
              alt="watch-Tupayya">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Tupayya"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Tupayya"><strong>Tupayya</strong></a>
             </h3>
         
@@ -283,14 +288,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Lablabbaan"
              alt="watch-Lablabbaan">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Lablabbaan"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Lablabbaan"><strong>Lablabbaan</strong></a>
             </h3>
         
@@ -315,14 +320,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Boogie"
              alt="watch-Boogie">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Boogie"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Boogie"><strong>Boogie</strong></a>
             </h3>
         
@@ -347,14 +352,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Boogie Variance"
              alt="watch-Boogie Variance">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Boogie Variance"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Boogie Variance"><strong>Boogie Variance</strong></a>
             </h3>
         
@@ -379,14 +384,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Takkik"
              alt="watch-Takkik">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Takkik"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Takkik"><strong>Takkik</strong></a>
             </h3>
         
@@ -410,14 +415,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Dinuyya"
              alt="watch-Dinuyya">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Dinuyya"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Dinuyya"><strong>Dinuyya</strong></a>
             </h3>
         
@@ -440,14 +445,14 @@
         <img data-src="assets\img\dance-igorot.jpg"
              class="film-poster-img lazyload" title="Balliwes"
              alt="watch-Balliwes">
-        <a href="video-player.html"
+        <a href="video-player.php"
            class="film-poster-ahref flw-item-tip" 
            title="Balliwes"><i class="fa fa-play"></i></a>
     </div>
     <div class="film-detail film-detail-fix">
         
             <h3 class="film-name"><a
-                        href="video-player.html" 
+                        href="video-player.php" 
                         title="Balliwes"><strong>Balliwes</strong></a>
             </h3>
         

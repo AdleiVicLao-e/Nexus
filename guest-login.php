@@ -1,3 +1,8 @@
+<?php
+if (isset($_SESSION["guest"])) {
+  header("Location: ../scanner.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,7 +29,7 @@
       </div>
       <!-- Back button container -->
       <div class="back-button-container">
-        <a href="index.html">
+        <a href="index.php">
           <i
             class="fa fa-chevron-circle-left"
             aria-hidden="true"
@@ -141,8 +146,8 @@
         } else {
           errorMessage.style.display = "none"; // Hide error message
 
-          // Redirect to scanner.html
-          window.location.href = "scanner.html";
+          // Redirect to scanner.php
+          window.location.href = "scanner.php";
           return false; // Prevent the default form action to avoid page reload
         }
       }

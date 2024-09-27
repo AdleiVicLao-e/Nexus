@@ -1,3 +1,8 @@
+<?php
+if (is_null($_SESSION["guest"])) {
+  header("Location: ../guest-login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -252,7 +257,7 @@
     <button class="floating-button left" onclick="viewDetails()">i</button>
     <button
       id="watchVideosButton"
-      onclick="window.location.href='igorot-dances.html';"
+      onclick="window.location.href='igorot-dances.php';"
     ></button>
 
     <!-- Magnifying Glass -->

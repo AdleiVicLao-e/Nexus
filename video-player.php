@@ -1,3 +1,8 @@
+<?php
+if (is_null($_SESSION["guest"])) {
+  header("Location: ../guest-login.php");
+}
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -30,7 +35,7 @@
                 <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar"><i class="fa fa-angle-left mr-2"></i>Close menu
                 </button>
                 <ul class="nav sidebar_menu-list">
-                    <li class="nav-item active"><a class="nav-link" href="scanner.html"
+                    <li class="nav-item active"><a class="nav-link" href="scanner.php"
                                                    title="Home">Home</a></li>
                     <li class="nav-item">
                         <div class="toggle-submenu" data-toggle="collapse" data-target="#sidebar_subs_genre" aria-expanded="false"
@@ -62,12 +67,12 @@
                 <div id="header">
                     <div class="container">
                         <div id="mobile_menu"><i class="fa fa-bars"></i></div>
-                        <a href="scanner.html" id="logo"><img src="assets\img\logo.png" alt="Logo">
+                        <a href="scanner.php" id="logo"><img src="assets\img\logo.png" alt="Logo">
                         </a>
                         <!--Begin: Menu-->
                         <div id="header_menu">
                             <ul class="nav header_menu-list">
-                                <li class="nav-item"><a href="scanner.html" title="Home">Home</a></li>
+                                <li class="nav-item"><a href="scanner.php" title="Home">Home</a></li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Ethnic Groups
@@ -118,7 +123,7 @@
                                             <a href="/">Home</a>
                                         </li>
                                         <li class="breadcrumb-item">
-                                            <a href="igorot-dances.html" title="Movie">Dances</a>
+                                            <a href="igorot-dances.php" title="Movie">Dances</a>
                                         </li>
                                         <li class="breadcrumb-item active" aria-current="page">Taddok</li>
                                     </ol>
@@ -277,7 +282,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Tadok"><strong>Tadok</strong></a>
                     </h3>
                 
@@ -309,7 +314,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Tupayya"><strong>Tupayya</strong></a>
                     </h3>
                 
@@ -341,7 +346,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Lablabbaan"><strong>Lablabbaan</strong></a>
                     </h3>
                 
@@ -373,7 +378,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Boogie"><strong>Boogie</strong></a>
                     </h3>
                 
@@ -405,7 +410,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Boogie Variance"><strong>Boogie Variance</strong></a>
                     </h3>
                 
@@ -437,7 +442,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Takkik"><strong>Takkik</strong></a>
                     </h3>
                 
@@ -468,7 +473,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Dinuyya"><strong>Dinuyya</strong></a>
                     </h3>
                 
@@ -498,7 +503,7 @@
             <div class="film-detail film-detail-fix">
                 
                     <h3 class="film-name"><a
-                                href="video-player.html" 
+                                href="video-player.php" 
                                 title="Balliwes"><strong>Balliwes</strong></a>
                     </h3>
                 

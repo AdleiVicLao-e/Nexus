@@ -1,3 +1,8 @@
+<?php
+if (is_null($_SESSION["guest"])) {
+  header("Location: ../guest-login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -37,7 +42,7 @@
       <div class="navbar">
         <i class="bx bx-menu"></i>
         <div class="logo">
-          <a href="index.html">
+          <a href="index.php">
             <img
               src="assets/img/logo.png"
               style="height: auto"
@@ -57,14 +62,14 @@
           </div>
           <ul class="links">
             <li>
-              <a href="scanner.html" class="close-nav"
+              <a href="scanner.php" class="close-nav"
                 ><i class="fa fa-chevron-circle-left"></i
               ></a>
             </li>
-            <li><a href="scanner.html">Home</a></li>
-            <li><a href="igorot-dances.html">Igorot Dances</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="index.html">Log out</a></li>
+            <li><a href="scanner.php">Home</a></li>
+            <li><a href="igorot-dances.php">Igorot Dances</a></li>
+            <li><a href="about.php">About</a></li>
+            <li><a href="index.php">Log out</a></li>
           </ul>
         </div>
         <div class="search-box">
