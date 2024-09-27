@@ -22,7 +22,7 @@ h2 {
 }
 
 span {
-    font-family: 'Inter' sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 p {
@@ -55,41 +55,42 @@ p {
 
 @keyframes wave {
     0% {
-        position: 0 0 0;
+        transform: translate3d(0, 0, 0);
     }
 
     50% {
-        position: 0 0.1 0;
+        transform: translate3d(0, 0.1rem, 0);
     }
 
     100% {
-        position: 0 0 0;
+        transform: translate3d(0, 0, 0);
     }
 }
 
 /* Welcome Page Styles */
+/* Welcome Page Styles */
 .welcome-body {
-    background: url('../../assets/img/bulul.png') no-repeat center center fixed, #272626;
-    background-size: cover;
+    background: url('../../assets/img/bulul.png') no-repeat center center fixed, rgba(39, 38, 38, 0.8); /* You can keep the fallback color */
+    background-size: 300px; /* Match initial size with animation */
     box-shadow: none;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #272626(0, 0, 0, 0.8);
     opacity: 0;
     animation: backgroundAnimation 5s forwards;
 }
 
+/* Keyframes for the background animation */
 @keyframes backgroundAnimation {
     from {
         opacity: 0;
-        background-size: 300px;
+        background-size: 300px; /* Initial size */
     }
 
     to {
         opacity: 1;
-        background-size: 310px;
+        background-size: 310px; /* End size */
     }
 }
 
@@ -829,12 +830,12 @@ a-plane {
     }
 
     nav .navbar .logo a {
-        size: 30px;
+        font-size: 30px;
     }
 
-    .img {
+    /* .img {
         size: 30px;
-    }
+    } */
 
     .logo {
         margin-left: 50px;
@@ -1556,9 +1557,7 @@ a-plane {
 
     .logo {
         max-width: 65%;
-        /* Adjust the width for smaller screens */
         height: auto;
-        /* Maintain the logo's aspect ratio */
     }
 
     #html5-qrcode-button-camera-permission {
@@ -1566,11 +1565,6 @@ a-plane {
         padding-left: 25px;
         padding-right: 25px;
         margin-bottom: 10px;
-
-        animation: shake 1.0s ease-in-out;
-        /* Duration of the shake and timing function */
-        animation-iteration-count: forwards;
-        /* The shake repeats infinitely */
     }
 
     @keyframes shake {
