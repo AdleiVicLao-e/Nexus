@@ -132,7 +132,6 @@ function generateTTS(text, callback) {
     };
 }
 
-
 // Function to play audio in browser using AudioContext
 function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
     // Check if audioData is a Uint8Array (binary data)
@@ -275,24 +274,58 @@ function handleArtifact(artifactId) {
 function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
 
-    // If already speaking, ignore further taps
-    if (isSpeaking) return;
+    // If already speaking, stop the current speech and return
+    if (isSpeaking) {
+        console.log("Currently speaking, ignoring tap.");
+        return;
+    }
+
     unlockAudioContext();
 
-    // Check if the device is running iOS
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-    if (isIOS) {
-        speakWithNativeTTS(script); // Use native TTS for iOS
+    // Trigger speech when the model is tapped
+    if (window.speechSynthesis && window.speechSynthesis.speak) {
+        speakWithNativeTTS(script);
     } else {
-        isSpeaking = true; // Mark speaking as active
-        speakText(script); // Use the TTS worker for non-iOS devices
+        speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId);
     }
 }
 
-// Ensure voice list is populated after page load
-window.onload = function () {
-    window.speechSynthesis.onvoiceschanged = function () {
-        window.speechSynthesis.getVoices();
-    };
-};
+// Stop TTS on page unload or visibility change
+function stopTTS() {
+    if (window.speechSynthesis) {
+        window.speechSynthesis.cancel(); // Cancel any ongoing speech
+        console.log("TTS stopped.");
+    }
+
+    if (speakWorker) {
+        speakWorker.terminate(); // Terminate the TTS worker
+        console.log("TTS worker terminated.");
+    }
+
+    clearInterval(animationIntervalId); // Clear lip sync animation
+    animationIntervalId = null;
+
+    // Reset mouth movement
+    if (live2dModel) {
+        live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+        live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
+    }
+
+    isSpeaking = false; // Reset the speaking flag
+}
+
+// Event listener for page unload
+window.addEventListener('beforeunload', stopTTS);
+
+// Event listener for visibility change
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        stopTTS(); // Stop TTS when the page becomes hidden
+    }
+});
+
+// Function to handle tab close or navigate away
+window.addEventListener('pagehide', stopTTS);
+
+// Function to handle tab or browser being inactive (onblur)
+window.addEventListener('blur', stopTTS);
