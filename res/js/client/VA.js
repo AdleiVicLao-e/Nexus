@@ -1,17 +1,17 @@
-let live2dModel;
-let mouthMotionData;
-let animationIntervalId;
-let audioParameterValues = {};
-let isAudioContextUnlocked = false;
-let isSpeaking = false; // Track if speech is active
-let scriptData; // Store the loaded script data
-let script;
+var live2dModel;
+var mouthMotionData;
+var animationIntervalId;
+var audioParameterValues = {};
+var isAudioContextUnlocked = false;
+var isSpeaking = false; // Track if speech is active
+var scriptData; // Store the loaded script data
+var script;
 
 // Variables to track dragging state
-let isDragging = false;
-let startPoint = { x: 0, y: 0 };
-let dragThreshold = 10; // Minimum movement to qualify as a drag
-let speakWorker;
+var isDragging = false;
+var startPoint = { x: 0, y: 0 };
+var dragThreshold = 10; // Minimum movement to qualify as a drag
+var speakWorker;
 
 try {
     speakWorker = new Worker('./res/js/client/speakWorker.js');
@@ -20,24 +20,29 @@ try {
 }
 
 // Create a PIXI application
-let app = new PIXI.Application({
+var app = new PIXI.Application({
     view: document.getElementById('va-canvas'),
     autoStart: true,
     backgroundAlpha: 0, // Transparent background
-}), scriptInfo;
+});
+var scriptInfo;
 
 // Load the VA script from assets/VAmodel/script.json
 fetch('./assets/VAmodel/script.json')
-    .then(response => response.json())
-    .then(data => {
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
         scriptData = data; // Store the script data
         scriptInfo = scriptData.scripts[1302];
         script = scriptInfo.script;
     })
-    .catch(error => console.error('Error loading script:', error));
+    .catch(function(error) {
+        console.error('Error loading script:', error);
+    });
 
 // Load and display the Live2D model
-let audioContext = null; // Moved initialization to be inside the unlockAudioContext function
+var audioContext = null; // Moved initialization to be inside the unlockAudioContext function
 
 // Unlock AudioContext on user interaction (for iOS support)
 function unlockAudioContext() {
@@ -46,14 +51,14 @@ function unlockAudioContext() {
     }
 
     if (!isAudioContextUnlocked && audioContext.state !== 'running') {
-        audioContext.resume().then(() => {
+        audioContext.resume().then(function() {
             console.log("Audio context resumed.");
             isAudioContextUnlocked = true;
         });
     }
 }
 
-PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(model => {
+PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(function(model) {
     live2dModel = model;
 
     live2dModel.scale.set(0.15);
@@ -69,7 +74,7 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
     // Load mouth motion data
     PIXI.Loader.shared
         .add('mouthMotion', './assets/VAmodel/VA Character.motionsync3.json')
-        .load((loader, resources) => {
+        .load(function(loader, resources) {
             mouthMotionData = resources.mouthMotion ? resources.mouthMotion.data : null;
             applyMotionData();
         });
@@ -83,21 +88,31 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
 // Synchronize lip movement based on the motion data
 function applyMotionData() {
     if (mouthMotionData) {
-        const settings = mouthMotionData.Settings[0];
-        const mappings = settings.Mappings;
+        var settings = mouthMotionData.Settings[0];
+        var mappings = settings.Mappings;
 
-        settings.AudioParameters.forEach(param => {
+        for (var i = 0; i < settings.AudioParameters.length; i++) {
+            var param = settings.AudioParameters[i];
             audioParameterValues[param.Id] = 0;
-        });
+        }
 
         function updateModelParameters() {
-            for (let audioParamId in audioParameterValues) {
-                const value = audioParameterValues[audioParamId];
-                const mapping = mappings.find(m => m.Id === audioParamId);
-                if (mapping) {
-                    mapping.Targets.forEach(target => {
-                        live2dModel.internalModel.coreModel.setParameterValueById(target.Id, target.Value * value);
-                    });
+            for (var audioParamId in audioParameterValues) {
+                if (audioParameterValues.hasOwnProperty(audioParamId)) {
+                    var value = audioParameterValues[audioParamId];
+                    var mapping = null;
+                    for (var j = 0; j < mappings.length; j++) {
+                        if (mappings[j].Id === audioParamId) {
+                            mapping = mappings[j];
+                            break;
+                        }
+                    }
+                    if (mapping) {
+                        for (var k = 0; k < mapping.Targets.length; k++) {
+                            var target = mapping.Targets[k];
+                            live2dModel.internalModel.coreModel.setParameterValueById(target.Id, target.Value * value);
+                        }
+                    }
                 }
             }
         }
@@ -107,15 +122,15 @@ function applyMotionData() {
 }
 
 function simulateAudioParameterChange() {
-    audioParameterValues["A"] = Math.random();
-    audioParameterValues["E"] = Math.random();
-    audioParameterValues["I"] = Math.random();
-    audioParameterValues["O"] = Math.random();
-    audioParameterValues["U"] = Math.random();
+    audioParameterValues.A = Math.random();
+    audioParameterValues.E = Math.random();
+    audioParameterValues.I = Math.random();
+    audioParameterValues.O = Math.random();
+    audioParameterValues.U = Math.random();
 }
 
 function generateTTS(text, callback) {
-    const message = {
+    var message = {
         text: text,
         amplitude: 200,
         wordgap: 1,
@@ -127,13 +142,13 @@ function generateTTS(text, callback) {
 
     speakWorker.postMessage(message);
 
-    speakWorker.onmessage = function (event) {
+    speakWorker.onmessage = function(event) {
         callback(event.data);
     };
 }
 
 // Function to play audio in browser using AudioContext
-function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+function playTTS(audioData, live2dModel, simulateAudioParameterChangeFunc, animationIntervalIdRef) {
     // Check if audioData is a Uint8Array (binary data)
     if (!(audioData instanceof Uint8Array)) {
         console.error("Invalid audio data received:", audioData);
@@ -142,9 +157,9 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
 
     // Decode the audio data into an AudioBuffer
     audioContext.decodeAudioData(audioData.buffer)
-        .then(buffer => {
+        .then(function(buffer) {
             // Create an audio source
-            let source = audioContext.createBufferSource();
+            var source = audioContext.createBufferSource();
             source.buffer = buffer;
             source.connect(audioContext.destination);
             source.start(0);
@@ -152,9 +167,9 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
             isSpeaking = true; // Mark that speech is ongoing
 
             // Start lip sync when audio starts
-            source.onended = function () {
-                clearInterval(animationIntervalId);
-                animationIntervalId = null;
+            source.onended = function() {
+                clearInterval(animationIntervalIdRef);
+                animationIntervalIdRef = null;
                 isSpeaking = false; // Mark that speech is finished
 
                 // Reset the mouth movement
@@ -166,46 +181,55 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
 
             // Lip sync while the audio is playing
             if (live2dModel) {
-                let startTime = Date.now();
-                animationIntervalId = setInterval(() => {
-                    let elapsed = Date.now() - startTime;
-                    simulateAudioParameterChange();
+                var startTime = Date.now();
+                animationIntervalIdRef = setInterval(function() {
+                    simulateAudioParameterChangeFunc();
                 }, 150);
             }
         })
-        .catch(error => {
+        .catch(function(error) {
             console.error("Error decoding audio data:", error);
         });
 }
 
-function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+function speakText(text, live2dModel, simulateAudioParameterChangeFunc, animationIntervalIdRef) {
     // Generate audio using speak.js
-    generateTTS(text, function (audioData) {
+    generateTTS(text, function(audioData) {
         // Play the generated audio and sync with the model
-        playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId);
+        playTTS(audioData, live2dModel, simulateAudioParameterChangeFunc, animationIntervalIdRef);
     });
 }
 
 // Function to speak using Speech Synthesis API for iOS
-function speakWithNativeTTS(script) {
-    console.log("Starting speakWithNativeTTS function with script:", script);
+function speakWithNativeTTS(scriptText) {
+    console.log("Starting speakWithNativeTTS function with script:", scriptText);
 
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(script);
+    var synth = window.speechSynthesis;
+    var utterance = new SpeechSynthesisUtterance(scriptText);
 
-    const voices = synth.getVoices();
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    var voices = synth.getVoices();
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-    let selectedVoice;
+    var selectedVoice = null;
 
     if (isIOS) {
-        selectedVoice = voices.find(voice => voice.name === 'Fred');
-        console.log("Selected Fred voice for iOS");
+        for (var i = 0; i < voices.length; i++) {
+            if (voices[i].name === 'Fred') {
+                selectedVoice = voices[i];
+                console.log("Selected Fred voice for iOS");
+                break;
+            }
+        }
     }
 
     if (!selectedVoice) {
-        selectedVoice = voices.find(voice => voice.lang === 'en-US');
-        console.log("Selected default en-US voice");
+        for (var j = 0; j < voices.length; j++) {
+            if (voices[j].lang === 'en-US') {
+                selectedVoice = voices[j];
+                console.log("Selected default en-US voice");
+                break;
+            }
+        }
     }
 
     if (selectedVoice) {
@@ -245,8 +269,8 @@ function onPointerDown(event) {
 
 // Event handler for pointer up (tap detection)
 function onPointerUp(event) {
-    const currentPoint = event.data.global;
-    const distance = Math.sqrt(
+    var currentPoint = event.data.global;
+    var distance = Math.sqrt(
         Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2)
     );
 
@@ -274,21 +298,30 @@ function handleArtifact(artifactId) {
 function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
 
-    // If already speaking, stop the current speech and return
+    // If already speaking, ignore further taps
     if (isSpeaking) {
         console.log("Currently speaking, ignoring tap.");
         return;
     }
-
     unlockAudioContext();
 
-    // Trigger speech when the model is tapped
-    if (window.speechSynthesis && window.speechSynthesis.speak) {
-        speakWithNativeTTS(script);
+    // Check if the device is running iOS
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (isIOS) {
+        speakWithNativeTTS(script); // Use native TTS for iOS
     } else {
+        isSpeaking = true; // Mark speaking as active
         speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId);
     }
 }
+
+// Ensure voice list is populated after page load
+window.onload = function () {
+    window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.getVoices();
+    };
+};
 
 // Stop TTS on page unload or visibility change
 function stopTTS() {
