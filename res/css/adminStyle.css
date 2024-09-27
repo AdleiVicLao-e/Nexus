@@ -453,6 +453,23 @@ input[type="file"] {
     font-size: 15px;
 }
 
+#search-results {
+    margin-top: 10px;
+}
+
+#search-results label {
+    font-size: 1em;
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#search-results input[type="radio"] {
+    margin-right: 10px;
+}
+
+
+
 .right-container .artifacts .upload-container, .right-container .artifacts .edit-container {
     background-color:#f1f1f1;
     padding: 10px;
@@ -640,46 +657,50 @@ td {
     padding: 10px; /* Adjusted padding */
 } 
 
-@media (min-width: 1024px) and (max-width: 1440px) {
+@media only screen and (max-width: 1366px)  {
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
     header {
-        width: 1329px;
+        width: 100vw; 
+        padding-left: 0; 
+        margin: 0; 
+        left: 0;
+        right: 0;
+        position: relative;
+        box-sizing: border-box;
     }
-    /* Adjust logo size for medium screens */
+
     header .logo {
         font-size: 3vmin; 
     }
-    
-    /* Main container layout adjustments */
+
     .main-container {
-        display: flex; /* Use flexbox for alignment */
-        align-items: flex-start; /* Align items at the top */
-    }
-    
-    /* Styling for left and right containers */
-    .left-container,
-    .right-container {
-        flex: 1; /* Make both containers take equal space */
-        box-sizing: border-box; /* Include padding and borders in total width/height */
-    }
-    
-    /* Specific adjustments for the left container */
-    .left-container {
-        margin-top: 345px;
-        margin-right: 10px; /* Remove right margin for the left container */
-        height: 400px; /* Set a specific height for the left container */
-    }
-    
-    /* Specific adjustments for the right container */
-    .right-container {
-        margin-top: -60px;
-        height: 400px; /* Set a specific height for the right container */
+        display: flex; 
+        align-items: flex-start;
     }
 
-    /* Optional: Add styles for the buttons or forms if needed */
-    button {
-        padding: 10px 20px; /* Increase button padding for better click area */
-        font-size: 1.2em; /* Adjust button font size for readability */
+    .left-container,
+    .right-container {
+        flex: 1;
+        box-sizing: border-box;
     }
-    
+
+    .left-container {
+        margin-top: 345px;
+        margin-right: 10px; 
+    }
+
+    .right-container {
+        margin-top: -60px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1.2em;
+    }
 }
