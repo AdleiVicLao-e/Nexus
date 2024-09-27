@@ -2,6 +2,7 @@
 if (isset($_SESSION["guest"])) {
   header("Location: ../scanner.php");
 }
+$_SESSION["guest"] = "guest";
 ?>
 <!DOCTYPE html>
 <html lang="en">
