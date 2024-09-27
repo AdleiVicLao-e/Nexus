@@ -283,11 +283,11 @@ function handleArtifact(artifactId) {
 function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
     const currentScript = ScriptManager.getScript();
-    alert.log(`handleTap: Current script is "${currentScript}"`);
+    alert(`handleTap: Current script is "${currentScript}"`);
 
     // If already speaking, stop the current speech and return
     if (isSpeaking) {
-        alert.log("Currently speaking, ignoring tap.");
+        alert("Currently speaking, ignoring tap.");
         return;
     }
 
