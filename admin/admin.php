@@ -1,3 +1,9 @@
+<?php
+if (is_null($_SESSION["admin"])) {
+    header("Location: ../admin/admin-login.php");
+  }
+$_SESSION["admin"] = "admin";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +34,10 @@
             <div class="greeting">
                 <div class="curator">Hi, Curator!</div>
                 <nav>
-                    <a href="#home" aria-label="Logout">Logout</a>
+                    <a href="admin/admin-login" aria-label="Logout">Logout</a>
+                    <?php
+                        $_SESSION["admin"] = null;
+                    ?>
                 </nav>
             </div>
         </div>
