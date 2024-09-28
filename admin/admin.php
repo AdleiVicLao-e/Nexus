@@ -3,7 +3,6 @@ session_start();
 if (is_null($_SESSION["admin"])) {
     header("Location: ../admin/admin-login.php");
 }
-$_SESSION["admin"] = "admin";
 ?>
 <!DOCTYPE html>
 <html lang="en">
