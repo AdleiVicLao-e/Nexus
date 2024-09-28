@@ -12,217 +12,19 @@ if (is_null($_SESSION["guest"])) {
     <title>QR Code Scanner with AR</title>
     <script src="res/js/client/jsQR.js"></script>
     <link rel="icon" href="assets\img\favicon.png" type="image/x-icon" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Inter"
-      rel="stylesheet"
-    />
-
-    <style>
-
-    @font-face {
-        font-family: 'OldStandard';
-        src: url('path/to/your/OldStandard.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-      #video {
-        width: 100%;
-        max-width: 400px;
-        display: block;
-      }
-
-      #canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-      }
-
-      #result {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        color: white;
-        font-size: 15px;
-        font-weight: bold;
-        background-color: #b78f3f;
-        font-family: 'OldStandard', serif;
-        padding: 10px;
-        border-radius: 5px;
-      }
-
-      #imgCondition {
-        max-width: 50%;
-        height: 50px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 1000;
-        background-color: #bb3d41;
-        padding: 10px;
-        border-radius: 5px;
-      }
-
-      .floating-button {
-        position: absolute;
-        bottom: 20px;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #4f7eba;
-        color: white;
-        font-size: 24px;
-        border: none;
-        cursor: pointer;
-        z-index: 1002;
-      }
-
-      .floating-button.left {
-        display: block;
-        border: 3px solid white;
-        left: 20px;
-      }
-
-      #watchVideosButton {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 60px;
-        height: 60px;
-        padding: 0;
-        border-radius: 50%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        background-color: #b78f3f;
-        background-size: cover;
-        background-position: center;
-        border: none;
-        cursor: pointer;
-        z-index: 1003;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        animation: zoomIn 3s;
-        border: 3px solid rgba(255, 255, 255, 1);
-      }
-
-      .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .info-box {
-        background-color: #fff;
-        font-family: 'OldStandard', serif;
-        background-image: url("./assets/img/info_box.png");
-        background-size: cover;
-        background-position: center;
-        width: 70%;
-        padding: 30px;
-        align-self: center;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        border: 3px solid #363636;
-      }
-
-      .timer {
-        margin-top: 10px;
-        font-size: 0.7em;
-        color: #8a8989;
-        font-family: 'OldStandard', serif;
-      }
-
-      .info-box-text {
-        font-family: 'OldStandard', serif;
-        font-size: 0.9em;
-      }
-
-      #watchVideosButton::before {
-        content: "\25B6";
-        color: white;
-        font-size: 30px;
-        display: block;
-      }
-
-      @keyframes zoomIn {
-        0% {
-          transform: scale(0.8);
-        }
-
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      #watchVideosButton:hover {
-        background-color: #fac301;
-      }
-
-      #noArtifactImage {
-        display: none;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        height: auto;
-        z-index: 10;
-        animation: fadeOut 3s ease-in-out infinite;
-      }
-
-      .magnifying-glass {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100px;
-        height: 100px;
-        transform: translate(-50%, -50%);
-        display: none;
-        animation: wave 1s ease-out;
-      }
-
-      @keyframes wave {
-        0% {
-          transform: translate(-50%, -50%) rotate(0deg);
-        }
-        50% {
-          transform: translate(-50%, -50%) rotate(15deg);
-        }
-        100% {
-          transform: translate(-50%, -50%) rotate(-15deg);
-        }
-      }
-
-      /* Add the CSS for VA model container */
-      #va-container {
-        position: fixed;
-        bottom: 20px;
-        right: 1px;
-        width: 465px;
-        /* Adjust width as needed */
-        height: 425px;
-        /* Adjust height as needed */
-        overflow: hidden;
-        z-index: 1001;
-        /* High z-index to ensure it's on top */
-        pointer-events: auto;
-      }
-    </style>
+    <link rel="stylesheet" href="res/css/styles.css">
+    <nav>
+    <i class="bx bx-menu"></i>
+        <div class="logo">
+          <a href="index.php">
+            <img
+              src="assets/img/logo.png"
+              style="height: 30px; margin-top: 20px; margin-left: 90px;"
+              alt="Kultoura Logo"
+            >
+          </a>
+        </div>
+    </nav>
   </head>
   <body>
     <!-- AR Elements -->
@@ -231,26 +33,11 @@ if (is_null($_SESSION["guest"])) {
     <div id="result">Scan a QR code</div>
     <img
       id="noArtifactImage"
-      src="assets/img/Error.png"
+      src="assets/img/error_image.png"
       alt="No Artifact Found"
     />
 
-    <div
-      id="conditionLabel"
-      style="
-        position: absolute;
-        top: 90px;
-        font-family: 'OldStandard', serif;
-        right: 10px;
-        color: white;
-        font-size: 14px;
-        font-weight: bold;
-        background-color: #bb3d41;
-        padding: 6px;
-        border-radius: 5px;
-        display: none;
-      "
-    >
+    <div id="conditionLabel">
       Condition
     </div>
 
@@ -258,24 +45,16 @@ if (is_null($_SESSION["guest"])) {
       id="imgCondition"
       src="assets/condition/default.png"
       alt="Placeholder Image"
-      style="display: none"
+      style="display: none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);"
       ;
     />
 
     <!-- Floating Buttons -->
-    <button class="floating-button left" onclick="viewDetails()">i</button>
+    <button class="floating-button left2" onclick="viewDetails()">i</button>
     <button
       id="watchVideosButton"
       onclick="window.location.href='igorot-dances.php';"
     ></button>
-
-    <!-- Magnifying Glass -->
-    <img
-      src="/assets/img/magnifying_glass.png"
-      class="magnifying-glass"
-      id="magnifying-glass"
-      alt="Magnifying Glass"
-    />
 
     <!-- Overlay with the info box -->
     <div class="overlay" id="infoOverlay">
@@ -304,6 +83,8 @@ if (is_null($_SESSION["guest"])) {
       <canvas id="va-canvas"></canvas>
     </div>
 
+    <div class="edge-lighting" id="edgeLighting"></div>
+
     <script>
       const video = document.getElementById("video");
       const canvas = document.getElementById("canvas");
@@ -312,7 +93,6 @@ if (is_null($_SESSION["guest"])) {
       const noArtifactImage = document.getElementById("noArtifactImage");
       const imgCondition = document.getElementById("imgCondition");
       const conditionLabel = document.getElementById("conditionLabel");
-      const magnifyingGlass = document.getElementById("magnifying-glass");
 
       let artifactInfo = "";
       let displayBox = true;
@@ -458,7 +238,7 @@ if (is_null($_SESSION["guest"])) {
                     \nSubcatalogue: ${data["Subcatalogue Name"] || "N/A"}
                     \nDescription: ${data["Description"] || "N/A"}
                 `.trim();
-
+                
               noArtifactImage.style.display = "none";
               displayBox = true;
 
@@ -476,7 +256,6 @@ if (is_null($_SESSION["guest"])) {
               displayBox = false;
               noArtifactImage.style.display = "block";
               resultDiv.textContent = `No artifact found`;
-              magnifyingGlass.style.display = "none";
 
               setTimeout(() => {
                 noArtifactImage.style.animation = "none";
@@ -550,10 +329,6 @@ if (is_null($_SESSION["guest"])) {
         if (event.persisted) {
           window.location.reload();
         }
-        magnifyingGlass.style.display = "block";
-        setTimeout(() => {
-          magnifyingGlass.style.display = "none";
-        }, 2000);
       });
 
       // Start the video stream when the page loads

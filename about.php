@@ -31,6 +31,7 @@ if (is_null($_SESSION["guest"])) {
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    
     <!-- Boxicons CDN Link -->
     <link
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
