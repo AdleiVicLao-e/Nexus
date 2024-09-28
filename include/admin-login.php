@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../admin/admin.php");
         exit();
     } else {
-        header("Location: ../admin/403.php");
+        header("Location: ../admin/401.php");
     }
     $stmt->close();
     $conn->close();

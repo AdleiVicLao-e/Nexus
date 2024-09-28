@@ -85,7 +85,7 @@ if (isset($_SESSION["admin"])) {
   </style>
 </head>
 <body>
-  <h1>403</h1>
+  <h1>401</h1>
   <h2>Invalid Credential.</h2>
   <div>
     <button onclick="window.location.href='../admin/admin-login.php'">Login Again</button>
