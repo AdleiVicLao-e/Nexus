@@ -8,7 +8,7 @@ body {
     font-weight: 400;
     padding: 0;
     margin: 0;
-    background-image: url('/assets/img/homepage_background.png');
+    background-image: url("../assets/img/homepage_background.png");
     -webkit-text-size-adjust: none
 }
 
