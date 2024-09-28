@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../admin/admin.php");
         exit();
     } else {
-        echo "Login Not Successful. Please check your credentials.";
+        header("Location: ../admin/403.php");
     }
     $stmt->close();
     $conn->close();

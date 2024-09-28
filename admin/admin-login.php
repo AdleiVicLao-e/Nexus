@@ -20,19 +20,19 @@ if (isset($_SESSION["admin"])) {
     <div class="logo-container">
       <img src="../assets/img/logo.png" alt="Logo" class="logo">
     </div>
-    <div class="login-container" style="width: 300px;">
+    <div class="login-container">
       <h1>Log In</h1>
       <form action="../include/admin-login.php" method="post">
         <div class="input-container">
-          <p style="text-align: left; font-weight: lighter; font-size: 16px">Admin ID</p>
+          <p style="text-align: left; font-weight: lighter">Admin ID</p>
           <input type="text" class="input-field" placeholder="Enter Admin ID" name="admin_username">
           <i class="fa fa-user" id="fa icon"></i>
         </div>
         <div class="input-container">
-          <p style="text-align: left; font-weight: lighter; font-size: 16px">Password</p>
+          <p style="text-align: left; font-weight: lighter">Password</p>
           <input type="password" class="input-field" placeholder="Enter Password" id="password-field" name="admin_password">
           <i class="fa fa-lock icon-left" id="fa icon"></i>
-          <i class="fa fa-eye toggle-password" id="toggle-password"></i>
+          <i class="fa fa-eye toggle-password icon-right" id="toggle-password" style="color: #b78f3f"></i>
         </div>
         <div id="error-message" style="color: red; display: none; margin-top: 10px;">
           Please fill out both fields.

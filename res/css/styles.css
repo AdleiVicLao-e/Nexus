@@ -4,12 +4,6 @@
     padding: 0;
 }
 
-@font-face {
-    font-family: 'OldStandard';
-    src: url('path/to/your/OldStandard.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
 
 body {
     font-family: 'Inter', sans-serif;
@@ -779,8 +773,29 @@ a-plane {
     color: white;
 }
 
-/*Widescreen monitor*/
+/* Widescreen monitor */
 @media screen and (min-width: 1920px) {
+
+    p {
+        font-size: 32px; /* Increased font size for better readability */
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+    .input-field {
+        text-align: left; /* Aligns the text to the left */
+        padding-left: 10px; /* Add some padding for better spacing */
+    }
+    
+    .input-field::placeholder {
+        font-size: 28px; /* Match the placeholder font size */
+        color: #999; /* Optional: Change placeholder color */
+        line-height: 50px; /* Match this with the input height */
+        padding-left: 20px; /* Add some padding for better spacing */
+    }
+    
 
     .welcome-body,
     .login-body,
@@ -792,103 +807,166 @@ a-plane {
     .login-container,
     .access-container {
         max-width: 1600px;
-        padding: 100px;
+        padding: 120px; /* Increased padding for larger screens */
+    }
+
+    /* Login Page Styles */
+    .login-body {
+        background: url('../../assets/img/bulul-low-op.png') no-repeat center center fixed;
+        background-color: #272626;
+        background-size: 600px; /* Adjusts to cover the entire area */
+        box-shadow: none; /* Remove the box-shadow */
+    }
+
+
+    .logo {
+        max-width: 500px; /* Increased max-width for logo */
+        width: 100%; /* Responsive */
+        height: auto; /* Maintains aspect ratio */
     }
 
     .btn-red,
     .btn-white {
-        padding: 15px 60px;
+        padding: 15px 70px; /* Adjusted button padding */
         background-color: #0E1644;
         color: #FFFFFF;
         border: 1.25px solid #0E1644;
-        padding: 12px 50px;
         cursor: pointer;
         border-radius: 20px;
-        font-size: 16px;
+        font-size: 28px; /* Increased font size */
         text-decoration: none;
         display: inline-block;
-        margin: 5px;
+        margin: 10px; /* Increased margin for better spacing */
         transition: background-color 0.3s ease-in-out;
     }
 
-    .input-container .toggle-password {
-        position: relative;
-        right: -120px;
-        top: 50%;
-        transform: translateY(-100%);
+    .input-container .toggle-password .fa-eye {
+        position: absolute; /* Changed to absolute for better placement */
+        margin-top: 15px; /* Adjusted margins */
+        margin-left: 420;  
+        transform: translateY(50%); /* Align vertically */
         cursor: pointer;
         color: #0E1644;
     }
 
+    .toggle-password { 
+        width: 40px;
+        margin-left: 400px; 
+        margin-top: 7px;
+    }
+
+    .fa {
+        font-size: 30px; /* Increased icon size */
+    }
+
+    .fa-user {
+        margin-right: 420px;
+        margin-top: 5px;
+    }
+
+    .fa-lock {
+        margin-top: 30px; /* Adjusted margins */
+        margin-right: 420px;
+    }
+
+    form {
+        width: 700px; /* Increased form width */
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        height: 80px; /* Increased input height */
+        font-size: 20px; /* Increased font size */
+    }
+
+    button {
+        font-size: 28px;
+        height: 60px;
+        width: 350px;
+        display: block; /* Makes the button a block element */
+        margin: 0 auto; /* Centers the button horizontally */
+    }
+
+    .input-container input {
+        padding-left: 30px;
+        padding-right: 12px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100%;
+        border: 3px solid #0E1644;
+        border-radius: 10px;
+        text-indent: 35px;
+        background-color: #ffffff;
+        color: #0E1644;
+        outline: none;
+        font-size: 32px;
+    }
+    
     .nav {
-        padding: 15px 100px;
+        padding: 20px 150px; 
     }
 
     .nav .search-box {
-        right: 150px;
+        right: 200px; /* Adjusted right positioning */
     }
 
     nav .navbar {
-        padding: 0 25px;
+        padding: 0 30px; /* Increased navbar padding */
     }
 
     nav .navbar .logo a {
-        font-size: 30px;
+        font-size: 36px; /* Increased logo font size */
     }
 
-    /* .img {
-        size: 30px;
-    } */
-
     .logo {
-        margin-left: 50px;
+        margin-left: 80px; /* Adjusted logo margin */
     }
 
     .floating-button.left,
     .watchVideosButton {
-        display: none;
+        display: none; /* Hide buttons on widescreen */
+    }
+}
+
+    /* Video grid styles */
+    .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Adjusted min-width */
+        gap: 30px; /* Increased gap */
+        padding: 30px; /* Adjusted padding */
+        margin: 0;
     }
 
-}
+    /* Individual video card styles */
+    .video {
+        background: white;
+        border-radius: 12px; /* Slightly increased border radius */
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Increased shadow for depth */
+    }
 
-/* Video grid styles */
-.video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    margin: 0;
-}
+    /* Video image styles */
+    .video img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 
-/* Individual video card styles */
-.video {
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+    /* Video info styles */
+    .video-info {
+        padding: 15px; /* Increased padding */
+    }
 
-/* Video image styles */
-.video img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
+    .video-info h3 {
+        margin: 0;
+        font-size: 1.3em; /* Increased heading size */
+    }
 
-/* Video info styles */
-.video-info {
-    padding: 10px;
-}
+    .video-info p {
+        margin: 5px 0 0;
+        color: #555;
+    }
 
-.video-info h3 {
-    margin: 0;
-    font-size: 1.1em;
-}
-
-.video-info p {
-    margin: 5px 0 0;
-    color: #555;
-}
 
 /*Laptop*/
 @media (max-width: 992px) {
@@ -1484,7 +1562,7 @@ a-plane {
 
     .input-container .toggle-password {
         position: absolute;
-        right: 100px;
+        right: 1000px;
         left: 225px;
         transform: translateY(-15%);
         cursor: pointer;
@@ -1499,10 +1577,6 @@ a-plane {
         color: #0E1644;
     }
 
-    .input-container .icon-left {
-        left: 10px;
-        top: 40px;
-    }
 
     input[type="text"],
     input[type="password"] {

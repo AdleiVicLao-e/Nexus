@@ -691,7 +691,7 @@ td {
     }
 
     .left-container {
-        margin-top: 345px;
+        margin-top: 35px;
         margin-right: 10px; 
     }
 
@@ -703,4 +703,5 @@ td {
         padding: 10px 20px;
         font-size: 1.2em;
     }
+
 }
