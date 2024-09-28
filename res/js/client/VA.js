@@ -5,7 +5,7 @@ let audioParameterValues = {};
 let isAudioContextUnlocked = false;
 let isSpeaking = false; // Track if speech is active
 let scriptData; // Store the loaded script data
-var script;
+let script;
 
 // Variables to track dragging state
 let isDragging = false;
@@ -131,6 +131,7 @@ function generateTTS(text, callback) {
         callback(event.data);
     };
 }
+
 
 // Function to play audio in browser using AudioContext
 function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
@@ -274,19 +275,18 @@ function handleArtifact(artifactId) {
 function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
 
-    // If already speaking, stop the current speech and return
-    if (isSpeaking) {
-        console.log("Currently speaking, ignoring tap.");
-        return;
-    }
-
+    // If already speaking, ignore further taps
+    if (isSpeaking) return;
     unlockAudioContext();
 
-    // Trigger speech when the model is tapped
-    if (window.speechSynthesis && window.speechSynthesis.speak) {
-        speakWithNativeTTS(script);
+    // Check if the device is running iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (isIOS) {
+        speakWithNativeTTS(script); // Use native TTS for iOS
     } else {
-        speakText(script, live2dModel, simulateAudioParameterChange, animationIntervalId);
+        isSpeaking = true; // Mark speaking as active
+        speakText(script); // Use the TTS worker for non-iOS devices
     }
 }
 
@@ -329,3 +329,10 @@ window.addEventListener('pagehide', stopTTS);
 
 // Function to handle tab or browser being inactive (onblur)
 window.addEventListener('blur', stopTTS);
+
+// Ensure voice list is populated after page load
+window.onload = function () {
+    window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.getVoices();
+    };
+};
