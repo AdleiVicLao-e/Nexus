@@ -51,7 +51,9 @@ if (is_null($_SESSION["guest"])) {
                         <a class="dropdown-item" href="#">Itneg/Tingguian</a>
                         <a class="dropdown-item" href="#">Kalinga</a>
                     </div>
-                </li>   
+                </li> 
+                <li class="nav-item active"><a class="nav-link" href="scanner.php"
+                title="Home">About</a></li>  
                 <div class="clearfix"></div>
             </div>
         </li>
@@ -87,6 +89,8 @@ if (is_null($_SESSION["guest"])) {
                     </div>
                 </li>   
                 </li>
+                <li class="nav-item active"><a class="nav-link" href="about.php"
+                title="Home">About</a></li> 
             </ul>
             <div class="clearfix"></div>
         </div>

@@ -68,7 +68,6 @@ p {
 }
 
 /* Welcome Page Styles */
-/* Welcome Page Styles */
 .welcome-body {
     background: url('../../assets/img/bulul.png') no-repeat center center fixed, rgba(39, 38, 38, 0.8); /* You can keep the fallback color */
     background-size: 300px; /* Match initial size with animation */
