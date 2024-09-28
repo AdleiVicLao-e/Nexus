@@ -18,6 +18,14 @@ if (is_null($_SESSION["guest"])) {
     />
 
     <style>
+
+    @font-face {
+        font-family: 'OldStandard';
+        src: url('path/to/your/OldStandard.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
       #video {
         width: 100%;
         max-width: 400px;
@@ -40,8 +48,8 @@ if (is_null($_SESSION["guest"])) {
         color: white;
         font-size: 15px;
         font-weight: bold;
-        background-color: #fac301;
-        font-family: "Inter", sans-serif;
+        background-color: #b78f3f;
+        font-family: 'OldStandard', serif;
         padding: 10px;
         border-radius: 5px;
       }
@@ -53,7 +61,7 @@ if (is_null($_SESSION["guest"])) {
         top: 10px;
         right: 10px;
         z-index: 1000;
-        background-color: #fac301;
+        background-color: #bb3d41;
         padding: 10px;
         border-radius: 5px;
       }
@@ -68,7 +76,7 @@ if (is_null($_SESSION["guest"])) {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #0e1644;
+        background-color: #4f7eba;
         color: white;
         font-size: 24px;
         border: none;
@@ -78,7 +86,7 @@ if (is_null($_SESSION["guest"])) {
 
       .floating-button.left {
         display: block;
-        border: 3px solid #fac301;
+        border: 3px solid white;
         left: 20px;
       }
 
@@ -91,7 +99,7 @@ if (is_null($_SESSION["guest"])) {
         padding: 0;
         border-radius: 50%;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        background-image: url("./assets/img/button_background.png");
+        background-color: #b78f3f;
         background-size: cover;
         background-position: center;
         border: none;
@@ -101,7 +109,7 @@ if (is_null($_SESSION["guest"])) {
         justify-content: center;
         align-items: center;
         animation: zoomIn 3s;
-        border: 3px solid white;
+        border: 3px solid rgba(255, 255, 255, 1);
       }
 
       .overlay {
@@ -119,7 +127,7 @@ if (is_null($_SESSION["guest"])) {
 
       .info-box {
         background-color: #fff;
-        font-family: "Inter", sans-serif;
+        font-family: 'OldStandard', serif;
         background-image: url("./assets/img/info_box.png");
         background-size: cover;
         background-position: center;
@@ -136,11 +144,11 @@ if (is_null($_SESSION["guest"])) {
         margin-top: 10px;
         font-size: 0.7em;
         color: #8a8989;
-        font-family: "Inter", sans-serif;
+        font-family: 'OldStandard', serif;
       }
 
       .info-box-text {
-        font-family: "Inter", sans-serif;
+        font-family: 'OldStandard', serif;
         font-size: 0.9em;
       }
 
@@ -232,13 +240,13 @@ if (is_null($_SESSION["guest"])) {
       style="
         position: absolute;
         top: 90px;
-        font-family: 'Inter', sans-serif;
+        font-family: 'OldStandard', serif;
         right: 10px;
         color: white;
-        font-size: 12px;
+        font-size: 14px;
         font-weight: bold;
-        background-color: #fac301;
-        padding: 8px;
+        background-color: #bb3d41;
+        padding: 6px;
         border-radius: 5px;
         display: none;
       "
@@ -367,7 +375,7 @@ if (is_null($_SESSION["guest"])) {
               const padding = 20;
 
               // Front face of the rectangle (Book cover)
-              canvasContext.fillStyle = "rgba(14, 22, 68, 0.95)";
+              canvasContext.fillStyle = "rgba(79, 126, 186, 1)";
               canvasContext.fillRect(
                 centerX - boxWidth / 2,
                 centerY - boxHeight / 2,
@@ -376,7 +384,7 @@ if (is_null($_SESSION["guest"])) {
               );
 
               // Add text inside the front face of the rectangle (Book title or information)
-              canvasContext.font = "bold 15px 'Inter', sans-serif";
+              canvasContext.font = "bold 15px 'OldStandard', serif";
               canvasContext.fillStyle = "white";
               canvasContext.textAlign = "left"; // Align left to control wrapping
               canvasContext.textBaseline = "top";

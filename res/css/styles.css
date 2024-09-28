@@ -1108,35 +1108,6 @@ a-plane {
         left: 20px;
     }
 
-    #watchVideosButton {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 60px;
-        height: 60px;
-        padding: 0;
-        border-radius: 50%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        background-image: url('/assets/img/button_background.png');
-        background-size: cover;
-        background-position: center;
-        border: none;
-        cursor: pointer;
-        z-index: 1003;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        animation: zoomIn 3s;
-        border: 3px solid white;
-    }
-
-    #watchVideosButton::before {
-        content: '\25B6';
-        color: white;
-        font-size: 30px;
-        display: block;
-    }
-
     @keyframes zoomIn {
         0% {
             transform: scale(0.8);
@@ -1636,7 +1607,7 @@ a-plane {
         top: 10px;
         left: 10px;
         padding: 15px;
-        border: 2px solid #FAC301;
+        border: 2px solid #b78f3f;
         background-color: rgba(14, 22, 68, 0.9);
         /* 90% opacity */
         color: white;
