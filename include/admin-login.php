@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        header("Location: ../admin.php");
+        header("Location: ../admin/admin.php");
         exit();
     } else {
         echo "Login Not Successful. Please check your credentials.";
