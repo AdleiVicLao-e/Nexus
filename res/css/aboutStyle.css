@@ -1,6 +1,6 @@
 
 body {
-    background: #fafafa;
+    background: #eeeaea;
     font-family: 'Inter', sans-serif;
     color: #111;
     font-size: 14px;
@@ -34,9 +34,9 @@ a:hover {
 }
 
 .btn-red {
-    background-color: #0E1644;
+    background-color: #073066;
     color: #FFFFFF;
-    border: 1.25px solid #0E1644;
+    border: 1.25px solid #073066;
     padding: 6px 25px;
     cursor: pointer;
     border-radius: 20px;
@@ -50,10 +50,10 @@ a:hover {
 }
 
 .btn-red:hover {
-    background-color: #FAC301;
-    color: #0E1644;
+    background-color: #f6c500;
+    color: #073066;
     font-weight: bold;
-    border: 1.25px solid #0E1644;
+    border: 1.25px solid #073066;
 }
 
 
@@ -77,7 +77,7 @@ a:hover {
     background: #272626;
     margin-bottom: 25px;
     position: relative;
-    z-index: 99
+    z-index: 99;
 }
 
 #header .container {
@@ -149,9 +149,14 @@ a:hover {
     color: #fff
 }
 
+#wrapper {
+  background: #f0f0f0;
+}
+
 #main-wrapper {
     margin-bottom: 70px;
     min-height: calc(100vh - 326px);
+    background: #f0f0f0;
 }
 
 #sidebar_menu_bg {
@@ -250,6 +255,7 @@ a:hover {
     width: 100%;
     height: 70vh;
     margin: -22px 0 -72px 0;
+    background: #f0f0f0;
   }
   
   #hero h1 {
@@ -257,7 +263,7 @@ a:hover {
     font-size: 48px;
     font-weight: 700;
     line-height: 56px;
-    color: #0E1644;
+    color: #073066;
   }
   
   #hero h2 {
@@ -277,11 +283,11 @@ a:hover {
     transition: 0.5s;
     margin: 10px;
     color: #fff;
-    background: #0E1644;
+    background: #073066;
   }
   
   #hero .btn-get-started:hover {
-    background: #FAC301;
+    background: #f6c500;
   }
   
   #hero .animated {
@@ -289,18 +295,17 @@ a:hover {
   }
 
   .museum-link {
-    color: #FAC301;
+    color: #f6c500;
     text-decoration: none;
   }
   
   .museum-link:hover {
-    color: #0E1644;
-  }
-  
-
+    color: #073066;
+  }  
 
   section {
     padding: 60px 0;
+    background: #f0f0f0;
   }
   
   
@@ -324,7 +329,7 @@ a:hover {
     position: relative;
     font-size: 32px;
     font-weight: 700;
-    color: #0E1644;
+    color: #073066;
   }
   
   .section-title p::after {
@@ -333,7 +338,7 @@ a:hover {
     display: block;
     width: 60px;
     height: 2px;
-    background: #0E1644;
+    background: #f6c500;
     bottom: 0;
     left: calc(50% - 30px);
   }
@@ -353,14 +358,14 @@ a:hover {
   
   .services .icon-box:hover {
     transform: translateY(-5px);
-    border-color: #FAC301;
+    border-color: #f6c500;
   }
   
   .services .icon i {
     font-size: 48px;
     line-height: 1;
     margin-bottom: 15px;
-    color: #0E1644;
+    color: #073066;
   }
   
   .services .title {
@@ -407,7 +412,7 @@ a:hover {
   }
   
   .portfolio #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
-    color: #FAC301;
+    color: #f6c500;
   }
   
   .portfolio #portfolio-flters li:last-child {
@@ -452,7 +457,7 @@ a:hover {
   }
   
   .portfolio .portfolio-wrap .portfolio-links a {
-    color: #0E1644;
+    color: #073066;
     margin: 0 4px;
     font-size: 18px;
     line-height: 1;
@@ -472,7 +477,7 @@ a:hover {
   }
   
   .portfolio .portfolio-wrap .portfolio-links a:hover {
-    background: #FAC301;
+    background: #f6c500;
     color: #fff;
   }
   
@@ -529,7 +534,7 @@ a:hover {
   .faq .faq-list a {
     display: block;
     position: relative;
-    font-family: #0E1644;
+    font-family: #073066;
     font-size: 18px;
     font-weight: 600;
     color: #0E1644;
@@ -553,7 +558,7 @@ a:hover {
   }
   
   .faq .faq-list a.collapsed:hover {
-    color: #FAC301;
+    color: #f6c500;
   }
   
   .faq .faq-list a.collapsed i::before {
@@ -564,7 +569,7 @@ a:hover {
   # Team
   --------------------------------------------------------------*/
   .team {
-    background: #fff;
+    background: #f0f0f0;
     padding: 60px 0;
   }
   
@@ -627,7 +632,7 @@ a:hover {
   }
   
   .team .member .social a:hover {
-    color: #FAC301;
+    color: #f6c500;
   }
   
   .team .member .social i {
@@ -755,12 +760,12 @@ a:hover {
 }
 
 .nav-menu a:hover, .nav-menu .active > a, .nav-menu li:hover > a {
-  color: #FAC301;
+  color: #f6c500;
   text-decoration: none;
 }
 
 .nav-menu .get-started a {
-  background: #FAC301;
+  background: #f6c500;
   color: #fff;
   border-radius: 50px;
   margin: 0 15px;
@@ -768,7 +773,7 @@ a:hover {
 }
 
 .nav-menu .get-started a:hover {
-  background: #FAC301;
+  background: #f6c500;
   color: #fff;
 }
 
@@ -806,7 +811,7 @@ a:hover {
 }
 
 .nav-menu .drop-down ul a:hover, .nav-menu .drop-down ul .active > a, .nav-menu .drop-down ul li:hover > a {
-  color: #FAC301;
+  color: #f6c500;
 }
 
 .nav-menu .drop-down > a:after {
@@ -836,6 +841,31 @@ a:hover {
   position: absolute;
   right: 15px;
 }
+
+@media only screen and (min-width: 1920px) {
+  /* Styles for 1920 x 1080 widescreen monitors */
+  body {
+      /* Example styles */
+      font-size: 28px; /* Larger text for better readability */
+  }
+
+  p {
+    font-size: 28px; /* Larger text for better readability */ 
+  }
+
+  .container{
+      max-width: 1900px; /* Restrict the width of content */
+      margin: 0 auto; /* Center the container */
+  }
+
+
+  h1 {
+      font-size: 3em; /* Increase font size for headings */
+  }
+
+  /* Additional styles for elements */
+}
+
   
   
   
@@ -1015,13 +1045,13 @@ a:hover {
         top: 20px;
         width: 100%;
         height: 100vh;
-        background: #ffffff;
+        background: #f0f0f0;
         margin: 20px 0 -72px 0;
       }
       
-#footer .footer-about {
-		width: 65%
-	}
+  #footer .footer-about {
+      width: 65%
+    }
 
 	#footer .footer-notice {
 		width: 30%
@@ -1043,7 +1073,7 @@ a:hover {
         top: 20px;
         width: 100%;
         height: 100vh;
-        background: #ffffff;
+        background: #f0f0f0;
         margin: 180px 0 -72px 0;
       }
     
@@ -1060,7 +1090,7 @@ a:hover {
         top: 20px;
         width: 100%;
         height: 100vh;
-        background: #ffffff;
+        background: #f0f0f0;
         margin: 20px 0 -72px 0;
       }
 
@@ -1161,7 +1191,7 @@ a:hover {
         top: 5px;
         width: 100%;
         height: 100vh;
-        background: #ffffff;
+        background: #f0f0f0;
         margin: -70px 0 -72px 0;
       }
 }
@@ -1221,7 +1251,7 @@ a:hover {
     #hero {
         width: 100%;
         height: 90vh;
-        background: #ffffff;
+        background: #f0f0f0;
         margin: -150px 0 -72px 0;
       }
 

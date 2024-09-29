@@ -440,13 +440,13 @@ if (is_null($_SESSION["guest"])) {
             <div class="footer-fa-text">We are dedicated to preserving and promoting the Igorot heritage through education, cultural displays, and community engagement. Our mission is to ensure that the traditions, dances, and stories of the Cordilleras are passed down to future generations, honoring the past and inspiring the future. </div>
           </div>
           <div class="footer-notice">
-            <span>All videos on this site are produced by the <strong>SLU Museum of Igorot Culture and Arts</strong> to document and preserve Igorot heritage. Unauthorized reproduction or distribution is prohibited. </span>
+            <span>All videos on this site are produced by the <strong>SLU Museum of Igorot Cultures and Arts</strong> to document and preserve Igorot heritage. Unauthorized reproduction or distribution is prohibited. </span>
           </div>
           <div class="footer-logo-block">
             <a href="https://www.facebook.com/slumuseum" class="footer-logo">
               <img src="assets\img\logo.png" alt="Logo footer">
             </a>
-            <p class="copyright">© 2024 SLU Museum of Igorot Culture and Arts. All Rights Reserved.</p>
+            <p class="copyright">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
           </div>
           <div class="clearfix"></div>
         </div>
