@@ -288,6 +288,16 @@ a:hover {
     animation: up-down 2s ease-in-out infinite alternate-reverse both;
   }
 
+  .museum-link {
+    color: #FAC301;
+    text-decoration: none;
+  }
+  
+  .museum-link:hover {
+    color: #0E1644;
+  }
+  
+
 
   section {
     padding: 60px 0;

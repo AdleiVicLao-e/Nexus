@@ -122,7 +122,14 @@ if (is_null($_SESSION["guest"])) {
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1">
           <h1>Discover Igorot Heritage with the SLU Museum WebApp</h1>
           <h2>
-            Welcome to the <strong><span style="color: #FAC301">SLU Museum of Igorot Culture and Arts</span></strong>! Our web app enhances your visit with  a digital artifact guide  and informative content about our unique artifacts.</h2>
+            Welcome to the 
+            <strong>
+              <a href="https://www.slu.edu.ph/museum-of-igorot-culture-and-arts/" class="museum-link">
+                SLU Museum of Igorot Culture and Arts
+              </a>
+            </strong>! 
+            Our web app enhances your visit with a digital artifact guide and informative content about our unique artifacts.
+          </h2>
           <a href="#about" class="btn-red">Get Started</a>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img">
@@ -146,8 +153,15 @@ if (is_null($_SESSION["guest"])) {
           <div class="col-lg-6 pt-5 pt-lg-0">
             <h3 data-aos="fade-up">A Collaborative Effort</h3>
             <p data-aos="fade-up" data-aos-delay="100">
-              The <strong>SLU Museum of Igorot Culture and Arts</strong> proudly presents this web application, a collaboration between <strong>Team Nexus</strong>, <strong>4th-year IT students</strong> from the <strong>School of Accountancy, Management, Computing, and Information Studies</strong>, and the museum. This project merges technology with cultural heritage, enhancing the visitor experience and promoting the rich legacy of the Igorot people.
+              The 
+              <strong>
+                <a href="https://www.slu.edu.ph/museum-of-igorot-culture-and-arts/" class="museum-link">
+                  SLU Museum of Igorot Culture and Arts
+                </a>
+              </strong> 
+              proudly presents this web application, a collaboration between <strong>Team Nexus</strong>, <strong>4th-year IT students</strong> from the <strong>School of Accountancy, Management, Computing, and Information Studies</strong>, and the museum. This project merges technology with cultural heritage, enhancing the visitor experience and promoting the rich legacy of the Igorot people.
             </p>
+
             <div class="row">
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <i class="bx bx-book-open"></i>
@@ -173,7 +187,7 @@ if (is_null($_SESSION["guest"])) {
 
         <div class="section-title" data-aos="fade-up">
           <h2>Key Features</h2>
-          <p>Discover features designed to enhance your museum visit.</p>
+          <p>Discover features designed to enhance your museum visit</p>
         </div>
 
         <div class="row">
@@ -400,9 +414,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>Project Lead</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -418,9 +432,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>Lead Developer</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -436,9 +450,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>Full-stack Developer</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -454,9 +468,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>Back-end Developer</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -472,9 +486,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>Front-end Developer</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -490,9 +504,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>System Architect</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -508,9 +522,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>Quality Assurance Engineer</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -526,9 +540,9 @@ if (is_null($_SESSION["guest"])) {
                   <span>Quality Assurance Engineer</span>
                 </div>
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href=""><i class="icofont-email"></i></a>
+                  <a href=""><i class="icofont-github"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
