@@ -19,7 +19,7 @@ a {
 }
 
 a:hover {
-    color: #3e8afa
+	color: #f6c500
 }
 
 .btn-radius {
@@ -27,14 +27,14 @@ a:hover {
 }
 
 .btn-focus {
-    background: #0E1644!important;
+    background: #073066!important;
     color: #fff!important;
-    border-color: #0E1644!important
+    border-color: #073066!important
 }
 
 .btn-focus:hover {
-    background: #FAC301!important;
-    border-color: #FAC301!important
+    background: #f6c500!important;
+    border-color: #f6c500!important
 }
 
 .btn-secondary {
@@ -180,7 +180,7 @@ strong {
 }
 
 #mobile_menu.active i {
-    color: #0E1644
+    color: #073066
 }
 
 #mobile_menu i {
@@ -224,14 +224,18 @@ strong {
 }
 
 #header_menu ul.header_menu-list .nav-item:hover>a {
-    color: #fff
+    color: #f6c500
 }
+
+.header_menu-list .nav-item.active a  {
+	border-bottom: 4px solid #f6c500; /* Change color and thickness as needed */
+  }
 
 #header_menu ul.header_menu-list .nav-item.active>a:before {
     content: "";
     width: 100%;
     height: 3px;
-    background: #0E1644;
+    background: #073066;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -277,7 +281,7 @@ strong {
 }
 
 #header_menu .header_menu-sub ul.sub-menu li:hover a {
-    background: #0E1644;
+    background: #073066;
     color: #fff!important
 }
 
@@ -328,7 +332,7 @@ strong {
 
 #header .btn-on-header:hover {
     background: 0 0;
-    color: #0E1644!important
+    color: #073066!important
 }
 
 #header #search-toggle .btn-on-header {
@@ -336,7 +340,7 @@ strong {
 }
 
 #header #search-toggle.active .btn-on-header {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -466,7 +470,7 @@ strong {
 
 .search-content .search-result-pop .nav-bottom {
     padding: 15px;
-    background: #0E1644!important;
+    background: #073066!important;
     font-size: 16px;
     color: #fff;
     text-align: center;
@@ -711,7 +715,7 @@ strong {
 }
 
 .pre-tabs {
-    border-bottom: 2px solid #0E1644
+    border-bottom: 2px solid #073066
 }
 
 .pre-tabs .nav-item {
@@ -735,7 +739,7 @@ strong {
 }
 
 .pre-tabs .nav-item .nav-link.active {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -793,7 +797,7 @@ strong {
     margin-top: -30px;
     margin-left: -30px;
     border-radius: 50%;
-    background: #FAC301;
+    background: #f6c500;
     opacity: 0;
     z-index: 2
 }
@@ -910,11 +914,11 @@ strong {
 
 .pre-pagination .pagination .page-item .page-link:hover {
     background: 0 0;
-    color: #0E1644
+    color: #073066
 }
 
 .pre-pagination .pagination .page-item.active .page-link {
-    background: #0E1644;
+    background: #073066;
     color: #fff;
     cursor: default
 }
@@ -978,7 +982,7 @@ strong {
 
 .premodal .modal-content .close:hover {
     opacity: 1;
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -1129,7 +1133,7 @@ strong {
 }
 
 #sidebar_menu .sidebar_menu-list>.nav-item>.toggle-submenu:hover {
-    color: #0E1644
+    color: #073066
 }
 
 #sidebar_menu .sidebar_menu-list>.nav-item .nav {
@@ -1442,7 +1446,7 @@ strong {
 }
 
 .detail_page-watch .dp-w-cover .dp-w-c-play {
-    background: #0E1644;
+    background: #073066;
     color: #fff;
     box-shadow: 0 20px 20px rgba(0,0,0,.1);
     width: 100px;
@@ -1459,7 +1463,7 @@ strong {
 }
 
 .detail_page-watch .dp-w-cover .dp-w-c-play:hover {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -1602,7 +1606,7 @@ strong {
 }
 
 .detail_page.detail_page-style .block-rating .rating-result .rr-mark span {
-    color: #0E1644
+    color: #073066
 }
 
 .block-rating .rating-result .progress {
@@ -1611,7 +1615,7 @@ strong {
 }
 
 .block-rating .rating-result .progress .bg-success {
-    background: #0E1644!important
+    background: #073066!important
 }
 
 .block-rating button {
@@ -1622,7 +1626,7 @@ strong {
 }
 
 .block-rating button.btn-focus {
-    background: #0E1644!important;
+    background: #073066!important;
     color: #fff!important
 }
 
@@ -1740,11 +1744,11 @@ strong {
 }
 
 .detail_page-servers .dp-s-line .nav .nav-item .nav-link:hover {
-    color: #0E1644
+    color: #073066
 }
 
 .detail_page-servers .dp-s-line .nav .nav-item .nav-link.active {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -1842,7 +1846,7 @@ strong {
 }
 
 .block_area_manager .block_area-header-tabs .pre-tabs .nav-link.active {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -1927,7 +1931,7 @@ strong {
 }
 
 .seasons-list .sl-content .slc-ul li.active a {
-    color: #0E1644
+    color: #073066
 }
 
 .seasons-list .sl-content .slc-seasons .slcs-ul li {
@@ -1949,7 +1953,7 @@ strong {
 }
 
 .seasons-list .sl-content .slc-seasons .slcs-ul li.active a {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -2003,7 +2007,7 @@ strong {
 }
 
 .seasons-list .sl-content .slc-eps .slce-server ul li a.active {
-    background: #0E1644!important;
+    background: #073066!important;
     color: #fff!important;
     border-radius: 3px!important
 }
@@ -2011,7 +2015,7 @@ strong {
 .seasons-list .sl-content .slc-eps .slce-server ul li a:hover {
     border: none!important;
     margin: 0;
-    color: #0E1644
+    color: #073066
 }
 
 .seasons-list .sl-content .slc-eps .slce-list ul {
@@ -2053,7 +2057,7 @@ strong {
 }
 
 .seasons-list .sl-content .slc-eps .slce-list .nav-link:hover {
-    color: #0E1644
+    color: #073066
 }
 
 .seasons-list .sl-content .slc-eps .slce-list .nav-link:hover i {
@@ -2061,7 +2065,7 @@ strong {
 }
 
 .seasons-list .sl-content .slc-eps .slce-list .nav-link.active {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -2110,7 +2114,7 @@ strong {
 }
 
 .text-home a {
-    color: #0E1644
+    color: #073066
 }
 
 .text-home .btn-expand {
@@ -2331,7 +2335,7 @@ strong {
 }
 
 .dropdown-menu-new .dropdown-item.active {
-    background: #0E1644;
+    background: #073066;
     color: #fff
 }
 
@@ -3032,7 +3036,7 @@ strong {
         line-height: normal;
         border: none;
         background: #fff!important;
-        color: #0E1644!important
+        color: #073066!important
     }
 
     .header_right-user.logged>.dropdown>.btn-primary i {
@@ -3652,7 +3656,7 @@ strong {
     }
 
     .seasons-list .sl-content .slc-eps .slce-server ul li a.active {
-        background: #0E1644!important;
+        background: #073066!important;
         color: #fff!important;
         border-radius: 5px!important
     }

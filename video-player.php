@@ -36,7 +36,7 @@ if (is_null($_SESSION["guest"])) {
           <li class="nav-item active">
             <a class="nav-link" href="scanner.php" title="Home">Home</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <div class="toggle-submenu" data-toggle="collapse" data-target="#sidebar_subs_genre" aria-expanded="false" aria-controls="sidebar_subs_genre"></div>
             <div class="collapse multi-collapse sidebar_menu-sub" id="sidebar_subs_genre">
           <li class="nav-item dropdown">
@@ -52,6 +52,9 @@ if (is_null($_SESSION["guest"])) {
               <a class="dropdown-item" href="#">Itneg/Tingguian</a>
               <a class="dropdown-item" href="#">Kalinga</a>
             </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.php" title="Home">About</a>
           </li>
           <div class="clearfix"></div>
       </div>
@@ -88,6 +91,9 @@ if (is_null($_SESSION["guest"])) {
                   <a class="dropdown-item" href="#">Kalinga</a>
                 </div>
               </li>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.php" title="Home">About</a>
               </li>
             </ul>
             <div class="clearfix"></div>

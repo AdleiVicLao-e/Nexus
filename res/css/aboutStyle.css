@@ -146,7 +146,11 @@ a:hover {
 }
 
 #header_menu ul.header_menu-list .nav-item:hover>a {
-    color: #fff
+    color: #f6c500
+}
+
+.header_menu-list .nav-item.active a {
+  border-bottom: 4px solid #f6c500; /* Change color and thickness as needed */
 }
 
 #wrapper {

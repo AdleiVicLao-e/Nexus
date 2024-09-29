@@ -29,27 +29,13 @@ if (is_null($_SESSION["guest"])) {
         <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar">
           <i class="fa fa-angle-left mr-2"></i>Close menu </button>
         <ul class="nav sidebar_menu-list">
-          <li class="nav-item active">
+        <li class="nav-item active">
             <a class="nav-link" href="scanner.php" title="Home">Home</a>
           </li>
           <li class="nav-item">
-            <div class="toggle-submenu" data-toggle="collapse" data-target="#sidebar_subs_genre" aria-expanded="false" aria-controls="sidebar_subs_genre"></div>
-            <div class="collapse multi-collapse sidebar_menu-sub" id="sidebar_subs_genre">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Ethnic Groups </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Bontoc</a>
-              <a class="dropdown-item" href="#">Ibaloi</a>
-              <a class="dropdown-item" href="#">Ifugao</a>
-              <a class="dropdown-item" href="#">Kalanguya</a>
-              <a class="dropdown-item" href="#">Kankanaey</a>
-              <a class="dropdown-item" href="#">Isinai</a>
-              <a class="dropdown-item" href="#">Isneg</a>
-              <a class="dropdown-item" href="#">Itneg/Tingguian</a>
-              <a class="dropdown-item" href="#">Kalinga</a>
-            </div>
-          </li>
-          <li class="nav-item active">
+          <a class="nav-link" href="igorot-dances.php" title="Home">Igorot Dances</a>
+         </li>
+          <li class="nav-item">
             <a class="nav-link" href="about.php" title="Home">About</a>
           </li>
           <div class="clearfix"></div>
@@ -73,20 +59,8 @@ if (is_null($_SESSION["guest"])) {
               <li class="nav-item">
                 <a href="scanner.php" title="Home">Home</a>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Ethnic Groups </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Bontoc</a>
-                  <a class="dropdown-item" href="#">Ibaloi</a>
-                  <a class="dropdown-item" href="#">Ifugao</a>
-                  <a class="dropdown-item" href="#">Kalanguya</a>
-                  <a class="dropdown-item" href="#">Kankanaey</a>
-                  <a class="dropdown-item" href="#">Isinai</a>
-                  <a class="dropdown-item" href="#">Isneg</a>
-                  <a class="dropdown-item" href="#">Itneg/Tingguian</a>
-                  <a class="dropdown-item" href="#">Kalinga</a>
-                </div>
-              </li>
+              <li class="nav-item">
+              <a href="igorot-dances.php" title="Home">Igorot Dances</a>
               </li>
               <li class="nav-item active">
                 <a class="nav-link" href="about.php" title="Home">About</a>

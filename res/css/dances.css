@@ -18,7 +18,7 @@ a {
 }
 
 a:hover {
-	color: #3e8afa
+	color: #f6c500
 }
 
 .btn-radius {
@@ -26,14 +26,14 @@ a:hover {
 }
 
 .btn-focus {
-	background: #0E1644 !important;
+	background: #073066 !important;
 	color: #fff !important;
-	border-color: #0E1644 !important
+	border-color: #073066 !important
 }
 
 .btn-focus:hover {
-	background: #FAC301 !important;
-	border-color: #FAC301 !important
+	background: #f6c500 !important;
+	border-color: #f6c500 !important
 }
 
 .btn-secondary {
@@ -170,8 +170,12 @@ strong {
 }
 
 #header_menu ul.header_menu-list .nav-item:hover>a {
-	color: #fff
+	color: #f6c500
 }
+
+.header_menu-list .nav-item.active a  {
+	border-bottom: 4px solid #f6c500; /* Change color and thickness as needed */
+  }
 
 #header_right {
 	position: absolute;
@@ -315,7 +319,7 @@ strong {
 	margin-top: -30px;
 	margin-left: -30px;
 	border-radius: 50%;
-	background: #FAC301;
+	background: #f6c500;
 	opacity: 0;
 	z-index: 2
 }
@@ -642,7 +646,7 @@ strong {
 }
 
 .detail_page-watch .dp-w-cover .dp-w-c-play {
-	background: #FAC301;
+	background: #f6c500;
 	color: #fff;
 	box-shadow: 0 20px 20px rgba(0, 0, 0, .1);
 	width: 100px;
@@ -659,7 +663,7 @@ strong {
 }
 
 .detail_page-watch .dp-w-cover .dp-w-c-play:hover {
-	background: #0E1644;
+	background: #073066;
 	color: #fff
 }
 

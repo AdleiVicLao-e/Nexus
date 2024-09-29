@@ -17,7 +17,7 @@ body {
 h1,
 h2 {
 	font-family: 'Jomolhari', serif;
-	color: #0E1644;
+	color: #073066;
 	margin-bottom: 10px;
 }
 
@@ -173,7 +173,7 @@ p {
 	width: 100%;
 	padding: 10px;
 	margin-top: 5px;
-	border: 1px solid #0E1644;
+	border: 1px solid #073066;
 	border-radius: 5px;
 	background-color: rgba(28, 28, 28, 0.8);
 	color: #FFFFFF;
@@ -188,7 +188,7 @@ p {
 h1,
 .header1 {
 	font-family: 'Jomolhari', serif;
-	color: #0E1644;
+	color: #073066;
 	margin-bottom: 20px;
 }
 
@@ -213,11 +213,11 @@ form {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	width: 100%;
-	border: 1px solid #0E1644;
+	border: 1px solid #073066;
 	border-radius: 5px;
 	text-indent: 10px;
 	background-color: rgba(0, 0, 0, 0.2);
-	color: #0E1644;
+	color: #073066;
 	outline: none;
 	font-size: 16px;
 }
@@ -228,7 +228,7 @@ form {
 	left: 315px;
 	transform: translateY(-15%);
 	cursor: pointer;
-	color: #0E1644;
+	color: #073066;
 }
 
 .input-container i {
@@ -236,19 +236,19 @@ form {
 	left: 10px;
 	top: 50%;
 	transform: translateY(-10%);
-	color: #0E1644;
+	color: #073066;
 }
 
 input[type="text"],
 input[type="password"] {
 	padding: 12px;
 	margin-bottom: 10px;
-	border: 3px solid #0E1644;
+	border: 3px solid #073066;
 	border-radius: 10px;
 	outline: none;
 	font-size: 16px;
 	background-color: #ffffffa8;
-	color: #0E1644;
+	color: #073066;
 }
 
 .fa {
@@ -256,7 +256,7 @@ input[type="password"] {
 }
 
 button {
-	background-color: #0E1644;
+	background-color: #073066;
 	color: #FFFFFF;
 	border: none;
 	padding: 12px 20px;
@@ -270,16 +270,16 @@ button {
 }
 
 button:hover {
-	background-color: #FAC301;
-	color: #0E1644;
+	background-color: #f6c500;
+	color: #073066;
 	font-weight: bold;
-	border: 1.25px solid #0E1644;
+	border: 1.25px solid #073066;
 }
 
 .btn-red {
-	background-color: #0E1644;
+	background-color: #073066;
 	color: #FFFFFF;
-	border: 1.25px solid #0E1644;
+	border: 1.25px solid #073066;
 	padding: 12px 50px;
 	cursor: pointer;
 	border-radius: 20px;
@@ -291,16 +291,16 @@ button:hover {
 }
 
 .btn-red:hover {
-	background-color: #FAC301;
-	color: #0E1644;
+	background-color: #f6c500;
+	color: #073066;
 	font-weight: bold;
-	border: 1.25px solid #0E1644;
+	border: 1.25px solid #073066;
 }
 
 .btn-white {
 	background-color: #FFFFFF;
-	color: #0E1644;
-	border: 1.25px solid #0E1644;
+	color: #073066;
+	border: 1.25px solid #073066;
 	padding: 12px 50px;
 	cursor: pointer;
 	border-radius: 20px;
@@ -312,10 +312,10 @@ button:hover {
 }
 
 .btn-white:hover {
-	background-color: #FAC301;
-	color: #0E1644;
+	background-color: #f6c500;
+	color: #073066;
 	font-weight: bold;
-	border: 1.25px solid #0E1644;
+	border: 1.25px solid #073066;
 }
 
 .access-body {
@@ -352,7 +352,7 @@ button:hover {
 .custom-radio input[type="radio"]+.custom-radio-span {
 	width: 20px;
 	height: 20px;
-	border: 2px solid #0E1644;
+	border: 2px solid #073066;
 	border-radius: 50%;
 	display: inline-block;
 	position: relative;
@@ -363,7 +363,7 @@ button:hover {
 	content: '';
 	width: 10px;
 	height: 10px;
-	background-color: #0E1644;
+	background-color: #073066;
 	border-radius: 50%;
 	position: absolute;
 	top: 50%;
@@ -493,7 +493,7 @@ nav .navbar .links li:hover .js-sub-menu {
 }
 
 .navbar .nav-links ul.links li a:hover {
-	color: #0E1644;
+	color: #073066;
 	font-weight: 550;
 }
 
@@ -730,11 +730,11 @@ a-plane {
 }
 
 .controls button:nth-child(3) {
-	border: 2px solid #0E1644;
+	border: 2px solid #073066;
 }
 
 .controls button:nth-child(3) svg {
-	color: #0E1644;
+	color: #073066;
 }
 
 .controls>button {
@@ -815,9 +815,9 @@ a-plane {
 	.btn-white {
 		padding: 15px 70px;
 
-		background-color: #0E1644;
+		background-color: #073066;
 		color: #FFFFFF;
-		border: 1.25px solid #0E1644;
+		border: 1.25px solid #073066;
 		cursor: pointer;
 		border-radius: 20px;
 		font-size: 28px;
@@ -838,7 +838,7 @@ a-plane {
 		transform: translateY(50%);
 
 		cursor: pointer;
-		color: #0E1644;
+		color: #073066;
 	}
 
 	.toggle-password {
@@ -891,11 +891,11 @@ a-plane {
 		padding-top: 10px;
 		padding-bottom: 10px;
 		width: 100%;
-		border: 3px solid #0E1644;
+		border: 3px solid #073066;
 		border-radius: 10px;
 		text-indent: 35px;
 		background-color: #ffffff;
-		color: #0E1644;
+		color: #073066;
 		outline: none;
 		font-size: 32px;
 	}
@@ -1022,13 +1022,13 @@ a-plane {
 
 	.sidebar-logo .logo-name {
 		font-size: 25px;
-		color: #0E1644;
+		color: #073066;
 	}
 
 	.sidebar-logo i,
 	.navbar .bx-menu {
 		font-size: 25px;
-		color: #0E1644;
+		color: #073066;
 	}
 
 	nav .navbar .links {
@@ -1170,7 +1170,7 @@ a-plane {
 
 	h1 {
 		font-family: 'Jomolhari', serif;
-		color: #0E1644;
+		color: #073066;
 		margin-bottom: 10px;
 	}
 
@@ -1188,7 +1188,7 @@ a-plane {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: #0E1644;
+		background-color: #073066;
 		color: white;
 		font-size: 24px;
 		border: none;
@@ -1197,7 +1197,7 @@ a-plane {
 	}
 
 	.floating-button.left {
-		border: 3px solid #FAC301;
+		border: 3px solid #f6c500;
 		left: 20px;
 	}
 
@@ -1272,7 +1272,7 @@ a-plane {
 	}
 
 	#watchVideosButton:hover {
-		background-color: #fac301;
+		background-color: #f6c500;
 	}
 
 	@keyframes zoomIn {
@@ -1511,10 +1511,10 @@ a-plane {
 		width: 100%;
 		padding: 10px;
 		margin-top: 5px;
-		border: 1px solid #0E1644;
+		border: 1px solid #073066;
 		border-radius: 5px;
 		background-color: #ffffff;
-		color: #0E1644;
+		color: #073066;
 		outline: none;
 		font-size: 16px;
 	}
@@ -1526,7 +1526,7 @@ a-plane {
 	h1,
 	.header1 {
 		font-family: 'Jomolhari', serif;
-		color: #0E1644;
+		color: #073066;
 		margin-bottom: 20px;
 	}
 
@@ -1547,11 +1547,11 @@ a-plane {
 		padding-top: 10px;
 		padding-bottom: 10px;
 		width: 100%;
-		border: 1px solid #0E1644;
+		border: 1px solid #073066;
 		border-radius: 5px;
 		text-indent: 10px;
 		background-color: #ffffff;
-		color: #0E1644;
+		color: #073066;
 		outline: none;
 		font-size: 16px;
 	}
@@ -1562,7 +1562,7 @@ a-plane {
 		left: 225px;
 		transform: translateY(-15%);
 		cursor: pointer;
-		color: #0E1644;
+		color: #073066;
 	}
 
 	.input-container i {
@@ -1570,23 +1570,23 @@ a-plane {
 		left: 10px;
 		top: 50%;
 		transform: translateY(-10%);
-		color: #0E1644;
+		color: #073066;
 	}
 
 	input[type="text"],
 	input[type="password"] {
 		padding: 12px;
 		margin-bottom: 10px;
-		border: 3px solid #0E1644;
+		border: 3px solid #073066;
 		border-radius: 10px;
 		outline: none;
 		font-size: 16px;
 		background-color: #ffffff9f;
-		color: #0E1644;
+		color: #073066;
 	}
 
 	button {
-		background-color: #0E1644;
+		background-color: #073066;
 		color: #FFFFFF;
 		border: none;
 		padding: 12px 20px;
@@ -1599,13 +1599,13 @@ a-plane {
 	}
 
 	button:hover {
-		background-color: #FAC301;
+		background-color: #f6c500;
 	}
 
 	.btn-red {
-		background-color: #0E1644;
+		background-color: #073066;
 		color: #FFFFFF;
-		border: 1.25px solid #0E1644;
+		border: 1.25px solid #073066;
 		padding: 12px 50px;
 		cursor: pointer;
 		border-radius: 20px;
@@ -1619,16 +1619,16 @@ a-plane {
 	}
 
 	.btn-red:hover {
-		background-color: #FAC301;
-		color: #0E1644;
+		background-color: #f6c500;
+		color: #073066;
 		font-weight: bold;
-		border: 1.25px solid #0E1644;
+		border: 1.25px solid #073066;
 	}
 
 	.btn-white {
 		background-color: #FFFFFF;
-		color: #0E1644;
-		border: 1.25px solid #0E1644;
+		color: #073066;
+		border: 1.25px solid #073066;
 		padding: 12px 50px;
 		cursor: pointer;
 		border-radius: 20px;
@@ -1642,7 +1642,7 @@ a-plane {
 	}
 
 	.btn-white:hover {
-		background-color: #0E1644;
+		background-color: #073066;
 		color: #FFFFFF;
 		border: 1.25px solid #FFFFFF;
 	}
@@ -1680,7 +1680,7 @@ a-plane {
 	.custom-radio input[type="radio"]+.custom-radio-span {
 		width: 20px;
 		height: 20px;
-		border: 2px solid #0E1644;
+		border: 2px solid #073066;
 		border-radius: 50%;
 		display: inline-block;
 		position: relative;
@@ -1691,7 +1691,7 @@ a-plane {
 		content: '';
 		width: 10px;
 		height: 10px;
-		background-color: #0E1644;
+		background-color: #073066;
 		border-radius: 50%;
 		position: absolute;
 		top: 50%;

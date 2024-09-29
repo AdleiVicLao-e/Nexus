@@ -18,7 +18,7 @@ header {
 	align-items: center;
 	padding: 10px;
 
-	background-color: #162749;
+	background-color: #073066;
 	color: rgb(255, 255, 255);
 	position: relative;
 	top: 0;
@@ -63,7 +63,7 @@ header .greeting {
 }
 
 header .curator {
-	border-bottom: 1px solid #ffbb00;
+	border-bottom: 1px solid #f6c500;
 }
 
 header nav a {
@@ -155,28 +155,28 @@ header nav a:hover {
 
 .btn-label-info {
 	background: rgba(72, 171, 247, 0.1);
-	color: #4376ad !important;
+	color: #073066 !important;
 	border-color: transparent;
 }
 
 .btn-label-info:hover,
 .btn-label-info:focus,
 .btn-label-info:disabled {
-	background: #4376ad;
+	background: #073066;
 	color: #fff !important;
 	opacity: 1;
 }
 
 .btn-label-success {
 	background: rgba(49, 206, 54, 0.1);
-	color: #ffbb00 !important;
+	color: #f6c500 !important;
 	border-color: transparent;
 }
 
 .btn-label-success:hover,
 .btn-label-success:focus,
 .btn-label-success:disabled {
-	background: #ffbb00;
+	background: #f6c500;
 	color: #fff !important;
 	opacity: 1;
 }
@@ -358,7 +358,7 @@ header nav a:hover {
 
 .right-container .artifacts .tabs .tab.active {
 	background-color: #fff;
-	border-top: 3px solid #ffbb00;
+	border-top: 3px solid #f6c500;
 	font-weight: bold;
 }
 
@@ -401,7 +401,7 @@ header nav a:hover {
 	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 	padding: 10px 20px;
 	border: none;
-	background-color: #4376ad;
+	background-color: #073066;
 	color: white;
 	font-size: 16px;
 	cursor: pointer;
@@ -420,7 +420,7 @@ header nav a:hover {
 .right-container .artifacts .search-container button:hover,
 .right-container .artifacts button:hover,
 .popup button:hover {
-	background-color: #ffbb00;
+	background-color: #f6c500;
 	color: black;
 }
 
@@ -655,11 +655,11 @@ td {
 }
 
 th {
-	background-color: #162749;
+	background-color: #073066;
 
 	color: white;
 
-	border-bottom: 2px solid #ffbb00;
+	border-bottom: 2px solid #f6c500;
 
 }
 
@@ -681,7 +681,7 @@ td {
 #refreshBtn {
 	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 	margin-top: 10px;
-	background-color: #4376ad;
+	background-color: #073066;
 
 	color: white;
 
@@ -698,7 +698,7 @@ td {
 }
 
 #refreshBtn:hover {
-	background-color: #ffbb00;
+	background-color: #f6c500;
 
 	transform: scale(1.05);
 
