@@ -16,6 +16,7 @@ $stmt->bind_param("iiisss", $sectionId, $catalogId, $subCatalogId, $artifactName
 
 if ($stmt->execute()) {
     echo "New artifact added successfully";
+    header("Location: ../admin/admin.php");
 } else {
     echo "Error: " . $stmt->error;
 }
