@@ -401,3 +401,7 @@ $(document).ready(function() {
         })
 });
 
+document.getElementById('watchVideosButton').addEventListener('click', function() {
+    window.location.href = 'igorot-dances.php';
+});
+

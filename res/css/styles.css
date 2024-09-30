@@ -654,7 +654,7 @@ main {
   width: 100vw;
   height: 100vh;
   z-index: 2;
-  pointer-events: none;
+	pointer-events: none;
 }
 
 a-scene {
@@ -1225,14 +1225,14 @@ a-plane {
 		transform: translateX(-50%); 
 		font-family: 'Inter', sans-serif;		
 		padding: 10px 20px; 
-		background-image: url('../assets/img/button.png'); 
+		background-image: url('/assets/img/button.png'); 
 		background-color: #a67c52;
 		color: white; 
 		border: none; 
 		border-radius: 5px;
 		font-size: 14px; 
 		cursor: pointer;
-		z-index: 1; 
+		z-index: 5; 
 		display: block; /* Make sure the button is displayed */
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 	}
@@ -1247,7 +1247,7 @@ a-plane {
 		position: absolute;
 		top: 80px;
 		right: 10px;
-		z-index: 1000;
+		z-index: 5;
 		border-radius: 5px;
 		background-image: url('/assets/img/button.png'); 
 		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
@@ -1258,6 +1258,7 @@ a-plane {
 		top: 160px;
 		font-family: 'Inter', sans-serif;	
 		right: 10px;
+		z-index: 5;
 		color: white;
 		font-size: 13px;
 		font-weight: bold;
@@ -1332,7 +1333,7 @@ a-plane {
 		width: 70px;  
 		height: 70px;
 		cursor: pointer; 
-		z-index: 1001;
+		z-index: 3;
 	}
 	
 	.lightbulb-icon:hover {
@@ -1743,7 +1744,7 @@ a-plane {
 		height: 425px;
 
 		overflow: hidden;
-		z-index: 1001;
+		z-index: 3;
 
 		pointer-events: auto;
 	}
@@ -1926,7 +1927,7 @@ a-plane {
 
 #sidebar_menu.active {
 	left: 0;
-	z-index: 1200;
+	z-index: 100;
 	opacity: 1
 }
 
@@ -2064,6 +2065,28 @@ a-plane {
 }
 
 @media (min-width: 240px) and (max-width: 479px) {
+		#watchVideosButton {
+		position: fixed;
+		bottom: 20px;  
+		left: 50%;     
+		transform: translateX(-50%); 
+		font-family: 'Inter', sans-serif;		
+		padding: 10px 20px; 
+		background-image: url('/assets/img/button.png'); 
+		background-color: #a67c52;
+		color: white; 
+		border: none; 
+		border-radius: 5px;
+		font-size: 14px; 
+		cursor: pointer;
+		z-index: 5; 
+		display: block; /* Make sure the button is displayed */
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+	}
+	
+	#watchVideosButton:hover {
+		opacity: 0.8; 
+	}
 
 	#header #logo img {
 		margin-right: 0 !important
