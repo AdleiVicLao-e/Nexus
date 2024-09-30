@@ -244,21 +244,37 @@ function onPointerDown(event) {
     isDragging = false;
 }
 
-// Event handler for pointer up (tap detection)
+let lastTapTime = 0; // To track the last tap time
+const doubleTapDelay = 300; // Time interval to consider for double tap (in milliseconds)
+
+// Modify the onPointerUp function to detect double taps
 function onPointerUp(event) {
     const currentPoint = event.data.global;
     const distance = Math.sqrt(
         Math.pow(currentPoint.x - startPoint.x, 2) + Math.pow(currentPoint.y - startPoint.y, 2)
     );
 
-    // If the drag distance is less than the threshold, consider it a tap
-    if (!isDragging && distance < dragThreshold) {
-        handleTap(event);
+    // Check if it's a double tap
+    const currentTime = Date.now();
+    if (currentTime - lastTapTime < doubleTapDelay && !isDragging && distance < dragThreshold) {
+        handleDoubleTap(event); // Call the double tap handler
+    } else if (!isDragging && distance < dragThreshold) {
+        handleTap(event); // Handle single tap
     }
+
+    // Update the last tap time
+    lastTapTime = currentTime;
 
     // Reset dragging state
     isDragging = false;
 }
+
+// Handle double tap interaction (trigger stop TTS)
+function handleDoubleTap(event) {
+    event.stopPropagation(); // Prevent default behavior
+    stopTTS(); // Call stopTTS function on double tap
+}
+
 
 function handleArtifact(artifactId) {
     if (!scriptData) {
@@ -298,6 +314,8 @@ function stopTTS() {
     }
 
     if (speakWorker) {
+        // Send a termination message to the worker if necessary
+        speakWorker.postMessage({ action: 'terminate' }); // Optional: define a message in your worker to handle termination
         speakWorker.terminate(); // Terminate the TTS worker
         console.log("TTS worker terminated.");
     }
