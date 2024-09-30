@@ -51,7 +51,9 @@ if (is_null($_SESSION["guest"])) {
     <!-- Floating Buttons -->
     <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/light_bulb.png" alt="Info" onclick="viewDetails()" /> <!-- Light bulb icon -->
 
-    <img id="watchVideosButton" src="/assets/img/watch_video.png" alt="Watch Video" onclick="window.location.href='igorot-dances.php';" />
+    <button id="watchVideosButton" onclick="window.location.href='igorot-dances.php';">
+    Watch Videos
+    </button>
 
     <!-- Overlay with the info box -->
     <div class="overlay" id="infoOverlay">
