@@ -149,17 +149,56 @@ if (is_null($_SESSION["admin"])) {
               </form>
             </div>
           </div>
-          <div id="add2" class="tab-content">
-            <div class="form-container">
-              <form action="/include/addCategory.php" method="post">
-                <div class="form-group">
-                  <label for="category-name">Category Name:</label>
-                  <input type="text" id="category-name" name="category-name" required>
+            <div id="add2" class="tab-content">
+                <div class="form-container">
+                    <form action="/include/addCategory.php" method="post"> <!--add database here i think??? .php, action="-here-" "/include/addArtifact.php"-->
+                        <h3 style="text-align: center;">Add New Section</h3>
+                        <!-- Form for Adding New Section -->
+                        <div class="form-group">
+                            <label for="create-new-section">New Section Title:</label>
+                            <input type="text" id="create-new-section" name="new_section">
+                        </div>
+                        <div class="button-container">
+                            <button type="submit" name="action" value="create_section" class="btn">Create Section</button>
+                        </div>
+                        <h1> </h1>
+                        <hr>
+                        <!-- Form for Adding New Catalog -->
+                        <h3 style="text-align: center;">Add New Catalog</h3>
+                        <div class="form-group">
+                            <label for="create-select-section">Choose Section:</label>
+                            <select id="create-select-section" name="section_id">
+                                <option value="">Select Section</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-new-catalog">New Catalog Name:</label>
+                            <input type="text" id="create-new-catalog" name="new_catalog">
+                        </div>
+                        <div class="button-container">
+                            <button type="submit" name="action" value="create_catalog" class="btn">Create Catalog</button>
+                        </div>
+                        <h1> </h1>
+                        <hr>
+                        <!-- Form for Adding New Sub Catalog -->
+                        <h3 style="text-align: center;">Add New Subcatalog</h3>
+                        <div class="form-group">
+                            <label for="create-select-catalog">Choose Catalog:</label>
+                            <select id="create-select-catalog" name="catalogue_id">
+                                <option value="">Select Catalog</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-new-subcatalog">New Subcatalog Name:</label>
+                            <input type="text" id="create-new-subcatalog" name="new_subcatalog">
+                        </div>
+
+                        <div class="button-container">
+                            <button type="submit" name="action" value="create_subcatalog" class="btn">Create Subcatalog</button>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit">Add Category</button>
-              </form>
             </div>
-          </div>
           <div id="upload" class="tab-content">
             <h3>Upload Media</h3>
             <form action="/include/uploadMedia.php" method="post" enctype="multipart/form-data">
