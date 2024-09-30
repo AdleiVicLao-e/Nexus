@@ -48,17 +48,17 @@ if (is_null($_SESSION["guest"])) {
       ;
     />
 
+    <div id="va-container">
+      <canvas id="va-canvas"></canvas>
+    </div>
+    <div class="edge-lighting" id="edgeLighting"></div>
+
     <!-- Floating Buttons -->
     <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" /> <!-- Light bulb icon -->
 
     <button id="watchVideosButton" onclick="window.location.href='igorot-dances.php';">
     Watch Videos
     </button>
-
-    <div id="va-container">
-      <canvas id="va-canvas"></canvas>
-    </div>
-    <div class="edge-lighting" id="edgeLighting"></div>
 
     <!-- Overlay with the info box -->
     <div class="overlay" id="infoOverlay">
@@ -79,6 +79,8 @@ if (is_null($_SESSION["guest"])) {
         </p>
       </div>
     </div>
+
+    
 
     <script>
       const video = document.getElementById("video");

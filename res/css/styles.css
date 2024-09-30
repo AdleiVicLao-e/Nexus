@@ -1217,6 +1217,7 @@ a-plane {
 		font-family: 'Inter', sans-serif;		
 		padding: 10px 20px; 
 		background-image: url('/assets/img/button.png'); 
+		background-color: #a67c52;
 		color: white; 
 		border: none; 
 		border-radius: 5px;
