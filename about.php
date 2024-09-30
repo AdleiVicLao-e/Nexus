@@ -593,7 +593,7 @@ if (is_null($_SESSION["guest"])) {
             <a href="https://www.facebook.com/slumuseum" class="footer-logo">
               <img src="assets\img\logo.png" alt="Logo footer">
             </a>
-            <p class="copyright">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
+            <p class="copyright" style="font-size: 15px">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
           </div>
           <div class="clearfix"></div>
         </div>

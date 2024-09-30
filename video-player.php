@@ -135,7 +135,7 @@ if (is_null($_SESSION["guest"])) {
                 </ol>
               </nav>
             </div>
-            <div class="alert mb-3" style="background: #ffaa00; color: #111; font-size: 16px; font-weight: 600;">If you get any error message when trying to watch the video, please Refresh the page.</div>
+            <div class="alert mb-3" style="background: #f6c500; color: #111; font-size: 16px; font-weight: 600; top: 7px; margin: 7px 9px">If you get any error message when trying to watch the video, please <span style="color: #C80000; text-decoration: underline;">Refresh</span> the page.</div>
             <div class="watching_player">
               <div class="watching_player-area">
                 <div id="mask-player" style="padding-bottom: 56.25%;">
