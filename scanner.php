@@ -55,6 +55,11 @@ if (is_null($_SESSION["guest"])) {
     Watch Videos
     </button>
 
+    <div id="va-container">
+      <canvas id="va-canvas"></canvas>
+    </div>
+    <div class="edge-lighting" id="edgeLighting"></div>
+
     <!-- Overlay with the info box -->
     <div class="overlay" id="infoOverlay">
       <button class="exit-button" id="exitButton">✖</button> <!-- Exit button -->
