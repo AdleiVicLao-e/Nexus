@@ -1232,16 +1232,6 @@ a-plane {
 		color: white;
 	}
 
-	@keyframes zoomIn {
-		0% {
-			transform: scale(0.8);
-		}
-
-		100% {
-			transform: scale(1);
-		}
-	}
-
 	#watchVideosButton {
 		position: fixed;
 		bottom: 20px;
@@ -1249,6 +1239,7 @@ a-plane {
 		width: 60px;
 		height: 60px;
 		padding: 0;
+		left: 40%; 
 		border-radius: 50%;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 		background-color: #b78f3f;
@@ -1260,7 +1251,6 @@ a-plane {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		animation: zoomIn 3s;
 		border: 3px solid rgba(255, 255, 255, 1);
 	}
 
@@ -1273,16 +1263,6 @@ a-plane {
 
 	#watchVideosButton:hover {
 		background-color: #f6c500;
-	}
-
-	@keyframes zoomIn {
-		0% {
-			transform: scale(0.8);
-		}
-
-		100% {
-			transform: scale(1);
-		}
 	}
 
 	#imgCondition {

@@ -30,7 +30,6 @@ if (is_null($_SESSION["guest"])) {
     <!-- AR Elements -->
     <video id="video" autoplay></video>
     <canvas id="canvas"></canvas>
-    <div id="result">Scan a QR code</div>
     <img
       id="noArtifactImage"
       src="assets/img/error_image.png"
@@ -89,7 +88,6 @@ if (is_null($_SESSION["guest"])) {
       const video = document.getElementById("video");
       const canvas = document.getElementById("canvas");
       const canvasContext = canvas.getContext("2d");
-      const resultDiv = document.getElementById("result");
       const noArtifactImage = document.getElementById("noArtifactImage");
       const imgCondition = document.getElementById("imgCondition");
       const conditionLabel = document.getElementById("conditionLabel");
@@ -135,7 +133,6 @@ if (is_null($_SESSION["guest"])) {
 
           if (code) {
             const artifactId = code.data;
-            resultDiv.textContent = `QR Code Detected`;
             handleArtifact(artifactId);
             fetchArtifactInfo(artifactId);
 
@@ -214,7 +211,6 @@ if (is_null($_SESSION["guest"])) {
               }
             }
           } else {
-            resultDiv.textContent = "No QR Code Detected";
             conditionLabel.style.display = "none";
             imgCondition.style.display = "none";
             document.getElementById("watchVideosButton").style.display = "none";
@@ -246,8 +242,7 @@ if (is_null($_SESSION["guest"])) {
               let imageValue = data["Condition"] || "default";
               changeImage(imageValue);
 
-              //Show result and button
-              document.getElementById("result").style.display = "block";
+              //Show watch button
               document.getElementById("watchVideosButton").style.display =
                 "block";
             } else {
@@ -255,7 +250,6 @@ if (is_null($_SESSION["guest"])) {
               artifactInfo = "";
               displayBox = false;
               noArtifactImage.style.display = "block";
-              resultDiv.textContent = `No artifact found`;
 
               setTimeout(() => {
                 noArtifactImage.style.animation = "none";
