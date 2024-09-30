@@ -49,7 +49,7 @@ if (is_null($_SESSION["guest"])) {
     />
 
     <!-- Floating Buttons -->
-    <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/light_bulb.png" alt="Info" onclick="viewDetails()" /> <!-- Light bulb icon -->
+    <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" /> <!-- Light bulb icon -->
 
     <button id="watchVideosButton" onclick="window.location.href='igorot-dances.php';">
     Watch Videos
@@ -150,7 +150,7 @@ if (is_null($_SESSION["guest"])) {
               const topOffset = 10; // Space at the top
               const leftOffset = 10; // Space on the left
 
-              canvasContext.font = "bold 15px 'OldStandard', serif";
+              canvasContext.font = "bold 15px 'Inter', sans-serif";
               canvasContext.fillStyle = "#502a00";
               canvasContext.textAlign = "left";
               canvasContext.textBaseline = "top";
