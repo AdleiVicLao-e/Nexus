@@ -7,7 +7,7 @@ if (is_null($_SESSION["guest"])) {
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>Igorot Dances</title>
+    <title>Watch Igorot Dances</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="robots" content="index, follow">
     <meta http-equiv="content-language" content="en" />

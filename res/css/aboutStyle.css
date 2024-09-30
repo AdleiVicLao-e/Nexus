@@ -24,13 +24,25 @@ a:hover {
 }
 
 .btn-radius {
-    border-radius: 30px
+	border-radius: 30px
+}
+
+.btn-focus {
+	background: #073066 !important;
+	color: #fff !important;
+	border-color: #073066 !important
+}
+
+.btn-focus:hover {
+	background: #f6c500 !important;
+	border-color: #f6c500 !important
 }
 
 .btn-secondary {
-    background: #eee;
-    border-color: #eee;
-    color: #111
+	background: #eee;
+	border-color: #eee;
+	color: #111;
+  border-radius: 30px;
 }
 
 .btn-red {
@@ -1089,6 +1101,26 @@ a:hover {
 
 /* Mobile Styles */
 @media (max-width: 480px) {
+  .btn-radius {
+    border-radius: 30px
+  }
+  
+  .btn-focus {
+    background: #073066 !important;
+    color: #fff !important;
+    border-color: #073066 !important
+  }
+  
+  .btn-focus:hover {
+    background: #f6c500 !important;
+    border-color: #f6c500 !important
+  }
+  
+  .btn-secondary {
+    background: #eee;
+    border-color: #eee;
+    color: #111;
+  }
 
     #hero {
         top: 20px;
@@ -1201,6 +1233,27 @@ a:hover {
 }
 
 @media (min-width: 240px) and (max-width: 480px) {
+  .btn-radius {
+    border-radius: 30px
+  }
+  
+  .btn-focus {
+    background: #073066 !important;
+    color: #fff !important;
+    border-color: #073066 !important
+  }
+  
+  .btn-focus:hover {
+    background: #f6c500 !important;
+    border-color: #f6c500 !important
+  }
+  
+  .btn-secondary {
+    background: #eee;
+    border-color: #eee;
+    color: #111
+  }
+
 	.block_area .block_area-header {
 		padding-right: 40px;
 		position: relative

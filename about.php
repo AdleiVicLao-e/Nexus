@@ -9,7 +9,7 @@ if (is_null($_SESSION["guest"])) {
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Homepage</title>
+    <title>About Us</title>
     <link rel="stylesheet" href="res\css\aboutStyle.css">
     <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link href="assets/img/favicon.png" rel="icon">
@@ -26,7 +26,8 @@ if (is_null($_SESSION["guest"])) {
     <div id="app">
       <div id="sidebar_menu_bg"></div>
       <div id="sidebar_menu">
-        <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar">
+        <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee;
+    color: #111;">
           <i class="fa fa-angle-left mr-2"></i>Close menu </button>
         <ul class="nav sidebar_menu-list">
         <li class="nav-item active">
