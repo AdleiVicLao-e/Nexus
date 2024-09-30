@@ -1373,11 +1373,10 @@ a-plane {
 		justify-content: center;
 		align-items: center;
 	}
-
+	
 	.info-box {
 		font-family: 'OldStandard', serif;
 		background-color: #fff;
-		font-family: 'OldStandard', serif;
 		background-size: cover;
 		background-position: center;
 		width: 80%;
@@ -1389,13 +1388,27 @@ a-plane {
 		border: 3px solid #363636;
 		background-image: url("/assets/img/info_box.png");
 	}
-
-	.timer {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		font-size: 0.7em;
-		color: #8a8989;
-		font-family: 'OldStandard', serif;
+	
+	.exit-button {
+		position: absolute; 
+		top: 20px; 
+		right: 20px; 
+		background-color: #585858; 
+		color: #fff;
+		border: none; 
+		border-radius: 50%; 
+		width: 40px; 
+		height: 40px; 
+		font-size: 20px; 
+		cursor: pointer; 
+		z-index: 1001;
+		display: flex; 
+		align-items: center; 
+		justify-content: center; 
+	}
+	
+	.exit-button:hover {
+		background-color: white; 
 	}
 
 	.welcome-2 {

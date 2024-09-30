@@ -57,10 +57,11 @@ if (is_null($_SESSION["guest"])) {
 
     <!-- Overlay with the info box -->
     <div class="overlay" id="infoOverlay">
+      <button class="exit-button" id="exitButton">✖</button> <!-- Exit button -->
       <div class="info-box">
         <p class="welcome-2">WELCOME!</p>
         <p class="info-box-text">
-          This is application will provide you with more information about the
+          This application will provide you with more information about the
           museum artifacts.
         </p>
         <p class="info-box-text">
@@ -71,18 +72,8 @@ if (is_null($_SESSION["guest"])) {
           It will automatically detect the codes and display detailed
           information about each artifact.
         </p>
-
-        <!-- Timer -->
-        <p class="timer">
-          This message will disappear in <span id="countdown">8</span> seconds.
-        </p>
       </div>
     </div>
-    <div id="va-container">
-      <canvas id="va-canvas"></canvas>
-    </div>
-
-    <div class="edge-lighting" id="edgeLighting"></div>
 
     <script>
       const video = document.getElementById("video");
@@ -112,18 +103,16 @@ if (is_null($_SESSION["guest"])) {
         }
       }
 
+      const boxImage = new Image();
+      boxImage.src = '/assets/img/display.png'; 
+
       // Function to scan QR code
       function scanQRCode() {
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
           canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageData = canvasContext.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-          );
+          const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
           const code = jsQR(imageData.data, canvas.width, canvas.height, {
             inversionAttempts: "dontInvert",
           });
@@ -139,31 +128,31 @@ if (is_null($_SESSION["guest"])) {
             if (displayBox) {
               const centerX =
                 (code.location.topLeftCorner.x +
-                  code.location.topRightCorner.x) /
-                2;
+                  code.location.topRightCorner.x) / 2;
               const centerY =
                 (code.location.topLeftCorner.y +
-                  code.location.bottomLeftCorner.y) /
-                2;
+                  code.location.bottomLeftCorner.y) / 2;
 
-              const boxWidth = 350;
-              const boxHeight = 200;
-              const depth = 20;
+              const boxWidth = 400;
+              const boxHeight = 250;
               const padding = 20;
 
-              // Front face of the rectangle (Book cover)
-              canvasContext.fillStyle = "rgba(79, 126, 186, 1)";
-              canvasContext.fillRect(
+              // Draw the image instead of a rectangle
+              canvasContext.drawImage(
+                boxImage,
                 centerX - boxWidth / 2,
                 centerY - boxHeight / 2,
                 boxWidth,
                 boxHeight
               );
 
-              // Add text inside the front face of the rectangle (Book title or information)
+              // Define offsets for spacing
+              const topOffset = 10; // Space at the top
+              const leftOffset = 10; // Space on the left
+
               canvasContext.font = "bold 15px 'OldStandard', serif";
-              canvasContext.fillStyle = "white";
-              canvasContext.textAlign = "left"; // Align left to control wrapping
+              canvasContext.fillStyle = "#502a00";
+              canvasContext.textAlign = "left";
               canvasContext.textBaseline = "top";
 
               if (artifactInfo) {
@@ -171,7 +160,7 @@ if (is_null($_SESSION["guest"])) {
                 const lineHeight = 20; // Adjust the line height as necessary
                 const maxLineWidth = boxWidth - 2 * padding;
 
-                let currentY = centerY - boxHeight / 2 + padding;
+                let currentY = centerY - boxHeight / 2 + padding + topOffset; // Add topOffset here
 
                 lines.forEach((line) => {
                   let words = line.split(" ");
@@ -184,7 +173,7 @@ if (is_null($_SESSION["guest"])) {
                     if (testWidth > maxLineWidth && index > 0) {
                       canvasContext.fillText(
                         currentLine,
-                        centerX - boxWidth / 2 + padding,
+                        centerX - boxWidth / 2 + padding + leftOffset, // Add leftOffset here
                         currentY
                       );
                       currentLine = word + " ";
@@ -200,7 +189,7 @@ if (is_null($_SESSION["guest"])) {
                   // Render the last line of the paragraph
                   canvasContext.fillText(
                     currentLine,
-                    centerX - boxWidth / 2 + padding,
+                    centerX - boxWidth / 2 + padding + leftOffset, // Add leftOffset here
                     currentY
                   );
                   currentY += lineHeight;
@@ -318,15 +307,13 @@ if (is_null($_SESSION["guest"])) {
         imgCondition.style.display = "block";
       }
 
-      // The page was loaded from the bfcache (back-forward cache)
-      window.addEventListener("pageshow", (event) => {
-        if (event.persisted) {
-          window.location.reload();
-        }
-      });
+      document.getElementById("exitButton").addEventListener("click", function() {
+      document.getElementById("infoOverlay").style.display = "none"; 
+  });
 
       // Start the video stream when the page loads
       startVideo();
+      
     </script>
     <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
