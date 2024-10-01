@@ -31,10 +31,13 @@ if (is_null($_SESSION["guest"])) {
             <a class="nav-link" href="scanner.php" title="Home">Home</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link" href="igorot-dances.php" title="Home">Igorot Dances</a>
+          <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
          </li>
+         <li class="nav-item">
+            <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
+          </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.php" title="Home">About</a>
+            <a class="nav-link" href="about.php" title="About">About</a>
           </li>
           <div class="clearfix"></div>
       </div>
@@ -60,6 +63,9 @@ if (is_null($_SESSION["guest"])) {
               <li class="nav-item active">
               <a href="igorot-dances.php" title="Home">Igorot Dances</a>
               </li>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="feedback.php" title="Home">Feedback</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="about.php" title="Home">About</a>
