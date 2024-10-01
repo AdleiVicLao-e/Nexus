@@ -124,38 +124,36 @@ let isMultiSelectEnabled = false;
 function displayResults(data) {
     const resultsContainer = document.getElementById('search-results');
     resultsContainer.innerHTML = '';
-
+    
     if (data.length === 0) {
+        resultsContainer.style.display = 'none'; // Hide the container if no results
         resultsContainer.innerHTML = '<p>No results found</p>';
         return;
     }
-
+    resultsContainer.style.display = 'block'; // Show the container if there are results
     const list = document.createElement('ul');
     data.forEach(item => {
         const listItem = document.createElement('li');
 
         listItem.innerHTML = `
             <input type="checkbox" class="artifact-checkbox" data-id="${item['ID']}" style="display: ${isMultiSelectEnabled ? 'inline' : 'none'};">
-            <strong>Artifact Number:</strong> ${item['ID']}<br>
-            <strong>Name:</strong> ${item['Name']}<br>
-            <strong>Section:</strong> ${item['Section Name']}<br>
-            <strong>Catalogue:</strong> ${item['Catalogue Name']}<br>
-            <strong>Subcatalogue:</strong> ${item['Subcatalogue Name']}<br>
-            <strong>Description:</strong> ${item['Description']}<br>
+            ${item['Name']}<br>
         `;
-
+        
         listItem.onclick = () => toggleEditButton(item, listItem);
         list.appendChild(listItem);
     });
+    
 
     resultsContainer.appendChild(list);
 }
 
-//Multiple Select Artifact Functionalities
 function toggleMultiSelect() {
     isMultiSelectEnabled = !isMultiSelectEnabled;
     const checkboxes = document.querySelectorAll('.artifact-checkbox');
     const deleteButton = document.getElementById('delete-selected-button');
+    const editButton = document.getElementById('edit-button');
+    const delButton = document.getElementById('delete-button');
 
     checkboxes.forEach(checkbox => {
         checkbox.style.display = isMultiSelectEnabled ? 'inline' : 'none';
@@ -163,6 +161,16 @@ function toggleMultiSelect() {
 
     // Show or hide the delete button
     deleteButton.style.display = isMultiSelectEnabled ? 'inline' : 'none';
+
+    // Hide or disable the edit button when multi-select is enabled
+    if (isMultiSelectEnabled) {
+        editButton.style.display = 'none'; // Hide the edit button
+        editButtonVisible = false; // Update flag
+        delButton.style.display = 'none';
+    } else {
+        editButton.style.display = 'inline'; // Show the edit button if multi-select is disabled
+        editButtonVisible = true; // Update flag
+    }
 
     const buttonText = isMultiSelectEnabled ? 'Disable Multi-Select' : 'Enable Multi-Select';
     document.getElementById('toggle-multi-select').textContent = buttonText;
@@ -173,12 +181,10 @@ function toggleEditButton(item, listItem) {
         return; // Don't allow editing
     }
     const editButton = document.getElementById('edit-button');
-    const deleteButton = document.getElementById('delete-button');
 
     if (selectedArtifact && selectedArtifact['ID'] === item['ID']) {
         selectedArtifact = null;
         if (editButton) editButton.remove();
-        if (deleteButton) deleteButton.remove();
         if (highlightedItem) highlightedItem.classList.remove('highlight');
         highlightedItem = null;
         return;
@@ -196,24 +202,20 @@ function toggleEditButton(item, listItem) {
         editButton.remove();
     }
 
+    // Create a new edit button with an icon
     const newEditButton = document.createElement('button');
     newEditButton.id = 'edit-button';
-    newEditButton.textContent = 'Edit';
+    newEditButton.classList.add('edit-button'); // Add class for styling
+    newEditButton.innerHTML = '<i class="fas fa-edit" style="color: #f6c500; font-size: 20px;"></i>'; // Font Awesome icon
+    newEditButton.style.background = 'none'; // Remove default button styles
+    newEditButton.style.border = 'none'; // Remove border
+    newEditButton.style.cursor = 'pointer'; // Change cursor to pointer
     newEditButton.onclick = () => openModal(item);
 
-    highlightedItem.parentNode.insertBefore(newEditButton, highlightedItem.nextSibling);
-
-    if (deleteButton) {
-        deleteButton.remove();
-    }
-
-    const newDeleteButton = document.createElement('button');
-    newDeleteButton.id = 'delete-button';
-    newDeleteButton.textContent = 'Delete';
-    newDeleteButton.onclick = () => confirmDelete(item['ID']);
-
-    highlightedItem.parentNode.insertBefore(newDeleteButton, highlightedItem.nextSibling);
+    // Append the edit button to the list item
+    listItem.appendChild(newEditButton);
 }
+
 
 function deleteSelectedArtifacts() {
     const selectedCheckboxes = document.querySelectorAll('.artifact-checkbox:checked');
@@ -260,20 +262,29 @@ function openModal(item) {
 }
 
 function deleteArtifact(id) {
+    // Confirm deletion with the user
+    const confirmDelete = confirm("Are you sure you want to delete this artifact?");
+    if (!confirmDelete) return; // Exit if the user cancels
+
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '../include/deleteArtifact.php', true);
+    xhr.open('DELETE', '../include/deleteArtifact.php', true); // Ensure this is the correct endpoint
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function () {
         const response = JSON.parse(this.responseText);
         if (response.success) {
-            alert(response.message);
-            searchArtifact(); // Refresh search results
+            alert(response.message); // Show success message
+            closeModal(); // Close the modal
+            searchArtifact(); // Refresh the search results
         } else {
-            alert(response.message);
+            alert(response.message); // Show error message
         }
     };
-    xhr.send(JSON.stringify({ id: id }));
+
+    // Send the ID of the artifact to delete
+    const data = { id: id };
+    xhr.send(JSON.stringify(data));
 }
+
 
 function confirmDelete(id) {
     if (confirm("Are you sure you want to delete this artifact?")) {
@@ -428,6 +439,38 @@ function saveChanges() {
     xhr.send(JSON.stringify(data));
 }
 
+function deleteArtifact() {
+    document.getElementById('artifact-id').value = item['ID'];
+    const deleteButton = document.getElementById('delete-button');
+    if (selectedArtifact && selectedArtifact['ID'] === item['ID']) {
+        selectedArtifact = null;
+        if (deleteButton) deleteButton.remove();
+        if (highlightedItem) highlightedItem.classList.remove('highlight');
+        highlightedItem = null;
+        return;
+    }
+    selectedArtifact = item;
+
+    if (highlightedItem) {
+        highlightedItem.classList.remove('highlight');
+    }
+    highlightedItem = listItem;
+    highlightedItem.classList.add('highlight');
+
+
+    if (deleteButton) {
+        deleteButton.remove();
+    }
+
+    const newDeleteButton = document.createElement('button');
+    newDeleteButton.id = 'delete-button';
+    newDeleteButton.textContent = 'Delete';
+    newDeleteButton.onclick = () => confirmDelete(item['ID']);
+
+    highlightedItem.parentNode.insertBefore(newDeleteButton, highlightedItem.nextSibling);
+
+}
+
 function closeModal() {
     document.getElementById('edit-modal').style.display = 'none';
 }
@@ -503,152 +546,4 @@ closeIcons.forEach(icon => {
 //         .catch(error => console.error('Error fetching options:', error));
 // }
 // document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
-
-
-//Chart
-
-var ctx = document.getElementById('statisticsChart').getContext('2d');
-
-var statisticsChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [ {
-            label: "Louisians",
-            borderColor: '#fdaf4b',
-            pointBackgroundColor: 'rgba(253, 175, 75, 0.6)',
-            pointRadius: 0,
-            backgroundColor: 'rgba(253, 175, 75, 0.4)',
-            legendColor: '#fdaf4b',
-            fill: true,
-            borderWidth: 2,
-            data: [456, 430, 345, 287, 340, 450, 630, 595, 331, 431, 456, 521]
-        }, {
-            label: "Out-of-School Visitors",
-            borderColor: '#177dff',
-            pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
-            pointRadius: 0,
-            backgroundColor: 'rgba(23, 125, 255, 0.4)',
-            legendColor: '#177dff',
-            fill: true,
-            borderWidth: 2,
-            data: [42, 480, 430, 150, 330, 453, 380, 334, 268, 210, 300, 500]
-        }]
-    },
-    options : {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-            display: false
-        },
-        tooltips: {
-            bodySpacing: 4,
-            mode:"nearest",
-            intersect: 0,
-            position:"nearest",
-            xPadding:10,
-            yPadding:10,
-            caretPadding:10
-        },
-        layout:{
-            padding:{left:5,right:5,top:15,bottom:15}
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    fontStyle: "500",
-                    beginAtZero: false,
-                    maxTicksLimit: 5,
-                    padding: 10
-                },
-                gridLines: {
-                    drawTicks: false,
-                    display: false
-                }
-            }],
-            xAxes: [{
-                gridLines: {
-                    zeroLineColor: "transparent"
-                },
-                ticks: {
-                    padding: 10,
-                    fontStyle: "500"
-                }
-            }]
-        },
-        legendCallback: function(chart) {
-            var text = [];
-            text.push('<ul class="' + chart.id + '-legend html-legend">');
-            for (var i = 0; i < chart.data.datasets.length; i++) {
-                text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>');
-                if (chart.data.datasets[i].label) {
-                    text.push(chart.data.datasets[i].label);
-                }
-                text.push('</li>');
-            }
-            text.push('</ul>');
-            return text.join('');
-        }
-    }
-});
-
-var myLegendContainer = document.getElementById("myChartLegend");
-
-// generate HTML legend
-myLegendContainer.innerHTML = statisticsChart.generateLegend();
-
-// bind onClick event to all LI-tags of the legend
-var legendItems = myLegendContainer.getElementsByTagName('li');
-for (var i = 0; i < legendItems.length; i += 1) {
-    legendItems[i].addEventListener("click", legendClickCallback, false);
-}
-
-function legendClickCallback(event) {
-    event = event || window.event;
-
-    var target = event.target || event.srcElement;
-    while (target.nodeName !== 'LI') {
-        target = target.parentElement;
-    }
-    var parent = target.parentElement;
-    var chartId = parseInt(parent.classList[0].split("-")[0], 10);
-    var chart = Chart.instances[chartId];
-    var index = Array.prototype.slice.call(parent.children).indexOf(target);
-
-    chart.legend.options.onClick.call(chart, event, chart.legend.legendItems[index]);
-    if (chart.isDatasetVisible(index)) {
-        target.classList.remove('hidden');
-    } else {
-        target.classList.add('hidden');
-    }
-}
-
-document.getElementById("savePdfBtn").addEventListener("click", function() {
-    // Capture the chart div with a higher scale for better resolution
-    html2canvas(document.querySelector(".card"), {
-        scale: 20 // Increase scale for better resolution
-    }).then(canvas => {
-        // Convert the canvas to an image
-        var imgData = canvas.toDataURL('image/png');
-
-        // Create a jsPDF instance with landscape orientation ('l'), A4 page size
-        var pdf = new jsPDF('l', 'mm', 'a4');
-
-        // Image dimensions
-        var imgWidth = 200; // Width of A4 paper in landscape in mm
-        var imgHeight = canvas.height * imgWidth / canvas.width;
-
-        // Centering calculations
-        var pdfWidth = 297; // A4 width in mm
-        var pdfHeight = 210; // A4 height in mm
-        var x = (pdfWidth - imgWidth) / 2;
-        var y = (pdfHeight - imgHeight) / 2;
-
-        // Add the image to the PDF
-        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
-
-        // Save the PDF
-        pdf.save("visitor-analytics.pdf");
-    });
-});
 

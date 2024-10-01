@@ -26,14 +26,24 @@ a:hover {
 }
 
 .btn-focus {
-	background: #073066 !important;
-	color: #fff !important;
-	border-color: #073066 !important
+	background-color: #FFFFFF;
+	color: #073066;
+	border: 1.25px solid #073066;
+	padding: 12px 50px;
+	cursor: pointer;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	display: inline-block;
+	margin: 5px;
+	transition: background-color 0.3s ease-in-out;
 }
 
 .btn-focus:hover {
-	background: #f6c500 !important;
-	border-color: #f6c500 !important
+	background-color: #f6c500;
+	color: #073066;
+	font-weight: bold;
+	border: 1.25px solid #073066;
 }
 
 .btn-secondary {

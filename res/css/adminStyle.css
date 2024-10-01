@@ -4,7 +4,7 @@
 }
 
 body {
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -17,12 +17,12 @@ header {
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px;
-
 	background-color: #073066;
 	color: rgb(255, 255, 255);
 	position: relative;
 	top: 0;
 	left: 0;
+	height: 80px;
 	width: 100%;
 	z-index: 10;
 }
@@ -76,6 +76,27 @@ header nav a:hover {
 	text-decoration: underline;
 }
 
+button, .search-button, #refreshBtn {
+	background-color: #FFFFFF;
+	color: #073066;
+	border: 1.25px solid #073066;
+	padding: 12px 50px;
+	cursor: pointer;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	display: inline-block;
+	margin: 5px;
+	transition: background-color 0.3s ease-in-out;
+}
+
+button, .search-button, #refreshBtn:hover {
+	background-color: #f6c500;
+	color: #073066;
+	font-weight: bold;
+	border: 1.25px solid #073066;
+}
+
 .main-container {
 	display: flex;
 	justify-content: space-between;
@@ -101,6 +122,10 @@ header nav a:hover {
 	border-radius: 5px;
 	padding: 15px;
 	margin-bottom: 20px;
+}
+
+.artifact-checkbox {
+
 }
 
 .chart-container {
@@ -383,7 +408,7 @@ header nav a:hover {
 }
 
 .right-container .artifacts #search .search-container .search-input {
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 	flex: 1;
 	padding: 10px;
 	border: 1px solid #b6b6b6;
@@ -398,18 +423,17 @@ header nav a:hover {
 .right-container .artifacts .search-container .search-button,
 .right-container .artifacts button,
 .popup button {
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-	padding: 10px 20px;
-	border: none;
 	background-color: #073066;
-	color: white;
-	font-size: 16px;
+	color: #FFFFFF;
+	border: 1.25px solid #073066;
+	padding: 12px 50px;
 	cursor: pointer;
-	outline: none;
-	transition: background-color 0.3s;
-	flex-shrink: 0;
-	max-width: 200px;
-	box-sizing: border-box;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	display: inline-block;
+	margin: 5px;
+	transition: background-color 0.3s ease-in-out;
 }
 
 .right-container .artifacts .search-container .search-button {
@@ -421,7 +445,9 @@ header nav a:hover {
 .right-container .artifacts button:hover,
 .popup button:hover {
 	background-color: #f6c500;
-	color: black;
+	color: #073066;
+	font-weight: bold;
+	border: 1.25px solid #073066;
 }
 
 .right-container .artifacts .form-container {
@@ -446,7 +472,7 @@ label {
 input[type="text"],
 select,
 textarea {
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 	margin-top: 7px;
 	width: 100%;
 	padding: 8px;
@@ -468,7 +494,7 @@ input[type="file"] {
 	border-radius: 4px;
 	width: 100%;
 	box-sizing: border-box;
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 	font-size: 15px;
 }
 
@@ -587,6 +613,34 @@ input[type="file"] {
 	cursor: pointer;
 }
 
+.dashboardTitle {
+	margin-top: 50px;
+	margin-left: 30px;
+	padding-bottom: 15px;
+	border-bottom: 10px solid #f6c500;
+}
+
+#delBtn{
+	background-color: #a51010;
+	color: #FFFFFF;
+	border: 1.25px solid #a51010;
+	padding: 12px 50px;
+	cursor: pointer;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	display: inline-block;
+	margin: 5px;
+	transition: background-color 0.3s ease-in-out;
+}
+
+#delBtn:hover {
+	background-color: #ffffff;
+	color: #a51010;
+	font-weight: bold;
+	border: 1.25px solid #a51010;
+
+}
 .highlight {
 	background-color: white;
 }
@@ -596,8 +650,75 @@ input[type="file"] {
 
 }
 
+#search-results {
+	overflow-y: scroll;
+	height: 500px;
+	display: none;
+}
+
+#search-results ul {
+    padding: 0; /* Remove default padding for ul */
+    margin: 0; /* Remove default margin for ul */
+    width: 100%; /* Ensure ul takes full width */
+}
+
+#search-results li {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    padding: 10px 20px; /* Add padding to each list item */
+    width: 100%; /* Ensure li takes full width of its parent */
+    box-sizing: border-box; /* Include padding in the width */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    list-style-type: none; /* Remove bullet points */
+    border-bottom: 1px solid #ccc; /* Add bottom border */
+    position: relative; /* Make the li element relative for absolute positioning of children */
+}
+
+.edit-button {
+    margin-left: auto; /* Push the button to the right */
+    margin-right: 20px; /* Space it 20px from the right edge */
+    padding: 0; /* Remove any default padding */
+    background: none; /* Remove default button background */
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+
+#search-results li button {
+    margin-left: 10px; /* Space between content and button */
+    background: none; /* Remove default button styles */
+    border: none; /* Remove border */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+#search-results li button i {
+    color: #073066; /* Set icon color */
+    font-size: 20px; /* Set icon size */
+}
+
+
+/* Remove border for the last item */
+#search-results li:last-child {
+    border-bottom: none; /* No border on the last list item */
+}
+
+/* Hover effect */
+#search-results li:hover {
+    background-color: #073066d8; /* Change color on hover */
+    color: #e9e9e9; /* Change text color on hover */
+}
+
 #search-results ul li {
-	cursor: pointer;
+    cursor: pointer;
+    list-style-type: none; /* Removes the bullets */
+    padding-left: 0; /* Removes the default left padding */
+    padding: 20px 0;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+#search-results {
+	background-color: #ffffff;
+	top: 20px;
 }
 
 .analytics-container {
@@ -624,7 +745,7 @@ canvas {
 
 	overflow-y: auto;
 
-	border: 1px solid #162749;
+	border: 1px solid #073066;
 
 	margin-top: 10px;
 
@@ -641,13 +762,13 @@ table {
 
 	border-collapse: collapse;
 
-	font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
 
 }
 
 th,
 td {
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 	padding: 12px 15px;
 
 	text-align: left;
@@ -679,7 +800,7 @@ td {
 }
 
 #refreshBtn {
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 	margin-top: 10px;
 	background-color: #073066;
 

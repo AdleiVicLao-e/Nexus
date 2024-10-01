@@ -21,11 +21,12 @@ if (is_null($_SESSION["admin"])) {
   <body>
     <header>
       <div class="logo">
-        <img src="../assets/img/logo.png" alt="Saint Louis University Logo" style="width: 150px; height: auto;"> Admin Dashboard
+        <img src="../assets/img/logo.png" alt="Saint Louis University Logo" style="width: 150px; height: auto; margin-left: 40px;">
+        <h3 class="dashboardTitle" style="margin-left: 30px;"> Admin Dashboard</h3>
       </div>
       <div class="greetings">
         <img src="../res/images/user-image.png" alt="User Icon" aria-hidden="true">
-        <div class="greeting">
+        <div class="greeting" style="margin-right: 30px;">
           <div class="curator">Hi, Curator!</div>
           <nav>
             <a href="admin/admin-login" aria-label="Logout">Logout</a> <?php
@@ -81,34 +82,35 @@ if (is_null($_SESSION["admin"])) {
           <!-- Edit Popup Window -->
           <div id="edit-modal" class="modal">
             <div class="modal-content">
-              <span class="close-button" onclick="closeModal()">&times;</span>
-              <h2>Edit Artifact</h2>
-              <form id="edit-form">
-                <input type="hidden" id="artifact-id">
-                <label for="artifact-id">Artifact ID:</label>
-                <span id="artifact-id-display"></span>
-                <br>
-                <label for="editName">Name:</label>
-                <input type="text" id="editName" name="name">
-                <br>
-                <label for="editSection">Section:</label>
-                <select id="editSection" name="section" onchange="fetchCatalogs(this.value)"></select>
-                <br>
-                <label for="editCatalog">Catalogue:</label>
-                <select id="editCatalog" name="catalog" onchange="fetchSubcatalogs(this.value)"></select>
-                <br>
-                <label for="editSubcatalog">Subcatalogue:</label>
-                <select id="editSubcatalog" name="subcatalog"></select>
-                <br>
-                <label for="description">Description:</label>
-                <textarea id="editDescription" name="description"></textarea>
-                <br>
-                <label for="description">Virtual Avatar Script:</label>
-                <textarea id="editScript" name="script"></textarea>
-                <br>
-                <button type="button" onclick="saveChanges()">Save</button>
-              </form>
-            </div>
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <h2>Edit Artifact</h2>
+                <form id="edit-form">
+                    <input type="hidden" id="artifact-id">
+                    <label for="artifact-id">Artifact ID:</label>
+                    <span id="artifact-id-display"></span>
+                    <br>
+                    <label for="editName">Name:</label>
+                    <input type="text" id="editName" name="name">
+                    <br>
+                    <label for="editSection">Section:</label>
+                    <select id="editSection" name="section" onchange="fetchCatalogs(this.value)"></select>
+                    <br>
+                    <label for="editCatalog">Catalogue:</label>
+                    <select id="editCatalog" name="catalog" onchange="fetchSubcatalogs(this.value)"></select>
+                    <br>
+                    <label for="editSubcatalog">Subcatalogue:</label>
+                    <select id="editSubcatalog" name="subcatalog"></select>
+                    <br>
+                    <label for="description">Description:</label>
+                    <textarea id="editDescription" name="description"></textarea>
+                    <br>
+                    <label for="description">Virtual Avatar Script:</label>
+                    <textarea id="editScript" name="script"></textarea>
+                    <br>
+                    <button type="button" onclick="saveChanges()">Save</button>
+                    <button id="delBtn" type="button" onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
+                </form>
+            </div> 
           </div>
           <div id="add" class="tab-content">
             <div class="form-container">
@@ -292,7 +294,7 @@ if (is_null($_SESSION["admin"])) {
                       align: 'start', // Align legend to the left
                       labels: {
                         font: {
-                          family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+                          family: "Inter, serif",
                           size: 12,
                           weight: 'bold',
                           color: '#333',
@@ -303,7 +305,7 @@ if (is_null($_SESSION["admin"])) {
                     title: {
                       display: true,
                       font: {
-                        family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+                        family: "Inter, serif",
                         size: 14,
                         weight: 'bold',
                         color: '#333',
@@ -315,13 +317,13 @@ if (is_null($_SESSION["admin"])) {
                     },
                     tooltip: {
                       titleFont: {
-                        family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+                        family: "Inter, serif",
                         size: 12,
                         weight: 'bold',
                         color: '#fff',
                       },
                       bodyFont: {
-                        family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+                        family: "Inter, serif",
                         size: 10,
                         color: '#fff',
                       },
