@@ -311,7 +311,7 @@ body {
   }
   .fb {
     background-color: #ffffff;
-    height: 430px;
+    height: 460px;
     width: 500px;
     border-radius: 20px;
   }
@@ -734,8 +734,9 @@ body {
   
     #footer .footer-logo-block {
       justify-content: center;
-      left: 70px;
+      left: 50px;
       margin-top: 10px;
+      width: auto;
     }
   
     #footer {
