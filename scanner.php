@@ -127,6 +127,9 @@ if (is_null($_SESSION["guest"])) {
         </p>
       </div>
     </div>
+
+    <div id="desktop-warning">Mobile Only Site.</div>
+
     <script>
         const video = document.getElementById("video");
         const canvas = document.getElementById("canvas");
@@ -271,8 +274,6 @@ if (is_null($_SESSION["guest"])) {
                 // If artifact is found
                 artifactInfo = `
                       \n${data["Name"] || "N/A"}
-                      \nCatalogue: ${data["Catalogue Name"] || "N/A"}
-                      \nSubcatalogue: ${data["Subcatalogue Name"] || "N/A"}
                       \nDescription: ${data["Description"] || "N/A"}
                   `.trim();
                   
@@ -362,9 +363,21 @@ if (is_null($_SESSION["guest"])) {
         document.getElementById("exitButton").addEventListener("click", function() {
         document.getElementById("infoOverlay").style.display = "none"; 
     });
+
+    function checkDevice() {
+      // Define a breakpoint for mobile devices (e.g., 768px)
+      if (window.innerWidth > 768) {
+        // Show the desktop warning
+        document.getElementById("desktop-warning").style.display = "flex";
+        setTimeout(function() {
+          alert("Please use your mobile phone to access this site.");
+        }, 100); 
+      }
+    }
   
         // Start the video stream when the page loads
         startVideo();
+        checkDevice();
         
       </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

@@ -61,7 +61,6 @@ $_SESSION["guest"] = "guest";
         </form>
       </div>
     </div>
-    <div id="desktop-warning">Mobile Only Site.</div>
     <script>
       function showOtherInput() {
         var select = document.getElementById("schoolSelect");
@@ -91,24 +90,12 @@ $_SESSION["guest"] = "guest";
         }
       }
 
-      function checkDevice() {
-        // Define a breakpoint for mobile devices (e.g., 768px)
-        if (window.innerWidth > 768) {
-          // Show the overlay first
-          document.getElementById("desktop-warning").style.display = "flex";
-          // Delay the alert to ensure the overlay is visible first
-          setTimeout(function() {
-            alert("Please use your mobile phone to access this site.");
-          }, 100); // Adjust the delay (in ms) if necessary
-        }
-      }
       // Add event listener to the submit button
       document.getElementById("btn-submit").addEventListener("click", function(event) {
         // Prevent default form submission (optional, if this is part of a form)
         event.preventDefault();
         // Check the device size when the user clicks Submit
         validateForm();
-        checkDevice();
       });
     </script>
   </body>

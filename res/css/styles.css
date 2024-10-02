@@ -1354,6 +1354,10 @@ a-plane {
 		border: 3px solid #363636;
 		background-image: url("/assets/img/info_box.png");
 	}
+
+	#desktop-warning{
+		display: none;
+	}
 	
 	.exit-button {
 		position: absolute; 
@@ -2061,6 +2065,10 @@ a-plane {
 		float: none;
 		vertical-align: top
 	}
+
+	#desktop-warning{
+		display: none;
+	}
 }
 
 @media (min-width: 240px) and (max-width: 479px) {
@@ -2081,6 +2089,10 @@ a-plane {
 		z-index: 5; 
 		display: block; /* Make sure the button is displayed */
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+	}
+
+	#desktop-warning{
+		display: none;
 	}
 	
 	#watchVideosButton:hover {
