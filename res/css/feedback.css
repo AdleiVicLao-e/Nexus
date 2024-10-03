@@ -73,7 +73,10 @@ body {
     font-weight: bold;
     border: 1.25px solid #073066;
   }
-  
+
+  #preview {
+    left:100px
+  }
   label {
     font-size: 16px;
   }
@@ -91,7 +94,13 @@ body {
     padding: 8px;
     margin-top: 5px;
   }
-  
+
+  #message {
+    font-size: 20px; /* Increase font size for the input text */
+    padding: 10px; /* Optional: Add padding for better text spacing */
+}
+
+
   .greetings {
     text-align: center;
   }
@@ -633,6 +642,10 @@ body {
   
   /* Mobile Styles */
   @media (max-width: 480px) {
+    #message {
+      font-size: 18px;
+    }
+    
     #header {
       margin-bottom: -100px;
     }
@@ -674,6 +687,15 @@ body {
   }
   
   @media (min-width: 240px) and (max-width: 480px) {
+    #message {
+      font-size: 18px; /* Size of the text inside the textarea */
+      width: 400px; /* Adjust the width of the textarea */
+      height: 150px; /* Adjust the height of the textarea */
+      padding: 10px; /* Add padding for better text spacing */
+      resize: none; /* Prevent the textarea from being resizable */
+  }
+  
+    
     .btn-radius {
       border-radius: 30px;
     }

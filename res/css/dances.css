@@ -22,35 +22,26 @@ a:hover {
 }
 
 .btn-radius {
-	border-radius: 30px
-}
+    border-radius: 30px
+  }
+  
+  .btn-focus {
+    background: #073066 !important;
+    color: #fff !important;
+    border-color: #073066 !important
+  }
+  
+  .btn-focus:hover {
+    background: #f6c500 !important;
+    border-color: #f6c500 !important
+  }
+  
+  .btn-secondary {
+    background: #eee;
+    border-color: #eee;
+    color: #111;
+  }
 
-.btn-focus {
-	background-color: #FFFFFF;
-	color: #073066;
-	border: 1.25px solid #073066;
-	padding: 12px 50px;
-	cursor: pointer;
-	border-radius: 20px;
-	font-size: 16px;
-	text-decoration: none;
-	display: inline-block;
-	margin: 5px;
-	transition: background-color 0.3s ease-in-out;
-}
-
-.btn-focus:hover {
-	background-color: #f6c500;
-	color: #073066;
-	font-weight: bold;
-	border: 1.25px solid #073066;
-}
-
-.btn-secondary {
-	background: #eee;
-	border-color: #eee;
-	color: #111
-}
 
 strong {
 	font-weight: bold;
@@ -783,12 +774,54 @@ strong {
 }
 
 @media screen and (min-width: 1681px) {
+	.btn-radius {
+		border-radius: 30px
+	  }
+	  
+	  .btn-focus {
+		background: #073066 !important;
+		color: #fff !important;
+		border-color: #073066 !important
+	  }
+	  
+	  .btn-focus:hover {
+		background: #f6c500 !important;
+		border-color: #f6c500 !important
+	  }
+	  
+	  .btn-secondary {
+		background: #eee;
+		border-color: #eee;
+		color: #111;
+	  }
+	
 	.container {
 		max-width: 1600px
 	}
 }
 
 @media screen and (max-width: 1680px) {
+	.btn-radius {
+		border-radius: 30px
+	  }
+	  
+	  .btn-focus {
+		background: #073066 !important;
+		color: #fff !important;
+		border-color: #073066 !important
+	  }
+	  
+	  .btn-focus:hover {
+		background: #f6c500 !important;
+		border-color: #f6c500 !important
+	  }
+	  
+	  .btn-secondary {
+		background: #eee;
+		border-color: #eee;
+		color: #111;
+	  }
+	
 	.container {
 		max-width: 1400px
 	}
@@ -1122,6 +1155,27 @@ strong {
 }
 
 @media screen and (max-width: 480px) {
+	.btn-radius {
+		border-radius: 30px
+	  }
+	  
+	  .btn-focus {
+		background: #073066 !important;
+		color: #fff !important;
+		border-color: #073066 !important
+	  }
+	  
+	  .btn-focus:hover {
+		background: #f6c500 !important;
+		border-color: #f6c500 !important
+	  }
+	  
+	  .btn-secondary {
+		background: #eee;
+		border-color: #eee;
+		color: #111;
+	  }
+	
 
 	.detail_page-watch .detail_page-infor .dp-i-stats i {
 		display: none
@@ -1150,9 +1204,49 @@ strong {
 	.heading-name {
 		font-size: 20px
 	}
+
+	.btn i {
+		margin-right: -100px
+	}
+
 }
 
 @media (min-width: 240px) and (max-width: 479px) {
+	.btn-radius {
+		border-radius: 30px
+	  }
+	  
+	  .btn-focus {
+		background: #073066 !important;
+		color: #fff !important;
+		border-color: #073066 !important
+	  }
+	  
+	  .btn-focus:hover {
+		background: #f6c500 !important;
+		border-color: #f6c500 !important
+	  }
+	  
+	  .btn-secondary {
+		background: #eee;
+		border-color: #eee;
+		color: #111;
+	  }
+	
+
+	#btn-preview {
+		background-color: #073066;
+		color: #ffffff;
+		border: 1.25px solid #073066;
+		padding: 12px 50px;
+		cursor: pointer;
+		border-radius: 20px;
+		font-size: 16px;
+		text-decoration: none;
+		display: inline-block;
+		margin: 5px;
+		transition: background-color 0.3s ease-in-out;
+	}
 	.block_area .block_area-header {
 		padding-right: 40px;
 		position: relative
@@ -1233,6 +1327,27 @@ strong {
 }
 
 @media screen and (min-width: 1200px) and (max-width:1680px) {
+	.btn-radius {
+		border-radius: 30px
+	  }
+	  
+	  .btn-focus {
+		background: #073066 !important;
+		color: #fff !important;
+		border-color: #073066 !important
+	  }
+	  
+	  .btn-focus:hover {
+		background: #f6c500 !important;
+		border-color: #f6c500 !important
+	  }
+	  
+	  .btn-secondary {
+		background: #eee;
+		border-color: #eee;
+		color: #111;
+	  }
+	
 	#search {
 		width: 200px
 	}
@@ -1243,6 +1358,27 @@ strong {
 }
 
 @media screen and (min-width: 1200px) and (max-width:1400px) {
+	.btn-radius {
+		border-radius: 30px
+	  }
+	  
+	  .btn-focus {
+		background: #073066 !important;
+		color: #fff !important;
+		border-color: #073066 !important
+	  }
+	  
+	  .btn-focus:hover {
+		background: #f6c500 !important;
+		border-color: #f6c500 !important
+	  }
+	  
+	  .btn-secondary {
+		background: #eee;
+		border-color: #eee;
+		color: #111;
+	  }
+	
 	#header_menu ul.header_menu-list .nav-item>a {
 		padding: 0 10px;
 		text-transform: unset
