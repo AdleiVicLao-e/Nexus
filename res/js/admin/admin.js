@@ -286,7 +286,7 @@ function openModal(item) {
 // Function to delete a single artifact
 function deleteArtifact(id) {
     // Confirm deletion with the user
-    const confirmDelete = confirm("Are you sure you want to delete this artifact?");
+    confirmDelete = confirm("Are you sure you want to delete this artifact?");
     if (!confirmDelete) return; // Exit if the user cancels
 
     const xhr = new XMLHttpRequest();
