@@ -13,11 +13,30 @@ let startPoint = { x: 0, y: 0 };
 let dragThreshold = 10; // Minimum movement to qualify as a drag
 let speakWorker;
 
-try {
-    speakWorker = new Worker('./res/js/client/speakWorker.js');
-} catch(e) {
-    console.log('speak.js warning: no worker support');
+// Track the current audio source
+let currentAudioSource = null;
+
+// Initialize the worker
+function initializeSpeakWorker() {
+    try {
+        speakWorker = new Worker('./res/js/client/speakWorker.js');
+
+        speakWorker.onmessage = function(event) {
+            if (isSpeaking) { // Only process messages if speaking is active
+                playTTS(event.data, live2dModel, simulateAudioParameterChange, animationIntervalId);
+            }
+        };
+
+        speakWorker.onerror = function(error) {
+            console.error("Speak Worker Error:", error);
+        };
+    } catch(e) {
+        console.log('speak.js warning: no worker support');
+    }
 }
+
+// Initialize the worker initially
+initializeSpeakWorker();
 
 // Create a PIXI application
 let app = new PIXI.Application({
@@ -35,9 +54,6 @@ fetch('./assets/VAmodel/script.json')
         script = scriptInfo.script;
     })
     .catch(error => console.error('Error loading script:', error));
-
-// Load and display the Live2D model
-let audioContext = null; // Moved initialization to be inside the unlockAudioContext function
 
 // Unlock AudioContext on user interaction (for iOS support)
 function unlockAudioContext() {
@@ -125,13 +141,17 @@ function generateTTS(text, callback) {
         base64: true
     };
 
-    speakWorker.postMessage(message);
+    if (speakWorker) {
+        speakWorker.postMessage(message);
+    } else {
+        console.error("Speak worker is not initialized.");
+    }
 
+    // Handle callback via onmessage
     speakWorker.onmessage = function (event) {
         callback(event.data);
     };
 }
-
 
 // Function to play audio in browser using AudioContext
 function playTTS(audioData, live2dModel, simulateAudioParameterChange, animationIntervalId) {
@@ -150,6 +170,9 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
             source.connect(audioContext.destination);
             source.start(0);
 
+            // Store the current audio source
+            currentAudioSource = source;
+
             isSpeaking = true; // Mark that speech is ongoing
 
             // Start lip sync when audio starts
@@ -163,13 +186,15 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
                     live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
                     live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthForm', 0);
                 }
+
+                // Clear the reference to the current audio source
+                currentAudioSource = null;
             };
 
             // Lip sync while the audio is playing
             if (live2dModel) {
                 let startTime = Date.now();
                 animationIntervalId = setInterval(() => {
-                    let elapsed = Date.now() - startTime;
                     simulateAudioParameterChange();
                 }, 150);
             }
@@ -179,7 +204,12 @@ function playTTS(audioData, live2dModel, simulateAudioParameterChange, animation
         });
 }
 
-function speakText(text, live2dModel, simulateAudioParameterChange, animationIntervalId) {
+function speakText(text) {
+    // Ensure the worker is initialized
+    if (!speakWorker) {
+        initializeSpeakWorker();
+    }
+
     // Generate audio using speak.js
     generateTTS(text, function (audioData) {
         // Play the generated audio and sync with the model
@@ -275,7 +305,6 @@ function handleDoubleTap(event) {
     stopTTS(); // Call stopTTS function on double tap
 }
 
-
 function handleArtifact(artifactId) {
     if (!scriptData) {
         return;
@@ -291,8 +320,11 @@ function handleArtifact(artifactId) {
 function handleTap(event) {
     event.stopPropagation(); // Prevent default behavior
 
-    // If already speaking, ignore further taps
-    if (isSpeaking) return;
+    // If already speaking, stop the current TTS before starting a new one
+    if (isSpeaking) {
+        stopTTS();
+    }
+
     unlockAudioContext();
 
     // Check if the device is running iOS
@@ -308,15 +340,27 @@ function handleTap(event) {
 
 // Stop TTS on page unload or visibility change
 function stopTTS() {
+    // Stop Speech Synthesis for iOS
     if (window.speechSynthesis) {
         window.speechSynthesis.cancel(); // Cancel any ongoing speech
-        console.log("TTS stopped.");
+        console.log("TTS stopped via speechSynthesis.cancel().");
     }
 
+    // Stop Audio Playback for non-iOS
+    if (currentAudioSource) {
+        try {
+            currentAudioSource.stop(); // Stop the audio playback
+            console.log("Audio playback stopped.");
+        } catch (e) {
+            console.error("Error stopping audio source:", e);
+        }
+        currentAudioSource = null; // Clear the reference
+    }
+
+    // Terminate the TTS worker for non-iOS
     if (speakWorker) {
-        // Send a termination message to the worker if necessary
-        speakWorker.postMessage({ action: 'terminate' }); // Optional: define a message in your worker to handle termination
-        speakWorker.terminate(); // Terminate the TTS worker
+        speakWorker.terminate(); // Terminate the worker
+        speakWorker = null; // Clear the reference
         console.log("TTS worker terminated.");
     }
 
@@ -330,6 +374,9 @@ function stopTTS() {
     }
 
     isSpeaking = false; // Reset the speaking flag
+
+    // Reinitialize the worker for future use if needed
+    reinitializeWorkerIfNeeded();
 }
 
 // Event listener for page unload
@@ -354,3 +401,11 @@ window.onload = function () {
         window.speechSynthesis.getVoices();
     };
 };
+
+
+// Function to reinitialize the worker if needed
+function reinitializeWorkerIfNeeded() {
+    if (!speakWorker) {
+        initializeSpeakWorker();
+    }
+}
