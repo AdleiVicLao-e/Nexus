@@ -6,6 +6,7 @@ let isAudioContextUnlocked = false;
 let isSpeaking = false; // Track if speech is active
 let scriptData; // Store the loaded script data
 let script;
+let scriptTimeoutId;
 
 // Variables to track dragging state
 let isDragging = false;
@@ -50,7 +51,7 @@ fetch('./assets/VAmodel/script.json')
     .then(response => response.json())
     .then(data => {
         scriptData = data; // Store the script data
-        scriptInfo = scriptData.scripts[1302];
+        scriptInfo = scriptData.scripts[0];
         script = scriptInfo.script;
     })
     .catch(error => console.error('Error loading script:', error));
@@ -95,6 +96,24 @@ PIXI.live2d.Live2DModel.from('./assets/VAmodel/VA Character.model3.json').then(m
     live2dModel.on('pointerup', onPointerUp);
     live2dModel.on('pointerupoutside', onPointerUp);
 });
+
+// Function to reset script to the first value when no QR code is scanned
+function resetScript() {
+    // Assuming scriptData.scripts is an array
+    if (scriptData && scriptData.scripts.length > 0) {
+        scriptInfo = scriptData.scripts[0];
+        script = scriptInfo.script;
+    }
+}
+
+// Function to handle QR code scanning (you'll need to call this function when a QR code is successfully scanned)
+function onQRCodeScanned() {
+    // Reset the timeout whenever a QR code is scanned
+    clearTimeout(scriptTimeoutId);
+
+    // Set a new timeout to reset the script after 5 minutes
+    scriptTimeoutId = setTimeout(resetScript, 300000);
+}
 
 // Synchronize lip movement based on the motion data
 function applyMotionData() {

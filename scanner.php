@@ -179,6 +179,7 @@ if (is_null($_SESSION["guest"])) {
               const artifactId = code.data;
               handleArtifact(artifactId);
               fetchArtifactInfo(artifactId);
+              onQRCodeScanned();
   
               if (displayBox) {
                 const centerX =
