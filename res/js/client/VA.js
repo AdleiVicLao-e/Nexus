@@ -16,6 +16,7 @@ let speakWorker;
 
 // Track the current audio source
 let currentAudioSource = null;
+let audioContext = null;
 
 // Initialize the worker
 function initializeSpeakWorker() {
