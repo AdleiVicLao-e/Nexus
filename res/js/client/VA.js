@@ -363,14 +363,12 @@ function stopTTS() {
     // Stop Speech Synthesis for iOS
     if (window.speechSynthesis) {
         window.speechSynthesis.cancel(); // Cancel any ongoing speech
-        console.log("TTS stopped via speechSynthesis.cancel().");
     }
 
     // Stop Audio Playback for non-iOS
     if (currentAudioSource) {
         try {
             currentAudioSource.stop(); // Stop the audio playback
-            console.log("Audio playback stopped.");
         } catch (e) {
             console.error("Error stopping audio source:", e);
         }
@@ -381,7 +379,6 @@ function stopTTS() {
     if (speakWorker) {
         speakWorker.terminate(); // Terminate the worker
         speakWorker = null; // Clear the reference
-        console.log("TTS worker terminated.");
     }
 
     clearInterval(animationIntervalId); // Clear lip sync animation
