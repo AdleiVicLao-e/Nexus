@@ -1,7 +1,10 @@
 <?php
-session_start();
 if (isset($_SESSION["admin"])) {
-    header("Location: ../admin/admin.php");
+  echo '<script>
+    alert("Already logged in. Redirected to Admin Page.");
+    </script>';
+} else {
+  session_start();
 }
 ?>
 <!DOCTYPE html>
