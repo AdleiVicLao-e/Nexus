@@ -102,7 +102,11 @@ if (is_null($_SESSION["guest"])) {
     <div class="edge-lighting" id="edgeLighting"></div>
 
     <!-- Floating Buttons -->
-    <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" /> <!-- Light bulb icon -->
+    <!-- Light bulb icon with onclick event -->
+    <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" />
+
+    <!-- Add an audio element -->
+    <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
 
     <button id="watchVideosButton" onclick="window.location.href='igorot-dances.php';">
     Watch Videos
@@ -130,18 +134,24 @@ if (is_null($_SESSION["guest"])) {
 
     <div id="desktop-warning">Mobile Only Site.</div>
 
-    <script>
+        <script>
         const video = document.getElementById("video");
         const canvas = document.getElementById("canvas");
         const canvasContext = canvas.getContext("2d");
         const noArtifactImage = document.getElementById("noArtifactImage");
         const imgCondition = document.getElementById("imgCondition");
         const conditionLabel = document.getElementById("conditionLabel");
-  
+        const watchButton = document.getElementById("watchVideosButton");
+        const audio = document.getElementById("lightbulbAudio");
+
         let artifactInfo = "";
         let displayBox = true;
         let imageValue = "default";
-  
+        let firstScan = false; // Track whether the first artifact is scanned
+
+        // Initially hide the watch button
+        watchButton.style.display = "none";
+
         // Function to start video stream
         async function startVideo() {
           try {
@@ -157,10 +167,10 @@ if (is_null($_SESSION["guest"])) {
             console.error("Error accessing webcam:", error);
           }
         }
-  
+
         const boxImage = new Image();
         boxImage.src = '/assets/img/display.png'; 
-  
+
         // Function to scan QR code
         function scanQRCode() {
           if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -171,28 +181,27 @@ if (is_null($_SESSION["guest"])) {
             const code = jsQR(imageData.data, canvas.width, canvas.height, {
               inversionAttempts: "dontInvert",
             });
-  
+
             canvasContext.clearRect(0, 0, canvas.width, canvas.height);
             canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
-  
+
             if (code) {
               const artifactId = code.data;
+              
               handleArtifact(artifactId);
               fetchArtifactInfo(artifactId);
               onQRCodeScanned();
-  
+
               if (displayBox) {
                 const centerX =
-                  (code.location.topLeftCorner.x +
-                    code.location.topRightCorner.x) / 2;
+                  (code.location.topLeftCorner.x + code.location.topRightCorner.x) / 2;
                 const centerY =
-                  (code.location.topLeftCorner.y +
-                    code.location.bottomLeftCorner.y) / 2;
-  
+                  (code.location.topLeftCorner.y + code.location.bottomLeftCorner.y) / 2;
+
                 const boxWidth = 400;
                 const boxHeight = 250;
                 const padding = 20;
-  
+
                 // Draw the image instead of a rectangle
                 canvasContext.drawImage(
                   boxImage,
@@ -201,31 +210,31 @@ if (is_null($_SESSION["guest"])) {
                   boxWidth,
                   boxHeight
                 );
-  
+
                 // Define offsets for spacing
                 const topOffset = 10; // Space at the top
                 const leftOffset = 10; // Space on the left
-  
+
                 canvasContext.font = "bold 15px 'Inter', sans-serif";
                 canvasContext.fillStyle = "#502a00";
                 canvasContext.textAlign = "left";
                 canvasContext.textBaseline = "top";
-  
+
                 if (artifactInfo) {
                   const lines = artifactInfo.split("\n");
                   const lineHeight = 20; // Adjust the line height as necessary
                   const maxLineWidth = boxWidth - 2 * padding;
-  
+
                   let currentY = centerY - boxHeight / 2 + padding + topOffset; // Add topOffset here
-  
+
                   lines.forEach((line) => {
                     let words = line.split(" ");
                     let currentLine = "";
-  
+
                     words.forEach((word, index) => {
                       let testLine = currentLine + word + " ";
                       let testWidth = canvasContext.measureText(testLine).width;
-  
+
                       if (testWidth > maxLineWidth && index > 0) {
                         canvasContext.fillText(
                           currentLine,
@@ -234,14 +243,14 @@ if (is_null($_SESSION["guest"])) {
                         );
                         currentLine = word + " ";
                         currentY += lineHeight;
-  
+
                         // Stop rendering if text exceeds the box height
                         if (currentY > centerY + boxHeight / 2 - padding) return;
                       } else {
                         currentLine = testLine;
                       }
                     });
-  
+
                     // Render the last line of the paragraph
                     canvasContext.fillText(
                       currentLine,
@@ -249,28 +258,40 @@ if (is_null($_SESSION["guest"])) {
                       currentY
                     );
                     currentY += lineHeight;
-  
+
                     // Stop rendering if text exceeds the box height
                     if (currentY > centerY + boxHeight / 2 - padding) return;
                   });
                 }
               }
+
+              // Show the watch button only after the first artifact scan
+              if (!firstScan) {
+                firstScan = true; 
+              }
+              watchButton.style.display = "block";
+              setTimeout(() => {
+                watchButton.style.display = "none";
+              }, 7000);
             } else {
+              // If no code detected, clear artifact info
+              artifactInfo = "";
               conditionLabel.style.display = "none";
               imgCondition.style.display = "none";
-              document.getElementById("watchVideosButton").style.display = "none";
-              artifactInfo = "";
+              displayBox = false;
+              noArtifactImage.style.animation = "none";
             }
           }
+          // Continue scanning QR codes
           requestAnimationFrame(scanQRCode);
         }
-  
+
         function fetchArtifactInfo(artifactId) {
           fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
             .then((response) => response.json())
             .then((data) => {
               console.log("Data:", data);
-  
+
               if (data && Object.keys(data).length > 0) {
                 // If artifact is found
                 artifactInfo = `
@@ -280,20 +301,21 @@ if (is_null($_SESSION["guest"])) {
                   
                 noArtifactImage.style.display = "none";
                 displayBox = true;
-  
+
                 //Show condition
                 let imageValue = data["Condition"] || "default";
                 changeImage(imageValue);
-  
-                //Show watch button
-                document.getElementById("watchVideosButton").style.display =
-                  "block";
+
+                // Show the watch button after the first scan
+                if (!firstScan) {
+                  firstScan = true; // Mark first scan completed
+                }
               } else {
                 // If artifact is not found
                 artifactInfo = "";
                 displayBox = false;
                 noArtifactImage.style.display = "block";
-  
+
                 setTimeout(() => {
                   noArtifactImage.style.animation = "none";
                   noArtifactImage.style.opacity = 0;
@@ -302,42 +324,26 @@ if (is_null($_SESSION["guest"])) {
                     noArtifactImage.style.opacity = 1;
                   }, 1000);
                 }, 2000);
-  
+
                 let imageValue = data["condition"] || "default";
-                document.getElementById("watchVideosButton").style.display =
-                  "none";
               }
             })
             .catch((error) => {
-              document.getElementById("watchVideosButton").style.display = "none";
               console.error("Error fetching artifact info:", error);
               artifactInfo = "Error fetching artifact info";
               conditionLabel.style.display = "none";
               imgCondition.style.display = "none";
             });
         }
-  
+
         // Function to show the overlay
         function viewDetails() {
           const overlay = document.getElementById("infoOverlay");
           overlay.style.display = "flex";
-  
-          let countdownTime = 6;
-          const countdownElement = document.getElementById("countdown");
-  
-          // Update the countdown every second
-          const countdownInterval = setInterval(() => {
-            countdownTime--;
-            countdownElement.textContent = countdownTime;
-  
-            // When countdown reaches 0, hide the overlay
-            if (countdownTime <= 0) {
-              clearInterval(countdownInterval);
-              overlay.style.display = "none";
-            }
-          }, 1000);
+
+          audio.play();
         }
-  
+
         // Change the image according to the condition
         function changeImage(value) {
           if (value.includes("No problem")) {
@@ -356,31 +362,34 @@ if (is_null($_SESSION["guest"])) {
           } else {
             imgCondition.src = "assets/condition/default.png";
           }
-  
+
           conditionLabel.style.display = "block";
           imgCondition.style.display = "block";
         }
-  
-        document.getElementById("exitButton").addEventListener("click", function() {
-        document.getElementById("infoOverlay").style.display = "none"; 
-    });
 
-    function checkDevice() {
-      // Define a breakpoint for mobile devices (e.g., 768px)
-      if (window.innerWidth > 768) {
-        // Show the desktop warning
-        document.getElementById("desktop-warning").style.display = "flex";
-        setTimeout(function() {
-          alert("Please use your mobile phone to access this site.");
-        }, 100); 
-      }
-    }
-  
+        document.getElementById("exitButton").addEventListener("click", function() {
+          document.getElementById("infoOverlay").style.display = "none"; 
+          audio.pause();
+          audio.currentTime = 0; 
+        });
+
+        function checkDevice() {
+          // Define a breakpoint for mobile devices (e.g., 768px)
+          if (window.innerWidth > 768) {
+            // Show the desktop warning
+            document.getElementById("desktop-warning").style.display = "flex";
+            setTimeout(function() {
+              alert("Please use your mobile phone to access this site.");
+            }, 100); 
+          }
+        }
+
         // Start the video stream when the page loads
         startVideo();
         checkDevice();
-        
-      </script>
+    </script>
+
+    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
