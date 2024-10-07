@@ -72,8 +72,10 @@ if (is_null($_SESSION["admin"])) {
           </div>
           <div id="search" class="tab-content active">
             <div class="search-container">
-              <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
-              <button class="search-button" onclick="searchArtifact()">Search</button>
+                <label>
+                    <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
+                </label>
+                <button class="search-button" onclick="searchArtifact()">Search</button>
             </div>
             <button id="toggle-multi-select" onclick="toggleMultiSelect()">Enable Multi-Select</button>
             <button id="delete-selected-button" style="display: none;" onclick="deleteSelectedArtifacts()">Delete Selected</button>
@@ -102,10 +104,10 @@ if (is_null($_SESSION["admin"])) {
                     <select id="editSubcatalog" name="subcatalog"></select>
                     <br>
                     <label for="description">Description:</label>
-                    <textarea id="editDescription" name="description"></textarea>
+                    <label for="editDescription"></label><textarea id="editDescription" name="description"></textarea>
                     <br>
                     <label for="description">Virtual Avatar Script:</label>
-                    <textarea id="editScript" name="script"></textarea>
+                    <label for="editScript"></label><textarea id="editScript" name="script"></textarea>
                     <br>
                     <button type="button" onclick="saveChanges()">Save</button>
                     <button id="delBtn" type="button" onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
