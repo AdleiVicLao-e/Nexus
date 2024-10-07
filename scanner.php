@@ -13,7 +13,7 @@ if (is_null($_SESSION["guest"])) {
     <meta name="description" content="Watch Igorot Dances" />
     <meta name="keywords" content="watch igorot dances ifugao bontoc kalinga kankanaey isneg ibaloi abra cordillera" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="assets\img\favicon.png" type="image/x-icon">
+    <link rel="icon" href="./assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
     <link rel="stylesheet" href="res/css/styles.css">
@@ -50,7 +50,7 @@ if (is_null($_SESSION["guest"])) {
           <i class="fa fa-bars"></i>
         </div>
         <a href="scanner.php" id="logo">
-          <img src="assets\img\logo.png" alt="Logo">
+          <img src="./assets/img/logo.png" alt="Logo">
         </a>
         <div id="header_menu">
           <ul class="nav header_menu-list">
@@ -59,7 +59,6 @@ if (is_null($_SESSION["guest"])) {
             </li>
             <li class="nav-item">
             <a href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
-            </li>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="feedback.php" title="Home">Feedback</a>
@@ -92,8 +91,7 @@ if (is_null($_SESSION["guest"])) {
       id="imgCondition"
       src="assets/condition/default.png"
       alt="Placeholder Image"
-      style="display: none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);"
-      ;
+      style="display: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);"
     />
 
     <div id="va-container">
@@ -155,10 +153,9 @@ if (is_null($_SESSION["guest"])) {
         // Function to start video stream
         async function startVideo() {
           try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-              video: { facingMode: "environment" },
+              video.srcObject = await navigator.mediaDevices.getUserMedia({
+                video: {facingMode: "environment"},
             });
-            video.srcObject = stream;
             // required to play video inline on iOS
             video.setAttribute("playsinline", true);
             video.play();
@@ -245,7 +242,7 @@ if (is_null($_SESSION["guest"])) {
                         currentY += lineHeight;
 
                         // Stop rendering if text exceeds the box height
-                        if (currentY > centerY + boxHeight / 2 - padding) return;
+                        if (currentY > centerY + boxHeight / 2 - padding)
                       } else {
                         currentLine = testLine;
                       }
@@ -260,7 +257,7 @@ if (is_null($_SESSION["guest"])) {
                     currentY += lineHeight;
 
                     // Stop rendering if text exceeds the box height
-                    if (currentY > centerY + boxHeight / 2 - padding) return;
+                    if (currentY > centerY + boxHeight / 2 - padding)
                   });
                 }
               }
@@ -325,7 +322,6 @@ if (is_null($_SESSION["guest"])) {
                   }, 1000);
                 }, 2000);
 
-                let imageValue = data["condition"] || "default";
               }
             })
             .catch((error) => {
@@ -387,8 +383,6 @@ if (is_null($_SESSION["guest"])) {
         // Start the video stream when the page loads
         startVideo();
         checkDevice();
-    </script>
-
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>

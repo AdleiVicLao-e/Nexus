@@ -69,6 +69,7 @@ if (isset($_SESSION["admin"])) {
                 <button id="refreshBtn">Refresh Data</button>
             </div>
         </div>
+<<<<<<< HEAD
         <div class="right-container">
             <div class="artifacts">
                 <div class="tabs">
@@ -77,6 +78,68 @@ if (isset($_SESSION["admin"])) {
                     <div class="tab" onclick="openTab('add2')">Add Category</div>
                     <div class="tab" onclick="openTab('upload')">Upload Media</div>
                     <div class="tab" onclick="openTab('edit')">Edit Media</div>
+=======
+      </div>
+      <div class="right-container">
+        <div class="artifacts">
+          <div class="tabs">
+            <div class="tab active" onclick="openTab('search')">Search Artifact</div>
+            <div class="tab" onclick="openTab('add')">Add Artifact</div>
+            <div class="tab" onclick="openTab('add2')">Add Category</div>
+            <div class="tab" onclick="openTab('upload')">Upload Media</div>
+            <div class="tab" onclick="openTab('edit')">Edit Media</div>
+          </div>
+          <div id="search" class="tab-content active">
+            <div class="search-container">
+                <label>
+                    <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
+                </label>
+                <button class="search-button" onclick="searchArtifact()">Search</button>
+            </div>
+            <button id="toggle-multi-select" onclick="toggleMultiSelect()">Enable Multi-Select</button>
+            <button id="delete-selected-button" style="display: none;" onclick="deleteSelectedArtifacts()">Delete Selected</button>
+            <div id="search-results"></div>
+          </div>
+          <!-- Edit Popup Window -->
+          <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <h2>Edit Artifact</h2>
+                <form id="edit-form">
+                    <input type="hidden" id="artifact-id">
+                    <label for="artifact-id">Artifact ID:</label>
+                    <span id="artifact-id-display"></span>
+                    <br>
+                    <label for="editName">Name:</label>
+                    <input type="text" id="editName" name="name">
+                    <br>
+                    <label for="editSection">Section:</label>
+                    <select id="editSection" name="section" onchange="fetchCatalogs(this.value)"></select>
+                    <br>
+                    <label for="editCatalog">Catalogue:</label>
+                    <select id="editCatalog" name="catalog" onchange="fetchSubcatalogs(this.value)"></select>
+                    <br>
+                    <label for="editSubcatalog">Subcatalogue:</label>
+                    <select id="editSubcatalog" name="subcatalog"></select>
+                    <br>
+                    <label for="description">Description:</label>
+                    <label for="editDescription"></label><textarea id="editDescription" name="description"></textarea>
+                    <br>
+                    <label for="description">Virtual Avatar Script:</label>
+                    <label for="editScript"></label><textarea id="editScript" name="script"></textarea>
+                    <br>
+                    <button type="button" onclick="saveChanges()">Save</button>
+                    <button id="delBtn" type="button" onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
+                </form>
+            </div> 
+          </div>
+          <div id="add" class="tab-content">
+            <div class="form-container">
+              <form action="/include/addArtifact.php" method="post">
+                <div class="form-group">
+                  <label for="artifact-name">Artifact Name:</label>
+                  <input type="text" id="artifact-name" name="artifact-name" required>
+>>>>>>> a87577e0ffa1e0e4e6320ae2790397d870192193
                 </div>
                 <div id="search" class="tab-content active">
                     <div class="search-container">
