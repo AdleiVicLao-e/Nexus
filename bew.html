@@ -1,9 +1,3 @@
-<?php
-session_start();
-if (is_null($_SESSION["admin"])) {
-    header("Location: ../admin/admin-login.php");
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -78,10 +72,8 @@ if (is_null($_SESSION["admin"])) {
           </div>
           <div id="search" class="tab-content active">
             <div class="search-container">
-                <label>
-                    <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
-                </label>
-                <button class="search-button" onclick="searchArtifact()">Search</button>
+              <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
+              <button class="search-button" onclick="searchArtifact()">Search</button>
             </div>
             <button id="toggle-multi-select" onclick="toggleMultiSelect()">Enable Multi-Select</button>
             <button id="delete-selected-button" style="display: none;" onclick="deleteSelectedArtifacts()">Delete Selected</button>
@@ -110,10 +102,10 @@ if (is_null($_SESSION["admin"])) {
                     <select id="editSubcatalog" name="subcatalog"></select>
                     <br>
                     <label for="description">Description:</label>
-                    <label for="editDescription"></label><textarea id="editDescription" name="description"></textarea>
+                    <textarea id="editDescription" name="description"></textarea>
                     <br>
                     <label for="description">Virtual Avatar Script:</label>
-                    <label for="editScript"></label><textarea id="editScript" name="script"></textarea>
+                    <textarea id="editScript" name="script"></textarea>
                     <br>
                     <button type="button" onclick="saveChanges()">Save</button>
                     <button id="delBtn" type="button" onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
