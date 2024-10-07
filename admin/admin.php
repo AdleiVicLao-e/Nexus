@@ -11,11 +11,15 @@ if (is_null($_SESSION["admin"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
     <link rel="stylesheet" href="../res/css/adminStyle.css">
+    <link rel="stylesheet" href="../res/css/datepicker.css">
     <link href="../assets/img/favicon.png" rel="icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script src="../res/js/admin/javascript.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
   </head>
   <body>
@@ -42,7 +46,9 @@ if (is_null($_SESSION["admin"])) {
           <h1>Visitor Analytics</h1>
           <h3>Visitor by School</h3>
           <canvas id="donutChart" width="1000" height="300"></canvas>
+          
           <h3>Visitor Log Book</h3>
+          <input type="text" name="datefilter" value="" placeholder="Choose Date Range"/>
           <div id="userTableContainer">
             <table id="visitorAnalyticsTable">
               <thead>
@@ -234,7 +240,25 @@ if (is_null($_SESSION["admin"])) {
     </div>
     <script src="/res/js/admin/admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Include Chart.js library -->
+
+    <script>
+        $(document).on('ready', function () {
+          $('.js-daterangepicker-clear').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+              cancelLabel: 'Clear'
+            }
+          });
+      
+          $('.js-daterangepicker-clear').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+          });
+      
+          $('.js-daterangepicker-clear').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+          });
+        });
+      </script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const userTableContainer = document.getElementById("userTableContainer");
@@ -384,5 +408,25 @@ if (is_null($_SESSION["admin"])) {
         fetchCatalogData(); // Fetch and populate catalogues in the dropdown
       });
     </script>
+    <script>
+        $(function() {
+        
+          $('input[name="datefilter"]').daterangepicker({
+              autoUpdateInput: false,
+              locale: {
+                  cancelLabel: 'Clear'
+              }
+          });
+        
+          $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+              $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+          });
+        
+          $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+              $(this).val('');
+          });
+        
+        });
+        </script>
   </body>
 </html>
