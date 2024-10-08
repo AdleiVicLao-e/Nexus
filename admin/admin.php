@@ -46,7 +46,6 @@ if (is_null($_SESSION["admin"])) {
           <h1>Visitor Analytics</h1>
           <h3>Visitor by School</h3>
           <canvas id="donutChart" width="1000" height="300"></canvas>
-          
           <h3>Visitor Log Book</h3>
           <input type="text" name="datefilter" value="" placeholder="Choose Date Range"/>
           <div id="userTableContainer">
@@ -242,7 +241,6 @@ if (is_null($_SESSION["admin"])) {
     </div>
     <script src="/res/js/admin/admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script>
         $(document).on('ready', function () {
           $('.js-daterangepicker-clear').daterangepicker({
