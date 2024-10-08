@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 25, 2024 at 08:43 AM
+-- Generation Time: Oct 08, 2024 at 05:13 PM
 -- Server version: 5.7.40
 -- PHP Version: 8.0.26
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `artifact_info`;
 CREATE TABLE IF NOT EXISTS `artifact_info` (
-  `artifact_id` int(11) NOT NULL AUTO_INCREMENT,
+  `artifact_id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
   `catalogue_id` int(11) DEFAULT NULL,
   `subcat_id` int(11) DEFAULT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `artifact_info` (
   KEY `artisect_idx` (`section_id`),
   KEY `articat_idx` (`catalogue_id`),
   KEY `artisubcat_idx` (`subcat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1305 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `artifact_info`
@@ -1344,7 +1344,7 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (1292, 23, NULL, NULL, 'San Roque (Retablo of Saint Rock of Roch', NULL, 'Carved image', 'With crack, hole, and breakage'),
 (1293, 23, NULL, NULL, 'Mother Mary', NULL, 'Carved image', 'No problem (a) With broken hand (b)'),
 (1294, 23, NULL, NULL, 'Old CICM pictures', NULL, '15 pcs.', 'No problem'),
-(1304, 6, 24, NULL, 'hello', NULL, 'asd', 'asd');
+(1295, 4, 23, NULL, 'asd', NULL, 'asd', 'asd');
 
 -- --------------------------------------------------------
 
@@ -1460,7 +1460,8 @@ INSERT INTO `section` (`section_id`, `section_name`) VALUES
 (20, 'Photographs, paintings and sketches of Igorot folk life'),
 (21, 'Prehistoric stone tools'),
 (22, 'Collections from other Filipino ethnic groups'),
-(23, 'CICM Collections');
+(23, 'CICM Collections'),
+(24, 'asd');
 
 -- --------------------------------------------------------
 

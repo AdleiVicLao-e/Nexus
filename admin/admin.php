@@ -28,6 +28,8 @@ if (isset($_SESSION["admin"])) {
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
 </head>
 
@@ -130,7 +132,7 @@ if (isset($_SESSION["admin"])) {
                 </div>
                 <div id="add" class="tab-content">
                     <div class="form-container">
-                        <form action="/include/addArtifact.php" method="post">
+                        <form id="addArtifactForm" action="/include/addArtifact.php" method="post">
                             <div class="form-group">
                                 <label for="artifact-name">Artifact Name:</label>
                                 <input type="text" id="artifact-name" name="artifact-name" required>
@@ -165,6 +167,14 @@ if (isset($_SESSION["admin"])) {
                             </div>
                             <button type="submit">Add Artifact</button>
                         </form>
+                    </div>
+                </div>
+
+                <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+                        <p id="overlay-message"></p>
+                        <div id="qrcode" style="margin-top: 20px;"></div>
+                        <button id="close-overlay">Okay</button>
                     </div>
                 </div>
                 <div id="add2" class="tab-content">
