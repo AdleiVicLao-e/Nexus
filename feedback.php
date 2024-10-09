@@ -4,6 +4,7 @@ if (is_null($_SESSION["guest"])) {
   header("Location: ../guest-login.php");
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -81,7 +82,7 @@ if (is_null($_SESSION["guest"])) {
       </div>
       <div class="fb-form-container">
         <div class="fb"> <!-- Remove the dot from the class name -->
-          <form class="fb-form"> <!-- Remove the dot from the class name -->
+            <form method="POST" action="include/addFeedback.php" class="fb-form"> <!-- Remove the dot from the class name -->
             <h2>Feedback Form</h2>
             <label>How do you rate your overall experience?</label>
             <div class="mb-3 d-flex flex-row py-1">
