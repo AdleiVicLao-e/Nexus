@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (isset($_SESSION["admin"])) {
+  echo '<script>
+    alert("Logged in.");
+    </script>';
+} else {
+  echo '<script>
+    alert("Not logged in. Redirected to Admin Login.");
+    window.location.href="admin-login.php";
+    </script>';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -246,24 +259,75 @@
     document.addEventListener("DOMContentLoaded", function() {
         const userTableContainer = document.getElementById("userTableContainer");
         const refreshBtn = document.getElementById("refreshBtn");
-        // Function to fetch and display user data
-        function fetchUserData() {
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", "../include/get-user.php", true); // Adjusted path to point to the include folder
-            xhr.onload = function() {
-                if (this.status === 200) {
-                    userTableContainer.innerHTML = this
-                    .responseText; // Populate the container with the response
-                    createChart(); // Call the chart creation function after fetching user data
+        const dateRangePicker = document.getElementById("dateRangePicker");
+
+        $(dateRangePicker).daterangepicker();
+
+        
+        document.addEventListener("DOMContentLoaded", function() {
+    const userTableContainer = document.getElementById("userTableContainer");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const dateRangePicker = document.getElementById("dateRangePicker");
+
+    // Initialize the date range picker (you can use a library like daterangepicker.js for better UI)
+    $(dateRangePicker).daterangepicker();
+
+    // Function to fetch and display user data based on selected date range
+    function fetchUserData(dateRange = '') {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../include/get-user.php", true); // Adjusted path to point to the include folder
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (this.status === 200) {
+                const data = JSON.parse(this.responseText); // Parse JSON response
+                let tableRows = '';
+
+                if (data.length > 0) {
+                    // Loop through each user and create table rows
+                    data.forEach(user => {
+                        tableRows += `
+                            <tr>
+                                <td>${user.user_number}</td>
+                                <td>${user.user_name}</td>
+                                <td>${user.user_school}</td>
+                                <td>${user.time}</td>
+                            </tr>
+                        `;
+                    });
                 } else {
-                    userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
+                    tableRows = `<tr><td colspan="4">No users logged in for this date range</td></tr>`;
                 }
-            };
-            xhr.onerror = function() {
-                userTableContainer.innerHTML = " < p > Request failed. < /p>";
-            };
-            xhr.send();
-        }
+
+                // Populate the table with the response
+                userTableContainer.querySelector("tbody").innerHTML = tableRows;
+                createChart(); // Call the chart creation function after fetching user data
+            } else {
+                userTableContainer.innerHTML = "<p>Error fetching data.</p>";
+            }
+        };
+        xhr.onerror = function() {
+            userTableContainer.innerHTML = "<p>Request failed.</p>";
+        };
+
+        // Send the selected date range in the request
+        xhr.send(`datefilter=${dateRange}`);
+    }
+
+    // Event listener for date range picker changes
+    $(dateRangePicker).on('apply.daterangepicker', function(ev, picker) {
+        const selectedDates = `${picker.startDate.format('MM/DD/YYYY')} - ${picker.endDate.format('MM/DD/YYYY')}`;
+        fetchUserData(selectedDates); // Fetch data for the selected date range
+    });
+
+    // Event listener for refresh button
+    refreshBtn.addEventListener("click", function() {
+        fetchUserData(); // Fetch data without date filter (default query)
+    });
+
+    // Fetch user data on initial load
+    fetchUserData();
+});
+
         async function fetchData() {
             try {
                 const response = await fetch('../include/chart.php'); // Adjust the path
@@ -277,15 +341,15 @@
                             datasets: [{
                                 label: 'User Count by School',
                                 data: data.counts,
-                                backgroundColor: ["#ea5545", // Color 1
-                                    "#f46a9b", // Color 2
-                                    "#ef9b20", // Color 3
-                                    "#edbf33", // Color 4
-                                    "#ede15b", // Color 5
-                                    "#bdcf32", // Color 6
-                                    "#87bc45", // Color 7
-                                    "#27aeef", // Color 8
-                                    "#b33dc6", // Color 9
+                                backgroundColor: ["#ea5545", 
+                                    "#f46a9b", 
+                                    "#ef9b20", 
+                                    "#edbf33", 
+                                    "#ede15b", 
+                                    "#bdcf32", 
+                                    "#87bc45", 
+                                    "#27aeef", 
+                                    "#b33dc6", 
                                     "#c94800", "#22beb6", "#727900"
                                 ],
                                 borderColor: 'white',
