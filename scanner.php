@@ -13,7 +13,7 @@ if (is_null($_SESSION["guest"])) {
     <meta name="description" content="Watch Igorot Dances" />
     <meta name="keywords" content="watch igorot dances ifugao bontoc kalinga kankanaey isneg ibaloi abra cordillera" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./assets/img/favicon.png" type="image/x-icon">
+    <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
     <link rel="stylesheet" href="res/css/styles.css">
@@ -50,7 +50,7 @@ if (is_null($_SESSION["guest"])) {
           <i class="fa fa-bars"></i>
         </div>
         <a href="scanner.php" id="logo">
-          <img src="./assets/img/logo.png" alt="Logo">
+          <img src="assets/img/logo.png" alt="Logo">
         </a>
         <div id="header_menu">
           <ul class="nav header_menu-list">
@@ -92,6 +92,7 @@ if (is_null($_SESSION["guest"])) {
       src="assets/condition/default.png"
       alt="Placeholder Image"
       style="display: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);"
+      ;
     />
 
     <div id="va-container">
@@ -242,7 +243,7 @@ if (is_null($_SESSION["guest"])) {
                         currentY += lineHeight;
 
                         // Stop rendering if text exceeds the box height
-                        if (currentY > centerY + boxHeight / 2 - padding)
+                        if (currentY > centerY + boxHeight / 2 - padding);
                       } else {
                         currentLine = testLine;
                       }
@@ -257,7 +258,7 @@ if (is_null($_SESSION["guest"])) {
                     currentY += lineHeight;
 
                     // Stop rendering if text exceeds the box height
-                    if (currentY > centerY + boxHeight / 2 - padding)
+                    if (currentY > centerY + boxHeight / 2 - padding);
                   });
                 }
               }
@@ -321,7 +322,6 @@ if (is_null($_SESSION["guest"])) {
                     noArtifactImage.style.opacity = 1;
                   }, 1000);
                 }, 2000);
-
               }
             })
             .catch((error) => {

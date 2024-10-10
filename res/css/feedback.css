@@ -63,7 +63,7 @@ body {
     font-size: 16px;
     text-decoration: none;
     display: inline-block;
-    margin: 5px;
+    margin-top: 0px;
     transition: background-color 0.3s ease-in-out;
   }
   
@@ -97,7 +97,8 @@ body {
 
   #message {
     font-size: 20px; /* Increase font size for the input text */
-    padding: 10px; /* Optional: Add padding for better text spacing */
+    padding: 0px; /* Optional: Add padding for better text spacing */
+    margin: 0px;
 }
 
 
@@ -649,9 +650,19 @@ body {
     #header {
       margin-bottom: -100px;
     }
+
+
+
+    .btn-red {
+      width: 70%;
+      display: block;
+      margin: 0 auto;
+      padding: 12px;
+      font-size: 1em;
+    }
   
     .fb-form-container {
-      padding: 10px;
+      padding: 15px;
     }
   
     .btn-radius {
@@ -741,6 +752,7 @@ body {
       margin-top: 5px;
       margin-left: 5px;
       margin-right: 5px;
+      width: 95%;
     }
   
     #footer {
@@ -770,5 +782,6 @@ body {
       text-align: center;
       margin-left: -60px;
     }
+
   }
   
