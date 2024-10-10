@@ -55,7 +55,7 @@ if (is_null($_SESSION["guest"])) {
             <i class="fa fa-bars"></i>
           </div>
           <a href="scanner.php" id="logo">
-            <img src="assets\img\logo.png" alt="Logo">
+            <img src="./assets/img/logo.png" alt="Logo">
           </a>
           <!--Begin: Menu-->
           <div id="header_menu">
@@ -223,7 +223,7 @@ if (is_null($_SESSION["guest"])) {
                     <div class="portfolio-wrap">
                       <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox" title="App 1">
+                        <a href="./assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox" title="App 1">
                           <i class="icofont-plus-circle"></i>
                         </a>
                         <a href="#" title="More Details">

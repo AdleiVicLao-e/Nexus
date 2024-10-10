@@ -41,9 +41,7 @@ if (is_null($_SESSION["guest"])) {
           </li>
           <div class="clearfix"></div>
       </div>
-      </li>
-      </ul>
-      <div class="clearfix"></div>
+        <div class="clearfix"></div>
     </div>
     <div id="wrapper">
       <div id="header">
@@ -52,7 +50,7 @@ if (is_null($_SESSION["guest"])) {
             <i class="fa fa-bars"></i>
           </div>
           <a href="scanner.php" id="logo">
-            <img src="assets\img\logo.png" alt="Logo">
+            <img src="./assets/img/logo.png" alt="Logo">
           </a>
           <!--Begin: Menu-->
           <div id="header_menu">
@@ -110,7 +108,7 @@ if (is_null($_SESSION["guest"])) {
                 <div class="dp-i-content">
                   <div class="dp-i-c-poster">
                     <div class="film-poster mb-2">
-                      <img class="film-poster-img" src="assets\img\igorot-dance.png" title="igorot-dance" alt="watch-igorot-dance">
+                      <img class="film-poster-img" src="./assets/img/igorot-dance.png" title="igorot-dance" alt="watch-igorot-dance">
                     </div>
                     <div class="block-rating" id="block-rating"></div>
                   </div>
@@ -373,7 +371,7 @@ if (is_null($_SESSION["guest"])) {
           </div>
           <div class="footer-logo-block">
             <a href="https://www.facebook.com/slumuseum" class="footer-logo">
-              <img src="assets\img\logo.png" alt="Logo footer">
+              <img src="./assets/img/logo.png" alt="Logo footer">
             </a>
             <p class="copyright">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
           </div>
