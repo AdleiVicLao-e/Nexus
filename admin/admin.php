@@ -78,24 +78,29 @@ if (isset($_SESSION["admin"])) {
         </div>
         <div class="right-container">
             <div class="artifacts">
+                <h2>Artifacts</h2>
                 <div class="tabs">
-                    <div class="tab active" onclick="openTab('search')">Search Artifact</div>
-                    <div class="tab" onclick="openTab('add')">Add Artifact</div>
-                    <div class="tab" onclick="openTab('add2')">Add Category</div>
-                    <div class="tab" onclick="openTab('upload')">Upload Media</div>
-                    <div class="tab" onclick="openTab('edit')">Edit Media</div>
+                    <div class="tab active" onclick="openTab('search')">
+                        Search Artifact
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="tab" onclick="openTab('add')">Add Artifact
+                        <img src="../assets/img/vase.png" alt="Vase Icon" class="icon">
+                    </div>
+                    <div class="tab" onclick="openTab('add2')">Add Category
+                        <i class="fas fa-archive"></i>
+                    </div>
                 </div>
                 <div id="search" class="tab-content active" style="background-color: #ffffff;">
                     <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Search artifact..."
-                            oninput="searchArtifact()">
+                        <input type="text" class="search-input" placeholder="Search artifact..." oninput="searchArtifact()">
                         <button class="search-button" onclick="searchArtifact()">Search</button>
                     </div>
                     <button id="toggle-multi-select" onclick="toggleMultiSelect()">Enable Multi-Select</button>
-                    <button id="delete-selected-button" style="display: none;"
-                        onclick="deleteSelectedArtifacts()">Delete Selected</button>
+                    <button id="delete-selected-button" style="display: none;" onclick="deleteSelectedArtifacts()">Delete Selected</button>
                     <div id="search-results"></div>
                 </div>
+        
                 <!-- Edit Popup Window -->
                 <div id="edit-modal" class="modal">
                     <div class="modal-content">
@@ -125,11 +130,11 @@ if (isset($_SESSION["admin"])) {
                             <textarea id="editScript" name="script"></textarea>
                             <br>
                             <button type="button" onclick="saveChanges()">Save</button>
-                            <button id="delBtn" type="button"
-                                onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
+                            <button id="delBtn" type="button" onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
                         </form>
                     </div>
                 </div>
+        
                 <div id="add" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
                     <div class="form-container">
                         <form action="../include/addArtifact.php" method="post">
@@ -169,7 +174,7 @@ if (isset($_SESSION["admin"])) {
                         </form>
                     </div>
                 </div>
-
+        
                 <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
                     <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
                         <p id="overlay-message"></p>
@@ -177,23 +182,20 @@ if (isset($_SESSION["admin"])) {
                         <button id="close-overlay">Okay</button>
                     </div>
                 </div>
+        
                 <div id="add2" class="tab-content">
                     <div class="form-container">
                         <form action="/include/addCategory.php" method="post">
-                            <!--add database here i think??? .php, action="-here-" "/include/addArtifact.php"-->
                             <h3 style="text-align: center;">Add New Section</h3>
-                            <!-- Form for Adding New Section -->
                             <div class="form-group">
                                 <label for="create-new-section">New Section Title:</label>
                                 <input type="text" id="create-new-section" name="new_section">
                             </div>
                             <div class="button-container">
-                                <button type="submit" name="action" value="create_section" class="btn">Create
-                                    Section</button>
+                                <button type="submit" name="action" value="create_section" class="btn">Create Section</button>
                             </div>
                             <h1> </h1>
                             <hr>
-                            <!-- Form for Adding New Catalog -->
                             <h3 style="text-align: center;">Add New Catalog</h3>
                             <div class="form-group">
                                 <label for="create-select-section">Choose Section:</label>
@@ -206,12 +208,10 @@ if (isset($_SESSION["admin"])) {
                                 <input type="text" id="create-new-catalog" name="new_catalog">
                             </div>
                             <div class="button-container">
-                                <button type="submit" name="action" value="create_catalog" class="btn">Create
-                                    Catalog</button>
+                                <button type="submit" name="action" value="create_catalog" class="btn">Create Catalog</button>
                             </div>
                             <h1> </h1>
                             <hr>
-                            <!-- Form for Adding New Sub Catalog -->
                             <h3 style="text-align: center;">Add New Subcatalog</h3>
                             <div class="form-group">
                                 <label for="create-select-catalog">Choose Catalog:</label>
@@ -223,55 +223,67 @@ if (isset($_SESSION["admin"])) {
                                 <label for="create-new-subcatalog">New Subcatalog Name:</label>
                                 <input type="text" id="create-new-subcatalog" name="new_subcatalog">
                             </div>
-
                             <div class="button-container">
-                                <button type="submit" name="action" value="create_subcatalog" class="btn">Create
-                                    Subcatalog</button>
+                                <button type="submit" name="action" value="create_subcatalog" class="btn">Create Subcatalog</button>
                             </div>
                         </form>
                     </div>
+
                 </div>
-                <div id="upload" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
-                    <br>
-                    <h3>Upload Media</h3>
-                    <form action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="media-title">Media Title:</label>
-                            <input type="text" id="media-title" name="media-title" required>
+                <div class="cordi-media"> <!-- Start of Cordilleran Performing Arts Media div -->
+                    <h2>Cordilleran Performing Arts Media</h2>
+                    <div class="tabs">
+                        <div class="tab active" onclick="openTab('upload')">
+                            Upload Media
+                            <i class="fas fa-upload"></i>
                         </div>
-                        <div class="form-group">
-                            <label for="media-desc">Media Description:</label>
-                            <textarea id="media-description" name="media-description" required></textarea>
+                        <div class="tab" onclick="openTab('edit')">
+                            Edit Media
+                            <i class="fas fa-edit"></i>
                         </div>
-                        <div class = "form-group">
-                            <label for="media-upload">Select Media:</label>
-                            <input type="file" id="media-upload" name="media-upload" required>
-                        </div>
-                        <button type="submit">Upload Media</button>
-                    </form>
-                </div>
-                <div id="edit" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
-                    <br>
-                    <h3>Edit Media</h3>
-                    <form action="/include/editMedia.php" method="post">
-                        <div class="form-group">
-                            <label for="media-name">Media Name:</label>
-                            <input type="text" id="media-name" name="media-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="media-description">Media Description:</label>
-                            <textarea id="media-description" name="media-description" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="media-file">Select New Media:</label>
-                            <input type="file" id="media-file" name="media-file">
-                        </div>
-                        <button type="submit">Edit Media</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </div>
+                    <div id="upload" class="tab-content active" style="background-color: #ffffff; margin-top: -20px;">
+                        <br>
+                        <h3>Upload Media</h3>
+                        <form action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="media-title">Media Title:</label>
+                                <input type="text" id="media-title" name="media-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="media-description">Media Description:</label>
+                                <textarea id="media-description" name="media-description" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="media-file">Select Media File:</label>
+                                <input type="file" id="media-file" name="media-file" required>
+                            </div>
+                            <button type="submit">Upload</button>
+                        </form>
+                    </div>
+            
+                    <div id="edit" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
+                        <h3>Edit Media</h3>
+                        <form action="../include/editMedia.php" method="post">
+                            <div class="form-group">
+                                <label for="media-id">Media ID:</label>
+                                <input type="text" id="media-id" name="media-id" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-media-title">New Media Title:</label>
+                                <input type="text" id="new-media-title" name="new-media-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-media-description">New Media Description:</label>
+                                <textarea id="new-media-description" name="new-media-description" required></textarea>
+                            </div>
+                            <button type="submit">Update Media</button>
+                        </form>
+                    </div>
+                </div> <!-- End of Cordilleran Performing Arts Media div -->
+            </div> <!-- End of artifacts div -->
+        </div> <!-- End of right-container div -->
+        
     <script src="/res/js/admin/admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Include Chart.js library -->

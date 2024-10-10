@@ -128,9 +128,54 @@ button, .search-button, #refreshBtn:hover {
 	margin-bottom: 20px;
 }
 
-.artifact-checkbox {
 
+.cordi-media {
+    margin-top: 20px;
+    padding: 15px;           /* Same padding */
+    margin-bottom: 20px;  
+    height: 100%;            /* Space below */
+    background-color: transparent; /* Background color for distinction */
 }
+
+.right-container .cordi-media .tabs {
+    display: flex;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 10px;
+}
+
+.cordi-media .tabs .tab {
+    display: flex;
+    cursor: pointer;
+    background-color: #f1f1f1; /* Default background for tabs */
+    padding: 10px;
+    height: 40px;
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.right-container .cordi-media .tabs .tab.active {
+    background-color: #fff; /* White background for active tab */
+    border-top: 3px solid #f6c500; /* Border color for active tab */
+    font-weight: bold; /* Bold font for active tab */
+}
+
+.right-container .cordi-media .tabs .tab-content {
+    display: none; /* Hide all tab contents by default */
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+}
+
+.right-container .cordi-media .tab-content.active {
+    display: block; /* Show the active tab content */
+    margin-top: -20px;
+}
+
+
+
+	.artifact-checkbox {
+
+	}
 
 .chart-container {
 	min-height: 300px;
@@ -345,6 +390,24 @@ button, .search-button, #refreshBtn:hover {
 	background-color: #e2e3e5;
 }
 
+.tab {
+    display: flex;
+    justify-content: space-between; /* Places text on the left and icon on the right */
+    align-items: center; /* Vertically aligns items */
+    padding: 10px; /* Optional: Add some padding for better spacing */
+}
+
+.tab i {
+    margin-left: 8px; /* Optional: Space between text and icon */
+}
+
+.tab .icon {
+    width: 16px; /* Adjust the size */
+    height: 16px;
+    vertical-align: middle; /* Align with text */
+    margin-left: 8px; /* Space between text and icon */
+}
+
 .tabs {
 	display: flex;
 	margin-bottom: 10px;
@@ -373,7 +436,7 @@ button, .search-button, #refreshBtn:hover {
 .right-container .artifacts .tabs {
 	display: flex;
 	cursor: pointer;
-	background-color: #f1f1f1;
+	background-color: transparent;
 	padding: 10px;
 }
 
