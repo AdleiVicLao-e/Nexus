@@ -1,10 +1,10 @@
 <?php
+session_start();
 if (isset($_SESSION["admin"])) {
   echo '<script>
     alert("Already logged in. Redirected to Admin Page.");
+    window.location.href="admin.php";
     </script>';
-} else {
-  session_start();
 }
 ?>
 <!DOCTYPE html>

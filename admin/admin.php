@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION["admin"])) {
   echo '<script>
-    alert("Logged in.");
+    console.log("User already logged in. Redirecting...");
     </script>';
 } else {
   echo '<script>
@@ -39,7 +39,7 @@ if (isset($_SESSION["admin"])) {
             <div class="greeting" style="margin-right: 30px;">
                 <div class="curator">Hi, Curator!</div>
                 <nav>
-                    <a href="admin/admin-login" aria-label="Logout">Logout</a>
+                    <a href="../include/logout" aria-label="Logout">Logout</a>
                 </nav>
             </div>
         </div>
@@ -125,7 +125,7 @@ if (isset($_SESSION["admin"])) {
                 </div>
                 <div id="add" class="tab-content">
                     <div class="form-container">
-                        <form action="/include/addArtifact.php" method="post">
+                        <form action="../include/addArtifact.php" method="post">
                             <div class="form-group">
                                 <label for="artifact-name">Artifact Name:</label>
                                 <input type="text" id="artifact-name" name="artifact-name" required>
@@ -156,7 +156,7 @@ if (isset($_SESSION["admin"])) {
                             </div>
                             <div class="form-group">
                                 <label for="media-upload">Upload Media:</label>
-                                <input type="file" id="media-upload" name="media-upload" accept="image/*,video/*">
+                                <input type="file" id="media-upload" name="media-upload">
                             </div>
                             <button type="submit">Add Artifact</button>
                         </form>
@@ -218,12 +218,12 @@ if (isset($_SESSION["admin"])) {
                 </div>
                 <div id="upload" class="tab-content">
                     <h3>Upload Media</h3>
-                    <form action="/include/uploadMedia.php" method="post" enctype="multipart/form-data">
+                    <form action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="media-upload">Select Media:</label>
                             <input type="file" id="media-upload" name="media-upload" required>
                         </div>
-                        <button type="submit" name="uploadType" value="general">Upload Media</button>
+                        <button type="submit">Upload Media</button>
                     </form>
                 </div>
                 <div id="edit" class="tab-content">
