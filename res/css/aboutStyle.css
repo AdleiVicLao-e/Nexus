@@ -636,7 +636,7 @@ a:hover {
     bottom: 0;
     width: 50px;
     transition: left ease-in-out 0.3s;
-    background: rgba(32, 35, 88, 0.6);
+    background: #073066a9;
     text-align: center;
   }
   

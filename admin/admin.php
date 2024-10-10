@@ -34,22 +34,34 @@ if (isset($_SESSION["admin"])) {
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <img src="../assets/img/logo.png" alt="Saint Louis University Logo"
-                style="width: 150px; height: auto; margin-left: 40px;">
-            <h3 class="dashboardTitle" style="margin-left: 30px;"> Admin Dashboard</h3>
-        </div>
-        <div class="greetings">
-            <img src="../res/images/user-image.png" alt="User Icon" aria-hidden="true">
-            <div class="greeting" style="margin-right: 30px;">
-                <div class="curator">Hi, Curator!</div>
-                <nav>
-                    <a href="../include/logout" aria-label="Logout">Logout</a>
-                </nav>
+<header>
+    <div class="logo">
+        <img src="../assets/img/logo.png" alt="Saint Louis University Logo" style="width: 150px; height: auto; margin-left: 40px;">
+        <h3 class="dashboardTitle" style="margin-left: 30px;"> Admin Dashboard</h3>
+    </div>
+    <div class="greetings" style="display: flex; align-items: center; margin-left:-30px">
+    <div style="position: relative; margin-right: 30px;">
+            <i class="fas fa-bell" style="font-size: 20px; cursor: pointer;" aria-label="Notifications" onclick="toggleNotifications()"></i>
+            <span style="position: absolute; top: -5px; right: -10px; width: 10px; height: 10px; background-color: red; border-radius: 50%; display: block;"></span>
+            <div id="notificationPopup" style="display: none; position: absolute; right: 0; top: 25px; background: white; border: 1px solid #ccc; border-radius: 5px; width: 250px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); z-index: 10;">
+                <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ccc;">Notifications</div>
+                <div style="padding: 10px; cursor: pointer;">New comment on your post</div>
+                <div style="padding: 10px; cursor: pointer;">New follower</div>
+                <div style="padding: 10px; cursor: pointer;">You have 3 new messages</div>
+                <div style="padding: 10px; cursor: pointer;">Your profile was viewed</div>
+                <div style="padding: 10px; cursor: pointer;">Reminder: Meeting at 3 PM</div>
             </div>
         </div>
-    </header>
+        <img src="../res/images/user-image.png" alt="User Icon" aria-hidden="true">
+        <div class="greeting" style="margin-right: 10px;">
+            <div class="curator">Hi, Curator!</div>
+            <nav>
+                <a href="../include/logout" aria-label="Logout">Logout</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
     <div class="main-container">
         <div class="left-container">
             <div class="analytics">
@@ -457,6 +469,21 @@ if (isset($_SESSION["admin"])) {
 
         });
         </script>
+
+<script>
+    function toggleNotifications() {
+        const popup = document.getElementById('notificationPopup');
+        popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
+    }
+
+    // Optional: Close the notification popup when clicking outside of it
+    window.onclick = function(event) {
+        const popup = document.getElementById('notificationPopup');
+        if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
+            popup.style.display = 'none';
+        }
+    }
+</script>
 </body>
 
 </html>

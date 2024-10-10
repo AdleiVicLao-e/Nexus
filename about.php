@@ -4,6 +4,12 @@ if (is_null($_SESSION["guest"])) {
   header("Location: ../guest-login.php");
 }
 ?>
+<?php
+session_start();
+if (is_null($_SESSION["guest"])) {
+  header("Location: ../guest-login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -386,24 +392,21 @@ if (is_null($_SESSION["guest"])) {
                 <div class="row">
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
                     <div class="member">
-                      <img src="assets\img\team\trisha.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Trisha Denise Garas.jpg" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Trisha Denise Garas</h4>
                           <span>Project Lead</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=trishaagaras@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                                <i class="icofont-ui-email"></i>
+                            </a>                                                  
+                          <a href="https://www.linkedin.com/in/trisha-garas" target="_blank">
                             <i class="icofont-linkedin"></i>
+                          </a>
+                          <a href="">
+                            <i class="icofont-paper-clip"></i>
                           </a>
                         </div>
                       </div>
@@ -411,176 +414,152 @@ if (is_null($_SESSION["guest"])) {
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
                     <div class="member">
-                      <img src="assets\img\team\adlei.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Adlei Vic Lao-e.png" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Adlei Vic Lao-e</h4>
                           <span>Lead Developer</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-linkedin"></i>
-                          </a>
-                        </div>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=adleiviclaoe@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                                <i class="icofont-ui-email"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/adlei-is-adlei" target="_blank">
+                              <i class="icofont-linkedin"></i>
+                            </a>
+                            <a href="">
+                                <i class="icofont-paper-clip"></i>
+                            </a>
+                          </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
                     <div class="member">
-                      <img src="assets\img\team\pola.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Paula Laban.jpg" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Paula Britanny Laban</h4>
                           <span>Full-stack Developer</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-linkedin"></i>
-                          </a>
-                        </div>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=redthecolor1801@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
+                                <i class="icofont-ui-email"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/paula-laban" target="_blank">
+                              <i class="icofont-linkedin"></i>
+                            </a>
+                            <a href="">
+                                <i class="icofont-paper-clip"></i>
+                            </a>
+                          </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
                     <div class="member">
-                      <img src="assets\img\team\kenshin.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Ram Kenshin Ayan.jpg" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Ram Kenshin Ayan</h4>
                           <span>Back-end Developer</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-linkedin"></i>
-                          </a>
-                        </div>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ken.dacquigan@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                                <i class="icofont-ui-email"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/ram-kenshin-ayan-7806a6305/" target="_blank">
+                              <i class="icofont-linkedin"></i>
+                            </a>
+                            <a href="https://ramkenshinayan.github.io/portfolio/" target="_blank">
+                                <i class="icofont-link"></i>
+                            </a>
+                          </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
                     <div class="member">
-                      <img src="assets\img\team\ben.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Jieben Kayla Abaya.jpg" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Jieben Kayla Abaya</h4>
                           <span>Front-end Developer</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-linkedin"></i>
-                          </a>
-                        </div>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jiebenkaylaabaya04@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                                <i class="icofont-ui-email"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/jieben-kayla-abaya-b46a11249/" target="_blank">
+                                <i class="icofont-linkedin"></i>
+                            </a>
+                            <a href="https://jkdeveloper.pages.dev/" target="_blank">
+                                <i class="icofont-link"></i>
+                            </a>
+                          </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
                     <div class="member">
-                      <img src="assets\img\team\valiant.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Valiant Mi-ing.jpg" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Valiant Mi-ing</h4>
                           <span>System Architect</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-linkedin"></i>
-                          </a>
-                        </div>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=vhanzdeass31@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                                <i class="icofont-ui-email"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/valiant-mi-ing"  target="_blank">
+                              <i class="icofont-linkedin"></i>
+                            </a>
+                            <a href="https://drive.google.com/file/d/1VLrc2jcfll2vY3V2aelGVcNsaS_qvbKv/view?usp=sharing" target="_blank">
+                                <i class="icofont-paper-clip"></i>
+                            </a>
+                          </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
                     <div class="member">
-                      <img src="assets\img\team\gail.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Andrei Gail Lumbas.jpg" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Andrei Gail Lumbas</h4>
                           <span>Quality Assurance Engineer</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-linkedin"></i>
-                          </a>
-                        </div>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Gail.lumbas50@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                                <i class="icofont-ui-email"></i>
+                            </a>
+                            <a href="https://drive.google.com/file/d/1p9DWxBB-_MqeVR8KXXcCjIQQUvs-6spx/view?usp=drivesdk" target="_blank">
+                                <i class="icofont-paper-clip"></i>
+                            </a>
+                          </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
                     <div class="member">
-                      <img src="assets\img\team\lindolf.png" class="img-fluid" alt="">
+                      <img src="assets\img\team\Lindolf Agustin.png" class="img-fluid" alt="">
                       <div class="member-info">
                         <div class="member-info-content">
                           <h4>Lindolf Bert Agustin</h4>
                           <span>Quality Assurance Engineer</span>
                         </div>
                         <div class="social">
-                          <a href="">
-                            <i class="icofont-facebook"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-email"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-github"></i>
-                          </a>
-                          <a href="">
-                            <i class="icofont-linkedin"></i>
-                          </a>
-                        </div>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lbagustin3@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                                <i class="icofont-ui-email"></i>
+                            </a>
+                            <a href="">
+                              <i class="icofont-linkedin"></i>
+                            </a>
+                            <a href="">
+                                <i class="icofont-paper-clip"></i>
+                            </a>
+                          </div>
                       </div>
                     </div>
                   </div>
