@@ -236,6 +236,14 @@ if (isset($_SESSION["admin"])) {
                     <h3>Upload Media</h3>
                     <form action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
                         <div class="form-group">
+                            <label for="media-title">Media Title:</label>
+                            <input type="text" id="media-title" name="media-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="media-desc">Media Description:</label>
+                            <textarea id="media-description" name="media-description" required></textarea>
+                        </div>
+                        <div class = "form-group">
                             <label for="media-upload">Select Media:</label>
                             <input type="file" id="media-upload" name="media-upload" required>
                         </div>

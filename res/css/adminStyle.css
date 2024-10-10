@@ -505,6 +505,19 @@ input[type="file"] {
 	font-size: 15px;
 }
 
+.right-container input[type="text"], input[type="file"], textarea {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100% - 20px); /* Subtracting the 10px margins from the total width */
+}
+
+.right-container label, h3 {
+    display: inline-block;  /* Allows margin to be applied while keeping the label inline */
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
 #search-results {
 	margin-top: 10px;
 }
