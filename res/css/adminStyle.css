@@ -76,6 +76,10 @@ header nav a:hover {
 	text-decoration: underline;
 }
 
+#tab-content :active {
+	background-color: #ffffff;
+}
+
 button, .search-button, #refreshBtn {
 	background-color: #FFFFFF;
 	color: #073066;
@@ -396,6 +400,7 @@ button, .search-button, #refreshBtn:hover {
 
 .right-container .artifacts .tab-content.active {
 	display: block;
+	margin-top: -20px;
 }
 
 .right-container .artifacts #search .search-container {
@@ -404,7 +409,8 @@ button, .search-button, #refreshBtn:hover {
 	align-items: center;
 	gap: 10px;
 	width: 100%;
-	background-color: #f1f1f1;
+	margin-top: -20px;
+	background-color: #ffffff;
 }
 
 .right-container .artifacts #search .search-container .search-input {
@@ -455,9 +461,10 @@ button, .search-button, #refreshBtn:hover {
 	flex-direction: column;
 	padding-top: 15px;
 	padding-right: 15px;
-	background-color: #f1f1f1;
+	background-color: #ffffff;
 	padding: 10px;
 	box-sizing: border-box;
+	margin-top: -20px;
 }
 
 .form-group {

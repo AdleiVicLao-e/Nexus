@@ -85,7 +85,7 @@ if (isset($_SESSION["admin"])) {
                     <div class="tab" onclick="openTab('upload')">Upload Media</div>
                     <div class="tab" onclick="openTab('edit')">Edit Media</div>
                 </div>
-                <div id="search" class="tab-content active">
+                <div id="search" class="tab-content active" style="background-color: #ffffff;">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Search artifact..."
                             oninput="searchArtifact()">
@@ -130,7 +130,7 @@ if (isset($_SESSION["admin"])) {
                         </form>
                     </div>
                 </div>
-                <div id="add" class="tab-content">
+                <div id="add" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
                     <div class="form-container">
                         <form action="../include/addArtifact.php" method="post">
                             <div class="form-group">
@@ -231,7 +231,8 @@ if (isset($_SESSION["admin"])) {
                         </form>
                     </div>
                 </div>
-                <div id="upload" class="tab-content">
+                <div id="upload" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
+                    <br>
                     <h3>Upload Media</h3>
                     <form action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
                         <div class="form-group">
@@ -241,7 +242,8 @@ if (isset($_SESSION["admin"])) {
                         <button type="submit">Upload Media</button>
                     </form>
                 </div>
-                <div id="edit" class="tab-content">
+                <div id="edit" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
+                    <br>
                     <h3>Edit Media</h3>
                     <form action="/include/editMedia.php" method="post">
                         <div class="form-group">

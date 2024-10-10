@@ -1,16 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION["admin"])) {
-  echo '<script>
-    alert("Logged in.");
-    </script>';
-} else {
-  echo '<script>
-    alert("Not logged in. Redirected to Admin Login.");
-    window.location.href="admin-login.php";
-    </script>';
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +15,8 @@ if (isset($_SESSION["admin"])) {
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
 </head>
 
@@ -43,7 +32,7 @@ if (isset($_SESSION["admin"])) {
             <div class="greeting" style="margin-right: 30px;">
                 <div class="curator">Hi, Curator!</div>
                 <nav>
-                    <a href="admin/admin-login" aria-label="Logout">Logout</a>
+                    <a href="../include/logout" aria-label="Logout">Logout</a>
                 </nav>
             </div>
         </div>
@@ -83,7 +72,7 @@ if (isset($_SESSION["admin"])) {
                     <div class="tab" onclick="openTab('upload')">Upload Media</div>
                     <div class="tab" onclick="openTab('edit')">Edit Media</div>
                 </div>
-                <div id="search" class="tab-content active">
+                <div id="search" class="tab-content active" style="background-color: #ffffff;">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Search artifact..."
                             oninput="searchArtifact()">
@@ -128,9 +117,9 @@ if (isset($_SESSION["admin"])) {
                         </form>
                     </div>
                 </div>
-                <div id="add" class="tab-content">
+                <div id="add" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
                     <div class="form-container">
-                        <form action="/include/addArtifact.php" method="post">
+                        <form action="../include/addArtifact.php" method="post">
                             <div class="form-group">
                                 <label for="artifact-name">Artifact Name:</label>
                                 <input type="text" id="artifact-name" name="artifact-name" required>
@@ -161,10 +150,18 @@ if (isset($_SESSION["admin"])) {
                             </div>
                             <div class="form-group">
                                 <label for="media-upload">Upload Media:</label>
-                                <input type="file" id="media-upload" name="media-upload" accept="image/*,video/*">
+                                <input type="file" id="media-upload" name="media-upload">
                             </div>
                             <button type="submit">Add Artifact</button>
                         </form>
+                    </div>
+                </div>
+
+                <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+                        <p id="overlay-message"></p>
+                        <div id="qrcode" style="margin-top: 20px;"></div>
+                        <button id="close-overlay">Okay</button>
                     </div>
                 </div>
                 <div id="add2" class="tab-content">
@@ -221,17 +218,19 @@ if (isset($_SESSION["admin"])) {
                         </form>
                     </div>
                 </div>
-                <div id="upload" class="tab-content">
+                <div id="upload" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
+                    <br>
                     <h3>Upload Media</h3>
-                    <form action="/include/uploadMedia.php" method="post" enctype="multipart/form-data">
+                    <form action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="media-upload">Select Media:</label>
                             <input type="file" id="media-upload" name="media-upload" required>
                         </div>
-                        <button type="submit" name="uploadType" value="general">Upload Media</button>
+                        <button type="submit">Upload Media</button>
                     </form>
                 </div>
-                <div id="edit" class="tab-content">
+                <div id="edit" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
+                    <br>
                     <h3>Edit Media</h3>
                     <form action="/include/editMedia.php" method="post">
                         <div class="form-group">
@@ -259,75 +258,24 @@ if (isset($_SESSION["admin"])) {
     document.addEventListener("DOMContentLoaded", function() {
         const userTableContainer = document.getElementById("userTableContainer");
         const refreshBtn = document.getElementById("refreshBtn");
-        const dateRangePicker = document.getElementById("dateRangePicker");
-
-        $(dateRangePicker).daterangepicker();
-
-        
-        document.addEventListener("DOMContentLoaded", function() {
-    const userTableContainer = document.getElementById("userTableContainer");
-    const refreshBtn = document.getElementById("refreshBtn");
-    const dateRangePicker = document.getElementById("dateRangePicker");
-
-    // Initialize the date range picker (you can use a library like daterangepicker.js for better UI)
-    $(dateRangePicker).daterangepicker();
-
-    // Function to fetch and display user data based on selected date range
-    function fetchUserData(dateRange = '') {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "../include/get-user.php", true); // Adjusted path to point to the include folder
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            if (this.status === 200) {
-                const data = JSON.parse(this.responseText); // Parse JSON response
-                let tableRows = '';
-
-                if (data.length > 0) {
-                    // Loop through each user and create table rows
-                    data.forEach(user => {
-                        tableRows += `
-                            <tr>
-                                <td>${user.user_number}</td>
-                                <td>${user.user_name}</td>
-                                <td>${user.user_school}</td>
-                                <td>${user.time}</td>
-                            </tr>
-                        `;
-                    });
+        // Function to fetch and display user data
+        function fetchUserData() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "../include/get-user.php", true); // Adjusted path to point to the include folder
+            xhr.onload = function() {
+                if (this.status === 200) {
+                    userTableContainer.innerHTML = this
+                    .responseText; // Populate the container with the response
+                    createChart(); // Call the chart creation function after fetching user data
                 } else {
-                    tableRows = `<tr><td colspan="4">No users logged in for this date range</td></tr>`;
+                    userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
                 }
-
-                // Populate the table with the response
-                userTableContainer.querySelector("tbody").innerHTML = tableRows;
-                createChart(); // Call the chart creation function after fetching user data
-            } else {
-                userTableContainer.innerHTML = "<p>Error fetching data.</p>";
-            }
-        };
-        xhr.onerror = function() {
-            userTableContainer.innerHTML = "<p>Request failed.</p>";
-        };
-
-        // Send the selected date range in the request
-        xhr.send(`datefilter=${dateRange}`);
-    }
-
-    // Event listener for date range picker changes
-    $(dateRangePicker).on('apply.daterangepicker', function(ev, picker) {
-        const selectedDates = `${picker.startDate.format('MM/DD/YYYY')} - ${picker.endDate.format('MM/DD/YYYY')}`;
-        fetchUserData(selectedDates); // Fetch data for the selected date range
-    });
-
-    // Event listener for refresh button
-    refreshBtn.addEventListener("click", function() {
-        fetchUserData(); // Fetch data without date filter (default query)
-    });
-
-    // Fetch user data on initial load
-    fetchUserData();
-});
-
+            };
+            xhr.onerror = function() {
+                userTableContainer.innerHTML = " < p > Request failed. < /p>";
+            };
+            xhr.send();
+        }
         async function fetchData() {
             try {
                 const response = await fetch('../include/chart.php'); // Adjust the path
@@ -349,7 +297,7 @@ if (isset($_SESSION["admin"])) {
                                     "#bdcf32", 
                                     "#87bc45", 
                                     "#27aeef", 
-                                    "#b33dc6", 
+                                    "#b33dc6", // Color 9
                                     "#c94800", "#22beb6", "#727900"
                                 ],
                                 borderColor: 'white',
