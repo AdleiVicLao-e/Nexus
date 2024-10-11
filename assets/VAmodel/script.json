@@ -36,6 +36,10 @@
       "artifact_name": "Head taker 1",
       "script": "This is the first of the 'head taker' carvings, symbolizing ancient practices and warrior culture."
     },
+    "487": {
+      "artifact_name": "Baey / Beey",
+      "script": "These structures are usually of a somewhat makeshift nature but typically feature a ridgepole with a two-sided roof, though occasionally a single-sloped \"shed\" roof is used. The walls are never made of wood, but are commonly constructed from grass thatch, reeds, or sawali, and sometimes bark. The type of flooring varies based on the building's permanence—ranging from a reed mat laid directly on the ground, to a raised platform separate from the main structure, or a more permanent floor supported by poles tied to the uprights."
+    },
     "0": {
       "artifact_name": "Hello",
       "script": "Welcome! to get started, scan the qr codes available beside the artifacts. You can view specific   videos   for that artifact and by tapping me you can hear more information about   that artifact!"
