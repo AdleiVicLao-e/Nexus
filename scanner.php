@@ -83,18 +83,6 @@ if (is_null($_SESSION["guest"])) {
       alt="No Artifact Found"
     />
 
-    <div id="conditionLabel">
-      Condition
-    </div>
-
-    <img
-      id="imgCondition"
-      src="assets/condition/default.png"
-      alt="Placeholder Image"
-      style="display: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);"
-      ;
-    />
-
     <div id="va-container">
       <canvas id="va-canvas"></canvas>
     </div>
@@ -138,8 +126,6 @@ if (is_null($_SESSION["guest"])) {
         const canvas = document.getElementById("canvas");
         const canvasContext = canvas.getContext("2d");
         const noArtifactImage = document.getElementById("noArtifactImage");
-        const imgCondition = document.getElementById("imgCondition");
-        const conditionLabel = document.getElementById("conditionLabel");
         const watchButton = document.getElementById("watchVideosButton");
         const audio = document.getElementById("lightbulbAudio");
 
@@ -274,8 +260,6 @@ if (is_null($_SESSION["guest"])) {
             } else {
               // If no code detected, clear artifact info
               artifactInfo = "";
-              conditionLabel.style.display = "none";
-              imgCondition.style.display = "none";
               displayBox = false;
               noArtifactImage.style.animation = "none";
             }
@@ -300,10 +284,6 @@ if (is_null($_SESSION["guest"])) {
                 noArtifactImage.style.display = "none";
                 displayBox = true;
 
-                //Show condition
-                let imageValue = data["Condition"] || "default";
-                changeImage(imageValue);
-
                 // Show the watch button after the first scan
                 if (!firstScan) {
                   firstScan = true; // Mark first scan completed
@@ -327,8 +307,6 @@ if (is_null($_SESSION["guest"])) {
             .catch((error) => {
               console.error("Error fetching artifact info:", error);
               artifactInfo = "Error fetching artifact info";
-              conditionLabel.style.display = "none";
-              imgCondition.style.display = "none";
             });
         }
 
@@ -338,29 +316,6 @@ if (is_null($_SESSION["guest"])) {
           overlay.style.display = "flex";
 
           audio.play();
-        }
-
-        // Change the image according to the condition
-        function changeImage(value) {
-          if (value.includes("No problem")) {
-            imgCondition.src = "/assets/condition/no_problem.png";
-          } else if (
-            value.includes("crack") ||
-            value.includes("cracks") ||
-            value.includes("breakage") ||
-            value.includes("broken")
-          ) {
-            imgCondition.src = "/assets/condition/with_breakage.png";
-          } else if (value.includes("holes") || value.includes("hole")) {
-            imgCondition.src = "assets/condition/holes.png";
-          } else if (value.includes("rotten") || value.includes("rot")) {
-            imgCondition.src = "assets/condition/rotten.png";
-          } else {
-            imgCondition.src = "assets/condition/default.png";
-          }
-
-          conditionLabel.style.display = "block";
-          imgCondition.style.display = "block";
         }
 
         document.getElementById("exitButton").addEventListener("click", function() {

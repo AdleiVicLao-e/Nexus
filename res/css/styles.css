@@ -1241,34 +1241,6 @@ a-plane {
 		opacity: 0.8; 
 	}
 
-	#imgCondition {
-		max-width: 50%;
-		height: 72px;
-		position: absolute;
-		top: 85px;
-		right: 10px;
-		z-index: 5;
-		border-radius: 5px;
-		background-image: url('/assets/img/button.png'); 
-		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-	}
-
-	#conditionLabel {
-		position: absolute;
-		top: 165px;
-		font-family: 'Inter', sans-serif;	
-		right: 10px;
-		z-index: 5;
-		color: white;
-		font-size: 12px;
-		font-weight: bold;
-		background-image: url('/assets/img/button.png'); 
-		padding: 5px;
-		border-radius: 5px;
-		display: none;
-		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-	}
-
 	@keyframes shake {
 		0% {
 			transform: translate(-50%, -50%) translateX(-10px);
