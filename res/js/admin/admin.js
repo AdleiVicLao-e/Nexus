@@ -6,7 +6,7 @@
 
 // Function to fetch and populate artifact options (Sections, Catalogs, Subcatalogs)
 function fetchArtifactOptions() {
-    fetch('/include/get.php')
+    fetch('../include/get.php')
         .then(response => response.json())
         .then(data => {
             const sectionSelect = document.getElementById('section');
@@ -40,7 +40,7 @@ function updateCatalogOptions(sectionId) {
     const subCatalogSelect = document.getElementById('sub-catalog');
 
     if (sectionId) {
-        fetch('/include/get.php?section_id=' + sectionId)
+        fetch('../include/get.php?section_id=' + sectionId)
             .then(response => response.json())
             .then(data => {
                 catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
@@ -78,7 +78,7 @@ function updateSubCatalogOptions(catalogId) {
     const subCatalogSelect = document.getElementById('sub-catalog');
 
     if (catalogId) {
-        fetch('/include/get.php?catalog_id=' + catalogId)
+        fetch('../include/get.php?catalog_id=' + catalogId)
             .then(response => response.json())
             .then(data => {
                 subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
@@ -114,7 +114,7 @@ document.getElementById('addArtifactForm').addEventListener('submit', function(e
 
     var formData = new FormData(this);
 
-    fetch('/include/addArtifact.php', {
+    fetch('../include/addArtifact.php', {
     method: 'POST',
     body: formData
 })
@@ -148,7 +148,7 @@ document.getElementById('addArtifactForm').addEventListener('submit', function(e
     if (qrCodeCanvas) {
     var dataURL = qrCodeCanvas.toDataURL("image/png");
 
-    fetch('/include/saveQRCode.php', {
+    fetch('../include/saveQRCode.php', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json'
@@ -222,7 +222,7 @@ function displayResults(data) {
         const listItem = document.createElement('li');
 
         listItem.innerHTML = `
-            <input type="checkbox" class="artifact-checkbox" data-id="${item['ID']}" style="display: ${isMultiSelectEnabled ? 'inline' : 'none'};">
+            <input type="checkbox" class="artifact-checkbox" data-id="${item['ID']}" style="    display: ${isMultiSelectEnabled ? 'inline' : 'none'};">
             ${item['Name']}<br>
         `;
 
@@ -431,7 +431,7 @@ function handleEditSectionChange(e) {
     const subcatalogSelect = document.getElementById('editSubcatalog');
 
     if (sectionId) {
-        fetch('/include/get.php?section_id=' + sectionId)
+        fetch('../include/get.php?section_id=' + sectionId)
             .then(response => response.json())
             .then(data => {
                 catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
@@ -462,7 +462,7 @@ function handleEditSectionChange(e) {
 function fetchCatalogs(selectedSectionId, selectedCatalogId, callback) {
     if (!selectedSectionId) return;
 
-    fetch('/include/get.php?section_id=' + selectedSectionId)
+    fetch('../include/get.php?section_id=' + selectedSectionId)
         .then(response => response.json())
         .then(data => {
             const catalogSelect = document.getElementById('editCatalog');
@@ -508,7 +508,7 @@ function handleEditCatalogChange(e) {
 function fetchSubcatalogs(selectedCatalogId, selectedSubcatalogId) {
     if (!selectedCatalogId) return;
 
-    fetch('/include/get.php?catalog_id=' + selectedCatalogId)
+    fetch('../include/get.php?catalog_id=' + selectedCatalogId)
         .then(response => response.json())
         .then(data => {
             const subcatalogSelect = document.getElementById('editSubcatalog');

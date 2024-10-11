@@ -205,7 +205,7 @@ if (isset($_SESSION["admin"])) {
 
                 <div id="add2" class="tab-content">
                     <div class="form-container">
-                        <form action="/include/addCategory.php" method="post">
+                        <form action="../include/addCategory.php" method="post">
                             <h3 style="text-align: center;">Add New Section</h3>
                             <div class="form-group">
                                 <label for="create-new-section">New Section Title:</label>
@@ -425,7 +425,7 @@ if (isset($_SESSION["admin"])) {
             fetchUserData();
             // Function to fetch section data for a dropdown
             function fetchSectionData() {
-                fetch('/include/get.php') // Adjust the path if necessary
+                fetch('../include/get.php') // Adjust the path if necessary
                     .then(response => response.json()).then(data => {
                         const sectionSelect = document.getElementById("create-select-section");
                         const sections = data.sections;
@@ -441,7 +441,7 @@ if (isset($_SESSION["admin"])) {
             }
             // Function to fetch catalog data for a dropdown
             function fetchCatalogData() {
-                fetch('/include/get.php') // Adjust the path if necessary
+                fetch('../include/get.php') // Adjust the path if necessary
                     .then(response => response.json()).then(data => {
                         const catalogSelect = document.getElementById("create-select-catalog");
                         const catalogues = data.catalogues;
