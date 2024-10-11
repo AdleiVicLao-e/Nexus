@@ -421,7 +421,7 @@ if (is_null($_SESSION["guest"])) {
                             <a href="https://www.linkedin.com/in/adlei-is-adlei" target="_blank">
                               <i class="icofont-linkedin"></i>
                             </a>
-                            <a href="">
+                            <a href="https://drive.google.com/file/d/1nfZgXHZ4IsdDEojLkNNfNCwrhy3aPqev/view?usp=drivesdk" target="_blank">
                                 <i class="icofont-paper-clip"></i>
                             </a>
                           </div>
@@ -443,7 +443,7 @@ if (is_null($_SESSION["guest"])) {
                             <a href="https://www.linkedin.com/in/paula-laban" target="_blank">
                               <i class="icofont-linkedin"></i>
                             </a>
-                            <a href="">
+                            <a href="https://drive.google.com/file/d/12yMA9DfDiBeu5DfSGUDvh8i6SYO0vW1z/view?usp=sharing" target="_blank">
                                 <i class="icofont-paper-clip"></i>
                             </a>
                           </div>
@@ -547,10 +547,7 @@ if (is_null($_SESSION["guest"])) {
                             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lbagustin3@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
                                 <i class="icofont-ui-email"></i>
                             </a>
-                            <a href="">
-                              <i class="icofont-linkedin"></i>
-                            </a>
-                            <a href="">
+                            <a href="https://drive.google.com/file/d/18AM2AWu6KhxcS6oNWx0GAiVIgU5pIhQh/view?usp=sharing" target="_blank">
                                 <i class="icofont-paper-clip"></i>
                             </a>
                           </div>
