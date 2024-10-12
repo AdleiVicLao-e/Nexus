@@ -68,3 +68,4 @@ if (in_array($fileType, $allowedTypes)) {
         alert("Invalid media file type. Only MP4, WebM, and OGG are allowed.")
         </script>';
 }
+?>
