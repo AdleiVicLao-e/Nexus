@@ -16,7 +16,7 @@ if (is_null($_SESSION["guest"])) {
     <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
-    <link rel="stylesheet" href="res/css/styles.css">
+    <link rel="stylesheet" href="res\css\styles.css">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script src="res/js/client/jsQR.js"></script>
@@ -74,7 +74,6 @@ if (is_null($_SESSION["guest"])) {
   </head>
   <body>
     <!-- AR Elements -->
-
     <video id="video" autoplay></video>
     <canvas id="canvas"></canvas>
     <img
@@ -94,10 +93,8 @@ if (is_null($_SESSION["guest"])) {
 
     <!-- Add an audio element -->
     <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
-
-    <button id="watchVideosButton" onclick="window.location.href='igorot-dances.php';">
-    Watch Videos
-    </button>
+    
+    <button id="watchVideos" onclick="redirectToVideo();">Watch Videos</button>
 
     <!-- Overlay with the info box -->
     <div class="overlay" id="infoOverlay">
@@ -126,7 +123,7 @@ if (is_null($_SESSION["guest"])) {
         const canvas = document.getElementById("canvas");
         const canvasContext = canvas.getContext("2d");
         const noArtifactImage = document.getElementById("noArtifactImage");
-        const watchButton = document.getElementById("watchVideosButton");
+        const watchButton = document.getElementById("watchVideos");
         const audio = document.getElementById("lightbulbAudio");
 
         let artifactInfo = "";
@@ -172,6 +169,8 @@ if (is_null($_SESSION["guest"])) {
             if (code) {
               const artifactId = code.data;
               
+              currentArtifactId = artifactId;
+
               handleArtifact(artifactId);
               fetchArtifactInfo(artifactId);
               onQRCodeScanned();
@@ -333,6 +332,20 @@ if (is_null($_SESSION["guest"])) {
               alert("Please use your mobile phone to access this site.");
             }, 100); 
           }
+        }
+
+        // Variable to store the current artifact ID
+        let currentArtifactId = null;
+
+        // Function to redirect the user to the video player page with the artifactId
+        function redirectToVideo() {
+            if (currentArtifactId) {
+                // Ensure the correct artifact ID is passed in the URL for the demo-player page
+                window.location.href = `demo-player.php?artifact_id=${currentArtifactId}`;
+            } else {
+                // Handle the case where no artifact is scanned
+                alert("No artifact has been scanned yet.");
+            }
         }
 
         // Start the video stream when the page loads

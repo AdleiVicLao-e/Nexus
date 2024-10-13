@@ -933,7 +933,7 @@ a-plane {
 	}
 
 	.floating-button.left,
-	.watchVideosButton {
+	.watchVideos {
 		display: none;
 
 	}
@@ -1218,7 +1218,7 @@ a-plane {
 		}
 	}
 
-	#watchVideosButton {
+	#watchVideos {
 		position: fixed;
 		bottom: 20px;  
 		left: 50%;     
@@ -1237,7 +1237,7 @@ a-plane {
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 	}
 	
-	#watchVideosButton:hover {
+	#watchVideos:hover {
 		opacity: 0.8; 
 	}
 
@@ -2044,7 +2044,7 @@ a-plane {
 }
 
 @media (min-width: 240px) and (max-width: 479px) {
-		#watchVideosButton {
+		#watchVideos {
 		position: fixed;
 		bottom: 20px;  
 		left: 50%;     
@@ -2067,7 +2067,7 @@ a-plane {
 		display: none;
 	}
 	
-	#watchVideosButton:hover {
+	#watchVideos:hover {
 		opacity: 0.8; 
 	}
 
