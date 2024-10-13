@@ -14,9 +14,6 @@ $subCatalogId = isset($_POST['sub-catalog']) && $_POST['sub-catalog'] !== '' ? $
 $description = isset($_POST['description']) ? $_POST['description'] : '';
 $condition = isset($_POST['condition']) ? $_POST['condition'] : '';
 
-$sql = "INSERT INTO artifact_info (artifact_id, section_id, catalogue_id, subcat_id, name, description, `condition`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
-
 // Upload Media
 if (isset($_FILES['media-upload'])) {
     $file = $_FILES['media-upload'];
@@ -48,32 +45,6 @@ if (isset($_FILES['media-upload'])) {
 
             $uploadFilePath = $uploadDir . $fileName . "." . $fileExt;
             if (move_uploaded_file($fileTmpName, $uploadFilePath)) {
-                // Save to JSON
-                $mediaDetails = [
-                    'artifact_id' => $artifactId,
-                    'artifact_name' => $artifactName,
-                    'description' => $description,
-                    'condition' => $condition,
-                    'file_path' => $uploadFilePath,
-                    'file_name' => $fileName,
-                    'file_size' => $fileSize,
-                    'file_type' => $fileType,
-                    'upload_time' => date('Y-m-d H:i:s')
-                ];
-
-                $jsonFile = '../assets/videos/specific-media.json';
-                $existingData = [];
-
-                if (file_exists($jsonFile)) {
-                    $existingData = json_decode(file_get_contents($jsonFile), true);
-                }
-
-                // Append new media details
-                $existingData[] = $mediaDetails;
-
-                // Save updated data back to JSON file
-                file_put_contents($jsonFile, json_encode($existingData, JSON_PRETTY_PRINT));
-
                 echo '<script>
                     window.location.href="../admin/admin.php";
                     alert("File successfully uploaded!");
@@ -98,8 +69,11 @@ if (isset($_FILES['media-upload'])) {
     }
 }
 
+$sql = "INSERT INTO artifact_info (artifact_id, section_id, catalogue_id, subcat_id, name, description, `condition`, media_path) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param("iiiisss", $newArtifactId, $sectionId, $catalogId, $subCatalogId, $artifactName, $description, $condition);
+$stmt->bind_param("iiiissss", $newArtifactId, $sectionId, $catalogId, $subCatalogId, $artifactName, $description, $condition, $uploadFilePath);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Artifact successfully added', 'artifact_id' => $newArtifactId]);
