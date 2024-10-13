@@ -212,16 +212,16 @@ if (is_null($_SESSION["guest"])) {
                   <div class="col-lg-12">
                     <ul id="portfolio-flters">
                       <li data-filter="*" class="filter-active">All</li>
-                      <li data-filter=".filter-app">App</li>
-                      <li data-filter=".filter-card">Card</li>
-                      <li data-filter=".filter-web">Web</li>
+                      <li data-filter=".filter-app">Filming</li>
+                      <li data-filter=".filter-card">Coding</li>
+                      <li data-filter=".filter-web">Meeting</li>
                     </ul>
                   </div>
                 </div>
                 <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                     <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
+                      <img src="../assets/img/folio/Visiting.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
                         <a href="./assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox" title="App 1">
                           <i class="icofont-plus-circle"></i>
@@ -231,14 +231,14 @@ if (is_null($_SESSION["guest"])) {
                         </a>
                       </div>
                       <div class="portfolio-info">
-                        <h4>App 1</h4>
-                        <p>App</p>
+                        <h4>Visiting the Museum</h4>
+                        <p>Description here</p>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 portfolio-item filter-web">
                     <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
+                      <img src="../assets/img/folio/Filming.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
                         <a href="assets/img/portfolio/portfolio-2.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3">
                           <i class="icofont-plus-circle"></i>
@@ -248,14 +248,14 @@ if (is_null($_SESSION["guest"])) {
                         </a>
                       </div>
                       <div class="portfolio-info">
-                        <h4>Web 3</h4>
-                        <p>Web</p>
+                        <h4>Filming a demonstration</h4>
+                        <p>Description here</p>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                     <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
+                      <img src="../assets/img/folio/Checking Artifacts.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
                         <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox" title="App 2">
                           <i class="icofont-plus-circle"></i>
@@ -265,14 +265,14 @@ if (is_null($_SESSION["guest"])) {
                         </a>
                       </div>
                       <div class="portfolio-info">
-                        <h4>App 2</h4>
-                        <p>App</p>
+                        <h4>Checking Artifacts</h4>
+                        <p>Description here</p>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 portfolio-item filter-card">
                     <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
+                      <img src="../assets/img/folio/Listing Artifacts.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
                         <a href="assets/img/portfolio/portfolio-4.jpg" data-gall="portfolioGallery" class="venobox" title="Card 2">
                           <i class="icofont-plus-circle"></i>
@@ -282,14 +282,14 @@ if (is_null($_SESSION["guest"])) {
                         </a>
                       </div>
                       <div class="portfolio-info">
-                        <h4>Card 2</h4>
-                        <p>Card</p>
+                        <h4>Meeting with the Curator</h4>
+                        <p>Description here</p>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 portfolio-item filter-web">
                     <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
+                      <img src="../assets/img/folio/Filming-6.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
                         <a href="assets/img/portfolio/portfolio-5.jpg" data-gall="portfolioGallery" class="venobox" title="Web 2">
                           <i class="icofont-plus-circle"></i>
@@ -299,8 +299,8 @@ if (is_null($_SESSION["guest"])) {
                         </a>
                       </div>
                       <div class="portfolio-info">
-                        <h4>Web 2</h4>
-                        <p>Web</p>
+                        <h4>Filming a dance</h4>
+                        <p>Description here</p>
                       </div>
                     </div>
                   </div>
