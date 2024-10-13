@@ -102,7 +102,7 @@ if (isset($_SESSION["admin"])) {
                     <div class="tab" onclick="openTab('add')">Add Artifact
                         <img src="../assets/img/vase.png" alt="Vase Icon" class="icon">
                     </div>
-                    <div class="tab" onclick="openTab('add2')">Add Category
+                    <div class="tab" onclick="openTab('add2')">Add Artifact Group
                         <i class="fas fa-archive"></i>
                     </div>
                 </div>
@@ -287,10 +287,11 @@ if (isset($_SESSION["admin"])) {
                     <div id="edit" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
                         <h3>Edit Media</h3>
                         <form action="../include/editMedia.php" method="post">
-                            <div class="form-group">
-                                <label for="media-id">Media ID:</label>
-                                <input type="text" id="media-id" name="media-id" required>
-                            </div>
+
+                            <button type="button" id="select-media-button">
+                                Select Media
+                            </button>
+
                             <div class="form-group">
                                 <label for="new-media-title">New Media Title:</label>
                                 <input type="text" id="new-media-title" name="new-media-title" required>
@@ -305,6 +306,33 @@ if (isset($_SESSION["admin"])) {
                 </div> <!-- End of Cordilleran Performing Arts Media div -->
             </div> <!-- End of artifacts div -->
         </div> <!-- End of right-container div -->
+
+        <div class="edit-media-popup">
+            <div class="content">
+                <img src="/res/images/exit-icon.png" alt="Close" class="close-edit">
+                <div class="media-display">
+                    Display mediaaa here
+                </div>
+
+                <div class="select-button">
+                    <button type="button" id="sel-button">
+                        Select
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("select-media-button").addEventListener("click", function(){
+                document.querySelector(".edit-media-popup").style.display = "flex";
+            })
+
+            document.querySelector(".close-edit").addEventListener("click", function(){
+                document.querySelector(".edit-media-popup").style.display = "none"
+            })
+            
+        </script>
 
         <script src="/res/js/admin/admin.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

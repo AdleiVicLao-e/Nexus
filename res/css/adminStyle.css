@@ -924,6 +924,54 @@ td {
 
 }
 
+.edit-media-popup {
+	background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+	z-index: 999;
+}
+
+.edit-media-popup .content {
+	height: 600px;
+	width: 900px;
+	background: white;
+	padding: 20px;
+	border-radius: 5px;
+	position: relative;
+	flex-direction: column;
+    justify-content: space-between;
+}
+
+.media-display {
+	background: rgb(250, 250, 250);
+	margin-top: 15px;
+	height: 85%;
+	border-radius: 1%;
+	padding: 10px;
+	
+}
+
+.edit-media-popup .close-edit {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	height: 15px;
+	cursor: pointer;
+}
+
+.select-button {
+	position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 @media only screen and (max-width: 1366px) {
 
 	html,
