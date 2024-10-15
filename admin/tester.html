@@ -1,16 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION["admin"])) {
-    echo '<script>
-    console.log("User logged in. Redirecting...");
-    </script>';
-} else {
-    echo '<script>
-    alert("Not logged in. Redirected to Admin Login.");
-    window.location.href="admin-login.php";
-    </script>';
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -108,7 +95,7 @@ if (isset($_SESSION["admin"])) {
                                   <tr>
                                     <th scope="col">Visitor Name</th>
                                     <th scope="col" class="text-end">Rating</th>
-                                    <th scope="col" class="text-end">Feedback/Suggestion</th>
+                                    <th scope="col" class="text-end">Suggestion</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -117,49 +104,49 @@ if (isset($_SESSION["admin"])) {
                                       Adlei Vic Lao-e
                                     </th>
                                     <td class="text-end">Excellent</td>
-                                    <td class="text-end">I tried accessing the website on my phone, and some elements are overlapping. It would be great if the layout adjusted more smoothly on smaller screens.</td>
+                                    <td class="text-end">None</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">
                                       Andrei Gail Lumbas
                                     </th>
                                     <td class="text-end">Bad</td>
-                                    <td class="text-end">The layout is clean and professional, but navigating through different exhibits is a bit slow. Could you add shortcuts or quick links to popular sections?</td>
+                                    <td class="text-end">Wdsfasdf</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">
                                       Trisha Denise Garas
                                     </th>
                                     <td class="text-end">Bad</td>
-                                    <td class="text-end">I found the exhibits section informative, but it would be great to have more detailed descriptions or stories behind each artifact.</td>
+                                    <td class="text-end">sadfasd</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">
                                       Jieben Kayla Abaya
                                     </th>
                                     <td class="text-end">Good</td>
-                                    <td class="text-end">I noticed the text size is a bit small for some people. It would be nice to have an option to adjust text size for easier reading.</td>
+                                    <td class="text-end">asdfsadf</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">
                                       Paula Birtanny Laban
                                     </th>
-                                    <td class="text-end">Good</td>
-                                    <td class="text-end">It would be nice to have a map of the museum floorplan available for download or in an interactive format.</td>
+                                    <td class="text-end">Bad</td>
+                                    <td class="text-end">sdfszf</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">
                                       Valiant Mi-ing
                                     </th>
-                                    <td class="text-end">Good</td>
-                                    <td class="text-end">Including visitor reviews and recommendations about their favorite exhibits would make the website feel more community-oriented.</td>
+                                    <td class="text-end">Bad</td>
+                                    <td class="text-end">asdsdfa</td>
                                   </tr>
                                   <tr>
                                     <th scope="row">
                                       Kenshin Ram Ayan
                                     </th>
-                                    <td class="text-end">Excellent</td>
-                                    <td class="text-end">It would be great if you could offer descriptions of artifacts in multiple languages for international visitors.</td>
+                                    <td class="text-end">Bad</td>
+                                    <td class="text-end">fsdasdfasdf</td>
                                   </tr>
                                 </tbody>
                               </table>
