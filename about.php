@@ -31,7 +31,8 @@ if (is_null($_SESSION["guest"])) {
           <i class="fa fa-angle-left mr-2"></i>Close menu </button>
         <ul class="nav sidebar_menu-list">
         <li class="nav-item active">
-            <a class="nav-link" href="scanner.php" title="Home">Home</a>
+        <a class="nav-link" href="homepage.php" title="Home">Home</a>
+        <a class="nav-link" href="scanner.php" title="Home">Scanner</a>
           </li>
           <li class="nav-item">
           <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
