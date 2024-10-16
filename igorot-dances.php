@@ -5,6 +5,7 @@ if (is_null($_SESSION["guest"])) {
 }
 ?>
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <title>Igorot Dances</title>
@@ -114,10 +115,18 @@ if (is_null($_SESSION["guest"])) {
                     <div class="block-rating" id="block-rating"></div>
                   </div>
                   <div class="dp-i-c-right">
-                    <div class="dp-i-c-stick">
-                      <a href="#" title="Watch preview" id="preview" class="btn btn-radius btn-focus">
-                        <i class="fa fa-play mr-2"></i>Watch preview </a>
-                    </div>
+                  <div class="dp-i-c-stick">
+                    <a href="#" title="Watch preview" id="preview" class="btn btn-radius btn-focus">
+                      <i class="fa fa-play mr-2"></i>Watch preview
+                    </a>
+                  </div>
+                  <!-- Video element (initially hidden) -->
+                  <div id="video-container" style="display: none; text-align: center; margin-top: 20px;">
+                    <video id="video-player" width="600" controls>
+                      <source id="video-source" src="" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
                     <h2 class="heading-name">
                       <a href="#">Igorot Dances</a>
                     </h2>
@@ -381,6 +390,25 @@ if (is_null($_SESSION["guest"])) {
       </div>
     </div>
     </div>
+
+    <script>
+        document.getElementById('preview').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default link behavior
+        
+        // Set the video source to the desired path
+        var videoPath = 'assets/img/bRoll.mp4';
+        var videoSource = document.getElementById('video-source');
+        var videoPlayer = document.getElementById('video-player');
+        
+        // Set the video source and load the video
+        videoSource.src = videoPath;
+        videoPlayer.load();
+        
+        // Show the video container and play the video
+        document.getElementById('video-container').style.display = 'block';
+        videoPlayer.play();
+      });
+      </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>

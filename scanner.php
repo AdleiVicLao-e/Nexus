@@ -76,12 +76,6 @@ if (is_null($_SESSION["guest"])) {
     <!-- AR Elements -->
     <video id="video" autoplay></video>
     <canvas id="canvas"></canvas>
-    <img
-      id="noArtifactImage"
-      src="assets/img/error_image.png"
-      alt="No Artifact Found"
-    />
-
     <div id="va-container">
       <canvas id="va-canvas"></canvas>
     </div>
@@ -122,7 +116,6 @@ if (is_null($_SESSION["guest"])) {
         const video = document.getElementById("video");
         const canvas = document.getElementById("canvas");
         const canvasContext = canvas.getContext("2d");
-        const noArtifactImage = document.getElementById("noArtifactImage");
         const watchButton = document.getElementById("watchVideos");
         const audio = document.getElementById("lightbulbAudio");
 
@@ -260,7 +253,6 @@ if (is_null($_SESSION["guest"])) {
               // If no code detected, clear artifact info
               artifactInfo = "";
               displayBox = false;
-              noArtifactImage.style.animation = "none";
             }
           }
           // Continue scanning QR codes
@@ -280,7 +272,6 @@ if (is_null($_SESSION["guest"])) {
                       \nDescription: ${data["Description"] || "N/A"}
                   `.trim();
                   
-                noArtifactImage.style.display = "none";
                 displayBox = true;
 
                 // Show the watch button after the first scan
@@ -291,16 +282,6 @@ if (is_null($_SESSION["guest"])) {
                 // If artifact is not found
                 artifactInfo = "";
                 displayBox = false;
-                noArtifactImage.style.display = "block";
-
-                setTimeout(() => {
-                  noArtifactImage.style.animation = "none";
-                  noArtifactImage.style.opacity = 0;
-                  setTimeout(() => {
-                    noArtifactImage.style.display = "none";
-                    noArtifactImage.style.opacity = 1;
-                  }, 1000);
-                }, 2000);
               }
             })
             .catch((error) => {

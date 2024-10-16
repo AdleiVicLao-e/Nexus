@@ -773,6 +773,50 @@ strong {
 	border: 1px solid #111 !important
 }
 
+/* Style for the "Watch preview" button */
+.dp-i-c-stick {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+  }
+  
+  .dp-i-c-stick a {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: #3498db; /* Button background color */
+	color: #fff; /* Button text color */
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 25px; /* Rounded corners */
+	text-decoration: none;
+	transition: background-color 0.3s ease;
+  }
+  
+  .dp-i-c-stick a:hover {
+	background-color: #2980b9; /* Hover effect */
+  }
+  
+  .dp-i-c-stick i {
+	margin-right: 5px;
+  }
+  
+  /* Style for the video container */
+  #video-container {
+	display: none; /* Hidden initially */
+	text-align: center;
+	margin-top: 20px;
+  }
+  
+  /* Style for the video player */
+  #video-player {
+	width: 80%;
+	max-width: 600px; /* Maximum width of video player */
+	height: auto;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
 @media screen and (min-width: 1681px) {
 	.btn-radius {
 		border-radius: 30px
@@ -988,6 +1032,10 @@ strong {
 	.detail_page.detail_page-style .cover_follow {
 		height: 600px
 	}
+
+	#video-player {
+		width: 90%; /* Full width on smaller screens */
+	  }
 }
 
 @media screen and (max-width: 998px) {

@@ -4,12 +4,13 @@ if (is_null($_SESSION["guest"])) {
   header("Location: ../index.php");
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>About Us</title> 
+    <title>Homepage</title> 
     <link rel="stylesheet" href="res\css\homepage.css">
     <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link href="assets/img/favicon.png" rel="icon">
@@ -18,16 +19,17 @@ if (is_null($_SESSION["guest"])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <!-- Boxicons CDN Link -->
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
+  
   <body>
     <div id="app">
       <div id="sidebar_menu_bg"></div>
       <div id="sidebar_menu">
-        <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee;
-    color: #111;">
+        <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee;color: #111;">
           <i class="fa fa-angle-left mr-2"></i>Close menu </button>
         <ul class="nav sidebar_menu-list">
         <li class="nav-item active">
@@ -48,6 +50,7 @@ if (is_null($_SESSION["guest"])) {
       </ul>
       <div class="clearfix"></div>
     </div>
+    
     <div id="wrapper">
       <div id="header">
         <div class="container">
@@ -57,6 +60,7 @@ if (is_null($_SESSION["guest"])) {
           <a href="scanner.php" id="logo">
             <img src="./assets/img/logo.png" alt="Logo">
           </a>
+          
           <!--Begin: Menu-->
           <div id="header_menu">
             <ul class="nav header_menu-list">
@@ -80,19 +84,48 @@ if (is_null($_SESSION["guest"])) {
         </div>
       </div>
 
-      <!-- Hero Section -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-        <h1>Discover the Igorot Heritage</h1>
+        <h1>Appreciate the Igorot Heritage</h1>
         <p>Explore the fascinating history, culture, and traditions of the Igorot people through captivating exhibits and interactive experiences.</p>
         <button onclick="scrollToSection()">Learn More</button>
         </div>
     </section>
 
+    <!-- QR Code -->
+    <section id="qr-code-introduction" class="qr-code-intro">
+    <div class="container">
+        <h2>Discover Artifacts with QR Codes</h2>
+        <p>
+            Our innovative application allows you to explore the museum's artifacts through QR code scanning, enhancing your experience and understanding of Igorot culture.
+        </p>
+        <img src="/assets/img/qrScan.gif" alt="QR Code Feature" class="img-fluid" />
+        <div class="text-center mt-3">
+            <a href="scanner.php" class="btn btn-primary">Scan QR Code</a>
+        </div>
+    </div>
+    </section>
+
+    <!-- Igorot Dances -->
+    <section id="b-roll" class="b-roll">
+    <div class="container">
+        <h2>Watch Igorot Dances</h2>
+        <p>Immerse yourself in the vibrant culture of the Igorot people! Experience the rhythm and movements that bring these rich traditions to life.</p>
+        <video controls width="100%" poster="assets/img/poster.png"> <!-- Add your thumbnail image here -->
+            <source src="assets/img/bRoll.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="text-center mt-3">
+            <a href="igorot-dances.php" class="btn btn-primary">Explore Igorot Dances</a>
+        </div>
+    </div>
+  </section>
+
     <!-- Main Content -->
     <section id="main-content">
         <div class="container">
-            <h2>Welcome to the SLU Museum</h2>
+            <h2>A Journey into Igorot Culture at SLU Museum</h2>
             <p>
                 At the SLU Museum of Igorot Cultures and Arts, embark on a captivating journey through the rich heritage of the Igorot people. Our museum is a vibrant hub that showcases the diverse traditions, art forms, and historical narratives defining the Igorot identity.
             </p>
@@ -112,35 +145,9 @@ if (is_null($_SESSION["guest"])) {
             </p>
         </div>
     </section>
-
-    <section id="qr-code-introduction" class="qr-code-intro">
-    <div class="container">
-        <h2>Discover Artifacts with QR Codes</h2>
-        <p>
-            Our innovative application allows you to explore the museum's artifacts through QR code scanning, enhancing your experience and understanding of Igorot culture.
-        </p>
-        <img src="/assets/img/qrScan.gif" alt="QR Code Feature" class="img-fluid" />
-        <div class="text-center mt-3">
-            <a href="scanner.php" class="btn btn-primary">Scan QR Code</a>
-        </div>
-    </div>
-    </section>
-
-    <section id="b-roll" class="b-roll">
-    <div class="container">
-        <h2>Watch Igorot Dances</h2>
-        <p>Immerse yourself in the vibrant culture of the Igorot people! Experience the rhythm and movements that bring these rich traditions to life.</p>
-        <video controls width="100%" poster="assets/img/poster.png"> <!-- Add your thumbnail image here -->
-            <source src="assets/img/bRoll.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="text-center mt-3">
-            <a href="igorot-dances.php" class="btn btn-primary">Explore Igorot Dances</a>
-        </div>
-    </div>
-</section>
-
 </body>
+
+<!-- Footer -->
 <div id="footer">
         <div class="container">
           <div class="footer-logo-block">
@@ -154,9 +161,26 @@ if (is_null($_SESSION["guest"])) {
       </div>
     </div>
     </div>
+
+<div id="desktop-warning">Mobile Only Site.</div>
+
+<!-- Script -->    
 <script>
+  checkDevice();
+
     function scrollToSection() {
       document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function checkDevice() {
+          // Define a breakpoint for mobile devices (e.g., 768px)
+          if (window.innerWidth > 768) {
+            // Show the desktop warning
+            document.getElementById("desktop-warning").style.display = "flex";
+            setTimeout(function() {
+              alert("Please use your mobile phone to access this site.");
+            }, 100); 
+          }
     }
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
