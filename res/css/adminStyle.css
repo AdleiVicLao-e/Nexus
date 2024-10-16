@@ -844,11 +844,6 @@ canvas {
 	background-color: #f9f9f9;
 
 }
-
-.table {
-	overflow-y: auto;
-	overflow-x: auto;
-}
 /*     Table  Feedback  */
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	vertical-align: middle; }
@@ -968,6 +963,7 @@ canvas {
   
   /* table-responsive */
   .table-responsive {
+	height: 400px;
 	width: 100% !important;
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
