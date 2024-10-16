@@ -85,7 +85,7 @@ $_SESSION["guest"] = "guest";
         } else {
           errorMessage.style.display = "none"; // Hide error message
           // Redirect to scanner.php
-          window.location.href = "scanner.php";
+          window.location.href = "homepage.php";
           return false; // Prevent the default form action to avoid page reload
         }
       }

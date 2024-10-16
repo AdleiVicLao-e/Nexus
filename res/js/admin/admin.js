@@ -5,6 +5,7 @@
 // -----------------------
 
 // Function to fetch and populate artifact options (Sections, Catalogs, Subcatalogs)
+let isMultiSelectEnabled = false;
 function fetchArtifactOptions() {
     fetch('../include/get.php')
         .then(response => response.json())
@@ -204,7 +205,7 @@ function searchArtifact() {
     xhr.send();
 }
 
-let isMultiSelectEnabled = false;
+
 
 // Function to display search results
 function displayResults(data) {

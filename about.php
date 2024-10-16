@@ -31,7 +31,8 @@ if (is_null($_SESSION["guest"])) {
           <i class="fa fa-angle-left mr-2"></i>Close menu </button>
         <ul class="nav sidebar_menu-list">
         <li class="nav-item active">
-            <a class="nav-link" href="scanner.php" title="Home">Home</a>
+        <a class="nav-link" href="homepage.php" title="Home">Home</a>
+        <a class="nav-link" href="scanner.php" title="Home">Scanner</a>
           </li>
           <li class="nav-item">
           <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
@@ -61,7 +62,7 @@ if (is_null($_SESSION["guest"])) {
           <div id="header_menu">
             <ul class="nav header_menu-list">
               <li class="nav-item">
-                <a href="scanner.php" title="Home">Home</a>
+                <a href="homepage.php" title="Home">Home</a>
               </li>
               <li class="nav-item">
               <a href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
@@ -255,7 +256,7 @@ if (is_null($_SESSION["guest"])) {
                   </div>
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                     <div class="portfolio-wrap">
-                      <img src="../assets/img/folio/Checking Artifacts.jpg" class="img-fluid" alt="">
+                      <img src="../assets/img/folio/Checking_Artifacts.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
                         <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox" title="App 2">
                           <i class="icofont-plus-circle"></i>
