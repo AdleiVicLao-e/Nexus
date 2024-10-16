@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../include/artifact-db.php';
 if (isset($_SESSION["admin"])) {
     echo '<script>
     console.log("User logged in. Redirecting...");
@@ -265,7 +266,7 @@ if (isset($_SESSION["admin"])) {
                             </div>
                             <div class="form-group">
                                 <label for="media-upload">Upload Media:</label>
-                                <input type="file" id="media-upload" name="media-upload">
+                                <input type="file" id="media-select" name="media-select">
                             </div>
                             <button type="submit">Add Artifact</button>
                         </form>
@@ -390,7 +391,9 @@ if (isset($_SESSION["admin"])) {
             <div class="content">
                 <img src="/res/images/exit-icon.png" alt="Close" class="close-edit">
                 <div class="media-display">
-                    Display mediaaa here
+                <?php
+                    // TODO
+                ?>
                 </div>
 
                 <div class="select-button">
