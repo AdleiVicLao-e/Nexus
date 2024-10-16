@@ -1,48 +1,52 @@
 {
-  "scripts": {
-    "1": {
-      "artifact_name": "House door",
-      "script": "This is a traditional house door with surface carvings of animals and other designs. Unfortunately, it has a crack and a hole."
-    },
-    "2": {
-      "artifact_name": "Panel wall",
-      "script": "Here we have a panel wall with surface carvings of anthropomorphic designs. Despite its beauty, it has woodworm holes and a crack."
-    },
-    "3": {
-      "artifact_name": "Sliding panel door",
-      "script": "This sliding panel door features intricate carvings of anthropomorphic designs, though it has suffered some cracks."
-    },
-    "4": {
-      "artifact_name": "Granary door",
-      "script": "This granary door is decorated with a lizard design. Part of it is damaged, and there is a visible crack."
-    },
-    "5": {
-      "artifact_name": "Post bu'lul",
-      "script": "A small post featuring a bu'lul carving, which has a hole at the base."
-    },
-    "10": {
-      "artifact_name": "Gong handle 5",
-      "script": "This gong handle is carved with a human motif, although the feet are broken and there's a crack."
-    },
-    "21": {
-      "artifact_name": "Standing bu'lul with child",
-      "script": "A standing bu'lul figure holding a child, with visible cracks."
-    },
-    "22": {
-      "artifact_name": "Philippine eagle",
-      "script": "This magnificent Philippine eagle stands at a height of 125 centimeters, representing strength and freedom."
-    },
-    "23": {
-      "artifact_name": "Head taker 1",
-      "script": "This is the first of the 'head taker' carvings, symbolizing ancient practices and warrior culture."
-    },
-    "487": {
-      "artifact_name": "Baey / Beey",
-      "script": "These structures are usually of a somewhat makeshift nature but typically feature a ridgepole with a two-sided roof, though occasionally a single-sloped \"shed\" roof is used. The walls are never made of wood, but are commonly constructed from grass thatch, reeds, or sawali, and sometimes bark. The type of flooring varies based on the building's permanence—ranging from a reed mat laid directly on the ground, to a raised platform separate from the main structure, or a more permanent floor supported by poles tied to the uprights."
-    },
-    "0": {
-      "artifact_name": "Hello",
-      "script": "Welcome! to get started, scan the qr codes available beside the artifacts. You can view specific   videos   for that artifact and by tapping me you can hear more information about   that artifact!"
+    "scripts": {
+        "1": {
+            "artifact_name": "House door",
+            "script": "This is a traditional house door with surface carvings of animals and other designs. Unfortunately, it has a crack and a hole."
+        },
+        "2": {
+            "artifact_name": "Panel wall",
+            "script": "Here we have a panel wall with surface carvings of anthropomorphic designs. Despite its beauty, it has woodworm holes and a crack."
+        },
+        "3": {
+            "artifact_name": "Sliding panel door",
+            "script": "This sliding panel door features intricate carvings of anthropomorphic designs, though it has suffered some cracks."
+        },
+        "4": {
+            "artifact_name": "Granary door",
+            "script": "This granary door is decorated with a lizard design. Part of it is damaged, and there is a visible crack."
+        },
+        "5": {
+            "artifact_name": "Post bu'lul",
+            "script": "A small post featuring a bu'lul carving, which has a hole at the base."
+        },
+        "10": {
+            "artifact_name": "Gong handle 5",
+            "script": "This gong handle is carved with a human motif, although the feet are broken and there's a crack."
+        },
+        "21": {
+            "artifact_name": "Standing bu'lul with child",
+            "script": "A standing bu'lul figure holding a child, with visible cracks."
+        },
+        "22": {
+            "artifact_name": "Philippine eagle",
+            "script": "This magnificent Philippine eagle stands at a height of 125 centimeters, representing strength and freedom."
+        },
+        "23": {
+            "artifact_name": "Head taker 1",
+            "script": "This is the first of the 'head taker' carvings, symbolizing ancient practices and warrior culture."
+        },
+        "487": {
+            "artifact_name": "Baey \/ Beey",
+            "script": "These structures are usually of a somewhat makeshift nature but typically feature a ridgepole with a two-sided roof, though occasionally a single-sloped \"shed\" roof is used. The walls are never made of wood, but are commonly constructed from grass thatch, reeds, or sawali, and sometimes bark. The type of flooring varies based on the building's permanence\u2014ranging from a reed mat laid directly on the ground, to a raised platform separate from the main structure, or a more permanent floor supported by poles tied to the uprights."
+        },
+        "0": {
+            "artifact_name": "Hello",
+            "script": "Welcome! to get started, scan the qr codes available beside the artifacts. You can view specific   videos   for that artifact and by tapping me you can hear more information about   that artifact!"
+        },
+        "1297": {
+            "artifact_name": "asdfasdfasd",
+            "script": "asdfasdgasd"
+        }
     }
-  }
 }

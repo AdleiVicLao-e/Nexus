@@ -367,6 +367,7 @@ button, .search-button, #refreshBtn:hover {
 
 .left-container {
 	align-items: center;
+	margin-top: 590px;
 }
 
 .right-container {

@@ -3,12 +3,13 @@
 include 'artifact-db.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
+// Validate input
 if (isset($data['id'], $data['name'], $data['section_id'], $data['description'])) {
     $id = $data['id'];
     $name = $data['name'];
     $sectionId = $data['section_id'];
-    $catalogId = isset($data['catalog_id']) ? $data['catalog_id'] : null; // Handle null case
-    $subcatalogId = isset($data['subcatalog_id']) ? $data['subcatalog_id'] : null; // Handle null case
+    $catalogId = isset($data['catalog_id']) && is_numeric($data['catalog_id']) ? $data['catalog_id'] : null; // Handle null case
+    $subcatalogId = isset($data['subcatalog_id']) && is_numeric($data['subcatalog_id']) ? $data['subcatalog_id'] : null; // Handle null case
     $description = $data['description'];
 
     // Prepare and execute the update query
@@ -19,21 +20,29 @@ if (isset($data['id'], $data['name'], $data['section_id'], $data['description'])
     ";
 
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param('siissi', $name, $sectionId, $catalogId, $subcatalogId, $description, $id);
 
-    if ($stmt->execute()) {
-        $response = ['success' => true, 'message' => 'Artifact updated successfully.'];
+    if ($stmt) {
+        $stmt->bind_param('siissi', $name, $sectionId, $catalogId, $subcatalogId, $description, $id);
+
+        if ($stmt->execute()) {
+            $response = ['success' => true, 'message' => 'Artifact updated successfully.'];
+        } else {
+            $response = ['success' => false, 'message' => 'Database error: ' . $stmt->error];
+        }
+
+        // Close the statement
+        $stmt->close();
     } else {
-        $response = ['success' => false, 'message' => 'Database error: ' . $stmt->error];
+        $response = ['success' => false, 'message' => 'Failed to prepare statement: ' . $mysqli->error];
     }
 
-    // Close connection
-    $stmt->close();
+    // Close the connection
     $mysqli->close();
 } else {
-    $response = ['success' => false, 'message' => 'Invalid input'];
+    $response = ['success' => false, 'message' => 'Invalid input. Ensure all required fields are provided.'];
 }
 
 // Return the response as JSON
+header('Content-Type: application/json');
 echo json_encode($response);
 ?>

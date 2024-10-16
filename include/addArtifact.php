@@ -65,13 +65,31 @@ if (isset($_FILES['media-select'])  && $_FILES['media-select']['error'] == 0) {
         alert("Artifact successfully added. (No media file) \nIf a media file was selected, it might be an unsupported video format. Please try uploading a different video file.")
         </script>';
 }
+// Initialize fields with conditional checks
+$artifactName = isset($_POST['artifact-name']) && $_POST['artifact-name'] !== '' ? $_POST['artifact-name'] : NULL;
+$sectionId = isset($_POST['section']) && $_POST['section'] !== '' ? $_POST['section'] : NULL;
+$catalogId = isset($_POST['catalog']) && $_POST['catalog'] !== '' ? $_POST['catalog'] : NULL;
+$subCatalogId = isset($_POST['sub-catalog']) && $_POST['sub-catalog'] !== '' ? $_POST['sub-catalog'] : NULL;
+$description = isset($_POST['description']) && $_POST['description'] !== '' ? $_POST['description'] : NULL;
+$condition = isset($_POST['condition']) && $_POST['condition'] !== '' ? $_POST['condition'] : NULL;
+$fileName = isset($fileName) && $fileName !== '' ? $fileName : NULL;
 
+// Generating the new artifact ID with the same fallback logic
+$result = $mysqli->query("SELECT MAX(artifact_id) AS last_id FROM artifact_info");
+$row = $result->fetch_assoc();
+$lastArtifactId = isset($row['last_id']) && $row['last_id'] !== '' ? $row['last_id'] : 0;
+$newArtifactId = $lastArtifactId + 1;
+
+// SQL Query with all the fields properly initialized
 $sql = "INSERT INTO artifact_info (artifact_id, section_id, catalogue_id, subcat_id, name, description, `condition`, fileName) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $mysqli->prepare($sql);
+
+// Bind parameters: all fields are now nullable (can accept NULL values)
 $stmt->bind_param("iiiissss", $newArtifactId, $sectionId, $catalogId, $subCatalogId, $artifactName, $description, $condition, $fileName);
 
+// Execute and check for success/failure
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Artifact successfully added', 'artifact_id' => $newArtifactId]);
     echo $message;
@@ -80,5 +98,6 @@ if ($stmt->execute()) {
 }
 
 $stmt->close();
-$mysqli->close();   
+$mysqli->close();
+
 ?>

@@ -22,6 +22,30 @@ if (in_array($fileType, $allowedTypes)) {
 
         $uploadFilePath = $uploadDir . $fileName;
         if (move_uploaded_file($fileTmpName, $uploadFilePath)) {
+            // Save to JSON
+            $mediaDetails = [
+                'title' => $mediaTitle,
+                'description' => $mediaDescription,
+                'file_path' => $uploadFilePath,
+                'file_name' => $fileName,
+                'file_size' => $fileSize,
+                'file_type' => $fileType,
+                'upload_time' => date('Y-m-d H:i:s')
+            ];
+
+            $jsonFile = '../assets/videos/general-media.json';
+            $existingData = [];
+
+            if (file_exists($jsonFile)) {
+                $existingData = json_decode(file_get_contents($jsonFile), true);
+            }
+
+            // Append new media details
+            $existingData[] = $mediaDetails;
+
+            // Save updated data back to JSON file
+            file_put_contents($jsonFile, json_encode($existingData, JSON_PRETTY_PRINT));
+
             echo '<script>
                 window.location.href="../admin/admin.php";
                 alert("File successfully uploaded!");
@@ -44,4 +68,3 @@ if (in_array($fileType, $allowedTypes)) {
         alert("Invalid media file type. Only MP4, WebM, and OGG are allowed.")
         </script>';
 }
-?>

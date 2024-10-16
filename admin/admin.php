@@ -19,20 +19,31 @@ if (isset($_SESSION["admin"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="../res/css/adminStyle.css">
     <link rel="stylesheet" href="../res/css/datePicker.css">
     <link href="../assets/img/favicon.png" rel="icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
-    <script src="../res/js/admin/javascript.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+
+    <!-- jQuery (Single inclusion) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Moment.js and DateRangePicker -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <!-- Additional JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+
+    <!-- Custom Scripts -->
+    <script src="../res/js/admin/javascript.js"></script>
 </head>
+
 
 <body>
     <header>
@@ -102,69 +113,19 @@ if (isset($_SESSION["admin"])) {
                             </div>
                           </div>
                           <div class="card-body p-0">
-                            <div class="table-responsive">
-                              <!-- Projects table -->
-                              <table class="table align-items-center mb-0">
-                                <thead class="thead-light">
-                                  <tr>
-                                    <th scope="col">Visitor Name</th>
-                                    <th scope="col" class="text-end">Rating</th>
-                                    <th scope="col" class="text-end">Feedback/Suggestion</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">
-                                      Adlei Vic Lao-e
-                                    </th>
-                                    <td class="text-end">Excellent</td>
-                                    <td class="text-end">I tried accessing the website on my phone, and some elements are overlapping. It would be great if the layout adjusted more smoothly on smaller screens.</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">
-                                      Andrei Gail Lumbas
-                                    </th>
-                                    <td class="text-end">Bad</td>
-                                    <td class="text-end">The layout is clean and professional, but navigating through different exhibits is a bit slow. Could you add shortcuts or quick links to popular sections?</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">
-                                      Trisha Denise Garas
-                                    </th>
-                                    <td class="text-end">Bad</td>
-                                    <td class="text-end">I found the exhibits section informative, but it would be great to have more detailed descriptions or stories behind each artifact.</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">
-                                      Jieben Kayla Abaya
-                                    </th>
-                                    <td class="text-end">Good</td>
-                                    <td class="text-end">I noticed the text size is a bit small for some people. It would be nice to have an option to adjust text size for easier reading.</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">
-                                      Paula Birtanny Laban
-                                    </th>
-                                    <td class="text-end">Good</td>
-                                    <td class="text-end">It would be nice to have a map of the museum floorplan available for download or in an interactive format.</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">
-                                      Valiant Mi-ing
-                                    </th>
-                                    <td class="text-end">Good</td>
-                                    <td class="text-end">Including visitor reviews and recommendations about their favorite exhibits would make the website feel more community-oriented.</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">
-                                      Kenshin Ram Ayan
-                                    </th>
-                                    <td class="text-end">Excellent</td>
-                                    <td class="text-end">It would be great if you could offer descriptions of artifacts in multiple languages for international visitors.</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                              <div class="table-responsive">
+                                  <table class="table align-items-center mb-0">
+                                      <thead class="thead-light">
+                                      <tr>
+                                          <th scope="col" class="text-end">Rating</th>
+                                          <th scope="col" class="text-end">Feedback/Suggestion</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody id="feedback-table-body">
+                                      <!-- Feedback will be loaded here -->
+                                      </tbody>
+                                  </table>
+                              </div>
                           </div>
                         </div>
                       </div>
@@ -432,7 +393,6 @@ if (isset($_SESSION["admin"])) {
                         if (this.status === 200) {
                             userTableContainer.innerHTML = this
                                 .responseText; // Populate the container with the response
-                            createChart(); // Call the chart creation function after fetching user data
                         } else {
                             userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
                         }
@@ -605,6 +565,18 @@ if (isset($_SESSION["admin"])) {
                     popup.style.display = 'none';
                 }
             }
+        </script>
+        <script>
+            // Load feedback when the page is ready
+            document.addEventListener('DOMContentLoaded', function() {
+                fetch('../include/getFeedback.php')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('feedback-table-body').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error fetching feedback:', error));
+            });
+
         </script>
 </body>
 
