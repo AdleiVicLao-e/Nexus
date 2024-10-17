@@ -116,18 +116,22 @@ $conn->close();
     </div>
       <style>
         body {
-        background-image: url('../../assets/img/homepage_background.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: repeat;
-        background-attachment: fixed;
+          font-family: 'Inter', sans-serif;
+          background-image: url('../../assets/img/homepage_background.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: repeat;
+          background-attachment: fixed;
+          margin: 0;
+          height: 100vh; 
         }
 
         h1 {
           text-align: center;
+          font-family: 'Inter', sans-serif;
           margin-bottom: 20px; 
           style: bold;
-          font-size: 30px; 
+          font-size: 20px; 
           background: white;
           border-radius: 15px;
           padding: 15px;
@@ -137,34 +141,60 @@ $conn->close();
         video {
           max-width: 90%; 
           width: 900px; 
+          margin: 20px;
           height: auto; 
         }
 
-        .description {
+        .descriptions {
+          font-family: 'Inter', sans-serif;
           text-align: center;
           margin-top: 20px; 
-          font-size: 15px; 
-          background: #073066;
+          background: white;
           border-radius: 20px;
-          padding: 15px;
+          padding: 10px;
           margin: 10px;
         }
+
+        p{
+          font-family: 'Inter', sans-serif;
+          color: #272626;
+          font-size: 12px;
+        }
+
+        #scanAgain {
+          background-color: #f6c500;
+          font-family: 'Inter', sans-serif;
+          color: white;
+          padding: 15px;
+          font-size: 10px;
+          margin: 10px;
+          border-radius: 20px;
+          cursor: pointer;
+          max-width: 300px;
+          border: white;
+          position: fixed; 
+          left: 50%;
+          bottom: 20px; 
+          transform: translateX(-50%); 
+      }
+
       </style>
     </head>
     <body>
       <div class="container">
         <h1><?php echo htmlspecialchars($name); ?></h1>
         <?php if ($media_path !== 'No video available') { ?>
-          <video width="600" controls>
+          <video width="800" controls>
             <source src="<?php echo htmlspecialchars($media_path); ?>" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-          <div class="description">
+          <div class="descriptions">
             <p><?php echo htmlspecialchars($description); ?></p> <!-- Displaying the description -->
           </div>
         <?php } else { ?>
           <p><?php echo $media_path; ?></p>
         <?php } ?>
+        <button id="scanAgain" onclick="location.href='scanner.php'">Scan more artifacts</button>
       </div>
     </div>
   </div>
