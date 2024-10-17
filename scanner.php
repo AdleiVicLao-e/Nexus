@@ -82,11 +82,13 @@ if (is_null($_SESSION["guest"])) {
     <div class="edge-lighting" id="edgeLighting"></div>
 
     <!-- Floating Buttons -->
-    <!-- Light bulb icon with onclick event -->
+    <!-- Gangsa icon with onclick event -->
     <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" />
 
     <!-- Add an audio element -->
     <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
+    
+    <audio id="scrollbAudio" src="/assets/audio/scroll-sound.mp3" preload="auto"></audio>
     
     <button id="watchVideos" onclick="redirectToVideo();">Watch Videos</button>
 
@@ -118,6 +120,7 @@ if (is_null($_SESSION["guest"])) {
         const canvasContext = canvas.getContext("2d");
         const watchButton = document.getElementById("watchVideos");
         const audio = document.getElementById("lightbulbAudio");
+        const scroll = document.getElementById("scrollbAudio");
 
         let artifactInfo = "";
         let displayBox = true;
@@ -273,6 +276,7 @@ if (is_null($_SESSION["guest"])) {
                   `.trim();
                   
                 displayBox = true;
+                scroll.play();
 
                 // Show the watch button after the first scan
                 if (!firstScan) {
