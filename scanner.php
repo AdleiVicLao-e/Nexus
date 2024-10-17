@@ -10,8 +10,6 @@ if (is_null($_SESSION["guest"])) {
     <title>QR Code Scanner with AR</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="content-language" content="en" />
-    <meta name="description" content="Watch Igorot Dances" />
-    <meta name="keywords" content="watch igorot dances ifugao bontoc kalinga kankanaey isneg ibaloi abra cordillera" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
@@ -79,6 +77,7 @@ if (is_null($_SESSION["guest"])) {
     <div id="va-container">
       <canvas id="va-canvas"></canvas>
     </div>
+    
     <!-- Add an audio element -->
     <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
     <audio id="scrollbAudio" src="/assets/audio/scroll-sound.mp3" preload="auto"></audio>
