@@ -79,16 +79,15 @@ if (is_null($_SESSION["guest"])) {
     <div id="va-container">
       <canvas id="va-canvas"></canvas>
     </div>
+    <!-- Add an audio element -->
+    <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
+    <audio id="scrollbAudio" src="/assets/audio/scroll-sound.mp3" preload="auto"></audio>
+
     <div class="edge-lighting" id="edgeLighting"></div>
 
     <!-- Floating Buttons -->
     <!-- Gangsa icon with onclick event -->
     <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" />
-
-    <!-- Add an audio element -->
-    <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
-    
-    <audio id="scrollbAudio" src="/assets/audio/scroll-sound.mp3" preload="auto"></audio>
     
     <button id="watchVideos" onclick="redirectToVideo();">Watch Videos</button>
 
@@ -119,8 +118,8 @@ if (is_null($_SESSION["guest"])) {
         const canvas = document.getElementById("canvas");
         const canvasContext = canvas.getContext("2d");
         const watchButton = document.getElementById("watchVideos");
-        const audio = document.getElementById("lightbulbAudio");
         const scroll = document.getElementById("scrollbAudio");
+        const audio = document.getElementById("lightbulbAudio");
 
         let artifactInfo = "";
         let displayBox = true;
@@ -244,6 +243,8 @@ if (is_null($_SESSION["guest"])) {
                 }
               }
 
+              playScroll();
+
               // Show the watch button only after the first artifact scan
               if (!firstScan) {
                 firstScan = true; 
@@ -269,14 +270,14 @@ if (is_null($_SESSION["guest"])) {
               console.log("Data:", data);
 
               if (data && Object.keys(data).length > 0) {
+                
                 // If artifact is found
                 artifactInfo = `
                       \n${data["Name"] || "N/A"}
                       \nDescription: ${data["Description"] || "N/A"}
                   `.trim();
-                  
+
                 displayBox = true;
-                scroll.play();
 
                 // Show the watch button after the first scan
                 if (!firstScan) {
@@ -300,6 +301,10 @@ if (is_null($_SESSION["guest"])) {
           overlay.style.display = "flex";
 
           audio.play();
+        }
+
+        function playScroll(){
+          scroll.play();  
         }
 
         document.getElementById("exitButton").addEventListener("click", function() {
