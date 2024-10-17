@@ -18,7 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->bind_param("is", $newSectionId, $newSectionTitle);
 
                 if ($stmt->execute()) {
-                    echo "New section added successfully with ID: $newSectionId!";
+                    echo '<script>
+            window.location.href="../admin/admin.php";
+            alert("New section added");
+            </script>';
                 } else {
                     echo "Error: " . $stmt->error;
                 }
@@ -39,7 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->bind_param("iis", $newCatalogId, $sectionId, $newCatalogName);
 
                 if ($stmt->execute()) {
-                    echo "New catalog added successfully with ID: $newCatalogId!";
+                    echo '<script>
+            window.location.href="../admin/admin.php";
+            alert("New catalogue added");
+            </script>';
                 } else {
                     echo "Error: " . $stmt->error;
                 }
@@ -59,7 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->bind_param("iis", $newSubcatalogId, $catalogueId, $newSubcatalogName);
 
                 if ($stmt->execute()) {
-                    echo "New subcatalog added successfully with ID: $newSubcatalogId!";
+                    echo '<script>
+            window.location.href="../admin/admin.php";
+            alert("New subcatalogue added");
+            </script>';
                 } else {
                     echo "Error: " . $stmt->error;
                 }
