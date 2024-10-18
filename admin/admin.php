@@ -187,7 +187,8 @@ if (isset($_SESSION["admin"])) {
                             <label for="description">Virtual Avatar Script:</label>
                             <textarea id="editScript" name="script"></textarea>
                             <br>
-                            <button type="button" onclick="saveChanges()">Save</button>
+                            <button id="saveBtn" type="button" onclick="saveChanges()">Save</button>
+                            <button id="printQRBtn" type="button" onclick="">Print QR Code</button>
                             <button id="delBtn" type="button"
                                 onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
                         </form>
