@@ -621,56 +621,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function printQRCode() {
     var value = document.getElementById("artifact-id").value;
+    var name = document.getElementById("editName").value; // Get the artifact name
+
     if (value) {
-      $("#qrcode").empty();
-  
-      $("#qrcode").qrcode({
-        text: value,
-        width: 400,
-        height: 400,
-      });
-  
-      setTimeout(() => {
-        var qrCodeCanvas = document.querySelector("#qrcode canvas");
-        if (qrCodeCanvas) {
-            var printWindow = window.open("", "", "width=800,height=600");
-            printWindow.document.write(`
-              <html>
-                <head>
-                  <title>Print QR Code</title>
-                  <style>
-                    body {
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      height: 100vh;
-                      margin: 0;
-                    }
-                    img {
-                      max-width: 100%;
-                      height: auto;
-                    }
-                  </style>
-                </head>
-                <body>
-                  <img src="${qrCodeCanvas.toDataURL('image/png')}" alt="QR Code"/>
-                </body>
-              </html>
-            `);
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-            printWindow.onafterprint = () => {
-              printWindow.close(); // Close the window after printing
-            };
-            
-        }
-      }, 100);
+        $("#qrcode").empty();
+
+        // Generate the QR code
+        $("#qrcode").qrcode({
+            text: value,
+            width: 400,
+            height: 400,
+        });
+
+        // Ensure the QR code is fully rendered before proceeding
+        setTimeout(() => {
+            var qrCodeCanvas = document.querySelector("#qrcode canvas");
+            if (qrCodeCanvas) {
+                // Convert QR code canvas to data URL
+                var qrCodeImage = qrCodeCanvas.toDataURL('image/png');
+                
+                // Open print window
+                var printWindow = window.open("", "", "width=800,height=600");
+                printWindow.document.write(`
+                  <html>
+                    <head>
+                      <title>${name} - QR Code</title> <!-- Use the name value in the title -->
+                      <style>
+                        body {
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          height: 100vh;
+                          margin: 0;
+                        }
+                        img {
+                          max-width: 100%;
+                          height: auto;
+                        }
+                      </style>
+                    </head>
+                    <body>
+                      <img src="${qrCodeImage}" alt="QR Code"/> <!-- Use the rendered QR code image -->
+                    </body>
+                  </html>
+                `);
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
+                printWindow.onafterprint = () => {
+                    printWindow.close(); // Close the window after printing
+                };
+            }
+        }, 1800); // Use a slightly longer delay to ensure the QR code has rendered
     } else {
-      alert("Please enter a value.");
+        alert("Please enter a value.");
     }
-  }
-  
+}
+
+
   
 // -----------------------
 // Additional Event Listeners or Functions
