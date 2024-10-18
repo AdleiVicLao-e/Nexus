@@ -10,6 +10,8 @@ if (is_null($_SESSION["guest"])) {
     <title>QR Code Scanner with AR</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="content-language" content="en" />
+    <meta name="description" content="Watch Igorot Dances" />
+    <meta name="keywords" content="watch igorot dances ifugao bontoc kalinga kankanaey isneg ibaloi abra cordillera" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
@@ -77,16 +79,14 @@ if (is_null($_SESSION["guest"])) {
     <div id="va-container">
       <canvas id="va-canvas"></canvas>
     </div>
-    
-    <!-- Add an audio element -->
-    <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
-    <audio id="scrollbAudio" src="/assets/audio/scroll-sound.mp3" preload="auto"></audio>
-
     <div class="edge-lighting" id="edgeLighting"></div>
 
     <!-- Floating Buttons -->
-    <!-- Gangsa icon with onclick event -->
+    <!-- Light bulb icon with onclick event -->
     <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" />
+
+    <!-- Add an audio element -->
+    <audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
     
     <button id="watchVideos" onclick="redirectToVideo();">Watch Videos</button>
 
@@ -112,12 +112,11 @@ if (is_null($_SESSION["guest"])) {
 
     <div id="desktop-warning">Mobile Only Site.</div>
 
-        <script>
+    <script>
         const video = document.getElementById("video");
         const canvas = document.getElementById("canvas");
         const canvasContext = canvas.getContext("2d");
         const watchButton = document.getElementById("watchVideos");
-        const scroll = document.getElementById("scrollbAudio");
         const audio = document.getElementById("lightbulbAudio");
 
         let artifactInfo = "";
@@ -125,202 +124,218 @@ if (is_null($_SESSION["guest"])) {
         let imageValue = "default";
         let firstScan = false; // Track whether the first artifact is scanned
 
+        // Variables for smoothing
+        let lastTopLeft = null;
+        let lastTopRight = null;
+        let lastBottomLeft = null;
+        let lastBottomRight = null;
+
         // Initially hide the watch button
         watchButton.style.display = "none";
 
         // Function to start video stream
         async function startVideo() {
-          try {
-              video.srcObject = await navigator.mediaDevices.getUserMedia({
-                video: {facingMode: "environment"},
-            });
-            // required to play video inline on iOS
-            video.setAttribute("playsinline", true);
-            video.play();
-            requestAnimationFrame(scanQRCode);
-          } catch (error) {
-            console.error("Error accessing webcam:", error);
-          }
+            try {
+                video.srcObject = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" },
+                });
+                video.setAttribute("playsinline", true);
+                video.play();
+                requestAnimationFrame(scanQRCode);
+            } catch (error) {
+                console.error("Error accessing webcam:", error);
+            }
         }
 
         const boxImage = new Image();
-        boxImage.src = '/assets/img/display.png'; 
+        boxImage.src = '/assets/img/display.png';
 
         // Function to scan QR code
         function scanQRCode() {
-          if (video.readyState === video.HAVE_ENOUGH_DATA) {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, canvas.width, canvas.height, {
-              inversionAttempts: "dontInvert",
-            });
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, canvas.width, canvas.height, {
+                    inversionAttempts: "dontInvert",
+                });
 
-            canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-            canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+                canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            if (code) {
-              const artifactId = code.data;
-              
-              currentArtifactId = artifactId;
+                if (code) {
+                    const artifactId = code.data;
 
-              handleArtifact(artifactId);
-              fetchArtifactInfo(artifactId);
-              onQRCodeScanned();
+                    handleArtifact(artifactId);
+                    fetchArtifactInfo(artifactId);
+                    onQRCodeScanned();
 
-              if (displayBox) {
-                const centerX =
-                  (code.location.topLeftCorner.x + code.location.topRightCorner.x) / 2;
-                const centerY =
-                  (code.location.topLeftCorner.y + code.location.bottomLeftCorner.y) / 2;
+                    // Smooth Tracking: Interpolate the QR code corners to simulate smoother movement
+                    const smoothedCorners = smoothTrack(code.location);
 
+                    // Draw the smooth tracked box
+                    drawTrackedBox(smoothedCorners);
+
+                    // Display the artifact information box
+                    displayArtifactInfo(smoothedCorners.center);
+
+                    // Show the watch button only after the first artifact scan
+                    if (!firstScan) {
+                        firstScan = true;
+                    }
+                    watchButton.style.display = "block";
+                    setTimeout(() => {
+                        watchButton.style.display = "none";
+                    }, 7000);
+                } else {
+                    artifactInfo = "";
+                    displayBox = false;
+                }
+            }
+            requestAnimationFrame(scanQRCode);
+        }
+
+        // Function to smooth the tracking of corners
+        function smoothTrack(location) {
+            const smoothingFactor = 0.2;
+
+            const currentTopLeft = location.topLeftCorner;
+            const currentTopRight = location.topRightCorner;
+            const currentBottomLeft = location.bottomLeftCorner;
+            const currentBottomRight = location.bottomRightCorner;
+
+            // Initialize last positions if they don't exist
+            lastTopLeft = lastTopLeft || currentTopLeft;
+            lastTopRight = lastTopRight || currentTopRight;
+            lastBottomLeft = lastBottomLeft || currentBottomLeft;
+            lastBottomRight = lastBottomRight || currentBottomRight;
+
+            // Smooth the corners
+            lastTopLeft = {
+                x: lastTopLeft.x + (currentTopLeft.x - lastTopLeft.x) * smoothingFactor,
+                y: lastTopLeft.y + (currentTopLeft.y - lastTopLeft.y) * smoothingFactor,
+            };
+            lastTopRight = {
+                x: lastTopRight.x + (currentTopRight.x - lastTopRight.x) * smoothingFactor,
+                y: lastTopRight.y + (currentTopRight.y - lastTopRight.y) * smoothingFactor,
+            };
+            lastBottomLeft = {
+                x: lastBottomLeft.x + (currentBottomLeft.x - lastBottomLeft.x) * smoothingFactor,
+                y: lastBottomLeft.y + (currentBottomLeft.y - lastBottomLeft.y) * smoothingFactor,
+            };
+            lastBottomRight = {
+                x: lastBottomRight.x + (currentBottomRight.x - lastBottomRight.x) * smoothingFactor,
+                y: lastBottomRight.y + (currentBottomRight.y - lastBottomRight.y) * smoothingFactor,
+            };
+
+            return {
+                topLeft: lastTopLeft,
+                topRight: lastTopRight,
+                bottomLeft: lastBottomLeft,
+                bottomRight: lastBottomRight,
+                center: {
+                    x: (lastTopLeft.x + lastTopRight.x) / 2,
+                    y: (lastTopLeft.y + lastBottomLeft.y) / 2,
+                },
+            };
+        }
+
+        // Function to draw the tracked box
+        function drawTrackedBox(corners) {
+            canvasContext.beginPath();
+            canvasContext.moveTo(corners.topLeft.x, corners.topLeft.y);
+            canvasContext.lineTo(corners.topRight.x, corners.topRight.y);
+            canvasContext.lineTo(corners.bottomRight.x, corners.bottomRight.y);
+            canvasContext.lineTo(corners.bottomLeft.x, corners.bottomLeft.y);
+            canvasContext.closePath();
+            canvasContext.lineWidth = 4;
+            canvasContext.strokeStyle = "#FF3B58";
+            canvasContext.stroke();
+        }
+
+        // Function to display artifact information
+        function displayArtifactInfo(center) {
+            if (displayBox) {
                 const boxWidth = 400;
                 const boxHeight = 250;
                 const padding = 20;
 
                 // Draw the image instead of a rectangle
                 canvasContext.drawImage(
-                  boxImage,
-                  centerX - boxWidth / 2,
-                  centerY - boxHeight / 2,
-                  boxWidth,
-                  boxHeight
+                    boxImage,
+                    center.x - boxWidth / 2,
+                    center.y - boxHeight / 2,
+                    boxWidth,
+                    boxHeight
                 );
 
-                // Define offsets for spacing
-                const topOffset = 10; // Space at the top
-                const leftOffset = 10; // Space on the left
-
+                // Text rendering
                 canvasContext.font = "bold 15px 'Inter', sans-serif";
                 canvasContext.fillStyle = "#502a00";
                 canvasContext.textAlign = "left";
                 canvasContext.textBaseline = "top";
 
                 if (artifactInfo) {
-                  const lines = artifactInfo.split("\n");
-                  const lineHeight = 20; // Adjust the line height as necessary
-                  const maxLineWidth = boxWidth - 2 * padding;
+                    const lines = artifactInfo.split("\n");
+                    const lineHeight = 20; // Adjust the line height as necessary
+                    let currentY = center.y - boxHeight / 2 + padding;
 
-                  let currentY = centerY - boxHeight / 2 + padding + topOffset; // Add topOffset here
-
-                  lines.forEach((line) => {
-                    let words = line.split(" ");
-                    let currentLine = "";
-
-                    words.forEach((word, index) => {
-                      let testLine = currentLine + word + " ";
-                      let testWidth = canvasContext.measureText(testLine).width;
-
-                      if (testWidth > maxLineWidth && index > 0) {
-                        canvasContext.fillText(
-                          currentLine,
-                          centerX - boxWidth / 2 + padding + leftOffset, // Add leftOffset here
-                          currentY
-                        );
-                        currentLine = word + " ";
+                    lines.forEach((line) => {
+                        canvasContext.fillText(line, center.x - boxWidth / 2 + padding, currentY);
                         currentY += lineHeight;
 
                         // Stop rendering if text exceeds the box height
-                        if (currentY > centerY + boxHeight / 2 - padding);
-                      } else {
-                        currentLine = testLine;
-                      }
+                        if (currentY > center.y + boxHeight / 2 - padding)
                     });
-
-                    // Render the last line of the paragraph
-                    canvasContext.fillText(
-                      currentLine,
-                      centerX - boxWidth / 2 + padding + leftOffset, // Add leftOffset here
-                      currentY
-                    );
-                    currentY += lineHeight;
-
-                    // Stop rendering if text exceeds the box height
-                    if (currentY > centerY + boxHeight / 2 - padding);
-                  });
                 }
-              }
-
-              playScroll();
-
-              // Show the watch button only after the first artifact scan
-              if (!firstScan) {
-                firstScan = true; 
-              }
-              watchButton.style.display = "block";
-              setTimeout(() => {
-                watchButton.style.display = "none";
-              }, 7000);
-            } else {
-              // If no code detected, clear artifact info
-              artifactInfo = "";
-              displayBox = false;
             }
-          }
-          // Continue scanning QR codes
-          requestAnimationFrame(scanQRCode);
         }
 
         function fetchArtifactInfo(artifactId) {
-          fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
-            .then((response) => response.json())
-            .then((data) => {
-              console.log("Data:", data);
-
-              if (data && Object.keys(data).length > 0) {
-                
-                // If artifact is found
-                artifactInfo = `
-                      \n${data["Name"] || "N/A"}
-                      \nDescription: ${data["Description"] || "N/A"}
-                  `.trim();
-
-                displayBox = true;
-
-                // Show the watch button after the first scan
-                if (!firstScan) {
-                  firstScan = true; // Mark first scan completed
-                }
-              } else {
-                // If artifact is not found
-                artifactInfo = "";
-                displayBox = false;
-              }
-            })
-            .catch((error) => {
-              console.error("Error fetching artifact info:", error);
-              artifactInfo = "Error fetching artifact info";
-            });
+            fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Data:", data);
+                    if (data && Object.keys(data).length > 0) {
+                        artifactInfo = `
+                        \n${data["Name"] || "N/A"}
+                        \nDescription: ${data["Description"] || "N/A"}
+                    `.trim();
+                        displayBox = true;
+                    } else {
+                        artifactInfo = "";
+                        displayBox = false;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching artifact info:", error);
+                    artifactInfo = "Error fetching artifact info";
+                });
         }
 
         // Function to show the overlay
         function viewDetails() {
-          const overlay = document.getElementById("infoOverlay");
-          overlay.style.display = "flex";
-
-          audio.play();
-        }
-
-        function playScroll(){
-          scroll.play();  
+            const overlay = document.getElementById("infoOverlay");
+            overlay.style.display = "flex";
+            audio.play();
         }
 
         document.getElementById("exitButton").addEventListener("click", function() {
-          document.getElementById("infoOverlay").style.display = "none"; 
-          audio.pause();
-          audio.currentTime = 0; 
+            document.getElementById("infoOverlay").style.display = "none";
+            audio.pause();
+            audio.currentTime = 0;
         });
 
         function checkDevice() {
-          // Define a breakpoint for mobile devices (e.g., 768px)
-          if (window.innerWidth > 768) {
-            // Show the desktop warning
-            document.getElementById("desktop-warning").style.display = "flex";
-            setTimeout(function() {
-              alert("Please use your mobile phone to access this site.");
-            }, 100); 
-          }
+            // Define a breakpoint for mobile devices (e.g., 768px)
+            if (window.innerWidth > 768) {
+                // Show the desktop warning
+                document.getElementById("desktop-warning").style.display = "flex";
+                setTimeout(function() {
+                    alert("Please use your mobile phone to access this site.");
+                }, 100);
+            }
         }
 
         // Variable to store the current artifact ID
@@ -329,10 +344,8 @@ if (is_null($_SESSION["guest"])) {
         // Function to redirect the user to the video player page with the artifactId
         function redirectToVideo() {
             if (currentArtifactId) {
-                // Ensure the correct artifact ID is passed in the URL for the demo-player page
                 window.location.href = `demo-player.php?artifact_id=${currentArtifactId}`;
             } else {
-                // Handle the case where no artifact is scanned
                 alert("No artifact has been scanned yet.");
             }
         }

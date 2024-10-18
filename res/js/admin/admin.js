@@ -10,7 +10,6 @@
 
 let selectedArtifact = null;
 let highlightedItem = null;
-let editButtonVisible = true; // Flag to track edit button visibility
 
 function searchArtifact() {
     const query = document.querySelector('.search-input').value;
