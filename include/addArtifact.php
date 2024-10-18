@@ -37,14 +37,14 @@ if (isset($_FILES['media-select'])  && $_FILES['media-select']['error'] == 0) {
         $artifactId = $newArtifactId . "." . $sectionId . "." . $catalogId . "." . $subCatalogId;
     }
 
-    $fileName = $artifactId . "-" . $artifactName;
+    $fileName = $artifactId . "-" . $artifactName  . "." . $fileExt;
 
-    if (in_array($fileType, ['video/*'])) {
+    if (in_array($fileType, ['video/mp4', 'video/ogg', 'video/mpeg'])) {
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
 
-        $uploadFilePath = $uploadDir . $fileName . "." . $fileExt;
+        $uploadFilePath = $uploadDir . $fileName;
         
         if (move_uploaded_file($fileTmpName, $uploadFilePath)) {
             $message = '<script>

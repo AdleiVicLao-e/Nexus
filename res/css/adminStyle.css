@@ -1078,13 +1078,13 @@ td {
 
 .media-display {
 	background: rgb(250, 250, 250);
+	overflow-y: auto;
 	margin-top: 15px;
 	height: 85%;
 	border-radius: 1%;
 	padding: 10px;
 	
 }
-
 .edit-media-popup .close-edit {
 	position: absolute;
 	top: 15px;

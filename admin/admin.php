@@ -1,6 +1,5 @@
 <?php
 session_start();
-include '../include/artifact-db.php';
 if (isset($_SESSION["admin"])) {
     echo '<script>
     console.log("User logged in. Redirecting...");
@@ -303,7 +302,7 @@ if (isset($_SESSION["admin"])) {
                             <i class="fas fa-upload"></i>
                         </div>
                         <div class="tab" onclick="openTab('edit')">
-                            Edit Media
+                            Edit Artifact Media
                             <i class="fas fa-edit"></i>
                         </div>
                     </div>
@@ -319,18 +318,18 @@ if (isset($_SESSION["admin"])) {
                                 <textarea id="media-description" name="media-description" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="media-file">Select Media File:</label>
+                                <label for="media-file">Select Artifact Media File:</label>
                                 <input type="file" id="media-file" name="media-file" required>
                             </div>
                             <button type="submit">Upload</button>
                         </form>
                     </div>
                     <div id="edit" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
-                        <h3>Edit Media</h3>
+                        <h3>Edit Artifact Media</h3>
                         <form action="../include/editMedia.php" method="post">
 
                             <button type="button" id="select-media-button">
-                                Select Media
+                                Select Artifact Media
                             </button>
 
                             <div class="form-group">
@@ -352,9 +351,54 @@ if (isset($_SESSION["admin"])) {
             <div class="content">
                 <img src="/res/images/exit-icon.png" alt="Close" class="close-edit">
                 <div class="media-display">
-                <?php
-                    // TODO
-                ?>
+                    <ul>
+                        <?php
+                            include '../include/artifact-db.php';
+
+                            $result = $mysqli->query("SELECT * FROM artifact_info");
+                            $row = $result->fetch_assoc();
+
+                            if ($result->num_rows > 0) {
+                                // Output the data of each row in boxes
+                                while ($row = $result->fetch_assoc()) {
+                                    $id = "";
+                                    $description = "";
+
+                                    $id = $row["artifact_id"] . "." . $row["section_id"] . "." . $row["catalogue_id"] . "." . $row["subcat_id"];
+                                    if ($row["description"] == '' || $row["description"] == null) {
+                                        $description = "[No Description]";
+                                    } else {
+                                        $description = $row["description"];
+                                    }
+
+                                    // Fetch the video file name from the database
+                                    $fileName = $row["fileName"];
+
+                                    echo '<li>';
+                                    echo '<input type="checkbox" class="artifact-checkbox" data-id="' . $id . '" style="display: none;">';
+
+                                    // Displaying the video
+                                    if (!empty($fileName)) {
+                                        echo '<video width="240" height="180" controls>';
+                                        echo '<source src="../assets/videos/specific/' . htmlspecialchars($fileName) . '" type="video/mp4">';
+                                        echo '</video>';
+                                    } else {
+                                        echo '[No video available]';
+                                    }
+                                    echo '<br>';
+
+                                    // Displaying the rest of the data
+                                    echo 'ID: ' . html_entity_decode($id) . '<br>';
+                                    echo 'Name: ' . html_entity_decode($row["name"]) . '<br>';
+                                    echo '</li>';
+                                }
+                            } else {
+                                echo '<div class="artifact-box">0 results found</div>';
+                            }
+                        
+                            $mysqli->close();
+                        ?>
+                    </ul>
                 </div>
 
                 <div class="select-button">

@@ -4,47 +4,36 @@ if (is_null($_SESSION["guest"])) {
   header("Location: ../index.php");
 }
 
-// Database connection (replace with your database credentials)
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kultoura";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include 'include/artifact-db.php';
 
 // Get the artifact number from the query parameter (e.g., artifact.php?artifact_id=1)
 $artifact_id = isset($_GET['artifact_id']) ? intval($_GET['artifact_id']) : 0;
 
-// Query to fetch the artifact name, media path, and description for the given artifact number
-$sql = "SELECT name, media_path, description FROM artifact_info WHERE artifact_id = ?";
-$stmt = $conn->prepare($sql);
+// SQL Query withh all the fields properly initialized
+$sql = "SELECT name, fileName, description FROM artifact_info WHERE artifact_id = ?";
+$stmt = $mysqli->prepare($sql);
 $stmt->bind_param("i", $artifact_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 $name = '';
-$media_path = '';
+$media_path = 'assets/videos/specific/';
+$fileName = '';
 $description = ''; // Variable for the description
 
 if ($result->num_rows > 0) {
   // Fetch artifact details
   $row = $result->fetch_assoc();
   $name = $row['name'];
-  $media_path = $row['media_path'];
+  $fileName = $row['fileName'];
   $description = $row['description']; // Fetching description
 } else {
   $name = 'Artifact not found';
-  $media_path = 'No video available'; // Fallback message if no media found
+  $fileName = 'No video available'; // Fallback message if no media found
   $description = ''; // No description available
 }
 
 $stmt->close();
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -148,7 +137,7 @@ $conn->close();
         <h1><?php echo htmlspecialchars($name); ?></h1>
         <?php if ($media_path !== 'No video available') { ?>
           <video width="600" controls>
-            <source src="<?php echo htmlspecialchars($media_path); ?>" type="video/mp4">
+            <source src="<?php echo htmlspecialchars($media_path . $fileName); ?>" type="video/mp4">
             Your browser does not support the video tag.
           </video>
           <div class="description">
