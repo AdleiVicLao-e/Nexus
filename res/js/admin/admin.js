@@ -678,6 +678,65 @@ function printQRCode() {
     }
 }
 
+document.getElementById('addArtifactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    fetch('../include/addArtifact.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('overlay-message').innerText = data.message;
+            if (data.success) {
+                generateQRCode(data.artifact_id, formData.get('artifact-name'));
+            }
+            document.getElementById('overlay').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+function generateQRCode(artifactId, artifactName) {
+    var qrCodeContainer = document.getElementById("qrcode");
+    qrCodeContainer.innerHTML = "";
+    $("#qrcode").qrcode({
+        text: artifactId,
+        width: 200,
+        height: 200,
+    });
+    setTimeout(() => {
+        var qrCodeCanvas = document.querySelector("#qrcode canvas");
+        if (qrCodeCanvas) {
+            var dataURL = qrCodeCanvas.toDataURL("image/png");
+            fetch('../include/saveQRCode.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    artifactId: artifactId,
+                    artifactName: artifactName,
+                    imageData: dataURL
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("QR code saved successfully:", data.message);
+                    } else {
+                        console.error("Error saving QR code:", data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }, 100);
+}
+document.getElementById('close-overlay').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+});
 
   
 // -----------------------
