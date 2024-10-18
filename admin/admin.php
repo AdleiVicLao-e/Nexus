@@ -188,7 +188,7 @@ if (isset($_SESSION["admin"])) {
                             <textarea id="editScript" name="script"></textarea>
                             <br>
                             <button id="saveBtn" type="button" onclick="saveChanges()">Save</button>
-                            <button id="printQRBtn" type="button" onclick="">Print QR Code</button>
+                            <button id="printQRBtn" type="button" onclick="printQRCode()">Print QR Code</button>
                             <button id="delBtn" type="button"
                                 onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
                         </form>

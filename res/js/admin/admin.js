@@ -615,7 +615,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// -----------------------
+// Printing QR Code
+// -----------------------
 
+function printQRCode() {
+    var value = document.getElementById("artifact-id").value;
+    if (value) {
+      $("#qrcode").empty();
+  
+      $("#qrcode").qrcode({
+        text: value,
+        width: 400,
+        height: 400,
+      });
+  
+      setTimeout(() => {
+        var qrCodeCanvas = document.querySelector("#qrcode canvas");
+        if (qrCodeCanvas) {
+            var printWindow = window.open("", "", "width=800,height=600");
+            printWindow.document.write(`
+              <html>
+                <head>
+                  <title>Print QR Code</title>
+                  <style>
+                    body {
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      height: 100vh;
+                      margin: 0;
+                    }
+                    img {
+                      max-width: 100%;
+                      height: auto;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <img src="${qrCodeCanvas.toDataURL('image/png')}" alt="QR Code"/>
+                </body>
+              </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.onafterprint = () => {
+              printWindow.close(); // Close the window after printing
+            };
+            
+        }
+      }, 100);
+    } else {
+      alert("Please enter a value.");
+    }
+  }
+  
+  
 // -----------------------
 // Additional Event Listeners or Functions
 // -----------------------
