@@ -726,6 +726,49 @@ input[type="file"] {
 	border: 1.25px solid #a51010;
 
 }
+
+#printQRBtn {
+	background-color: #f6c500;
+	color: #FFFFFF;
+	border: 1.25px solid #f6c500;
+	padding: 12px 50px;
+	cursor: pointer;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	display: inline-block;
+	margin: 5px;
+	transition: background-color 0.3s ease-in-out;
+}
+
+#printQRBtn:hover {
+	background-color: #ffffff;
+	color: #f6c500;
+	font-weight: bold;
+	border: 1.25px solid #f6c500;
+}
+
+#saveBtn {
+	background-color: #073066;
+	color: #FFFFFF;
+	border: 1.25px solid #073066;
+	padding: 12px 50px;
+	cursor: pointer;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	display: inline-block;
+	margin: 5px;
+	transition: background-color 0.3s ease-in-out;
+}
+
+#saveBtn:hover {
+	background-color: #ffffff;
+	color: #073066;
+	font-weight: bold;
+	border: 1.25px solid #073066;
+}
+
 .highlight {
 	background-color: white;
 }
