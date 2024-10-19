@@ -379,9 +379,10 @@ if (isset($_SESSION["admin"])) {
                                     echo '<input type="checkbox" class="artifact-checkbox" data-id="' . $id . '" style="display: none;">';
 
                                     // Displaying the video
-                                    if (!empty($fileName)) {
+                                    if (!empty($fileName) && $fileName != null) {
                                         echo '<video width="240" height="180" controls>';
-                                        echo '<source src="../assets/videos/specific/' . htmlspecialchars($fileName) . '" type="video/mp4">';
+                                        echo '<source src="' . $videoPath . '" type="video/mp4">';
+                                        echo 'Your browser does not support the video tag.';
                                         echo '</video>';
                                     } else {
                                         echo '[No video available]';
