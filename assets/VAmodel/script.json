@@ -43,10 +43,6 @@
         "0": {
             "artifact_name": "Hello",
             "script": "Welcome! to get started, scan the qr codes available beside the artifacts. You can view specific   videos   for that artifact and by tapping me you can hear more information about   that artifact!"
-        },
-        "1297": {
-            "artifact_name": "asdfasdfasd",
-            "script": "asdfasdgasd"
         }
     }
 }
