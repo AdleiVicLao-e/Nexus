@@ -196,7 +196,7 @@ if (isset($_SESSION["admin"])) {
 
                 <div id="add" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
                     <div class="form-container">
-                        <form action="../include/addArtifact.php" method="post" enctype="multipart/form-data">
+                        <form id="addArtifactForm" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="artifact-name">Artifact Name:</label>
                                 <input type="text" id="artifact-name" name="artifact-name" required>

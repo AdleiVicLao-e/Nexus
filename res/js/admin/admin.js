@@ -3,7 +3,150 @@
 // -----------------------
 // Adding Artifact Tab
 // -----------------------
+document.getElementById('addArtifactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
+    var formData = new FormData(this);
+
+    fetch('../include/addArtifact.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            try {
+
+                document.getElementById('overlay-message').innerText = data.message;
+
+                if (data.success) {
+                    // Generate the QR code after successfully adding the artifact
+                    generateQRCode(data.artifact_id, formData.get('artifact-name'));
+
+                    // Collect script content to update
+                    const scriptContent = document.getElementById('script').value;
+
+                    // Call updateScript function after artifact addition
+                    updateScript(data.artifact_id, formData.get('artifact-name'), scriptContent);
+
+                    // Get the media input element directly
+                    const mediaInput = document.getElementById('media-select');
+
+                    // Check if there is a media file to upload
+                    if (mediaInput.files.length > 0) {
+                        console.log("hi there");
+                        uploadArtifactMedia(data.artifact_id, formData);
+                    } else {
+                        console.log("oh no");
+                        document.getElementById('overlay').style.display = 'block'; // Show overlay if no media
+                    }
+
+                } else {
+                    document.getElementById('overlay').style.display = 'block'; // Show overlay on failure
+                }
+            } catch (e) {
+                console.error("Error parsing JSON:", e, data);
+                document.getElementById('overlay').style.display = 'block'; // Show overlay on parsing error
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('overlay').style.display = 'block'; // Show overlay on request error
+        });
+});
+
+function uploadArtifactMedia(artifactId, formData) {
+    // Create a FormData object to send the media file along with other parameters
+    const mediaData = new FormData();
+    mediaData.append('media-select', formData.get('media-select')); // Append the media file
+    mediaData.append('newArtifactId', artifactId); // Use the new artifact ID
+    mediaData.append('sectionId', formData.get('section')); // Append the section ID
+    mediaData.append('catalogId', formData.get('catalog') || 0); // Append catalog ID
+    mediaData.append('subCatalogId', formData.get('sub-catalog') || 0); // Append sub-catalog ID
+    mediaData.append('artifactName', formData.get('artifact-name')); // Append artifact name
+
+    // Create XMLHttpRequest for Uploading Media
+    const xhrMedia = new XMLHttpRequest();
+    xhrMedia.open('POST', '../include/addArtifactMedia.php', true);
+
+    xhrMedia.onload = function () {
+        if (xhrMedia.status === 200) {
+            try {
+                const responseMedia = JSON.parse(xhrMedia.responseText);
+                if (responseMedia.success) {
+                    console.log("Media uploaded successfully:", responseMedia.message);
+                    document.getElementById('overlay-message').innerText = responseMedia.message;
+                } else {
+                    console.error("Error uploading media:", responseMedia.message);
+                    document.getElementById('overlay-message').innerText = responseMedia.message;
+                }
+            } catch (e) {
+                console.error("Error parsing media response:", e);
+            }
+        } else {
+            console.error('Media Upload Request Failed. Status Code:', xhrMedia.status);
+        }
+
+        // Show overlay regardless of upload success or failure
+        document.getElementById('overlay').style.display = 'block';
+    };
+
+    xhrMedia.onerror = function () {
+        console.error('An error occurred while uploading the media.');
+        document.getElementById('overlay').style.display = 'block'; // Show overlay on error
+    };
+
+    // Send Media Data
+    xhrMedia.send(mediaData);
+}
+
+
+// -----------------------
+// QR Code Generate
+// -----------------------
+
+function generateQRCode(artifactId, artifactName) {
+    var qrCodeContainer = document.getElementById("qrcode");
+    qrCodeContainer.innerHTML = "";
+
+    $("#qrcode").qrcode({
+        text: artifactId,
+        width: 200,
+        height: 200,
+    });
+
+    setTimeout(() => {
+        var qrCodeCanvas = document.querySelector("#qrcode canvas");
+        if (qrCodeCanvas) {
+            var dataURL = qrCodeCanvas.toDataURL("image/png");
+
+            fetch('../include/saveQRCode.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    artifactId: artifactId,
+                    artifactName: artifactName,
+                    imageData: dataURL
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("QR code saved successfully:", data.message);
+                    } else {
+                        console.error("Error saving QR code:", data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }, 100);
+}
+document.getElementById('close-overlay').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+});
 // -----------------------
 // Searching Artifact Tab
 // -----------------------
@@ -677,8 +820,6 @@ function printQRCode() {
         alert("Please enter a value.");
     }
 }
-
-
   
 // -----------------------
 // Additional Event Listeners or Functions
