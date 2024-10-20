@@ -1,4 +1,5 @@
 <?php
+global $mysqli;
 include 'artifact-db.php';
 
 header('Content-Type: application/json');
@@ -6,14 +7,17 @@ header('Content-Type: application/json');
 // Get the search term from the request
 $searchTerm = isset($_GET['query']) ? $_GET['query'] : '';
 
+// Add wildcards for the LIKE query
+$searchTermWithWildcards = '%' . $searchTerm . '%';
+
 // SQL query to fetch artifact details
 $query = "
     SELECT 
         a.artifact_id AS 'ID', 
         a.name AS 'Name',
-        s.section_name AS 'Section Name',
-        c.catalogue_name AS 'Catalogue Name',
-        sc.subcat_name AS 'Subcatalogue Name',
+        COALESCE(s.section_name, 'N/A') AS 'Section Name',
+        COALESCE(c.catalogue_name, 'N/A') AS 'Catalogue Name',
+        COALESCE(sc.subcat_name, 'N/A') AS 'Subcatalogue Name',
         a.description AS 'Description'
     FROM 
         artifact_info a
@@ -30,17 +34,34 @@ $query = "
         sc.subcat_name LIKE CONCAT('%', ?, '%')
 ";
 
-// Prepare and execute the SQL statement
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param('ssss', $searchTerm, $searchTerm, $searchTerm, $searchTerm);
-$stmt->execute();
-$result = $stmt->get_result();
 
-// Fetch all results as an associative array
-$data = $result->fetch_all(MYSQLI_ASSOC);
+// Prepare and execute the SQL statement
+if ($stmt = $mysqli->prepare($query)) {
+    // Bind parameters (all of them use the same search term)
+    $stmt->bind_param('ssss', $searchTermWithWildcards, $searchTermWithWildcards, $searchTermWithWildcards, $searchTermWithWildcards);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Get the result set from the query
+        $result = $stmt->get_result();
+
+        // Fetch all results as an associative array
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        // Handle query execution error
+        echo json_encode(['error' => 'Query execution failed: ' . $stmt->error]);
+        exit;
+    }
+} else {
+    // Handle query preparation error
+    echo json_encode(['error' => 'Query preparation failed: ' . $mysqli->error]);
+    exit;
+}
 
 // Close the database connection
-$stmt->close();
 $mysqli->close();
 
 // Define the path to script.json

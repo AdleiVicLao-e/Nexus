@@ -1,5 +1,6 @@
 <?php
 
+global $mysqli;
 include 'artifact-db.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -25,9 +26,9 @@ if (isset($data['id'], $data['name'], $data['section_id'], $data['description'])
         $stmt->bind_param('siissi', $name, $sectionId, $catalogId, $subcatalogId, $description, $id);
 
         if ($stmt->execute()) {
-            $response = ['success' => true, 'message' => 'Artifact updated successfully.'];
+            $response = ['success' => true, 'message' => 'Artifact with ID ' . $id . ' updated successfully.'];
         } else {
-            $response = ['success' => false, 'message' => 'Database error: ' . $stmt->error];
+            $response = ['success' => false, 'message' => 'Database error on execute: ' . $stmt->error];
         }
 
         // Close the statement
@@ -39,7 +40,16 @@ if (isset($data['id'], $data['name'], $data['section_id'], $data['description'])
     // Close the connection
     $mysqli->close();
 } else {
-    $response = ['success' => false, 'message' => 'Invalid input. Ensure all required fields are provided.'];
+    $response = [
+        'success' => false,
+        'message' => 'Invalid input. Ensure all required fields are provided.',
+        'invalidFields' => [
+            'id' => isset($data['id']) ? $data['id'] : null,
+            'name' => isset($data['name']) ? $data['name'] : null,
+            'section_id' => isset($data['section_id']) ? $data['section_id'] : null,
+            'description' => isset($data['description']) ? $data['description'] : null,
+        ]
+    ];
 }
 
 // Return the response as JSON
