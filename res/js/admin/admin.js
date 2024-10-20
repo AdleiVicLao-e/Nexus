@@ -241,10 +241,13 @@ function toggleEditButton(item, listItem) {
         return; // Don't allow editing in multi-select mode
     }
     const editButton = document.getElementById('edit-button');
+    const printButton = document.getElementById('print-button');
+
 
     if (selectedArtifact && selectedArtifact['ID'] === item['ID']) {
         selectedArtifact = null;
         if (editButton) editButton.remove();
+        if (printButton) printButton.remove();
         if (highlightedItem) highlightedItem.classList.remove('highlight');
         highlightedItem = null;
         return;
@@ -261,6 +264,9 @@ function toggleEditButton(item, listItem) {
     if (editButton) {
         editButton.remove();
     }
+    if (printButton) {
+        printButton.remove(); // Remove old print button if it exists
+    }
 
     // Create a new edit button with an icon
     const newEditButton = document.createElement('button');
@@ -272,8 +278,19 @@ function toggleEditButton(item, listItem) {
     newEditButton.style.cursor = 'pointer'; // Change cursor to pointer
     newEditButton.onclick = () => openModal(item);
 
+     // Create a new print button with an icon
+     const newPrintButton = document.createElement('button');
+     newPrintButton.id = 'print-button';
+     newPrintButton.classList.add('print-button'); // Add class for styling
+     newPrintButton.innerHTML = '<i class="fas fa-print" style="color: #073066; font-size: 20px; margin-left:-120px;"></i>'; // Font Awesome print icon
+     newPrintButton.style.background = 'none'; // Remove default button styles
+     newPrintButton.style.border = 'none'; // Remove border
+     newPrintButton.style.cursor = 'pointer'; // Change cursor to pointer
+     newPrintButton.onclick = () => printQRCode(item); // Call the printQRCode function
+  
     // Append the edit button to the list item
     listItem.appendChild(newEditButton);
+    listItem.appendChild(newPrintButton);
 }
 // Function to fetch and populate artifact options (Sections, Catalogs, Subcatalogs)
 function fetchArtifactOptions() {
@@ -879,65 +896,79 @@ document.addEventListener('DOMContentLoaded', () => {
 // -----------------------
 // Printing QR Code
 // -----------------------
+function printQRCode(item) {
+    var artifactId = item['ID'];
+    var artifactName = item['Name'];
+    
+    if (artifactId) {
+        // Construct various formats for the QR code image source path
+        var formats = [
+            `../qr/${artifactId}-${artifactName.replace(/\s+/g, '_')}.png`, // Replace spaces with underscores
+            `../qr/${artifactId}-${artifactName}.png`, // Original with spaces
+            `../qr/${artifactId}-${artifactName.replace(/_/g, ' ')}.png`, // Replace underscores with spaces
+            `../qr/${artifactId}-${artifactName.replace(/\s+/g, '_').replace(/_/g, ' ')}.png`, // Mixed format
+        ];
 
-function printQRCode() {
-    var value = document.getElementById("artifact-id").value;
-    var name = document.getElementById("editName").value; // Get the artifact name
+        // Open a new window for printing
+        var printWindow = window.open("", "", "width=800,height=600");
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>${artifactName} QR Code</title>
+              <style>
+                body {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: 100vh;
+                  margin: 0;
+                }
+                img {
+                  max-width: 100%;
+                  height: auto;
+                }
+              </style>
+            </head>
+            <body>
+              <img id="qrCodeImage" src="" alt="QR Code" width="400" height="400"/>
+            </body>
+          </html>
+        `);
+        
+        printWindow.document.close();
 
-    if (value) {
-        $("#qrcode").empty();
+        const qrCodeImage = printWindow.document.getElementById('qrCodeImage');
 
-        // Generate the QR code
-        $("#qrcode").qrcode({
-            text: value,
-            width: 400,
-            height: 400,
-        });
-
-        // Ensure the QR code is fully rendered before proceeding
-        setTimeout(() => {
-            var qrCodeCanvas = document.querySelector("#qrcode canvas");
-            if (qrCodeCanvas) {
-                // Convert QR code canvas to data URL
-                var qrCodeImage = qrCodeCanvas.toDataURL('image/png');
-                
-                // Open print window
-                var printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write(`
-                  <html>
-                    <head>
-                      <title>${name} - QR Code</title> <!-- Use the name value in the title -->
-                      <style>
-                        body {
-                          display: flex;
-                          justify-content: center;
-                          align-items: center;
-                          height: 100vh;
-                          margin: 0;
-                        }
-                        img {
-                          max-width: 100%;
-                          height: auto;
-                        }
-                      </style>
-                    </head>
-                    <body>
-                      <img src="${qrCodeImage}" alt="QR Code"/> <!-- Use the rendered QR code image -->
-                    </body>
-                  </html>
-                `);
-                printWindow.document.close();
-                printWindow.focus();
-                printWindow.print();
-                printWindow.onafterprint = () => {
-                    printWindow.close(); // Close the window after printing
+        // Function to try loading the images sequentially
+        const tryLoadingImages = (index) => {
+            if (index < formats.length) {
+                qrCodeImage.src = formats[index]; // Set the image source
+                qrCodeImage.onload = function() {
+                    printWindow.focus(); // Focus on the print window
+                    printWindow.print(); // Open the print dialog
+                    printWindow.onafterprint = () => {
+                        printWindow.close(); // Close the window after printing
+                    };
                 };
+
+                // If this image fails to load, try the next one
+                qrCodeImage.onerror = function() {
+                    tryLoadingImages(index + 1); // Try the next format
+                };
+            } else {
+                // If all attempts fail, show an alert
+                alert("Failed to load QR code image.");
+                printWindow.close(); // Close the window if all attempts fail
             }
-        }, 1800); // Use a slightly longer delay to ensure the QR code has rendered
+        };
+
+        // Start the loading attempts
+        tryLoadingImages(0);
     } else {
         alert("Please enter a value.");
     }
 }
+
 
 // Edit Media
 let selectedMediaId = null;

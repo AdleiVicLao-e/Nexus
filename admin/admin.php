@@ -59,12 +59,12 @@ if (isset($_SESSION["admin"])) {
                     style="position: absolute; top: -5px; right: -10px; width: 10px; height: 10px; background-color: red; border-radius: 50%; display: block;"></span>
                 <div id="notificationPopup"
                     style="display: none; position: absolute; right: 0; top: 25px; background: white; border: 1px solid #ccc; border-radius: 5px; width: 250px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); z-index: 10;">
-                    <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ccc;">Notifications</div>
-                    <div style="padding: 10px; cursor: pointer;">New comment on your post</div>
-                    <div style="padding: 10px; cursor: pointer;">New follower</div>
-                    <div style="padding: 10px; cursor: pointer;">You have 3 new messages</div>
-                    <div style="padding: 10px; cursor: pointer;">Your profile was viewed</div>
-                    <div style="padding: 10px; cursor: pointer;">Reminder: Meeting at 3 PM</div>
+                    <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ccc; color: black;">Notifications</div>
+                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
+                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
+                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
+                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
+                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
                 </div>
             </div>
             <img src="../res/images/user-image.png" alt="User Icon" aria-hidden="true">
@@ -187,7 +187,6 @@ if (isset($_SESSION["admin"])) {
                             <textarea id="editScript" name="script"></textarea>
                             <br>
                             <button id="saveBtn" type="button" onclick="saveChanges()">Save</button>
-                            <button id="printQRBtn" type="button" onclick="printQRCode()">Print QR Code</button>
                             <button id="delBtn" type="button"
                                 onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
                         </form>

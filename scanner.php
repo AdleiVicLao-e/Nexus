@@ -278,7 +278,7 @@ if (is_null($_SESSION["guest"])) {
                   \n${data["Name"] || "N/A"}
                   \nDescription: ${data["Description"] || "N/A"}
               `.trim();
-                    alert(artifactInfo);
+                    // alert(artifactInfo);
                     displayBox = true;
 
                     // Show the watch button after the first scan
