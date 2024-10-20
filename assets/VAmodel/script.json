@@ -43,6 +43,34 @@
         "0": {
             "artifact_name": "Hello",
             "script": "Welcome! to get started, scan the qr codes available beside the artifacts. You can view specific   videos   for that artifact and by tapping me you can hear more information about   that artifact!"
+        },
+        "1310": {
+            "artifact_name": "tre",
+            "script": "qwe"
+        },
+        "1311": {
+            "artifact_name": "eqwer",
+            "script": "qwer"
+        },
+        "1312": {
+            "artifact_name": "sadcvs",
+            "script": "wer"
+        },
+        "1313": {
+            "artifact_name": "s",
+            "script": "asd"
+        },
+        "1314": {
+            "artifact_name": "uytre",
+            "script": "ywte"
+        },
+        "1315": {
+            "artifact_name": "hasfd",
+            "script": "asdf"
+        },
+        "1316": {
+            "artifact_name": "hasdfasd",
+            "script": "asdfas"
         }
     }
 }

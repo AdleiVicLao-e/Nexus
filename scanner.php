@@ -2,6 +2,10 @@
 session_start();
 if (is_null($_SESSION["guest"])) {
     header("Location: ../index.php");
+    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    header("Pragma: no-cache"); // HTTP 1.0.
+    header("Expires: 0"); // Proxies.
+
 }
 ?>
 <!DOCTYPE html>
@@ -263,19 +267,18 @@ if (is_null($_SESSION["guest"])) {
     }
 
     function fetchArtifactInfo(artifactId) {
-        fetch(`include/getArtifact.php?artifact_id=${artifactId}`)
-            .then((response) => response.json())
+        fetch(`include/getArtifact.php?artifact_id=${artifactId}&t=${Date.now()}`)
+                .then((response) => response.json())
             .then((data) => {
                 console.log("Data:", data);
 
-                if (data && Object.keys(data).length > 0) {
-
+                if (data && !data.error) {
                     // If artifact is found
                     artifactInfo = `
-                      \n${data["Name"] || "N/A"}
-                      \nDescription: ${data["Description"] || "N/A"}
-                  `.trim();
-
+                  \n${data["Name"] || "N/A"}
+                  \nDescription: ${data["Description"] || "N/A"}
+              `.trim();
+                    alert(artifactInfo);
                     displayBox = true;
 
                     // Show the watch button after the first scan
@@ -283,16 +286,18 @@ if (is_null($_SESSION["guest"])) {
                         firstScan = true; // Mark first scan completed
                     }
                 } else {
-                    // If artifact is not found
-                    artifactInfo = "";
+                    // If artifact is not found or if an error occurred
+                    artifactInfo = data.message || "Artifact not found";
                     displayBox = false;
                 }
             })
             .catch((error) => {
                 console.error("Error fetching artifact info:", error);
                 artifactInfo = "Error fetching artifact info";
+                displayBox = false;
             });
     }
+
 
     // Function to show the overlay
     function viewDetails() {

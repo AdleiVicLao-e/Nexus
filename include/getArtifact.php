@@ -1,4 +1,5 @@
 <?php
+global $mysqli;
 include 'artifact-db.php';
 
 header('Content-Type: application/json');
@@ -27,18 +28,38 @@ $query = "
     WHERE 
         a.artifact_id = ?;";
 
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param('i', $artifactId);
-$stmt->execute();
-$result = $stmt->get_result();
+// Prepare the statement
+if ($stmt = $mysqli->prepare($query)) {
+    // Bind parameters
+    $stmt->bind_param('i', $artifactId);
 
-// Fetch the result
-$data = $result->fetch_assoc();
+    // Execute the statement
+    $stmt->execute();
 
-// Close connection
-$stmt->close();
+    // Fetch the result
+    $result = $stmt->get_result();
+
+    // Check if any data is returned
+    if ($data = $result->fetch_assoc()) {
+        // If data is found, return it as JSON
+        echo json_encode($data);
+    } else {
+        // If no data found, return an empty response
+        echo json_encode([
+            'error' => true,
+            'message' => 'No artifact found for this ID'
+        ]);
+    }
+
+    // Close statement and connection
+    $stmt->close();
+} else {
+    // If query preparation fails, return an error response
+    echo json_encode([
+        'error' => true,
+        'message' => 'Failed to prepare the query'
+    ]);
+}
+
 $mysqli->close();
-
-// Return the data as JSON
-echo json_encode($data);
 ?>

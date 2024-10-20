@@ -1,48 +1,119 @@
 <?php
+global $mysqli;
+include 'artifact-db.php'; // Include database connection
 
-include 'artifact-db.php';
-$data = json_decode(file_get_contents("php://input"), true);
 
-// Validate input
-if (isset($data['id'], $data['name'], $data['section_id'], $data['description'])) {
-    $id = $data['id'];
-    $name = $data['name'];
-    $sectionId = $data['section_id'];
-    $catalogId = isset($data['catalog_id']) && is_numeric($data['catalog_id']) ? $data['catalog_id'] : null; // Handle null case
-    $subcatalogId = isset($data['subcatalog_id']) && is_numeric($data['subcatalog_id']) ? $data['subcatalog_id'] : null; // Handle null case
-    $description = $data['description'];
+header('Content-Type: application/json');
 
-    // Prepare and execute the update query
+
+try {
+    // Decode input JSON
+    $input = json_decode(file_get_contents('php://input'), true);
+
+
+    // Validate input
+    if (!isset($input['id'], $input['name'], $input['section_name'], $input['description'])) {
+        throw new Exception('Invalid input. Ensure all required fields are provided.');
+    }
+
+
+    $id = $input['id'];
+    $name = $input['name'];
+    $sectionName = $input['section_name']; // Updated key
+    $catalogName = isset($input['catalog_name']) ? $input['catalog_name'] : null; // Updated key
+    $subcatalogName = isset($input['subcatalog_name']) ? $input['subcatalog_name'] : null; // Updated key
+    $description = $input['description'];
+
+
+
+
+    $sectionId = null;
+    $catalogId = null;
+    $subcatalogId = null;
+
+
+    // Fetch section ID
+    $stmt = $mysqli->prepare("SELECT section_id FROM section WHERE section_name = ?");
+    $stmt->bind_param('s', $sectionName);
+    $stmt->execute();
+    $stmt->bind_result($sectionId);
+    $stmt->fetch();
+    $stmt->close();
+
+
+    if (!$sectionId) {
+        throw new Exception('Section not found.');
+    }
+
+
+    // Fetch catalog ID if catalogName is provided
+    if ($catalogName) {
+        $stmt = $mysqli->prepare("SELECT catalogue_id FROM catalogue WHERE catalogue_name = ?");
+        $stmt->bind_param('s', $catalogName);
+        $stmt->execute();
+        $stmt->bind_result($catalogId);
+        $stmt->fetch();
+        $stmt->close();
+
+
+        if (!$catalogId) {
+            throw new Exception('Catalog not found.');
+        }
+    }
+
+
+    // Fetch subcatalog ID if subcatalogName is provided
+    if ($subcatalogName) {
+        $stmt = $mysqli->prepare("SELECT subcat_id FROM subcatalogue WHERE subcat_name = ?");
+        $stmt->bind_param('s', $subcatalogName);
+        $stmt->execute();
+        $stmt->bind_result($subcatalogId);
+        $stmt->fetch();
+        $stmt->close();
+
+
+        if (!$subcatalogId) {
+            throw new Exception('Subcatalog not found.');
+        }
+    }
+
+
+    // Update the artifact with the retrieved IDs
     $query = "
-        UPDATE artifact_info
-        SET name = ?, section_id = ?, catalogue_id = ?, subcat_id = ?, description = ?
-        WHERE artifact_id = ?
-    ";
+       UPDATE artifact_info
+       SET name = ?, section_id = ?, catalogue_id = ?, subcat_id = ?, description = ?
+       WHERE artifact_id = ?
+   ";
+
 
     $stmt = $mysqli->prepare($query);
-
     if ($stmt) {
         $stmt->bind_param('siissi', $name, $sectionId, $catalogId, $subcatalogId, $description, $id);
+
 
         if ($stmt->execute()) {
             $response = ['success' => true, 'message' => 'Artifact updated successfully.'];
         } else {
-            $response = ['success' => false, 'message' => 'Database error: ' . $stmt->error];
+            throw new Exception('Database error: ' . $stmt->error);
         }
 
-        // Close the statement
+
         $stmt->close();
     } else {
-        $response = ['success' => false, 'message' => 'Failed to prepare statement: ' . $mysqli->error];
+        throw new Exception('Failed to prepare statement: ' . $mysqli->error);
     }
 
-    // Close the connection
-    $mysqli->close();
-} else {
-    $response = ['success' => false, 'message' => 'Invalid input. Ensure all required fields are provided.'];
+
+} catch (Exception $e) {
+    $response = ['success' => false, 'message' => $e->getMessage()];
 }
 
+
 // Return the response as JSON
-header('Content-Type: application/json');
 echo json_encode($response);
+
+
+$mysqli->close();
 ?>
+
+
