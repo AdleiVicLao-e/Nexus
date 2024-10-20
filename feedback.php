@@ -38,9 +38,6 @@ if (is_null($_SESSION["guest"])) {
           <li class="nav-item">
           <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
          </li>
-         <li class="nav-item">
-          <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
-         </li>
           <li class="nav-item">
             <a class="nav-link" href="about.php" title="About">About</a>
           </li>
@@ -68,9 +65,6 @@ if (is_null($_SESSION["guest"])) {
               <li class="nav-item">
               <a href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
-              </li>
               <li class="nav-item">
                 <a class="nav-link" href="about.php" title="About">About</a>
               </li>
@@ -81,58 +75,122 @@ if (is_null($_SESSION["guest"])) {
           <div class="clearfix"></div>
         </div>
       </div>
-      <div class="fb-form-container">
-        <div class="fb"> <!-- Remove the dot from the class name -->
-            <form method="POST" action="include/addFeedback.php" class="fb-form"> <!-- Remove the dot from the class name -->
-            <h2>Feedback Form</h2>
-            <label>How do you rate your overall experience?</label>
-            <div class="mb-3 d-flex flex-row py-1">
-              <div class="form-check mr-3">
-                <input class="form-check-input" type="radio" name="rating" id="rating_bad" value="bad">
-                <label class="form-check-label" for="rating_bad">
-                  Bad
-                </label>
-              </div>
-              
-              <div class="form-check mx-3">
-                <input class="form-check-input" type="radio" name="rating" id="rating_good" value="good">
-                <label class="form-check-label" for="rating_good">
-                  Good
-                </label>
-              </div>
-              
-              <div class="form-check mx-3">
-                <input class="form-check-input" type="radio" name="rating" id="rating_excellent" value="excellent">
-                <label class="form-check-label" for="rating_excellent">
-                  Excellent!
-                </label>
-              </div>
-            </div>
-            
-            <div class="mb-4 small">
-              <label>Please provide your feedback and suggestions in the form below:</label>
-              <textarea id="message" name="message" rows="4" required></textarea> 
-            </div>
-            <input class="btn-red" type="submit" value="Submit">
-          </form>
+
+    <div class="feedback-form">
+    <h2>Museum Feedback Form</h2>
+    <form action="#" method="post" onsubmit="showThankYouMessage(event)">
+        
+        <!-- Date Field -->
+        <div class="form-group">
+            <label for="date">Date:</label><br>
+            <input type="date" id="date" name="date" required>
         </div>
-      </div>
-      
-      
-      </div>
+        
+        <!-- Quality/Presentation of Exhibits -->
+        <div class="form-group">
+            <label for="exhibits">Quality/Presentation of Exhibits:</label><br>
+            <div class="form-options">
+                <input type="radio" id="excellent1" name="exhibits" value="excellent" required>
+                <label for="excellent1">Excellent</label><br>
+                <input type="radio" id="good1" name="exhibits" value="good">
+                <label for="good1">Good</label><br>
+                <input type="radio" id="average1" name="exhibits" value="average">
+                <label for="average1">Average</label><br>
+                <input type="radio" id="dissatisfied1" name="exhibits" value="dissatisfied">
+                <label for="dissatisfied1">Dissatisfied</label>
+            </div>
+        </div>
+
+        <!-- Cleanliness and Ambiance -->
+        <div class="form-group">
+            <label for="cleanliness">Cleanliness and Ambiance:</label><br>
+            <div class="form-options">
+                <input type="radio" id="excellent2" name="cleanliness" value="excellent" required>
+                <label for="excellent2">Excellent</label><br>
+                <input type="radio" id="good2" name="cleanliness" value="good">
+                <label for="good2">Good</label><br>
+                <input type="radio" id="average2" name="cleanliness" value="average">
+                <label for="average2">Average</label><br>
+                <input type="radio" id="dissatisfied2" name="cleanliness" value="dissatisfied">
+                <label for="dissatisfied2">Dissatisfied</label>
+            </div>
+        </div>
+
+        <!-- Museum Staff Service -->
+        <div class="form-group">
+            <label for="staff">Museum Staff Service:</label><br>
+            <div class="form-options">
+                <input type="radio" id="excellent3" name="staff" value="excellent" required>
+                <label for="excellent3">Excellent</label><br>
+                <input type="radio" id="good3" name="staff" value="good">
+                <label for="good3">Good</label><br>
+                <input type="radio" id="average3" name="staff" value="average">
+                <label for="average3">Average</label><br>
+                <input type="radio" id="dissatisfied3" name="staff" value="dissatisfied">
+                <label for="dissatisfied3">Dissatisfied</label>
+            </div>
+        </div>
+
+        <!-- Overall Experience -->
+        <div class="form-group">
+            <label for="experience">Overall Experience:</label><br>
+            <div class="form-options">
+                <input type="radio" id="excellent4" name="experience" value="excellent" required>
+                <label for="excellent4">Excellent</label><br>
+                <input type="radio" id="good4" name="experience" value="good">
+                <label for="good4">Good</label><br>
+                <input type="radio" id="average4" name="experience" value="average">
+                <label for="average4">Average</label><br>
+                <input type="radio" id="dissatisfied4" name="experience" value="dissatisfied">
+                <label for="dissatisfied4">Dissatisfied</label>
+            </div>
+        </div>
+
+        <!-- Comments, Questions, or Suggestions -->
+        <div class="form-group">
+            <label for="comments">Comments, Questions, or Suggestions:</label><br>
+            <textarea id="comments" name="comments" placeholder="Enter your feedback here..."></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+            <input type="submit" value="Submit Feedback">
+        </div>
+    </form>
+</div>
+
+<!-- Thank You Message -->
+<div id="thankYouMessage" class="thank-you-message" style="display:none;">
+        <img src="/assets/img/thanks.png" alt="Descriptive text" class="responsive-image">
+        <h3>Thank you for your feedback!</h3>
+        <a href="homepage.php" class="go-home">Go back to homepage</a>
+        <a href="scanner.php" class="go-home">Scan more artifacts</a>
+</div>
+
       <div id="footer">
         <div class="container">
           <div class="footer-logo-block">
-            <a href="https://www.facebook.com/slumuseum" class="footer-logo">
-              <img src="assets\img\logo.png" alt="Logo footer">
-            </a>
             <p class="copyright" style="font-size: 15px">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
           </div>
           <div class="clearfix"></div>
         </div>
       </div>
-    </div>
-    </div>
+</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').value = today;
+    });
+
+    // Show thank you message after form submission
+    function showThankYouMessage(event) {
+        event.preventDefault();
+        document.querySelector('.feedback-form').style.display = 'none';
+        document.getElementById('thankYouMessage').style.display = 'block';
+    }
+  </script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
