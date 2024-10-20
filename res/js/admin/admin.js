@@ -692,52 +692,80 @@ function saveChanges() {
     // Collect Script Data
     const scriptContent = document.getElementById('editScript').value;
 
-    // Prepare Artifact Data Payload
-    const artifactData = {
-        id: id,
-        name: name,
-        section_id: sectionName,
-        catalog_id: catalogName,
-        subcatalog_id: subcatalogName,
-        description: description,
+    // Prepare data for getting IDs
+    const idsData = {
+        sectionName: sectionName,
+        catalogName: catalogName,
+        subcatalogName: subcatalogName,
     };
 
-    // Create XMLHttpRequest for Updating Artifact
-    const xhrArtifact = new XMLHttpRequest();
-    xhrArtifact.open('POST', '../include/editArtifact.php', true);
-    xhrArtifact.setRequestHeader('Content-Type', 'application/json');
-
-    xhrArtifact.onload = function () {
-        if (xhrArtifact.status === 200) {
-            try {
-                const responseArtifact = JSON.parse(xhrArtifact.responseText);
-                if (responseArtifact.success) {
-                    // Artifact updated successfully, proceed to update the script
-                    updateScript(id, name, scriptContent);
-                    updateArtifactMedia(id, sectionName, catalogName, subcatalogName, name);
-                    console.log(sectionName+ " "  + catalogName+ " "  + subcatalogName+ " "  + name + " bro");
-                    updateQRCode(id, name);
-                } else {
-                    // Handle Artifact Update Failure
-                    console.log('Artifact Update Failed: ' + responseArtifact.message);
-                }
-            } catch (e) {
-                console.log('Error parsing response: ' + e.message); // Handle JSON parsing error
+    // Fetch IDs from getids.php
+    fetch('/include/getids.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(idsData),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
             }
-        } else {
-            // Handle HTTP Errors for Artifact Update
-            alert('Artifact Update Request Failed. Status Code: ' + xhrArtifact.status);
-        }
-    };
+            return response.json();
+        })
+        .then(ids => {
+            // Prepare Artifact Data Payload with fetched IDs
+            const artifactData = {
+                id: id,
+                name: name,
+                section_id: ids.sectionId || null, // Use fetched section ID
+                catalog_id: ids.catalogId || null, // Use fetched catalog ID
+                subcatalog_id: ids.subcatalogId || null, // Use fetched subcatalog ID
+                description: description,
+            };
 
-    xhrArtifact.onerror = function () {
-        // Handle Network Errors for Artifact Update
-        alert('An error occurred while updating the artifact.');
-    };
+            // Create XMLHttpRequest for Updating Artifact
+            const xhrArtifact = new XMLHttpRequest();
+            xhrArtifact.open('POST', '../include/editArtifact.php', true);
+            xhrArtifact.setRequestHeader('Content-Type', 'application/json');
 
-    // Send Artifact Data
-    xhrArtifact.send(JSON.stringify(artifactData));
+            xhrArtifact.onload = function () {
+                if (xhrArtifact.status === 200) {
+                    try {
+                        const responseArtifact = JSON.parse(xhrArtifact.responseText);
+                        if (responseArtifact.success) {
+                            // Artifact updated successfully, proceed to update the script
+                            updateScript(id, name, scriptContent);
+                            updateArtifactMedia(id, sectionName, catalogName, subcatalogName, name);
+                            console.log(sectionName + " " + catalogName + " " + subcatalogName + " " + name + " bro");
+                            updateQRCode(id, name);
+                        } else {
+                            // Handle Artifact Update Failure
+                            console.log('Artifact Update Failed: ' + responseArtifact.message);
+                        }
+                    } catch (e) {
+                        console.log('Error parsing response: ' + e.message); // Handle JSON parsing error
+                    }
+                } else {
+                    // Handle HTTP Errors for Artifact Update
+                    alert('Artifact Update Request Failed. Status Code: ' + xhrArtifact.status);
+                }
+            };
+
+            xhrArtifact.onerror = function () {
+                // Handle Network Errors for Artifact Update
+                alert('An error occurred while updating the artifact.');
+            };
+
+            // Send Artifact Data
+            xhrArtifact.send(JSON.stringify(artifactData));
+        })
+        .catch(error => {
+            console.error('Error fetching IDs:', error);
+            alert('Error fetching IDs for artifact update. Please check the console for more details.');
+        });
 }
+
 function updateArtifactMedia(artifactId, sectionName, catalogName, subcatalogName, artifactName) {
     // Fetch section, catalog, and subcatalog IDs
     fetch('../include/getIds.php', {
