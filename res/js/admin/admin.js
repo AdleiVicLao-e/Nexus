@@ -820,7 +820,108 @@ function printQRCode() {
         alert("Please enter a value.");
     }
 }
-  
+
+// Edit Media
+let selectedMediaId = null;
+
+function selectMedia(id) {
+    // Hide the popup
+    var popup = document.getElementById('edit-media-popup');
+    popup.style.display = 'none';
+
+    // Display currently selected media ID
+    selectedMediaId = id;
+    var mediaId = document.getElementById('selected-media-id');
+    mediaId.textContent = 'Media ID: ' + selectedMediaId;
+
+    // Display fields and button
+    var titleField = document.getElementById('new-title-field');
+    var descField = document.getElementById('new-desc-field');
+    var updateBtn = document.getElementById('update-media-btn');
+
+    titleField.style.display = 'block';
+    descField.style.display = 'block'; 
+    updateBtn.style.display = 'block'; 
+
+    // Get the div containing the details by its ID
+    var div = document.getElementById(id);
+    
+    // Get the content inside it
+    var titleContent = div.querySelector('#media-title').textContent.replace("Title:", "").trim();
+    var descriptionContent = div.querySelector('#media-description').textContent.replace("Description:", "").trim();
+
+    var newTitleField = document.getElementById('new-media-title');
+    var newDescField = document.getElementById('new-media-description');
+
+    newTitleField.value = titleContent;
+    newDescField.value = descriptionContent;
+}
+
+function updateMedia() {
+    // Prevent the form from submitting normally
+    document.getElementById('media-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Collect values from the input fields
+        const mediaId = selectedMediaId;  // Ensure selectedMediaId is defined
+        const newTitle = document.getElementById('new-media-title').value; // Get the title value
+        const newDescription = document.getElementById('new-media-description').value; // Get the description value
+
+        // Create a FormData object to send the data
+        const formData = new FormData();
+        formData.append('media_id', mediaId);
+        formData.append('new-media-title', newTitle);
+        formData.append('new-media-description', newDescription);
+
+        // Send the data to the server using fetch
+        fetch('../include/editMedia.php', {
+            method: 'POST',
+            body: formData,  // Send the FormData object
+        })
+        .then(response => response.json())  // Expecting a JSON response from PHP
+        .then(data => {
+            console.log('Response from server:', data);
+            if (data.success) {
+                alert("Update successful: " + data.message);
+            } else {
+                alert("Update failed: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+}
+
+function deleteMedia(id) {
+    // Send the data to the server using fetch
+    fetch('../include/deleteMedia.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', 
+        },
+        body: new URLSearchParams({ 'id': id }) 
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        if (data.success) {
+            // Alert for successful deletion
+            alert("Delete successful, ID: " + id);
+        } else {
+            // Alert for failed deletion
+            alert("Delete failed. ID: " + id + ". Error: " + data.message);
+        }
+        location.reload();
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+    // Hide the popup
+    var popup = document.getElementById('edit-media-popup');
+    popup.style.display = 'none';
+}
+
 // -----------------------
 // Additional Event Listeners or Functions
 // -----------------------

@@ -104,32 +104,32 @@ if (isset($_SESSION["admin"])) {
                     <br>
                     <div class="col-md-8">
                         <div class="card card-round">
-                          <div class="card-header">
-                            <div class="card-head-row card-tools-still-right">
-                              <div class="card-title">Visitor Feedback</div>
-                              <div class="card-tools">
-                              </div>
+                            <div class="card-header">
+                                <div class="card-head-row card-tools-still-right">
+                                    <div class="card-title">Visitor Feedback</div>
+                                    <div class="card-tools">
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="card-body p-0">
-                              <div class="table-responsive">
-                                  <table class="table align-items-center mb-0">
-                                      <thead class="thead-light">
-                                      <tr>
-                                          <th scope="col" class="text-end">Rating</th>
-                                          <th scope="col" class="text-end">Feedback/Suggestion</th>
-                                      </tr>
-                                      </thead>
-                                      <tbody id="feedback-table-body">
-                                      <!-- Feedback will be loaded here -->
-                                      </tbody>
-                                  </table>
-                              </div>
-                          </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table align-items-center mb-0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" class="text-end">Rating</th>
+                                                <th scope="col" class="text-end">Feedback/Suggestion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="feedback-table-body">
+                                            <!-- Feedback will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                      </div>
+                    </div>
                 </div>
-            </div> 
+            </div>
         </div>
         <div class="right-container">
             <div class="artifacts">
@@ -227,7 +227,7 @@ if (isset($_SESSION["admin"])) {
                             </div>
                             <div class="form-group">
                                 <label for="media-upload">Upload Media:</label>
-                                <input type="file" id="media-select" name="media-select">
+                                <input type="file" id="media-select" name="media-select" accept="video/*">
                             </div>
                             <button type="submit">Add Artifact</button>
                         </form>
@@ -309,7 +309,7 @@ if (isset($_SESSION["admin"])) {
                     </div>
                     <div id="upload" class="tab-content active" style="background-color: #ffffff; margin-top: -20px;">
                         <h3>Upload Media</h3>
-                        <form action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
+                        <form id="upload-form" action="../include/uploadMedia.php" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="media-title">Media Title:</label>
                                 <input type="text" id="media-title" name="media-title" required>
@@ -320,35 +320,42 @@ if (isset($_SESSION["admin"])) {
                             </div>
                             <div class="form-group">
                                 <label for="media-file">Select Artifact Media File:</label>
-                                <input type="file" id="media-file" name="media-file" required>
+                                <input type="file" id="media-file" name="media-file" accept="video/*" required>
                             </div>
-                            <button type="submit">Upload</button>
+                            <button type="submit" id="general-media-upload-btn" onCLick="disableButton()">Upload</button>
                         </form>
+                        <script>
+                        function disableButton() {
+                            document.getElementById("general-media-upload-btn").disabled = true;
+                            document.getElementById("upload-form").submit();
+                        }
+                        </script>
                     </div>
                     <div id="edit" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
                         <h3>Edit Artifact Media</h3>
-                        <form action="../include/editMedia.php" method="post">
-
+                        <form id="media-form">
                             <button type="button" id="select-media-button">
-                                Select Artifact Media
+                                Select Media
                             </button>
-
-                            <div class="form-group">
+                            <p id="selected-media-id" style="padding-left: 10px; font-weight: bold; font-size: 18px;">
+                            </p>
+                            <div class="form-group" id="new-title-field" style="display: none">
                                 <label for="new-media-title">New Media Title:</label>
                                 <input type="text" id="new-media-title" name="new-media-title" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="new-desc-field" style="display: none">
                                 <label for="new-media-description">New Media Description:</label>
                                 <textarea id="new-media-description" name="new-media-description" required></textarea>
                             </div>
-                            <button type="submit">Update Media</button>
+                            <button type="submit" onclick="updateMedia()" id="update-media-btn"
+                                style="display: none">Update Media</button>
                         </form>
                     </div>
                 </div> <!-- End of Cordilleran Performing Arts Media div -->
             </div> <!-- End of artifacts div -->
         </div> <!-- End of right-container div -->
 
-        <div class="edit-media-popup">
+        <div class="edit-media-popup" id="edit-media-popup">
             <div class="content">
                 <img src="/res/images/exit-icon.png" alt="Close" class="close-edit">
                 <div class="media-display">
@@ -356,273 +363,260 @@ if (isset($_SESSION["admin"])) {
                         <?php
                             include '../include/artifact-db.php';
 
-                            $result = $mysqli->query("SELECT * FROM artifact_info");
-                            $row = $result->fetch_assoc();
+                            $result = $mysqli->query("SELECT * FROM uncategorized_media");
 
                             if ($result->num_rows > 0) {
                                 // Output the data of each row in boxes
                                 while ($row = $result->fetch_assoc()) {
-                                    $id = "";
-                                    $description = "";
-
-                                    $id = $row["artifact_id"] . "." . $row["section_id"] . "." . $row["catalogue_id"] . "." . $row["subcat_id"];
-                                    if ($row["description"] == '' || $row["description"] == null) {
-                                        $description = "[No Description]";
-                                    } else {
-                                        $description = $row["description"];
-                                    }
-
-                                    // Fetch the video file name from the database
-                                    $fileName = $row["fileName"];
-
                                     echo '<li>';
-                                    echo '<input type="checkbox" class="artifact-checkbox" data-id="' . $id . '" style="display: none;">';
-
+                                    // Wrap video and description in a div container for side-by-side layout
+                                    echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
                                     // Displaying the video
-                                    if (!empty($fileName) && $fileName != null) {
-                                        echo '<video width="240" height="180" controls>';
+                                    $videoPath = '../assets/videos/general/' . $row["fileName"];
+                                    if (file_exists($videoPath)) {
+                                        // Displaying the video
+                                        echo '<video width="240" height="180" controls style="margin-right: 20px;">';
                                         echo '<source src="' . $videoPath . '" type="video/mp4">';
-                                        echo 'Your browser does not support the video tag.';
                                         echo '</video>';
                                     } else {
-                                        echo '[No video available]';
+                                        // Displaying a message if the video file is not found
+                                        echo '<p style="font-weight: bold; color: red; font-size: 20px;">File Missing</p>';
                                     }
-                                    echo '<br>';
+                                    // Description container
+                                    echo '<div id="' . $row["id"] . '">';
+                                    echo '<p id="media-id">ID: ' . $row["id"] . '</p>';
+                                    echo '<p id="media-title">Title: ' . html_entity_decode($row["title"]) . '</p>';
+                                    echo '<p id="media-description">Description: ' . html_entity_decode($row["description"]) . '</p>';
+                                    echo '<p id="media-file-name">File Name: ' . html_entity_decode($row["fileName"]) . '</p>';
+                                    echo '</div>';
 
-                                    // Displaying the rest of the data
-                                    echo 'ID: ' . html_entity_decode($id) . '<br>';
-                                    echo 'Name: ' . html_entity_decode($row["name"]) . '<br>';
-                                    echo '</li>';
+                                    // Edit and Delete buttons
+                                    echo '<div style="margin-left: 10px;">';
+                                    echo '<button onclick="selectMedia(' . $row["id"] . ')">Edit</button> ';
+                                    echo '<button onclick="deleteMedia(' . $row["id"] . ')">Delete</button>';
+                                    echo '</div>'; // End of buttons container
+                                    echo '</li>'; // End of the list item
                                 }
                             } else {
-                                echo '<div class="artifact-box">0 results found</div>';
+                                echo '0 results found';
                             }
                         
                             $mysqli->close();
                         ?>
                     </ul>
                 </div>
-
-                <div class="select-button">
-                    <button type="button" id="sel-button">
-                        Select
-                    </button>
-                </div>
-                
             </div>
         </div>
 
         <script>
-            document.getElementById("select-media-button").addEventListener("click", function(){
-                document.querySelector(".edit-media-popup").style.display = "flex";
-            })
+        document.getElementById("select-media-button").addEventListener("click", function() {
+            document.querySelector(".edit-media-popup").style.display = "flex";
+        })
 
-            document.querySelector(".close-edit").addEventListener("click", function(){
-                document.querySelector(".edit-media-popup").style.display = "none"
-            })
-            
+        document.querySelector(".close-edit").addEventListener("click", function() {
+            document.querySelector(".edit-media-popup").style.display = "none"
+        })
         </script>
 
         <script src="/res/js/admin/admin.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Include Chart.js library -->
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const userTableContainer = document.getElementById("userTableContainer");
-                const refreshBtn = document.getElementById("refreshBtn");
-                // Function to fetch and display user data
-                function fetchUserData() {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("GET", "../include/get-user.php",
-                        true); // Adjusted path to point to the include folder
-                    xhr.onload = function () {
-                        if (this.status === 200) {
-                            userTableContainer.innerHTML = this
-                                .responseText; // Populate the container with the response
-                        } else {
-                            userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
-                        }
-                    };
-                    xhr.onerror = function () {
-                        userTableContainer.innerHTML = " < p > Request failed. < /p>";
-                    };
-                    xhr.send();
-                }
-                async function fetchData() {
-                    try {
-                        const response = await fetch('../include/chart.php'); // Adjust the path
-                        const data = await response.json();
-                        if (!data.error) {
-                            const ctx = document.getElementById('donutChart').getContext('2d');
-                            const donutChart = new Chart(ctx, {
-                                type: 'doughnut',
-                                data: {
-                                    labels: data.schools,
-                                    datasets: [{
-                                        label: 'User Count by School',
-                                        data: data.counts,
-                                        backgroundColor: ["#ea5545",
-                                            "#f46a9b",
-                                            "#ef9b20",
-                                            "#edbf33",
-                                            "#ede15b",
-                                            "#bdcf32",
-                                            "#87bc45",
-                                            "#27aeef",
-                                            "#b33dc6", // Color 9
-                                            "#c94800", "#22beb6", "#727900"
-                                        ],
-                                        borderColor: 'white',
-                                        borderWidth: 2,
-                                        hoverOffset: 10
-                                    }]
-                                },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    plugins: {
-                                        legend: {
-                                            position: 'bottom', // Position legend at the bottom
-                                            align: 'start', // Align legend to the left
-                                            labels: {
-                                                font: {
-                                                    family: "Inter, serif",
-                                                    size: 12,
-                                                    weight: 'bold',
-                                                    color: '#333',
-                                                },
-                                                usePointStyle: true,
-                                            },
-                                        },
-                                        title: {
-                                            display: true,
+        document.addEventListener("DOMContentLoaded", function() {
+            const userTableContainer = document.getElementById("userTableContainer");
+            const refreshBtn = document.getElementById("refreshBtn");
+            // Function to fetch and display user data
+            function fetchUserData() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "../include/get-user.php",
+                    true); // Adjusted path to point to the include folder
+                xhr.onload = function() {
+                    if (this.status === 200) {
+                        userTableContainer.innerHTML = this
+                            .responseText; // Populate the container with the response
+                    } else {
+                        userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
+                    }
+                };
+                xhr.onerror = function() {
+                    userTableContainer.innerHTML = " < p > Request failed. < /p>";
+                };
+                xhr.send();
+            }
+            async function fetchData() {
+                try {
+                    const response = await fetch('../include/chart.php'); // Adjust the path
+                    const data = await response.json();
+                    if (!data.error) {
+                        const ctx = document.getElementById('donutChart').getContext('2d');
+                        const donutChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: data.schools,
+                                datasets: [{
+                                    label: 'User Count by School',
+                                    data: data.counts,
+                                    backgroundColor: ["#ea5545",
+                                        "#f46a9b",
+                                        "#ef9b20",
+                                        "#edbf33",
+                                        "#ede15b",
+                                        "#bdcf32",
+                                        "#87bc45",
+                                        "#27aeef",
+                                        "#b33dc6", // Color 9
+                                        "#c94800", "#22beb6", "#727900"
+                                    ],
+                                    borderColor: 'white',
+                                    borderWidth: 2,
+                                    hoverOffset: 10
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom', // Position legend at the bottom
+                                        align: 'start', // Align legend to the left
+                                        labels: {
                                             font: {
-                                                family: "Inter, serif",
-                                                size: 14,
-                                                weight: 'bold',
-                                                color: '#333',
-                                            },
-                                            padding: {
-                                                top: 10,
-                                                bottom: 20,
-                                            },
-                                        },
-                                        tooltip: {
-                                            titleFont: {
                                                 family: "Inter, serif",
                                                 size: 12,
                                                 weight: 'bold',
-                                                color: '#fff',
+                                                color: '#333',
                                             },
-                                            bodyFont: {
-                                                family: "Inter, serif",
-                                                size: 10,
-                                                color: '#fff',
-                                            },
-                                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                                            borderColor: 'white',
-                                            borderWidth: 1,
-                                            padding: 10,
+                                            usePointStyle: true,
                                         },
-                                    }
+                                    },
+                                    title: {
+                                        display: true,
+                                        font: {
+                                            family: "Inter, serif",
+                                            size: 14,
+                                            weight: 'bold',
+                                            color: '#333',
+                                        },
+                                        padding: {
+                                            top: 10,
+                                            bottom: 20,
+                                        },
+                                    },
+                                    tooltip: {
+                                        titleFont: {
+                                            family: "Inter, serif",
+                                            size: 12,
+                                            weight: 'bold',
+                                            color: '#fff',
+                                        },
+                                        bodyFont: {
+                                            family: "Inter, serif",
+                                            size: 10,
+                                            color: '#fff',
+                                        },
+                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                        borderColor: 'white',
+                                        borderWidth: 1,
+                                        padding: 10,
+                                    },
                                 }
-                            });
-                        } else {
-                            console.error(data.error);
-                        }
-                    } catch (error) {
-                        console.error('Error fetching data:', error);
+                            }
+                        });
+                    } else {
+                        console.error(data.error);
                     }
+                } catch (error) {
+                    console.error('Error fetching data:', error);
                 }
-                fetchData();
-                // Event listener for refresh button
-                refreshBtn.addEventListener("click", fetchUserData);
-                // Fetch user data on initial load
-                fetchUserData();
-                // Function to fetch section data for a dropdown
-                function fetchSectionData() {
-                    fetch('../include/get.php') // Adjust the path if necessary
-                        .then(response => response.json()).then(data => {
-                            const sectionSelect = document.getElementById("create-select-section");
-                            const sections = data.sections;
-                            sections.forEach(section => {
-                                const option = document.createElement("option");
-                                option.value = section.section_id;
-                                option.text = section.section_name;
-                                sectionSelect.appendChild(option);
-                            });
-                        }).catch(error => {
-                            console.error("Error fetching sections:", error);
+            }
+            fetchData();
+            // Event listener for refresh button
+            refreshBtn.addEventListener("click", fetchUserData);
+            // Fetch user data on initial load
+            fetchUserData();
+            // Function to fetch section data for a dropdown
+            function fetchSectionData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                        const sectionSelect = document.getElementById("create-select-section");
+                        const sections = data.sections;
+                        sections.forEach(section => {
+                            const option = document.createElement("option");
+                            option.value = section.section_id;
+                            option.text = section.section_name;
+                            sectionSelect.appendChild(option);
                         });
-                }
-                // Function to fetch catalog data for a dropdown
-                function fetchCatalogData() {
-                    fetch('../include/get.php') // Adjust the path if necessary
-                        .then(response => response.json()).then(data => {
-                            const catalogSelect = document.getElementById("create-select-catalog");
-                            const catalogues = data.catalogues;
-                            catalogues.forEach(catalog => {
-                                const option = document.createElement("option");
-                                option.value = catalog.catalogue_id;
-                                option.text = catalog.catalogue_name;
-                                catalogSelect.appendChild(option);
-                            });
-                        }).catch(error => {
-                            console.error("Error fetching catalogues:", error);
+                    }).catch(error => {
+                        console.error("Error fetching sections:", error);
+                    });
+            }
+            // Function to fetch catalog data for a dropdown
+            function fetchCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                        const catalogSelect = document.getElementById("create-select-catalog");
+                        const catalogues = data.catalogues;
+                        catalogues.forEach(catalog => {
+                            const option = document.createElement("option");
+                            option.value = catalog.catalogue_id;
+                            option.text = catalog.catalogue_name;
+                            catalogSelect.appendChild(option);
                         });
-                }
-                // Consolidate DOMContentLoaded
-                fetchSectionData(); // Fetch and populate sections in the dropdown
-                fetchCatalogData(); // Fetch and populate catalogues in the dropdown
-            });
+                    }).catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
+            // Consolidate DOMContentLoaded
+            fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+        });
         </script>
         <script type="text/javascript">
-            $(function () {
+        $(function() {
 
-                $('input[name="datefilter"]').daterangepicker({
-                    autoUpdateInput: false,
-                    locale: {
-                        cancelLabel: 'Clear'
-                    }
-                });
-
-                $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
-                    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
-                        'MM/DD/YYYY'));
-                });
-
-                $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
-                    $(this).val('');
-                });
-
-            });
-        </script>
-
-        <script>
-            function toggleNotifications() {
-                const popup = document.getElementById('notificationPopup');
-                popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
-            }
-
-            // Optional: Close the notification popup when clicking outside of it
-            window.onclick = function (event) {
-                const popup = document.getElementById('notificationPopup');
-                if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
-                    popup.style.display = 'none';
+            $('input[name="datefilter"]').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
                 }
-            }
-        </script>
-        <script>
-            // Load feedback when the page is ready
-            document.addEventListener('DOMContentLoaded', function() {
-                fetch('../include/getFeedback.php')
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('feedback-table-body').innerHTML = data;
-                    })
-                    .catch(error => console.error('Error fetching feedback:', error));
             });
 
+            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
+                    'MM/DD/YYYY'));
+            });
+
+            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+
+        });
+        </script>
+
+        <script>
+        function toggleNotifications() {
+            const popup = document.getElementById('notificationPopup');
+            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
+        }
+
+        // Optional: Close the notification popup when clicking outside of it
+        window.onclick = function(event) {
+            const popup = document.getElementById('notificationPopup');
+            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
+                popup.style.display = 'none';
+            }
+        }
+        </script>
+        <script>
+        // Load feedback when the page is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../include/getFeedback.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('feedback-table-body').innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching feedback:', error));
+        });
         </script>
 </body>
 

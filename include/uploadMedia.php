@@ -21,7 +21,7 @@ if (isset($_FILES['media-file'])  && $_FILES['media-file']['error'] == 0) {
     $fileTmpName = $file['tmp_name'];
     $uploadDir = '../assets/videos/general/';
     $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $fileName = $newId . "-" . $mediaTitle;
+    $fileName = $newId . "-" . $mediaTitle . "." . $fileExt;
     $fileType = $file['type'];
 
     if (in_array($fileType, ['video/mp4', 'video/webm', 'video/ogg'])) {
@@ -29,7 +29,7 @@ if (isset($_FILES['media-file'])  && $_FILES['media-file']['error'] == 0) {
             mkdir($uploadDir, 0777, true);
         }
 
-        $uploadFilePath = $uploadDir . $fileName . "." . $fileExt;
+        $uploadFilePath = $uploadDir . $fileName;
         
         if (move_uploaded_file($fileTmpName, $uploadFilePath)) {
             $message = '<script>
