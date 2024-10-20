@@ -27,7 +27,7 @@ try {
     $videoUploadDir = '../assets/videos/specific/';
 
     // Construct the old video file pattern to find the existing video
-    $oldVideoPattern = $videoUploadDir . $artifactId . '-*.' . $fileExt;
+    $oldVideoPattern = $videoUploadDir . $artifactId . '.*' . $fileExt;
 
     // Check if the old video file exists
     $existingFiles = glob($oldVideoPattern); // Search for matching files
@@ -43,7 +43,8 @@ try {
             echo json_encode(['success' => false, 'message' => 'Failed to rename video file.']);
         }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Video file not found.']);
+        // Include the old video pattern in the error message
+        echo json_encode(['success' => false, 'message' => 'Video file not found.', 'searchedPath' => $oldVideoPattern]);
     }
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);

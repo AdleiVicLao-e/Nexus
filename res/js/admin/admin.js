@@ -537,74 +537,18 @@ function handleEditSectionChange(e) {
 }
 
 // Function to fetch Catalogs for the edit modal
-function fetchCatalogs(sectionId, selectedCatalogId, callback) {
-    if (!sectionId) return;
-
-    fetch('/include/get.php?section_id=' + sectionId)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Fetched catalogs:', data); // Debugging log
-
-            const catalogSelect = document.getElementById('editCatalog');
-            catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
-
-            if (data.catalogues && data.catalogues.length === 0) {
-                const noCatalogOption = document.createElement('option');
-                noCatalogOption.textContent = 'No catalogs available under this section';
-                noCatalogOption.disabled = true;
-                noCatalogOption.selected = true;
-                catalogSelect.appendChild(noCatalogOption);
-                catalogSelect.disabled = true;
-            } else {
-                data.catalogues.forEach(catalog => {
-                    const option = document.createElement('option');
-                    option.value = catalog.catalogue_id;
-                    option.textContent = catalog.catalogue_name;
-                    if (catalog.catalogue_id === selectedCatalogId) {
-                        option.selected = true;
-                    }
-                    catalogSelect.appendChild(option);
-                });
-                catalogSelect.disabled = false;
-
-                // Event listener for Catalog change to update Subcatalog options
-                catalogSelect.removeEventListener('change', handleEditCatalogChange);
-                catalogSelect.addEventListener('change', handleEditCatalogChange);
-            }
-
-            if (typeof callback === 'function') callback();
-        })
-        .catch(error => console.error('Error fetching catalogs:', error));
-}
-
-
-
-// Handler for Catalog change in edit modal
-function handleEditCatalogChange(e) {
-    const catalogName = e.target.value;
-    fetchSubcatalogs(catalogName, null);
-}
-
-// Function to fetch Subcatalogs for the edit modal
-function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogId) {
-    if (!selectedCatalogName) {
-        console.log('No catalog name provided. Exiting function.');
-        return;
+// Function to fetch Catalogs based on Section Name
+// Function to fetch Catalogs based on Section Name
+function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
+    if (!selectedSectionName) {
+        return; // Skip if the selected section name is empty
     }
 
-    // Prepare data to fetch IDs from getids.php
     const data = {
-        catalogName: selectedCatalogName // Pass the catalog name to get its ID
+        sectionName: selectedSectionName,
+        catalogName: selectedCatalogName && selectedCatalogName !== 'N/A' ? selectedCatalogName : null
     };
 
-    console.log('Fetching IDs for catalog:', selectedCatalogName); // Debugging log
-
-    // Fetch IDs from getids.php
     fetch('/include/getids.php', {
         method: 'POST',
         headers: {
@@ -612,65 +556,98 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogId) {
         },
         body: JSON.stringify(data)
     })
-        .then(response => {
-            console.log('Received response from getids.php:', response); // Log the response object
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
+        .then(response => response.ok ? response.json() : Promise.resolve(null))
+        .then(data => {
+            const sectionId = data?.sectionId || null;
+            const catalogId = data?.catalogId || null;
+
+            if (!sectionId) {
+                return; // Exit if no section ID is found
             }
-            return response.json();
+
+            // Fetch catalogs if catalogId exists, otherwise resolve without fetching
+            return catalogId ? fetch(`/include/get.php?section_id=${sectionId}`) : Promise.resolve(null);
         })
+        .then(response => response?.ok ? response.json() : Promise.resolve(null))
+        .then(data => {
+            const catalogSelect = document.getElementById('editCatalog');
+            catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
+
+            if (data?.catalogues?.length > 0) {
+                data.catalogues.forEach(catalog => {
+                    const option = document.createElement('option');
+                    option.value = catalog.catalogue_id || '';
+                    option.textContent = catalog.catalogue_name || 'Unnamed';
+                    catalogSelect.appendChild(option);
+                });
+                catalogSelect.disabled = false;
+
+                catalogSelect.removeEventListener('change', handleEditCatalogChange);
+                catalogSelect.addEventListener('change', handleEditCatalogChange);
+            } else {
+                catalogSelect.disabled = true;
+            }
+
+            if (typeof callback === 'function') callback();
+        })
+        .catch(error => console.error('Error fetching catalogs:', error));
+}
+
+// Handler for Catalog change in edit modal
+function handleEditCatalogChange(e) {
+    const catalogName = e.target.value;
+    fetchSubcatalogs(catalogName, null);
+}
+
+// Function to fetch Subcatalogs
+function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
+    if (!selectedCatalogName) {
+        return; // Skip if no catalog name is provided
+    }
+
+    const data = {
+        catalogName: selectedCatalogName,
+        subcatalogName: selectedSubcatalogName
+    };
+
+    fetch('/include/getids.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.ok ? response.json() : Promise.resolve(null))
         .then(ids => {
-            console.log('Fetched IDs:', ids); // Log the IDs fetched from getids.php
             const subcatalogSelect = document.getElementById('editSubcatalog');
             subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
 
-            console.log('Fetching subcatalogs for catalog ID:', ids.catalogId); // Log the catalog ID being used
+            const catalogId = ids?.catalogId || null;
+            if (!catalogId) {
+                subcatalogSelect.disabled = true; // No catalog ID, disable subcatalog
+                return;
+            }
 
-            fetch('/include/get.php?catalog_id=' + ids.catalogId)
-                .then(response => {
-                    console.log('Received response from get.php:', response); // Log the response object
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok: ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Fetched subcatalog data:', data); // Log the fetched subcatalog data
-                    const subcatalogSelect = document.getElementById('editSubcatalog');
-                    subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
-
-                    if (data.subcatalogues.length === 0) {
-                        console.log('No subcatalogs available under this catalog.'); // Log if no subcatalogs are found
-                        const noSubcatalogOption = document.createElement('option');
-                        noSubcatalogOption.textContent = 'No subcatalogs available under this catalog';
-                        noSubcatalogOption.disabled = true;
-                        noSubcatalogOption.selected = true;
-                        subcatalogSelect.appendChild(noSubcatalogOption);
-                        subcatalogSelect.disabled = true;
-                    } else {
-                        data.subcatalogues.forEach(subcatalog => {
-                            const option = document.createElement('option');
-                            option.value = subcatalog.subcat_id;
-                            option.textContent = subcatalog.subcat_name;
-                            if (subcatalog.subcat_id === selectedSubcatalogId) {
-                                option.selected = true;
-                            }
-                            subcatalogSelect.appendChild(option);
-                        });
-                        subcatalogSelect.disabled = false;
-                        console.log('Subcatalogs populated successfully.'); // Log success
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching subcatalogues:', error);
-                });
+            return fetch(`/include/get.php?catalog_id=${catalogId}`);
         })
-        .catch(error => {
-            console.error('Error fetching IDs:', error);
+        .then(response => response?.ok ? response.json() : Promise.resolve(null))
+        .then(data => {
             const subcatalogSelect = document.getElementById('editSubcatalog');
-            subcatalogSelect.innerHTML = '<option value="" selected disabled>Error fetching IDs</option>';
-            subcatalogSelect.disabled = true; // Disable the select if there was an error
-        });
+            subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
+
+            if (data?.subcatalogues?.length > 0) {
+                data.subcatalogues.forEach(subcatalog => {
+                    const option = document.createElement('option');
+                    option.value = subcatalog.subcat_id || '';
+                    option.textContent = subcatalog.subcat_name || 'Unnamed';
+                    subcatalogSelect.appendChild(option);
+                });
+                subcatalogSelect.disabled = false;
+            } else {
+                subcatalogSelect.disabled = true;
+            }
+        })
+        .catch(error => console.error('Error fetching subcatalogs:', error));
 }
 
 
@@ -713,9 +690,10 @@ function saveChanges() {
                 const responseArtifact = JSON.parse(xhrArtifact.responseText);
                 if (responseArtifact.success) {
                     // Artifact updated successfully, proceed to update the script
-                    updateScript(id, name, scriptContent);
+                    if (scriptContent && scriptContent.trim() !== "") {
+                        updateScript(id, name, scriptContent);
+                    }
                     updateArtifactMedia(id, sectionId, catalogId, subcatalogId, name);
-                    console.log(sectionId+ " "  + catalogId+ " "  + subcatalogId+ " "  + name + " bro");
                     updateQRCode(id, name);
                 } else {
                     // Handle Artifact Update Failure
@@ -738,66 +716,47 @@ function saveChanges() {
     // Send Artifact Data
     xhrArtifact.send(JSON.stringify(artifactData));
 }
-function updateArtifactMedia(artifactId, sectionName, catalogName, subcatalogName, artifactName) {
-    // Fetch section, catalog, and subcatalog IDs
-    fetch('../include/getIds.php', {
+function updateArtifactMedia(artifactId, sectionId, catalogId, subcatalogId, artifactName) {
+    // Construct the filename based on the IDs
+    let fileName;
+    if (catalogId === null && subcatalogId === null) {
+        fileName = artifactId + "." + sectionId;
+    } else if (subcatalogId === null) {
+        fileName = artifactId + "." + sectionId + "." + catalogId;
+    } else {
+        fileName = artifactId + "." + sectionId + "." + catalogId + "." + subcatalogId;
+    }
+
+    const newFileName = fileName + "-" + artifactName;
+
+    // Send the request to update the artifact media
+    fetch('../include/updateArtifactMedia.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            sectionName: sectionName,
-            catalogName: catalogName,
-            subcatalogName: subcatalogName
+            artifactId: artifactId,
+            newFileName: newFileName,
+            fileExt: 'mp4' // Example extension
         })
     })
         .then(response => response.json())
-        .then(ids => {
-            const sectionId = ids.sectionId;
-            const catalogId = ids.catalogId || 0;
-            const subcatalogId = ids.subcatalogId || 0;
-
-            // Construct the filename based on the IDs
-            let fileName;
-            if (catalogId === 0 && subcatalogId === 0) {
-                fileName = artifactId + "." + sectionId;
-            } else if (subcatalogId === 0) {
-                fileName = artifactId + "." + sectionId + "." + catalogId;
+        .then(data => {
+            if (data.success) {
+                console.log("Artifact media updated successfully:", data.message);
             } else {
-                fileName = artifactId + "." + sectionId + "." + catalogId + "." + subcatalogId;
+                console.log("Searched Path: ", data.searchedPath);
             }
-
-            const newFileName = fileName + "-" + artifactName;
-
-            // Send the request to update the artifact media
-            fetch('../include/updateArtifactMedia.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    artifactId: artifactId,
-                    newFileName: newFileName,
-                    fileExt: 'mp4' // Example extension
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log("Artifact media updated successfully:", data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
         })
         .catch(error => {
-            console.error('Error fetching IDs:', error);
+            console.error('Error:', error);
         });
+
 }
 
 
-function updateQRCode(artifactId, newArtifactName)  {
+function updateQRCode(artifactId, newArtifactName) {
     // Send a request to rename the QR code file based on artifactId
     fetch('../include/renameQRCode.php', {
         method: 'POST',
@@ -813,7 +772,8 @@ function updateQRCode(artifactId, newArtifactName)  {
         .then(data => {
             if (data.success) {
                 console.log("QR code filename updated successfully:", data.message);
-            } else {
+            } else if (data.message !== 'QR code file not found.') {
+                // Only log the error if it's not about the missing QR code
                 console.error("Error updating QR code filename:", data.message);
             }
         })
@@ -821,6 +781,8 @@ function updateQRCode(artifactId, newArtifactName)  {
             console.error('Error:', error);
         });
 }
+
+
 
 
 // Function to update the script.json file via updateScript.php
