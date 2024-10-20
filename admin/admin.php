@@ -85,47 +85,43 @@ if (isset($_SESSION["admin"])) {
                 <canvas id="donutChart" width="1000" height="300"></canvas>
                 <h3>Visitor Log Book</h3>
                 <input type="text" name="datefilter" value="" placeholder="Choose Date Range" />
-                <div id="userTableContainer" <table id="visitorAnalyticsTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>School</th>
-                            <th>Date of Visit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dynamically populated rows -->
-                    </tbody>
+                <div id="userTableContainer">
+                    <table id="visitorAnalyticsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>School</th>
+                                <th>Date of Visit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamically populated rows -->
+                        </tbody>
                     </table>
                 </div>
+
                 <button id="refreshBtn">Refresh Data</button>
                 <div class="feedbackSection">
                     <br>
-                    <div class="col-md-8">
-                        <div class="card card-round">
-                            <div class="card-header">
-                                <div class="card-head-row card-tools-still-right">
-                                    <div class="card-title">Visitor Feedback</div>
-                                    <div class="card-tools">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table align-items-center mb-0">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col" class="text-end">Rating</th>
-                                                <th scope="col" class="text-end">Feedback/Suggestion</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="feedback-table-body">
-                                            <!-- Feedback will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Visitor Feedback</div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="text-end">Date</th>
+                                        <th scope="col" class="text-end">Quality/Presentation of Exhibits</th>
+                                        <th scope="col" class="text-end">Cleanliness and Ambiance</th>
+                                        <th scope="col" class="text-end">Museum Staff Service</th>
+                                        <th scope="col" class="text-end">Overall Experience</th>
+                                        <th scope="col" class="text-end">Comments, Questions, or Suggestions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="feedback-table-body">
+                                    <!-- Feedback will be loaded here -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

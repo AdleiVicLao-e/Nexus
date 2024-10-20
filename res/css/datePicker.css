@@ -15,7 +15,13 @@
   font-family: arial;
   font-size: 15px;
   line-height: 1em;
+  background-color: #eee;
 }
+
+tbody {
+  background-color: #eee;
+}
+
 
 .daterangepicker:before, .daterangepicker:after {
   position: absolute;

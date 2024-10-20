@@ -28,10 +28,15 @@ SET time_zone = "+00:00";
 --
 
 DROP TABLE IF EXISTS `feedback`;
+
 CREATE TABLE IF NOT EXISTS `feedback` (
-  `feedbackId` int(11) NOT NULL,
-  `rating` text NOT NULL,
-  `message` text,
+  `feedbackId` int(11) NOT NULL AUTO_INCREMENT,
+  `date` DATE NOT NULL,
+  `quality_presentation` VARCHAR(255) NOT NULL,
+  `cleanliness_ambiance` VARCHAR(255) NOT NULL,
+  `staff_service` VARCHAR(255) NOT NULL,
+  `overall_experience` VARCHAR(255) NOT NULL,
+  `comments` TEXT,
   PRIMARY KEY (`feedbackId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -67,6 +72,15 @@ INSERT INTO `user_log` (`user_number`, `user_name`, `user_school`, `time`) VALUE
 (12, 'hello', 'hello', '2024-09-03 12:00:12'),
 (13, 'haha', 'ahdh', '2024-09-04 13:40:07');
 COMMIT;
+
+INSERT INTO `feedback` (`date`, `quality_presentation`, `cleanliness_ambiance`, `staff_service`, `overall_experience`, `comments`)
+VALUES 
+('2024-10-20', 'Excellent', 'Good', 'Average', 'Good', 'It was a decent experience, but some areas need improvement.'),
+('2024-10-20', 'Good', 'Excellent', 'Excellent', 'Excellent', 'Amazing exhibits! The staff was incredibly helpful.'),
+('2024-10-20', 'Average', 'Average', 'Good', 'Average', 'The museum was okay, but it lacked some engaging content.'),
+('2024-10-20', 'Dissatisfied', 'Dissatisfied', 'Dissatisfied', 'Dissatisfied', 'The experience was disappointing, especially the cleanliness.'),
+('2024-10-20', 'Excellent', 'Good', 'Good', 'Good', 'I really enjoyed the quality of exhibits, but the ambiance could be improved.');
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

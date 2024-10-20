@@ -113,7 +113,7 @@ button, .search-button, #refreshBtn:hover {
 }
 
 .right-container {
-	margin-top: -105px;
+	margin-top: -130px;
 }
 
 .left-container,
@@ -870,24 +870,36 @@ canvas {
 	height: 100%;
 }
 
+
 #userTableContainer {
 	flex: 1;
-
 	max-height: 400px;
-
-	overflow-y: auto;
-
-	border: 1px solid #073066;
-
+	overflow-y: auto;  /* Enable vertical scrolling */
 	margin-top: 10px;
-
-	border-radius: 8px;
-
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
 	background-color: #f9f9f9;
-
 }
+
+#visitorAnalyticsTable {
+	width: 100%;  /* Ensure table takes up the full width of the container */
+	border-collapse: collapse;  /* Prevent double borders between cells */
+}
+
+#visitorAnalyticsTable thead th {
+	position: sticky;  /* Make the header sticky */
+	top: 0;  /* Stick the header to the top of the container */
+	z-index: 1;  /* Ensure it stays above the table body rows */
+	background-color: #f9f9f9;  /* Set a background color for visibility */
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);  /* Optional: Add shadow for a slight 3D effect */
+	padding: 10px;  /* Optional: Adjust padding for better readability */
+	text-align: left;  /* Align header text */
+	text-transform: uppercase;  /* Make header text uppercase */
+}
+
+#visitorAnalyticsTable tbody tr {
+	height: 50px;  /* Adjust as necessary */
+}
+
+
 /*     Table  Feedback  */
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
 	vertical-align: middle; }
@@ -903,16 +915,15 @@ canvas {
 	border-bottom-width: 1px;
 	font-weight: 600; }
   .table td, .table th {
-	font-size: 1rem;
-	border-top-width: 0px;
-	border-bottom: 1px solid;
-	border-color: #ebedf2 !important;
-	vertical-align: middle !important; }
+    font-family: 'Inter', sans-serif;
+	padding: 12px 15px;
+
+	text-align: left;}
   
   .table .thead-light th {
-	background-color: #f6f9fc;
-	color: #8898aa;
-	border-color: #ebecec !important; }
+	background-color: #073066;
+	color: white;
+	border-bottom: 2px solid #f6c500;}
   .table .thead-dark th {
 	background-color: #1a2035;
 	color: #fff; }
@@ -1007,12 +1018,25 @@ canvas {
   
   /* table-responsive */
   .table-responsive {
-	height: 400px;
+	height: 700px;
 	width: 100% !important;
 	overflow-x: auto;
+	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
-	-ms-overflow-style: -ms-autohiding-scrollbar; }
+	-ms-overflow-style: -ms-autohiding-scrollbar; 
+}
 
+.table-responsive tbody{
+	background-color: #fff;
+}
+
+thead th {
+    position: sticky;
+    top: 0;  /* Stick the header at the top */
+    z-index: 1;  /* Ensure the header stays above the body rows */
+    background-color: white;  /* Set a background color so the header is readable while scrolling */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); /* Optional: Add a slight shadow for emphasis */
+}
 	
 table {
 	width: 100%;
@@ -1024,18 +1048,18 @@ th,
 td {
     font-family: 'Inter', sans-serif;
 	padding: 12px 15px;
-
 	text-align: left;
 
 }
 
 th {
-	background-color: #073066;
-
-	color: white;
-
-	border-bottom: 2px solid #f6c500;
-
+    background-color: #073066; /* Header background color */
+    color: white; /* Text color */
+    border-bottom: 2px solid #f6c500; /* Bottom border for separation */
+    text-transform: uppercase; /* Uppercase text */
+    position: sticky; /* Enable sticky positioning */
+    top: 0; /* Stick to the top of the table container */
+    z-index: 10; /* Higher z-index to ensure it's above other content */
 }
 
 tr:nth-child(even) {
@@ -1185,7 +1209,7 @@ td {
 	}
 
 	.right-container {
-		margin-top: -60px;
+		margin-top: -50px;
 	}
 
 	button {
