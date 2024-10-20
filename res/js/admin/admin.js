@@ -684,88 +684,60 @@ function saveChanges() {
     // Collect Artifact Data
     const id = document.getElementById('artifact-id').value;
     const name = document.getElementById('editName').value;
-    const sectionName = document.getElementById('editSection').value;
-    const catalogName = document.getElementById('editCatalog').value || null;
-    const subcatalogName = document.getElementById('editSubcatalog').value || null;
+    const sectionId = document.getElementById('editSection').value;
+    const catalogId = document.getElementById('editCatalog').value || null;
+    const subcatalogId = document.getElementById('editSubcatalog').value || null;
     const description = document.getElementById('editDescription').value;
 
     // Collect Script Data
     const scriptContent = document.getElementById('editScript').value;
 
-    // Prepare data for getting IDs
-    const idsData = {
-        sectionName: sectionName,
-        catalogName: catalogName,
-        subcatalogName: subcatalogName,
+    // Prepare Artifact Data Payload
+    const artifactData = {
+        id: id,
+        name: name,
+        section_id: sectionId,
+        catalog_id: catalogId,
+        subcatalog_id: subcatalogId,
+        description: description,
     };
 
-    // Fetch IDs from getids.php
-    fetch('/include/getids.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(idsData),
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(ids => {
-            // Prepare Artifact Data Payload with fetched IDs
-            const artifactData = {
-                id: id,
-                name: name,
-                section_id: ids.sectionId || null, // Use fetched section ID
-                catalog_id: ids.catalogId || null, // Use fetched catalog ID
-                subcatalog_id: ids.subcatalogId || null, // Use fetched subcatalog ID
-                description: description,
-            };
+    // Create XMLHttpRequest for Updating Artifact
+    const xhrArtifact = new XMLHttpRequest();
+    xhrArtifact.open('POST', '../include/editArtifact.php', true);
+    xhrArtifact.setRequestHeader('Content-Type', 'application/json');
 
-            // Create XMLHttpRequest for Updating Artifact
-            const xhrArtifact = new XMLHttpRequest();
-            xhrArtifact.open('POST', '../include/editArtifact.php', true);
-            xhrArtifact.setRequestHeader('Content-Type', 'application/json');
-
-            xhrArtifact.onload = function () {
-                if (xhrArtifact.status === 200) {
-                    try {
-                        const responseArtifact = JSON.parse(xhrArtifact.responseText);
-                        if (responseArtifact.success) {
-                            // Artifact updated successfully, proceed to update the script
-                            updateScript(id, name, scriptContent);
-                            updateArtifactMedia(id, sectionName, catalogName, subcatalogName, name);
-                            console.log(sectionName + " " + catalogName + " " + subcatalogName + " " + name + " bro");
-                            updateQRCode(id, name);
-                        } else {
-                            // Handle Artifact Update Failure
-                            console.log('Artifact Update Failed: ' + responseArtifact.message);
-                        }
-                    } catch (e) {
-                        console.log('Error parsing response: ' + e.message); // Handle JSON parsing error
-                    }
+    xhrArtifact.onload = function () {
+        if (xhrArtifact.status === 200) {
+            try {
+                const responseArtifact = JSON.parse(xhrArtifact.responseText);
+                if (responseArtifact.success) {
+                    // Artifact updated successfully, proceed to update the script
+                    updateScript(id, name, scriptContent);
+                    updateArtifactMedia(id, sectionId, catalogId, subcatalogId, name);
+                    console.log(sectionId+ " "  + catalogId+ " "  + subcatalogId+ " "  + name + " bro");
+                    updateQRCode(id, name);
                 } else {
-                    // Handle HTTP Errors for Artifact Update
-                    alert('Artifact Update Request Failed. Status Code: ' + xhrArtifact.status);
+                    // Handle Artifact Update Failure
+                    console.log(`Artifact Update Failed: ID=${id}, Response Message=${responseArtifact.message}, Invalid Fields=${JSON.stringify(responseArtifact.invalidFields)}`);
                 }
-            };
+            } catch (e) {
+                console.log('Error parsing response: ' + e.message); // Handle JSON parsing error
+            }
+        } else {
+            // Handle HTTP Errors for Artifact Update
+            alert('Artifact Update Request Failed. Status Code: ' + xhrArtifact.status);
+        }
+    };
 
-            xhrArtifact.onerror = function () {
-                // Handle Network Errors for Artifact Update
-                alert('An error occurred while updating the artifact.');
-            };
+    xhrArtifact.onerror = function () {
+        // Handle Network Errors for Artifact Update
+        alert('An error occurred while updating the artifact.');
+    };
 
-            // Send Artifact Data
-            xhrArtifact.send(JSON.stringify(artifactData));
-        })
-        .catch(error => {
-            console.error('Error fetching IDs:', error);
-            alert('Error fetching IDs for artifact update. Please check the console for more details.');
-        });
+    // Send Artifact Data
+    xhrArtifact.send(JSON.stringify(artifactData));
 }
-
 function updateArtifactMedia(artifactId, sectionName, catalogName, subcatalogName, artifactName) {
     // Fetch section, catalog, and subcatalog IDs
     fetch('../include/getIds.php', {
@@ -813,8 +785,6 @@ function updateArtifactMedia(artifactId, sectionName, catalogName, subcatalogNam
                 .then(data => {
                     if (data.success) {
                         console.log("Artifact media updated successfully:", data.message);
-                    } else {
-                        console.error("Error updating artifact media:", data.message);
                     }
                 })
                 .catch(error => {
