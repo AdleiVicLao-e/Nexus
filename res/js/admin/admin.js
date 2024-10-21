@@ -60,10 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     });
 // Fetch artifact options on initial load
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("DOM fully loaded and parsed");
-        fetchArtifactOptions();
-    });
+
+    fetchArtifactOptions();
+
     document.addEventListener('DOMContentLoaded', () => {
         const sectionBtn = document.getElementById('section-btn');
         const catalogBtn = document.getElementById('catalog-btn');
@@ -435,7 +434,7 @@ function updateSubCatalogOptions(catalogId) {
             .then(response => response.json())
             .then(data => {
                 subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
-                if (data.subcatalogues.length > 0) {
+                if (data.subcatalogues) {
                     data.subcatalogues.forEach(subcatalogue => {
                         const option = document.createElement('option');
                         option.value = subcatalogue.subcat_id;
@@ -500,7 +499,7 @@ function openModal(item) {
     document.getElementById('editScript').value = item['Script'] || ''; // Populate script textarea
 
     // Fetch sections, catalogs, and subcatalogs and set them in the dropdowns
-    fetchSections(item['Section Name'], () => {
+    fetchSections(item['Section Name'],() => {
         fetchCatalogs(item['Section Name'], item['Catalogue Name'], () => {
             fetchSubcatalogs(item['Catalogue Name'], item['Subcatalogue Name']);
         });
@@ -734,7 +733,7 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
             subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
 
             console.log(data); // Log the entire data object to see its structure
-            if (data.subcatalogues && data.subcatalogues.length === 0) {
+            if (!data.subcatalogues) {
                 const noSubcatalogOption = document.createElement('option');
                 noSubcatalogOption.textContent = 'No subcatalogs available under this catalog';
                 noSubcatalogOption.disabled = true;
