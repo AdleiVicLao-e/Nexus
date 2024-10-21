@@ -25,6 +25,9 @@ try {
 
     // Define the upload directory for videos
     $videoUploadDir = '../assets/videos/specific/';
+    if (!file_exists($videoUploadDir)) {
+        mkdir($videoUploadDir, 0777, true);
+    }
 
     // Construct the old video file pattern to find the existing video
     $oldVideoPattern = $videoUploadDir . $artifactId . '.*' . $fileExt;
