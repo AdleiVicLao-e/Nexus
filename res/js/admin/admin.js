@@ -554,8 +554,6 @@ function handleEditSectionChange(e) {
 }
 
 // Function to fetch Catalogs for the edit modal
-// Function to fetch Catalogs based on Section Name
-// Function to fetch Catalogs based on Section Name
 function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
     if (!selectedSectionName) {
         return; // Skip if the selected section name is empty

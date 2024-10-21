@@ -413,9 +413,7 @@ if (isset($_SESSION["admin"])) {
         })
         </script>
 
-        <script src="/res/js/admin/admin.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <!-- Include Chart.js library -->
+
         <script>
         document.addEventListener("DOMContentLoaded", function() {
             const userTableContainer = document.getElementById("userTableContainer");
@@ -613,6 +611,9 @@ if (isset($_SESSION["admin"])) {
                 .catch(error => console.error('Error fetching feedback:', error));
         });
         </script>
+
+        <script src="../res/js/admin/admin.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>
