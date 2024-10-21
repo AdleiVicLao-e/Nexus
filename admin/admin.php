@@ -41,6 +41,219 @@ if (isset($_SESSION["admin"])) {
 
     <!-- Custom Scripts -->
     <script src="../res/js/admin/javascript.js"></script>
+    <script src="/res/js/admin/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("select-media-button").addEventListener("click", function() {
+                document.querySelector(".edit-media-popup").style.display = "flex";
+            })
+
+            document.querySelector(".close-edit").addEventListener("click", function() {
+                document.querySelector(".edit-media-popup").style.display = "none"
+            })
+        });
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include Chart.js library -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const userTableContainer = document.getElementById("userTableContainer");
+            const refreshBtn = document.getElementById("refreshBtn");
+            // Function to fetch and display user data
+            function fetchUserData() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "../include/get-user.php",
+                    true); // Adjusted path to point to the include folder
+                xhr.onload = function() {
+                    if (this.status === 200) {
+                        userTableContainer.innerHTML = this
+                            .responseText; // Populate the container with the response
+                    } else {
+                        userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
+                    }
+                };
+                xhr.onerror = function() {
+                    userTableContainer.innerHTML = " < p > Request failed. < /p>";
+                };
+                xhr.send();
+            }
+            async function fetchData() {
+                try {
+                    const response = await fetch('../include/chart.php'); // Adjust the path
+                    const data = await response.json();
+                    if (!data.error) {
+                        const ctx = document.getElementById('donutChart').getContext('2d');
+                        const donutChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: data.schools,
+                                datasets: [{
+                                    label: 'User Count by School',
+                                    data: data.counts,
+                                    backgroundColor: ["#ea5545",
+                                        "#f46a9b",
+                                        "#ef9b20",
+                                        "#edbf33",
+                                        "#ede15b",
+                                        "#bdcf32",
+                                        "#87bc45",
+                                        "#27aeef",
+                                        "#b33dc6", // Color 9
+                                        "#c94800", "#22beb6", "#727900"
+                                    ],
+                                    borderColor: 'white',
+                                    borderWidth: 2,
+                                    hoverOffset: 10
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom', // Position legend at the bottom
+                                        align: 'start', // Align legend to the left
+                                        labels: {
+                                            font: {
+                                                family: "Inter, serif",
+                                                size: 12,
+                                                weight: 'bold',
+                                                color: '#333',
+                                            },
+                                            usePointStyle: true,
+                                        },
+                                    },
+                                    title: {
+                                        display: true,
+                                        font: {
+                                            family: "Inter, serif",
+                                            size: 14,
+                                            weight: 'bold',
+                                            color: '#333',
+                                        },
+                                        padding: {
+                                            top: 10,
+                                            bottom: 20,
+                                        },
+                                    },
+                                    tooltip: {
+                                        titleFont: {
+                                            family: "Inter, serif",
+                                            size: 12,
+                                            weight: 'bold',
+                                            color: '#fff',
+                                        },
+                                        bodyFont: {
+                                            family: "Inter, serif",
+                                            size: 10,
+                                            color: '#fff',
+                                        },
+                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                        borderColor: 'white',
+                                        borderWidth: 1,
+                                        padding: 10,
+                                    },
+                                }
+                            }
+                        });
+                    } else {
+                        console.error(data.error);
+                    }
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+            fetchData();
+            // Event listener for refresh button
+            refreshBtn.addEventListener("click", fetchUserData);
+            // Fetch user data on initial load
+            fetchUserData();
+            // Function to fetch section data for a dropdown
+            function fetchSectionData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                    const sectionSelect = document.getElementById("create-select-section");
+                    const sections = data.sections;
+                    sections.forEach(section => {
+                        const option = document.createElement("option");
+                        option.value = section.section_id;
+                        option.text = section.section_name;
+                        sectionSelect.appendChild(option);
+                    });
+                }).catch(error => {
+                    console.error("Error fetching sections:", error);
+                });
+            }
+            // Function to fetch catalog data for a dropdown
+            function fetchCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                    const catalogSelect = document.getElementById("create-select-catalog");
+                    const catalogues = data.catalogues;
+                    catalogues.forEach(catalog => {
+                        const option = document.createElement("option");
+                        option.value = catalog.catalogue_id;
+                        option.text = catalog.catalogue_name;
+                        catalogSelect.appendChild(option);
+                    });
+                }).catch(error => {
+                    console.error("Error fetching catalogues:", error);
+                });
+            }
+            // Consolidate DOMContentLoaded
+            fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+        });
+    </script>
+    <script type="text/javascript">
+        $(function() {
+
+            $('input[name="datefilter"]').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                }
+            });
+
+            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
+                    'MM/DD/YYYY'));
+            });
+
+            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+
+        });
+    </script>
+
+    <script>
+        function toggleNotifications() {
+            const popup = document.getElementById('notificationPopup');
+            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
+        }
+
+        // Optional: Close the notification popup when clicking outside of it
+        window.onclick = function(event) {
+            const popup = document.getElementById('notificationPopup');
+            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
+                popup.style.display = 'none';
+            }
+        }
+    </script>
+    <script>
+        // Load feedback when the page is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../include/getFeedback.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('feedback-table-body').innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching feedback:', error));
+        });
+    </script>
 </head>
 
 
@@ -403,216 +616,7 @@ if (isset($_SESSION["admin"])) {
             </div>
         </div>
 
-        <script>
-        document.getElementById("select-media-button").addEventListener("click", function() {
-            document.querySelector(".edit-media-popup").style.display = "flex";
-        })
 
-        document.querySelector(".close-edit").addEventListener("click", function() {
-            document.querySelector(".edit-media-popup").style.display = "none"
-        })
-        </script>
-
-        <script src="/res/js/admin/admin.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <!-- Include Chart.js library -->
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const userTableContainer = document.getElementById("userTableContainer");
-            const refreshBtn = document.getElementById("refreshBtn");
-            // Function to fetch and display user data
-            function fetchUserData() {
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", "../include/get-user.php",
-                    true); // Adjusted path to point to the include folder
-                xhr.onload = function() {
-                    if (this.status === 200) {
-                        userTableContainer.innerHTML = this
-                            .responseText; // Populate the container with the response
-                    } else {
-                        userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
-                    }
-                };
-                xhr.onerror = function() {
-                    userTableContainer.innerHTML = " < p > Request failed. < /p>";
-                };
-                xhr.send();
-            }
-            async function fetchData() {
-                try {
-                    const response = await fetch('../include/chart.php'); // Adjust the path
-                    const data = await response.json();
-                    if (!data.error) {
-                        const ctx = document.getElementById('donutChart').getContext('2d');
-                        const donutChart = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: {
-                                labels: data.schools,
-                                datasets: [{
-                                    label: 'User Count by School',
-                                    data: data.counts,
-                                    backgroundColor: ["#ea5545",
-                                        "#f46a9b",
-                                        "#ef9b20",
-                                        "#edbf33",
-                                        "#ede15b",
-                                        "#bdcf32",
-                                        "#87bc45",
-                                        "#27aeef",
-                                        "#b33dc6", // Color 9
-                                        "#c94800", "#22beb6", "#727900"
-                                    ],
-                                    borderColor: 'white',
-                                    borderWidth: 2,
-                                    hoverOffset: 10
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom', // Position legend at the bottom
-                                        align: 'start', // Align legend to the left
-                                        labels: {
-                                            font: {
-                                                family: "Inter, serif",
-                                                size: 12,
-                                                weight: 'bold',
-                                                color: '#333',
-                                            },
-                                            usePointStyle: true,
-                                        },
-                                    },
-                                    title: {
-                                        display: true,
-                                        font: {
-                                            family: "Inter, serif",
-                                            size: 14,
-                                            weight: 'bold',
-                                            color: '#333',
-                                        },
-                                        padding: {
-                                            top: 10,
-                                            bottom: 20,
-                                        },
-                                    },
-                                    tooltip: {
-                                        titleFont: {
-                                            family: "Inter, serif",
-                                            size: 12,
-                                            weight: 'bold',
-                                            color: '#fff',
-                                        },
-                                        bodyFont: {
-                                            family: "Inter, serif",
-                                            size: 10,
-                                            color: '#fff',
-                                        },
-                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                                        borderColor: 'white',
-                                        borderWidth: 1,
-                                        padding: 10,
-                                    },
-                                }
-                            }
-                        });
-                    } else {
-                        console.error(data.error);
-                    }
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-            }
-            fetchData();
-            // Event listener for refresh button
-            refreshBtn.addEventListener("click", fetchUserData);
-            // Fetch user data on initial load
-            fetchUserData();
-            // Function to fetch section data for a dropdown
-            function fetchSectionData() {
-                fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json()).then(data => {
-                        const sectionSelect = document.getElementById("create-select-section");
-                        const sections = data.sections;
-                        sections.forEach(section => {
-                            const option = document.createElement("option");
-                            option.value = section.section_id;
-                            option.text = section.section_name;
-                            sectionSelect.appendChild(option);
-                        });
-                    }).catch(error => {
-                        console.error("Error fetching sections:", error);
-                    });
-            }
-            // Function to fetch catalog data for a dropdown
-            function fetchCatalogData() {
-                fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json()).then(data => {
-                        const catalogSelect = document.getElementById("create-select-catalog");
-                        const catalogues = data.catalogues;
-                        catalogues.forEach(catalog => {
-                            const option = document.createElement("option");
-                            option.value = catalog.catalogue_id;
-                            option.text = catalog.catalogue_name;
-                            catalogSelect.appendChild(option);
-                        });
-                    }).catch(error => {
-                        console.error("Error fetching catalogues:", error);
-                    });
-            }
-            // Consolidate DOMContentLoaded
-            fetchSectionData(); // Fetch and populate sections in the dropdown
-            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
-        });
-        </script>
-        <script type="text/javascript">
-        $(function() {
-
-            $('input[name="datefilter"]').daterangepicker({
-                autoUpdateInput: false,
-                locale: {
-                    cancelLabel: 'Clear'
-                }
-            });
-
-            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
-                    'MM/DD/YYYY'));
-            });
-
-            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-
-        });
-        </script>
-
-        <script>
-        function toggleNotifications() {
-            const popup = document.getElementById('notificationPopup');
-            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
-        }
-
-        // Optional: Close the notification popup when clicking outside of it
-        window.onclick = function(event) {
-            const popup = document.getElementById('notificationPopup');
-            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
-                popup.style.display = 'none';
-            }
-        }
-        </script>
-        <script>
-        // Load feedback when the page is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('../include/getFeedback.php')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('feedback-table-body').innerHTML = data;
-                })
-                .catch(error => console.error('Error fetching feedback:', error));
-        });
-        </script>
 </body>
 
 </html>

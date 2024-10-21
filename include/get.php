@@ -1,4 +1,5 @@
 <?php
+global $mysqli;
 include 'artifact-db.php';
 
 $sectionId = isset($_GET['section_id']) ? (int)$_GET['section_id'] : 0;
@@ -12,9 +13,25 @@ $subcatalogues = [];
 if (!$sectionId && !$catalogId) {
     $sectionQuery = "SELECT section_id, section_name FROM section";
     $sectionResult = $mysqli->query($sectionQuery);
-    if ($sectionResult && $sectionResult->num_rows > 0) {
+    if ($sectionResult->num_rows > 0) {
         while ($row = $sectionResult->fetch_assoc()) {
             $sections[] = $row;
+        }
+    }
+
+    $catalogueQuery = "SELECT catalogue_id, catalogue_name FROM catalogue";
+    $catalogueResult = $mysqli->query($catalogueQuery);
+    if ($catalogueResult->num_rows > 0) {
+        while ($row = $catalogueResult->fetch_assoc()) {
+            $catalogues[] = $row;
+        }
+    }
+
+    $subcatalogueQuery = "SELECT subcat_id, subcat_name FROM subcatalogue";
+    $subcatalogueResult = $mysqli->query($subcatalogueQuery);
+    if ($subcatalogueResult->num_rows > 0) {
+        while ($row = $subcatalogueResult->fetch_assoc()) {
+            $subcatalogues[] = $row;
         }
     }
 }
@@ -51,9 +68,20 @@ if ($catalogId) {
 
 $mysqli->close();
 header('Content-Type: application/json');
+if ($mysqli->connect_error) {
+    echo json_encode(['error' => 'Database connection failed']);
+    exit;
+}
+
+if (empty($sections) && empty($catalogues) && empty($subcatalogues)) {
+    echo json_encode(['error' => 'No data found']);
+    exit;
+}
+
 echo json_encode([
     'sections' => $sections,
     'catalogues' => $catalogues,
     'subcatalogues' => $subcatalogues
 ]);
+
 ?>
