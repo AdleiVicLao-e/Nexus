@@ -14,14 +14,18 @@ $user_name = $_POST['user_name'];
 $user_school = $_POST['user_school'];
 $time = date("Y-m-d H:i:s");
 
-$stmt = $conn->prepare("INSERT INTO user_log (user_name, user_school, time) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $user_name, $user_school, $time);
+$sql = "SELECT MAX(user_number) AS last_number FROM user_log";
+$result = $conn->query($sql);
 
-if ($stmt->execute()) {
-    echo "Record inserted successfully";
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $new_user_number = ($row['last_number'] === NULL) ? 1 : $row['last_number'] + 1;
 } else {
-    echo "Error: " . $stmt->error;
+    $new_user_number = 1;
 }
+
+$stmt = $conn->prepare("INSERT INTO user_log (user_number, user_name, user_school, time) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("isss", $new_user_number, $user_name, $user_school, $time);
 
 $stmt->close();
 $conn->close();
