@@ -1,57 +1,119 @@
 // admin.js
-
-// -----------------------
+let selectedArtifact = null;
+let highlightedItem = null;
+let isMultiSelectEnabled = false;
+// Edit Media
+let selectedMediaId = null;
+document.addEventListener('DOMContentLoaded', function() {
+    // -----------------------
 // Adding Artifact Tab
 // -----------------------
-document.getElementById('addArtifactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
 
-    var formData = new FormData(this);
+    document.getElementById('addArtifactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    fetch('../include/addArtifact.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
-            try {
-                document.getElementById('overlay-message').innerText = data.message;
+        var formData = new FormData(this);
 
-                if (data.success) {
-                    // Generate the QR code after successfully adding the artifact
-                    generateQRCode(data.artifact_id, formData.get('artifact-name'));
-
-                    // Collect script content to update
-                    const scriptContent = document.getElementById('script').value;
-
-                    // Call updateScript function after artifact addition
-                    updateScript(data.artifact_id, formData.get('artifact-name'), scriptContent);
-
-                    // Get the media input element directly
-                    const mediaInput = document.getElementById('media-select');
-
-                    // Check if there is a media file to upload
-                    if (mediaInput.files.length > 0) {
-                        uploadArtifactMedia(data.artifact_id, formData);
-                    } else {
-                        document.getElementById('overlay').style.display = 'block'; // Show overlay if no media
-                    }
-
-                    // Reset the form after successful submission
-                    this.reset();
-
-                } else {
-                    document.getElementById('overlay').style.display = 'block'; // Show overlay on failure
-                }
-            } catch (e) {
-                console.error("Error parsing JSON:", e, data);
-                document.getElementById('overlay').style.display = 'block'; // Show overlay on parsing error
-            }
+        fetch('../include/addArtifact.php', {
+            method: 'POST',
+            body: formData
         })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('overlay').style.display = 'block'; // Show overlay on request error
+            .then(response => response.json())
+            .then(data => {
+                try {
+                    document.getElementById('overlay-message').innerText = data.message;
+
+                    if (data.success) {
+                        // Generate the QR code after successfully adding the artifact
+                        generateQRCode(data.artifact_id, formData.get('artifact-name'));
+
+                        // Collect script content to update
+                        const scriptContent = document.getElementById('script').value;
+
+                        // Call updateScript function after artifact addition
+                        updateScript(data.artifact_id, formData.get('artifact-name'), scriptContent);
+
+                        // Get the media input element directly
+                        const mediaInput = document.getElementById('media-select');
+
+                        // Check if there is a media file to upload
+                        if (mediaInput.files.length > 0) {
+                            uploadArtifactMedia(data.artifact_id, formData);
+                        } else {
+                            document.getElementById('overlay').style.display = 'block'; // Show overlay if no media
+                        }
+
+                        // Reset the form after successful submission
+                        this.reset();
+
+                    } else {
+                        document.getElementById('overlay').style.display = 'block'; // Show overlay on failure
+                    }
+                } catch (e) {
+                    console.error("Error parsing JSON:", e, data);
+                    document.getElementById('overlay').style.display = 'block'; // Show overlay on parsing error
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('overlay').style.display = 'block'; // Show overlay on request error
+            });
+    });
+// Fetch artifact options on initial load
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("DOM fully loaded and parsed");
+        fetchArtifactOptions();
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const sectionBtn = document.getElementById('section-btn');
+        const catalogBtn = document.getElementById('catalog-btn');
+        const subcatBtn = document.getElementById('subcat-btn');
+
+        const sectionPopup = document.querySelector('.popup-section');
+        const catalogPopup = document.querySelector('.popup-catalog');
+        const subcatPopup = document.querySelector('.popup-subcat');
+
+        const popupOverlay = document.querySelector('.popup');
+        const closeIcons = document.querySelectorAll('.close');
+
+        function showPopup(popup) {
+            popupOverlay.style.display = 'flex';
+            popup.style.display = 'block';
+        }
+
+        function hidePopup() {
+            popupOverlay.style.display = 'none';
+            sectionPopup.style.display = 'none';
+            catalogPopup.style.display = 'none';
+            subcatPopup.style.display = 'none';
+        }
+
+        if (sectionBtn) {
+            sectionBtn.addEventListener('click', () => showPopup(sectionPopup));
+        }
+
+        if (catalogBtn) {
+            catalogBtn.addEventListener('click', () => showPopup(catalogPopup));
+        }
+
+        if (subcatBtn) {
+            subcatBtn.addEventListener('click', () => showPopup(subcatPopup));
+        }
+
+        closeIcons.forEach(icon => {
+            icon.addEventListener('click', hidePopup);
         });
+    });
+    document.getElementById('close-overlay').addEventListener('click', function() {
+        document.getElementById('overlay').style.display = 'none';
+    });
+    // Event listener for Catalog change to update Subcatalog options
+    document.getElementById('catalog').addEventListener('change', (e) => {
+        const catalogId = e.target.value;
+        updateSubCatalogOptions(catalogId);
+    });
+
+
 });
 
 
@@ -145,15 +207,12 @@ function generateQRCode(artifactId, artifactName) {
         }
     }, 1000);
 }
-document.getElementById('close-overlay').addEventListener('click', function() {
-    document.getElementById('overlay').style.display = 'none';
-});
+
 // -----------------------
 // Searching Artifact Tab
 // -----------------------
 
-let selectedArtifact = null;
-let highlightedItem = null;
+
 
 function searchArtifact() {
     const query = document.querySelector('.search-input').value;
@@ -174,7 +233,7 @@ function searchArtifact() {
     xhr.send();
 }
 
-let isMultiSelectEnabled = false;
+
 
 // Function to display search results
 function displayResults(data) {
@@ -294,22 +353,32 @@ function toggleEditButton(item, listItem) {
 }
 // Function to fetch and populate artifact options (Sections, Catalogs, Subcatalogs)
 function fetchArtifactOptions() {
-    fetch('/include/get.php')
+    console.log("bro this should show up");
+    fetch('../include/get.php')
         .then(response => response.json())
         .then(data => {
             const sectionSelect = document.getElementById('section');
             sectionSelect.innerHTML = '<option value="">Select Section</option>';
-            data.sections.forEach(section => {
-                const option = document.createElement('option');
-                option.value = section.section_id;
-                option.textContent = section.section_name;
-                sectionSelect.appendChild(option);
-            });
+
+            // Check if sections exist in data
+            if (data.sections && data.sections.length > 0) {
+                data.sections.forEach(section => {
+                    const option = document.createElement('option');
+                    option.value = section.section_id;
+                    option.textContent = section.section_name;
+                    sectionSelect.appendChild(option);
+                });
+            }
 
             // Event listener for Section change to update Catalog options
             sectionSelect.addEventListener('change', (e) => {
                 const sectionId = e.target.value;
-                updateCatalogOptions(sectionId);
+                if (sectionId) {
+                    updateCatalogOptions(sectionId);
+                    document.getElementById('catalog').disabled = false;
+                } else {
+                    document.getElementById('catalog').disabled = true;
+                }
             });
 
             const catalogSelect = document.getElementById('catalog');
@@ -355,11 +424,7 @@ function updateCatalogOptions(sectionId) {
     }
 }
 
-// Event listener for Catalog change to update Subcatalog options
-document.getElementById('catalog').addEventListener('change', (e) => {
-    const catalogId = e.target.value;
-    updateSubCatalogOptions(catalogId);
-});
+
 
 // Function to update Subcatalog options based on selected Catalog
 function updateSubCatalogOptions(catalogId) {
@@ -389,8 +454,7 @@ function updateSubCatalogOptions(catalogId) {
     }
 }
 
-// Fetch artifact options on initial load
-document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
+
 
 
 // Function to delete selected artifacts (multi-select)
@@ -565,7 +629,8 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
         sectionName: selectedSectionName,
         catalogName: selectedCatalogName && selectedCatalogName !== 'N/A' ? selectedCatalogName : null
     };
-
+    let sectionId;
+    let catalogId;
     fetch('/include/getids.php', {
         method: 'POST',
         headers: {
@@ -575,8 +640,8 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
     })
         .then(response => response.ok ? response.json() : Promise.resolve(null))
         .then(data => {
-            const sectionId = data?.sectionId || null;
-            const catalogId = data?.catalogId || null;
+            sectionId = data?.sectionId || null;
+            catalogId = data?.catalogId || null;
 
             if (!sectionId) {
                 return; // Exit if no section ID is found
@@ -590,19 +655,29 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
             const catalogSelect = document.getElementById('editCatalog');
             catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
 
-            if (data?.catalogues?.length > 0) {
+            if (data.catalogues.length === 0) {
+                // No catalogs available
+                const noCatalogOption = document.createElement('option');
+                noCatalogOption.textContent = 'No catalogs available under this section';
+                noCatalogOption.disabled = true;
+                noCatalogOption.selected = true;
+                catalogSelect.appendChild(noCatalogOption);
+                catalogSelect.disabled = true;
+            } else {
                 data.catalogues.forEach(catalog => {
                     const option = document.createElement('option');
-                    option.value = catalog.catalogue_id || '';
-                    option.textContent = catalog.catalogue_name || 'Unnamed';
+                    option.value = catalog.catalogue_id;
+                    option.textContent = catalog.catalogue_name;
+                    if (catalog.catalogue_id === catalogId) {
+                        option.selected = true;
+                    }
                     catalogSelect.appendChild(option);
                 });
                 catalogSelect.disabled = false;
 
+                // Event listener for Catalog change to update Subcatalog options
                 catalogSelect.removeEventListener('change', handleEditCatalogChange);
                 catalogSelect.addEventListener('change', handleEditCatalogChange);
-            } else {
-                catalogSelect.disabled = true;
             }
 
             if (typeof callback === 'function') callback();
@@ -627,6 +702,9 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
         subcatalogName: selectedSubcatalogName
     };
 
+    let catalogId;
+    let subCatalogId;
+
     fetch('/include/getids.php', {
         method: 'POST',
         headers: {
@@ -639,7 +717,10 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
             const subcatalogSelect = document.getElementById('editSubcatalog');
             subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
 
-            const catalogId = ids?.catalogId || null;
+            catalogId = ids?.catalogId || null;
+            subCatalogId = ids?.subCatalogId || null;
+
+            console.log(catalogId +" sub: "+ subCatalogId);
             if (!catalogId) {
                 subcatalogSelect.disabled = true; // No catalog ID, disable subcatalog
                 return;
@@ -652,17 +733,29 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
             const subcatalogSelect = document.getElementById('editSubcatalog');
             subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
 
-            if (data?.subcatalogues?.length > 0) {
+            console.log(data); // Log the entire data object to see its structure
+            if (data.subcatalogues && data.subcatalogues.length === 0) {
+                const noSubcatalogOption = document.createElement('option');
+                noSubcatalogOption.textContent = 'No subcatalogs available under this catalog';
+                noSubcatalogOption.disabled = true;
+                noSubcatalogOption.selected = true;
+                subcatalogSelect.appendChild(noSubcatalogOption);
+                subcatalogSelect.disabled = true;
+            } else if (data.subcatalogues) {
                 data.subcatalogues.forEach(subcatalog => {
                     const option = document.createElement('option');
-                    option.value = subcatalog.subcat_id || '';
-                    option.textContent = subcatalog.subcat_name || 'Unnamed';
+                    option.value = subcatalog.subcat_id;
+                    option.textContent = subcatalog.subcat_name;
+                    if (subcatalog.subcat_id === subCatalogId) {
+                        option.selected = true;
+                    }
                     subcatalogSelect.appendChild(option);
                 });
                 subcatalogSelect.disabled = false;
             } else {
-                subcatalogSelect.disabled = true;
+                console.error('subcatalogues is undefined or null');
             }
+
         })
         .catch(error => console.error('Error fetching subcatalogs:', error));
 }
@@ -852,46 +945,6 @@ function updateScript(artifactId, artifactName, scriptContent) {
 function closeModal() {
     document.getElementById('edit-modal').style.display = 'none';
 }
-document.addEventListener('DOMContentLoaded', () => {
-    const sectionBtn = document.getElementById('section-btn');
-    const catalogBtn = document.getElementById('catalog-btn');
-    const subcatBtn = document.getElementById('subcat-btn');
-
-    const sectionPopup = document.querySelector('.popup-section');
-    const catalogPopup = document.querySelector('.popup-catalog');
-    const subcatPopup = document.querySelector('.popup-subcat');
-
-    const popupOverlay = document.querySelector('.popup');
-    const closeIcons = document.querySelectorAll('.close');
-
-    function showPopup(popup) {
-        popupOverlay.style.display = 'flex';
-        popup.style.display = 'block';
-    }
-
-    function hidePopup() {
-        popupOverlay.style.display = 'none';
-        sectionPopup.style.display = 'none';
-        catalogPopup.style.display = 'none';
-        subcatPopup.style.display = 'none';
-    }
-
-    if (sectionBtn) {
-        sectionBtn.addEventListener('click', () => showPopup(sectionPopup));
-    }
-
-    if (catalogBtn) {
-        catalogBtn.addEventListener('click', () => showPopup(catalogPopup));
-    }
-
-    if (subcatBtn) {
-        subcatBtn.addEventListener('click', () => showPopup(subcatPopup));
-    }
-
-    closeIcons.forEach(icon => {
-        icon.addEventListener('click', hidePopup);
-    });
-});
 
 // -----------------------
 // Printing QR Code
@@ -970,8 +1023,7 @@ function printQRCode(item) {
 }
 
 
-// Edit Media
-let selectedMediaId = null;
+
 
 function selectMedia(id) {
     // Hide the popup
