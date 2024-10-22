@@ -399,7 +399,7 @@ function updateCatalogOptions(sectionId) {
             .then(response => response.json())
             .then(data => {
                 catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
-                if (data.catalogues.length > 0) {
+                if (data.catalogues) {
                     data.catalogues.forEach(catalogue => {
                         const option = document.createElement('option');
                         option.value = catalogue.catalogue_id;
@@ -653,8 +653,9 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
             const catalogSelect = document.getElementById('editCatalog');
             catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
 
-            if (data.catalogues.length === 0) {
-                // No catalogs available
+            // Check if 'data' and 'data.catalogues' exist
+            if (!data || !data.catalogues || data.catalogues.length === 0) {
+                // No catalogs available or error fetching catalogs
                 const noCatalogOption = document.createElement('option');
                 noCatalogOption.textContent = 'No catalogs available under this section';
                 noCatalogOption.disabled = true;
@@ -677,6 +678,7 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
                 catalogSelect.removeEventListener('change', handleEditCatalogChange);
                 catalogSelect.addEventListener('change', handleEditCatalogChange);
             }
+
 
             if (typeof callback === 'function') callback();
         })
@@ -718,7 +720,6 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
             catalogId = ids?.catalogId || null;
             subCatalogId = ids?.subCatalogId || null;
 
-            console.log(catalogId +" sub: "+ subCatalogId);
             if (!catalogId) {
                 subcatalogSelect.disabled = true; // No catalog ID, disable subcatalog
                 return;
@@ -732,7 +733,7 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
             subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
 
             console.log(data); // Log the entire data object to see its structure
-            if (!data.subcatalogues) {
+            if (!data || !data.subCatalogues || data.subCatalogues.length === 0) {
                 const noSubcatalogOption = document.createElement('option');
                 noSubcatalogOption.textContent = 'No subcatalogs available under this catalog';
                 noSubcatalogOption.disabled = true;
