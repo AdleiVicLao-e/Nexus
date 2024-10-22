@@ -1,4 +1,5 @@
 <?php
+global $mysqli;
 include 'artifact-db.php'; // Include database connection
 
 // Clean any output before sending the header
@@ -39,7 +40,18 @@ try {
             $uploadFilePath = $uploadDir . $fileName;
 
             if (move_uploaded_file($fileTmpName, $uploadFilePath)) {
-                echo json_encode(['success' => true, 'message' => 'Artifact successfully added. (With media file)']);
+                // Insert the file path into the database
+                $sql = "UPDATE artifact_info SET fileName = ? WHERE artifact_id = ?";
+                $stmt = $mysqli->prepare($sql);
+                $stmt->bind_param("si", $fileName, $newArtifactId);
+
+                if ($stmt->execute()) {
+                    echo json_encode(['success' => true, 'message' => 'Artifact successfully added. (With media file)']);
+                } else {
+                    throw new Exception('Error updating file path in the database: ' . $stmt->error);
+                }
+
+                $stmt->close();
             } else {
                 throw new Exception('Error uploading the media.');
             }
@@ -52,4 +64,6 @@ try {
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
+
+$mysqli->close();
 ?>

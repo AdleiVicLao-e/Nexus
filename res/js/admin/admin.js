@@ -352,7 +352,6 @@ function toggleEditButton(item, listItem) {
 }
 // Function to fetch and populate artifact options (Sections, Catalogs, Subcatalogs)
 function fetchArtifactOptions() {
-    console.log("bro this should show up");
     fetch('../include/get.php')
         .then(response => response.json())
         .then(data => {
@@ -482,7 +481,7 @@ function deleteSelectedArtifacts() {
         xhr.onerror = function () {
             alert('An error occurred while deleting artifacts.');
         };
-        xhr.send(JSON.stringify({ ids: selectedIds }));
+        xhr.send(JSON.stringify({ ids: selectedIds, deleteMedia: true }));
     }
 }
 
@@ -534,7 +533,7 @@ function deleteArtifact(id) {
     };
 
     // Send the ID of the artifact to delete
-    const data = { id: id };
+    const data = { id: id, deleteMedia: true }; // Also indicate media should be deleted
     xhr.send(JSON.stringify(data));
 }
 
