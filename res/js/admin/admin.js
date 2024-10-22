@@ -241,12 +241,14 @@ function toggleEditButton(item, listItem) {
         return; // Don't allow editing in multi-select mode
     }
     const editButton = document.getElementById('edit-button');
+    const deleteButton = document.getElementById('delete-button');
     const printButton = document.getElementById('print-button');
 
 
     if (selectedArtifact && selectedArtifact['ID'] === item['ID']) {
         selectedArtifact = null;
         if (editButton) editButton.remove();
+        if (deleteButton) deleteButton.remove(); 
         if (printButton) printButton.remove();
         if (highlightedItem) highlightedItem.classList.remove('highlight');
         highlightedItem = null;
@@ -264,8 +266,11 @@ function toggleEditButton(item, listItem) {
     if (editButton) {
         editButton.remove();
     }
+    if (deleteButton) {
+        deleteButton.remove(); 
+    }
     if (printButton) {
-        printButton.remove(); // Remove old print button if it exists
+        printButton.remove(); 
     }
 
     // Create a new edit button with an icon
@@ -278,11 +283,21 @@ function toggleEditButton(item, listItem) {
     newEditButton.style.cursor = 'pointer'; // Change cursor to pointer
     newEditButton.onclick = () => openModal(item);
 
+    const newDeleteButton = document.createElement('button');
+    newDeleteButton.id = 'delete-button';
+    newDeleteButton.classList.add('delete-button'); // Add class for styling
+    newDeleteButton.innerHTML = '<i class="fas fa-trash" style="color: red; font-size: 20px; margin-left: -120px;"></i>'; // Font Awesome delete icon
+    newDeleteButton.style.background = 'none'; // Remove default button styles
+    newDeleteButton.style.border = 'none'; // Remove border
+    newDeleteButton.style.cursor = 'pointer'; // Change cursor to pointer
+    newDeleteButton.onclick = () => deleteArtifact(item['ID']); // Call the existing delete function
+
+
      // Create a new print button with an icon
      const newPrintButton = document.createElement('button');
      newPrintButton.id = 'print-button';
      newPrintButton.classList.add('print-button'); // Add class for styling
-     newPrintButton.innerHTML = '<i class="fas fa-print" style="color: #073066; font-size: 20px; margin-left:-120px;"></i>'; // Font Awesome print icon
+     newPrintButton.innerHTML = '<i class="fas fa-print" style="color: #073066; font-size: 20px; margin-left:-210px;"></i>'; // Font Awesome print icon
      newPrintButton.style.background = 'none'; // Remove default button styles
      newPrintButton.style.border = 'none'; // Remove border
      newPrintButton.style.cursor = 'pointer'; // Change cursor to pointer
@@ -290,6 +305,7 @@ function toggleEditButton(item, listItem) {
   
     // Append the edit button to the list item
     listItem.appendChild(newEditButton);
+    listItem.appendChild(newDeleteButton);
     listItem.appendChild(newPrintButton);
 }
 // Function to fetch and populate artifact options (Sections, Catalogs, Subcatalogs)
