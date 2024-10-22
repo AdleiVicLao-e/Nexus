@@ -38,29 +38,14 @@ if ($result && $result->num_rows > 0) {
                     $videoPath = realpath("../assets/videos/specific/{$fileName}");
                     $qrCodePath = realpath("../qr/{$qrName}.png");
 
-                    // Debugging: Output the paths for verification
-                    error_log("Attempting to delete: $videoPath, $qrCodePath");
-
                     // Delete the video file if it exists
                     if ($videoPath && file_exists($videoPath)) {
-                        if (unlink($videoPath)) {
-                            $response['media'][] = "Video file deleted for artifact ID {$id}.";
-                        } else {
-                            $response['media'][] = "Failed to delete video file for artifact ID {$id}.";
-                        }
-                    } else {
-                        $response['media'][] = "Video file not found for artifact ID {$id}: " . $videoPath;
+                        unlink($videoPath);
                     }
 
                     // Delete the QR code file if it exists
                     if ($qrCodePath && file_exists($qrCodePath)) {
-                        if (unlink($qrCodePath)) {
-                            $response['media'][] = "QR code file deleted for artifact ID {$id}.";
-                        } else {
-                            $response['media'][] = "Failed to delete QR code file for artifact ID {$id}.";
-                        }
-                    } else {
-                        $response['media'][] = "QR code file not found for artifact ID {$id}: " . $qrCodePath;
+                        unlink($qrCodePath);
                     }
                 }
             }
