@@ -11,7 +11,7 @@ if (is_null($_SESSION["guest"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Homepage</title> 
-    <link rel="stylesheet" href="res\css\homepage.css">
+    <link rel="stylesheet" href="res/css/homepage.css">
     <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">

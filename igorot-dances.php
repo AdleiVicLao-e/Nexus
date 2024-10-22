@@ -116,7 +116,7 @@ if (is_null($_SESSION["guest"])) {
                   </div>
                   <div class="dp-i-c-right">
                   <div class="dp-i-c-stick">
-                    <a href="#" title="Watch preview" id="preview" class="btn btn-radius btn-focus">
+                    <a href="#" title="Watch preview" id="preview" class="btn btn-radius btn-focus" style="width:200px;">
                       <i class="fa fa-play mr-2"></i>Watch preview
                     </a>
                   </div>

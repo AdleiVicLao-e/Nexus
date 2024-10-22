@@ -92,42 +92,39 @@ section {
     line-height: 1.6;
   }
 
-  .hero button {
-    padding: 10px 30px;
-    font-size: 1rem;
-    color: white;
-    background-color: #073066;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.hero button {
+  background: #073066 !important;
+  color: #fff !important;
+  border-color: #073066 !important
   }
 
-  .hero button:hover {
-    background-color: #073066;
+.hero button:hover {
+  background: #f6c500 !important;
+  border-color: #f6c500 !important
   }
 
   .b-roll .btn  {
-    padding: 10px 30px;
-    font-size: 1rem;
-    color: white;
-    background-color: #073066;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background: #073066 !important;
+    color: #fff !important;
+    border-color: #073066 !important
+}  
+
+.b-roll .btn:hover {
+  background: #f6c500 !important;
+  border-color: #f6c500 !important
 }
 
 .btn.btn-primary {
-    padding: 10px 30px;
-    font-size: 1rem;
-    color: white;
-    background-color: #073066;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background: #073066 !important;
+  color: #fff !important;
+  border-color: #073066 !important
 }
+
+.btn .btn-primary:hover {
+  background: #f6c500 !important;
+  border-color: #f6c500 !important
+}
+
 
 /* Main Content Styles */
 #main-content {
