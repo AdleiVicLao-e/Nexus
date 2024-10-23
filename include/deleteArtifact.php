@@ -35,6 +35,7 @@ if ($id) {
                     unlink($videoPath);
                 }
 
+
                 // Delete the QR code file if it exists
                 if (file_exists($qrCodePath)) {
                     unlink($qrCodePath);

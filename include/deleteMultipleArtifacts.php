@@ -21,6 +21,7 @@ if ($result && $result->num_rows > 0) {
     $qrName = "{$idString}-{$row['name']}";
     $fileNames = [];
 
+
     while ($row = $result->fetch_assoc()) {
         $fileNames[$row['artifact_id']] = $row['fileName'];
     }
