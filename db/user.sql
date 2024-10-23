@@ -28,10 +28,15 @@ SET time_zone = "+00:00";
 --
 
 DROP TABLE IF EXISTS `feedback`;
+
 CREATE TABLE IF NOT EXISTS `feedback` (
-  `feedbackId` int(11) NOT NULL,
-  `rating` text NOT NULL,
-  `message` text,
+  `feedbackId` int(11) NOT NULL AUTO_INCREMENT,
+  `date` DATE NOT NULL,
+  `quality_presentation` VARCHAR(255) NOT NULL,
+  `cleanliness_ambiance` VARCHAR(255) NOT NULL,
+  `staff_service` VARCHAR(255) NOT NULL,
+  `overall_experience` VARCHAR(255) NOT NULL,
+  `comments` TEXT,
   PRIMARY KEY (`feedbackId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -394,9 +394,9 @@ if (is_null($_SESSION["guest"])) {
                           <span>Project Lead</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=trishaagaras@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
-                                <i class="icofont-ui-email"></i>
-                            </a>                                                  
+                          <a href="mailto:trishaagaras@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
+                              <i class="icofont-ui-email"></i>
+                          </a>
                           <a href="https://www.linkedin.com/in/trisha-garas" target="_blank">
                             <i class="icofont-linkedin"></i>
                           </a>
@@ -416,7 +416,7 @@ if (is_null($_SESSION["guest"])) {
                           <span>Lead Developer</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=adleiviclaoe@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                            <a href="mailto:adleiviclaoe@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
                                 <i class="icofont-ui-email"></i>
                             </a>
                             <a href="https://www.linkedin.com/in/adlei-is-adlei" target="_blank">
@@ -438,7 +438,7 @@ if (is_null($_SESSION["guest"])) {
                           <span>Full-stack Developer</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=redthecolor1801@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
+                            <a href="mailto:redthecolor1801@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
                                 <i class="icofont-ui-email"></i>
                             </a>
                             <a href="https://www.linkedin.com/in/paula-laban" target="_blank">
@@ -460,7 +460,7 @@ if (is_null($_SESSION["guest"])) {
                           <span>Back-end Developer</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ken.dacquigan@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                            <a href="mailto:ken.dacquigan@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
                                 <i class="icofont-ui-email"></i>
                             </a>
                             <a href="https://www.linkedin.com/in/ram-kenshin-ayan-7806a6305/" target="_blank">
@@ -482,7 +482,7 @@ if (is_null($_SESSION["guest"])) {
                           <span>Front-end Developer</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jiebenkaylaabaya04@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                            <a href="mailto:jiebenkaylaabaya04@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
                                 <i class="icofont-ui-email"></i>
                             </a>
                             <a href="https://www.linkedin.com/in/jieben-kayla-abaya-b46a11249/" target="_blank">
@@ -504,7 +504,7 @@ if (is_null($_SESSION["guest"])) {
                           <span>System Architect</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=vhanzdeass31@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                            <a href="mailto:vhanzdeass31@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
                                 <i class="icofont-ui-email"></i>
                             </a>
                             <a href="https://www.linkedin.com/in/valiant-mi-ing"  target="_blank">
@@ -526,7 +526,7 @@ if (is_null($_SESSION["guest"])) {
                           <span>Quality Assurance Engineer</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Gail.lumbas50@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                            <a href="mailto:Gail.lumbas50@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
                                 <i class="icofont-ui-email"></i>
                             </a>
                             <a href="https://drive.google.com/file/d/1p9DWxBB-_MqeVR8KXXcCjIQQUvs-6spx/view?usp=drivesdk" target="_blank">
@@ -545,7 +545,7 @@ if (is_null($_SESSION["guest"])) {
                           <span>Quality Assurance Engineer</span>
                         </div>
                         <div class="social">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lbagustin3@gmail.com&su=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website" target="_blank">
+                            <a href="mailto:lbagustin3@gmail.com?subject=Inquiry%20About%20Nexus%20Team%20or%20SLU%20Museum%20Website">
                                 <i class="icofont-ui-email"></i>
                             </a>
                             <a href="https://drive.google.com/file/d/18AM2AWu6KhxcS6oNWx0GAiVIgU5pIhQh/view?usp=sharing" target="_blank">

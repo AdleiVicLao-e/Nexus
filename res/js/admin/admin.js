@@ -299,12 +299,14 @@ function toggleEditButton(item, listItem) {
         return; // Don't allow editing in multi-select mode
     }
     const editButton = document.getElementById('edit-button');
+    const deleteButton = document.getElementById('delete-button');
     const printButton = document.getElementById('print-button');
 
 
     if (selectedArtifact && selectedArtifact['ID'] === item['ID']) {
         selectedArtifact = null;
         if (editButton) editButton.remove();
+        if (deleteButton) deleteButton.remove(); 
         if (printButton) printButton.remove();
         if (highlightedItem) highlightedItem.classList.remove('highlight');
         highlightedItem = null;
@@ -322,8 +324,11 @@ function toggleEditButton(item, listItem) {
     if (editButton) {
         editButton.remove();
     }
+    if (deleteButton) {
+        deleteButton.remove(); 
+    }
     if (printButton) {
-        printButton.remove(); // Remove old print button if it exists
+        printButton.remove(); 
     }
 
     // Create a new edit button with an icon
@@ -336,11 +341,21 @@ function toggleEditButton(item, listItem) {
     newEditButton.style.cursor = 'pointer'; // Change cursor to pointer
     newEditButton.onclick = () => openModal(item);
 
+    const newDeleteButton = document.createElement('button');
+    newDeleteButton.id = 'delete-button';
+    newDeleteButton.classList.add('delete-button'); // Add class for styling
+    newDeleteButton.innerHTML = '<i class="fas fa-trash" style="color: red; font-size: 20px; margin-left: -120px;"></i>'; // Font Awesome delete icon
+    newDeleteButton.style.background = 'none'; // Remove default button styles
+    newDeleteButton.style.border = 'none'; // Remove border
+    newDeleteButton.style.cursor = 'pointer'; // Change cursor to pointer
+    newDeleteButton.onclick = () => deleteArtifact(item['ID']); // Call the existing delete function
+
+
      // Create a new print button with an icon
      const newPrintButton = document.createElement('button');
      newPrintButton.id = 'print-button';
      newPrintButton.classList.add('print-button'); // Add class for styling
-     newPrintButton.innerHTML = '<i class="fas fa-print" style="color: #073066; font-size: 20px; margin-left:-120px;"></i>'; // Font Awesome print icon
+     newPrintButton.innerHTML = '<i class="fas fa-print" style="color: #073066; font-size: 20px; margin-left:-210px;"></i>'; // Font Awesome print icon
      newPrintButton.style.background = 'none'; // Remove default button styles
      newPrintButton.style.border = 'none'; // Remove border
      newPrintButton.style.cursor = 'pointer'; // Change cursor to pointer
@@ -348,6 +363,7 @@ function toggleEditButton(item, listItem) {
   
     // Append the edit button to the list item
     listItem.appendChild(newEditButton);
+    listItem.appendChild(newDeleteButton);
     listItem.appendChild(newPrintButton);
 }
 // Function to fetch and populate artifact options (Sections, Catalogs, Subcatalogs)
@@ -399,7 +415,7 @@ function updateCatalogOptions(sectionId) {
             .then(response => response.json())
             .then(data => {
                 catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
-                if (data.catalogues.length > 0) {
+                if (data.catalogues) {
                     data.catalogues.forEach(catalogue => {
                         const option = document.createElement('option');
                         option.value = catalogue.catalogue_id;
@@ -653,8 +669,9 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
             const catalogSelect = document.getElementById('editCatalog');
             catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
 
-            if (data.catalogues.length === 0) {
-                // No catalogs available
+            // Check if 'data' and 'data.catalogues' exist
+            if (!data || !data.catalogues || data.catalogues.length === 0) {
+                // No catalogs available or error fetching catalogs
                 const noCatalogOption = document.createElement('option');
                 noCatalogOption.textContent = 'No catalogs available under this section';
                 noCatalogOption.disabled = true;
@@ -677,6 +694,7 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
                 catalogSelect.removeEventListener('change', handleEditCatalogChange);
                 catalogSelect.addEventListener('change', handleEditCatalogChange);
             }
+
 
             if (typeof callback === 'function') callback();
         })
@@ -718,7 +736,6 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
             catalogId = ids?.catalogId || null;
             subCatalogId = ids?.subCatalogId || null;
 
-            console.log(catalogId +" sub: "+ subCatalogId);
             if (!catalogId) {
                 subcatalogSelect.disabled = true; // No catalog ID, disable subcatalog
                 return;
@@ -732,7 +749,7 @@ function fetchSubcatalogs(selectedCatalogName, selectedSubcatalogName) {
             subcatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
 
             console.log(data); // Log the entire data object to see its structure
-            if (!data.subcatalogues) {
+            if (!data || !data.subCatalogues || data.subCatalogues.length === 0) {
                 const noSubcatalogOption = document.createElement('option');
                 noSubcatalogOption.textContent = 'No subcatalogs available under this catalog';
                 noSubcatalogOption.disabled = true;
