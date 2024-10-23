@@ -148,19 +148,17 @@ if (is_null($_SESSION["guest"])) {
 </body>
 
 <!-- Footer -->
-<div id="footer">
+<div id="footer" style="margin: bottom -3px;0px">
         <div class="container">
           <div class="footer-logo-block">
             <a href="https://www.facebook.com/slumuseum" class="footer-logo">
-              <img src="assets\img\logo.png" alt="Logo footer">
-            </a>
+              <img src="assets/img/logo.png" alt="Logo footer">
+            </ a>
             <p class="copyright" style="font-size: 15px">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
           </div>
           <div class="clearfix"></div>
         </div>
       </div>
-    </div>
-    </div>
 
 <div id="desktop-warning">Mobile Only Site.</div>
 

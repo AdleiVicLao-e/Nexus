@@ -129,13 +129,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-group">
             <label for="exhibits">Quality/Presentation of Exhibits:</label><br>
             <div class="form-options">
-                <input type="radio" id="excellent1" name="exhibits" value="excellent" required>
+                <input type="radio" id="excellent1" name="exhibits" value="Excellent" required>
                 <label for="excellent1">Excellent</label><br>
-                <input type="radio" id="good1" name="exhibits" value="good">
+                <input type="radio" id="good1" name="exhibits" value="Good">
                 <label for="good1">Good</label><br>
-                <input type="radio" id="average1" name="exhibits" value="average">
+                <input type="radio" id="average1" name="exhibits" value="Average">
                 <label for="average1">Average</label><br>
-                <input type="radio" id="dissatisfied1" name="exhibits" value="dissatisfied">
+                <input type="radio" id="dissatisfied1" name="exhibits" value="Dissatisfied">
                 <label for="dissatisfied1">Dissatisfied</label>
             </div>
         </div>
@@ -144,13 +144,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-group">
             <label for="cleanliness">Cleanliness and Ambiance:</label><br>
             <div class="form-options">
-                <input type="radio" id="excellent2" name="cleanliness" value="excellent" required>
+                <input type="radio" id="excellent2" name="cleanliness" value="Excellent" required>
                 <label for="excellent2">Excellent</label><br>
-                <input type="radio" id="good2" name="cleanliness" value="good">
+                <input type="radio" id="good2" name="cleanliness" value="Good">
                 <label for="good2">Good</label><br>
-                <input type="radio" id="average2" name="cleanliness" value="average">
+                <input type="radio" id="average2" name="cleanliness" value="Average">
                 <label for="average2">Average</label><br>
-                <input type="radio" id="dissatisfied2" name="cleanliness" value="dissatisfied">
+                <input type="radio" id="dissatisfied2" name="cleanliness" value="Dissatisfied">
                 <label for="dissatisfied2">Dissatisfied</label>
             </div>
         </div>
@@ -159,13 +159,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-group">
             <label for="staff">Museum Staff Service:</label><br>
             <div class="form-options">
-                <input type="radio" id="excellent3" name="staff" value="excellent" required>
+                <input type="radio" id="excellent3" name="staff" value="Excellent" required>
                 <label for="excellent3">Excellent</label><br>
-                <input type="radio" id="good3" name="staff" value="good">
+                <input type="radio" id="good3" name="staff" value="Good">
                 <label for="good3">Good</label><br>
-                <input type="radio" id="average3" name="staff" value="average">
+                <input type="radio" id="average3" name="staff" value="Average">
                 <label for="average3">Average</label><br>
-                <input type="radio" id="dissatisfied3" name="staff" value="dissatisfied">
+                <input type="radio" id="dissatisfied3" name="staff" value="Dissatisfied">
                 <label for="dissatisfied3">Dissatisfied</label>
             </div>
         </div>
@@ -174,13 +174,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-group">
             <label for="experience">Overall Experience:</label><br>
             <div class="form-options">
-                <input type="radio" id="excellent4" name="experience" value="excellent" required>
+                <input type="radio" id="excellent4" name="experience" value="Excellent" required>
                 <label for="excellent4">Excellent</label><br>
-                <input type="radio" id="good4" name="experience" value="good">
+                <input type="radio" id="good4" name="experience" value="Good">
                 <label for="good4">Good</label><br>
-                <input type="radio" id="average4" name="experience" value="average">
+                <input type="radio" id="average4" name="experience" value="Average">
                 <label for="average4">Average</label><br>
-                <input type="radio" id="dissatisfied4" name="experience" value="dissatisfied">
+                <input type="radio" id="dissatisfied4" name="experience" value="Dissatisfied">
                 <label for="dissatisfied4">Dissatisfied</label>
             </div>
         </div>
@@ -204,14 +204,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h3>Thank you for your feedback!</h3>
 </div>
 
-      <div id="footer">
-        <div class="container">
-          <div class="footer-logo-block">
-            <p class="copyright" style="font-size: 15px">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
-          </div>
-          <div class="clearfix"></div>
-        </div>
-      </div>
+      <div id="footer" style="height:200px">
+              <div class="container">
+                <div class="footer-logo-block">
+                  <a href="https://www.facebook.com/slumuseum" class="footer-logo">
+                    <img src="assets\img\logo.png" alt="Logo footer">
+                  </a>
+                  <p class="copyright" style="font-size: 15px">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
 </div>
 
   <script>
