@@ -174,7 +174,7 @@ $stmt->close();
         <h1><?php echo htmlspecialchars($name); ?></h1>
         <?php if ($media_path !== 'No video available') { ?>
           <video width="800" controls>
-            <source src="<?php echo htmlspecialchars($media_path); ?>" type="video/mp4">
+          <source src="<?php echo htmlspecialchars($media_path . $fileName); ?>" type="video/mp4">
             Your browser does not support the video tag.
           </video>
           <div class="descriptions">
