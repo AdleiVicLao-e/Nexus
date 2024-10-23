@@ -1,4 +1,5 @@
 <?php
+global $mysqli;
 include 'artifact-db.php';
 
 // Initialize message prompt variable
