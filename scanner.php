@@ -114,7 +114,7 @@ if (is_null($_SESSION["guest"])) {
     </div>
 </div>
 
-<div id="desktop-warning">Mobile Only Site.</div>
+<div id="desktop-warning"></div>
 
 <script>
     const video = document.getElementById("video");
