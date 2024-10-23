@@ -2,6 +2,45 @@
 session_start();
 if (is_null($_SESSION["guest"])) {
   header("Location: ../index.php");
+  exit;
+}
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "user";
+
+$connection = new mysqli($servername, $username, $password, $dbname);
+
+// Check the connection
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Prepare and bind
+    $stmt = $connection->prepare("INSERT INTO feedback (date, quality_presentation, cleanliness_ambiance, staff_service, overall_experience, comments) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $date, $quality_presentation, $cleanliness_ambiance, $staff_service, $overall_experience, $comments);
+
+    // Set parameters
+    $date = $_POST['date'];
+    $quality_presentation = $_POST['exhibits'];
+    $cleanliness_ambiance = $_POST['cleanliness'];
+    $staff_service = $_POST['staff'];
+    $overall_experience = $_POST['experience'];
+    $comments = $_POST['comments'];
+
+    // Execute the query
+    if ($stmt->execute()) {
+        echo "";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $connection->close();
 }
 ?>
 
@@ -163,8 +202,6 @@ if (is_null($_SESSION["guest"])) {
 <div id="thankYouMessage" class="thank-you-message" style="display:none;">
         <img src="/assets/img/thanks.png" alt="Descriptive text" class="responsive-image">
         <h3>Thank you for your feedback!</h3>
-        <a href="homepage.php" class="go-home">Go back to homepage</a>
-        <a href="scanner.php" class="go-home">Scan more artifacts</a>
 </div>
 
       <div id="footer">
@@ -184,10 +221,8 @@ if (is_null($_SESSION["guest"])) {
     });
 
     // Show thank you message after form submission
-    function showThankYouMessage(event) {
-        event.preventDefault();
-        document.querySelector('.feedback-form').style.display = 'none';
-        document.getElementById('thankYouMessage').style.display = 'block';
+    function showThankYouMessage(event) { 
+        alert('Thank you! Your feedback has been successfully submitted.');
     }
   </script>
 
