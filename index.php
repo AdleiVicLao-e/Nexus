@@ -96,21 +96,34 @@ $_SESSION["guest"] = "guest";
                     : document.getElementById('schoolSelect').value;
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'include/user-db.php', true);
+                xhr.open('POST', '../include/user-db.php', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
                 xhr.onload = function() {
                     if (xhr.status === 200) {
-                        window.location.href = 'homepage.php';
+                        const response = JSON.parse(xhr.responseText);
+
+                        if (response.success) {
+                            alert(response.message); // Alert the success message
+                            window.location.href = 'homepage.php'; // Redirect to homepage
+                        } else {
+                            alert('Error: ' + response.message); // Show error message from PHP
+                        }
                     } else {
                         // Handle error case here
-                        console.log('Error submitting the form');
+                        alert('Error submitting the form. Server returned status: ' + xhr.status);
                     }
                 };
 
+                xhr.onerror = function() {
+                    alert('An error occurred while submitting the form.');
+                };
+
+                // Send the data
                 xhr.send(`user_name=${encodeURIComponent(userName)}&user_school=${encodeURIComponent(userSchool)}`);
             }
         });
+
     </script>
   </body>
 </html>
