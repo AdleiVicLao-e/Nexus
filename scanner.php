@@ -82,10 +82,6 @@ if (is_null($_SESSION["guest"])) {
     <canvas id="va-canvas"></canvas>
 </div>
 
-<!-- Add an audio element -->
-<audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
-<audio id="scrollbAudio" src="/assets/audio/scroll-sound.mp3" preload="auto"></audio>
-
 <div class="edge-lighting" id="edgeLighting"></div>
 
 <!-- Floating Buttons -->
@@ -121,8 +117,6 @@ if (is_null($_SESSION["guest"])) {
     const canvas = document.getElementById("canvas");
     const canvasContext = canvas.getContext("2d");
     const watchButton = document.getElementById("watchVideos");
-    const scroll = document.getElementById("scrollbAudio");
-    const audio = document.getElementById("lightbulbAudio");
 
     let artifactInfo = "";
     let displayBox = true;
@@ -246,8 +240,6 @@ if (is_null($_SESSION["guest"])) {
                     }
                 }
 
-                playScroll();
-
                 // Show the watch button only after the first artifact scan
                 if (!firstScan) {
                     firstScan = true;
@@ -303,18 +295,10 @@ if (is_null($_SESSION["guest"])) {
     function viewDetails() {
         const overlay = document.getElementById("infoOverlay");
         overlay.style.display = "flex";
-
-        audio.play();
-    }
-
-    function playScroll(){
-        scroll.play();
     }
 
     document.getElementById("exitButton").addEventListener("click", function() {
         document.getElementById("infoOverlay").style.display = "none";
-        audio.pause();
-        audio.currentTime = 0;
     });
 
     function checkDevice() {
