@@ -8,6 +8,7 @@ if (is_null($_SESSION["guest"])) {
 
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,8 +121,6 @@ if (is_null($_SESSION["guest"])) {
 
     let artifactInfo = "";
     let displayBox = true;
-    let imageValue = "default";
-    let firstScan = false; // Track whether the first artifact is scanned
 
     // Initially hide the watch button
     watchButton.style.display = "none";
@@ -239,15 +238,6 @@ if (is_null($_SESSION["guest"])) {
                         });
                     }
                 }
-
-                // Show the watch button only after the first artifact scan
-                if (!firstScan) {
-                    firstScan = true;
-                }
-                watchButton.style.display = "block";
-                setTimeout(() => {
-                    watchButton.style.display = "none";
-                }, 7000);
             } else {
                 // If no code detected, clear artifact info
                 artifactInfo = "";
@@ -273,9 +263,9 @@ if (is_null($_SESSION["guest"])) {
                     // alert(artifactInfo);
                     displayBox = true;
 
-                    // Show the watch button after the first scan
-                    if (!firstScan) {
-                        firstScan = true; // Mark first scan completed
+                    if (data["fileName"] && data["fileName"] !== "0") {
+                    // Show the watch button if fileName is present and not 0
+                    watchButton.style.display = "block";  // Show button
                     }
                 } else {
                     // If artifact is not found or if an error occurred
@@ -310,6 +300,7 @@ if (is_null($_SESSION["guest"])) {
                 alert("Please use your mobile phone to access this site.");
             }, 100);
         }
+        checkDevice();
     }
 
     // Variable to store the current artifact ID
