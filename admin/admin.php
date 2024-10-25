@@ -71,7 +71,7 @@ if (isset($_SESSION["admin"])) {
             <div class="greeting" style="margin-right: 10px;">
                 <div class="curator">Hi, Curator!</div>
                 <nav>
-                    <a href="../include/logout" aria-label="Logout">Logout</a>
+                    <a href="../include/logout.php" aria-label="Logout">Logout</a>
                 </nav>
             </div>
         </div>
