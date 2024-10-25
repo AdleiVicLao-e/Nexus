@@ -173,8 +173,8 @@ $stmt->close();
       <div class="container">
         <h1><?php echo htmlspecialchars($name); ?></h1>
         <?php if ($media_path !== 'No video available') { ?>
-          <video width="800" controls>
-          <source src="<?php echo htmlspecialchars($media_path . $fileName); ?>" type="video/mp4">
+          <video width="800" controls autoplay muted>
+            <source src="<?php echo htmlspecialchars($media_path . $fileName); ?>" type="video/mp4">
             Your browser does not support the video tag.
           </video>
           <div class="descriptions">
@@ -186,21 +186,21 @@ $stmt->close();
         <button id="scanAgain" onclick="location.href='scanner.php'">Scan more artifacts</button>
       </div>
     </div>
-  </div>
-</body>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const sidebar = document.getElementById("sidebar_menu");
-    const mobileMenu = document.getElementById("mobile_menu");
+    </div>
+    </body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const sidebar = document.getElementById("sidebar_menu");
+        const mobileMenu = document.getElementById("mobile_menu");
 
-    mobileMenu.addEventListener("click", function() {
-        sidebar.classList.toggle("active"); // Toggle the sidebar menu
-    });
+        mobileMenu.addEventListener("click", function() {
+          sidebar.classList.toggle("active"); // Toggle the sidebar menu
+        });
 
-    const closeButton = document.querySelector(".toggle-sidebar");
-    closeButton.addEventListener("click", function() {
-        sidebar.classList.remove("active"); // Close the sidebar when clicking 'Close menu'
-    });
-});
-  </script>
+        const closeButton = document.querySelector(".toggle-sidebar");
+        closeButton.addEventListener("click", function() {
+          sidebar.classList.remove("active"); // Close the sidebar when clicking 'Close menu'
+        });
+      });
+    </script>
 </html>

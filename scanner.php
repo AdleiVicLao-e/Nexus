@@ -8,6 +8,7 @@ if (is_null($_SESSION["guest"])) {
 
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,10 +83,6 @@ if (is_null($_SESSION["guest"])) {
     <canvas id="va-canvas"></canvas>
 </div>
 
-<!-- Add an audio element -->
-<audio id="lightbulbAudio" src="/assets/audio/click-sound.mp3" preload="auto"></audio>
-<audio id="scrollbAudio" src="/assets/audio/scroll-sound.mp3" preload="auto"></audio>
-
 <div class="edge-lighting" id="edgeLighting"></div>
 
 <!-- Floating Buttons -->
@@ -121,13 +118,9 @@ if (is_null($_SESSION["guest"])) {
     const canvas = document.getElementById("canvas");
     const canvasContext = canvas.getContext("2d");
     const watchButton = document.getElementById("watchVideos");
-    const scroll = document.getElementById("scrollbAudio");
-    const audio = document.getElementById("lightbulbAudio");
 
     let artifactInfo = "";
     let displayBox = true;
-    let imageValue = "default";
-    let firstScan = false; // Track whether the first artifact is scanned
 
     // Initially hide the watch button
     watchButton.style.display = "none";
@@ -245,17 +238,6 @@ if (is_null($_SESSION["guest"])) {
                         });
                     }
                 }
-
-                playScroll();
-
-                // Show the watch button only after the first artifact scan
-                if (!firstScan) {
-                    firstScan = true;
-                }
-                watchButton.style.display = "block";
-                setTimeout(() => {
-                    watchButton.style.display = "none";
-                }, 7000);
             } else {
                 // If no code detected, clear artifact info
                 artifactInfo = "";
@@ -281,9 +263,9 @@ if (is_null($_SESSION["guest"])) {
                     // alert(artifactInfo);
                     displayBox = true;
 
-                    // Show the watch button after the first scan
-                    if (!firstScan) {
-                        firstScan = true; // Mark first scan completed
+                    if (data["fileName"] && data["fileName"] !== "0") {
+                    // Show the watch button if fileName is present and not 0
+                    watchButton.style.display = "block";  // Show button
                     }
                 } else {
                     // If artifact is not found or if an error occurred
@@ -303,18 +285,10 @@ if (is_null($_SESSION["guest"])) {
     function viewDetails() {
         const overlay = document.getElementById("infoOverlay");
         overlay.style.display = "flex";
-
-        audio.play();
-    }
-
-    function playScroll(){
-        scroll.play();
     }
 
     document.getElementById("exitButton").addEventListener("click", function() {
         document.getElementById("infoOverlay").style.display = "none";
-        audio.pause();
-        audio.currentTime = 0;
     });
 
     function checkDevice() {
@@ -326,6 +300,7 @@ if (is_null($_SESSION["guest"])) {
                 alert("Please use your mobile phone to access this site.");
             }, 100);
         }
+        checkDevice();
     }
 
     // Variable to store the current artifact ID

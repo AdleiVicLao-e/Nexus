@@ -16,7 +16,8 @@ $query = "
         sc.subcat_name AS 'Subcatalogue Name',
         a.name AS 'Name',
         a.description AS 'Description',
-        a.condition AS 'Condition'
+        a.condition AS 'Condition',
+        a.fileName AS 'fileName'
     FROM 
         artifact_info a
     LEFT JOIN 
