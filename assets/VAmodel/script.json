@@ -1,92 +1,229 @@
 {
     "scripts": {
-        "1": {
-            "artifact_name": "House door",
-            "script": "This is a traditional house door with surface carvings of animals and other designs. Unfortunately, it has a crack and a hole."
-        },
-        "2": {
-            "artifact_name": "Panel wall",
-            "script": "Here we have a panel wall with surface carvings of anthropomorphic designs. Despite its beauty, it has woodworm holes and a crack."
-        },
-        "3": {
-            "artifact_name": "Sliding panel door",
-            "script": "This sliding panel door features intricate carvings of anthropomorphic designs, though it has suffered some cracks."
-        },
-        "4": {
-            "artifact_name": "Granary door",
-            "script": "This granary door is decorated with a lizard design. Part of it is damaged, and there is a visible crack."
-        },
-        "5": {
-            "artifact_name": "Post bu'lul",
-            "script": "A small post featuring a bu'lul carving, which has a hole at the base."
-        },
-        "10": {
-            "artifact_name": "Gong handle 5",
-            "script": "This gong handle is carved with a human motif, although the feet are broken and there's a crack."
-        },
-        "21": {
-            "artifact_name": "Standing bu'lul with child",
-            "script": "A standing bu'lul figure holding a child, with visible cracks."
-        },
-        "22": {
-            "artifact_name": "Philippine eagle",
-            "script": "This magnificent Philippine eagle stands at a height of 125 centimeters, representing strength and freedom."
-        },
-        "23": {
-            "artifact_name": "Head taker 1",
-            "script": "This is the first of the 'head taker' carvings, symbolizing ancient practices and warrior culture."
-        },
-        "487": {
-            "artifact_name": "Baey \/ Beey",
-            "script": "These structures are usually of a somewhat makeshift nature but typically feature a ridgepole with a two-sided roof, though occasionally a single-sloped \"shed\" roof is used. The walls are never made of wood, but are commonly constructed from grass thatch, reeds, or sawali, and sometimes bark. The type of flooring varies based on the building's permanence\u2014ranging from a reed mat laid directly on the ground, to a raised platform separate from the main structure, or a more permanent floor supported by poles tied to the uprights."
-        },
         "0": {
             "artifact_name": "Hello",
             "script": "Welcome! to get started, scan the qr codes available beside the artifacts. You can view specific   videos   for that artifact and by tapping me you can hear more information about   that artifact!"
         },
-        "1310": {
-            "artifact_name": "gaga",
-            "script": "asd"
+        "170": {
+            "artifact_name": "Balingbing / Bungkaka",
+            "script": "This is a Kalinga bamboo buzzer used by women. It is used by holding the end of the tube with one hand and striking it on your open palm on the other hand. The sound can be changed by covering and uncovering the small hole with your thumb."
         },
-        "1311": {
-            "artifact_name": "eqwer",
-            "script": "qwer"
+        "179": {
+            "artifact_name": "Diwdiw-as",
+            "script": "It is a well-known bamboo pan flutes or panpipes that is composed of 5-8 pipes(Saggeypo). The other end of this instrument is closed via node while the open end is held against the lower lip of the player. Unlike flutes who have finger holes, this instrument does not have one but can produce sound with different pitch as the player blows directly against the top."
         },
-        "1312": {
-            "artifact_name": "sadcvs",
-            "script": "wer"
+        "120": {
+            "artifact_name": "Kalaleng (brass)",
+            "script": "The Kalaleng is a nose flute which often imitates sounds of nature which is considered as a calming or reflective music. To use this the player would have to use their nasal passages to blow air to the flute, by adjusting their breath they can produce different notes. To change the flute they would cover the finger holes similar to a flute."
         },
-        "1313": {
-            "artifact_name": "s",
-            "script": "asd"
+        "121": {
+            "artifact_name": "Kalaleng (wooden)",
+            "script": "The wooden Kalaleng is one of the most iconic wind instruments in the Cordillera region because it is a flute played using the nose rather than the mouth which gives it a distinctive sound from the common flute. It is made from bamboo and it has a slender hollow tube (usually 60-70 cm) with punctured holes. It has three to four finger holes in the top side and the end is blocked."
         },
-        "1314": {
-            "artifact_name": "uytre",
-            "script": "ywte"
+        "138": {
+            "artifact_name": "Kulit-tong",
+            "script": "The Kulit-tong is a polychordal tube zither from Kalinga. It has six strings parallel to its body. There is a crack along the body for the sound to resonate in. It is played by plucking the strings with the player's fingers. It is usually played by men at night on its own."
         },
-        "1315": {
-            "artifact_name": "hasfd",
-            "script": "asdf"
+        "126": {
+            "artifact_name": "Paldong",
+            "script": "The Paldong is a traditional lip bamboo flute. This is made from a single piece of bamboo  that contains four to six finger holes. It produces a soothing melodious tone when played properly. It is often played in festivals and social gatherings which shows their expressions in connection to nature."
         },
-        "1316": {
-            "artifact_name": "hasdfasd",
-            "script": "asdfas"
+        "157": {
+            "artifact_name": "Patatag",
+            "script": "The Patateg is a xylophone ensemble instrument from Kalinga. IT has five to six bamboo blades in various sizes. It is put on the player's thigh and they would sit on the floor with their legs outstretched and they would then struck it with two thin bamboo sticks. It is usually a recreation instrument for children and it is also used to practice for preparation to use other ensemble instruments."
         },
-        "1317": {
-            "artifact_name": "brobro",
-            "script": "asdf"
+        "209": {
+            "artifact_name": "Pitanggok",
+            "script": "The Pitanggok is a bamboo percussion instrument that is particularly used by the Igorots. It's made from a mature adult bamboo stem and has a hollow tube which produces a sharp and resonant tone. It is often played in rituals and community celebrations and is accompanied by other instruments like the gangsa and various flutes. "
         },
-        "1318": {
-            "artifact_name": "fart",
-            "script": "asdf"
+        "183": {
+            "artifact_name": "Sagaypo",
+            "script": "The Sagaypo is bamboo pipe from Kalinga. It is closed on one end by a node while the open end is held against the lower lips of the player. It has six sizes varying from shortest to longest. It is an instrument that can be played individually or can be played together forming an ensemble. "
         },
-        "1295": {
-            "artifact_name": "jieben",
-            "script": "fd"
+        "134": {
+            "artifact_name": "Tambi",
+            "script": "The Tambi/Takumbo is a parallel string zither instrument made from bamboo. The bamboo tube is 40 cm long, with both ends enclosed with a node. Two strings are etched from the body of the bamboo. It used for entertainment and relaxation."
         },
-        "1296": {
-            "artifact_name": "jieben",
-            "script": "sdfsd"
+        "217": {
+            "artifact_name": "Tangguyob",
+            "script": "TheTangguyob is a trumpet made from a carabao's or cow's horn. It is used by ranchers to herd cows and other livestocks. It is also used to summon people during meetings, field works or emergency response."
+        },
+        "193": {
+            "artifact_name": "Tungatong",
+            "script": "The Tungatong is a percussion instrument from Kalinga. It is believed to be is used to communicate with spirits during a house blessing. It is made of bamboo that is cut in different sizes. To play this the player would striking it on the ground. The player would hold one side and pound the instrument at an angle which produces a deep resonating sound. The hollow build of the instrument causes a booming sound. The players use different sizes of tungatong depending on the pitch and harmony they need. To adjust the sound of the individual tungatong, the player can strike it it different forces depending on the intensity of the sound."
+        },
+        "879": {
+            "artifact_name": "Atag",
+            "script": "The atag is made to sleep on without the need for a mattress however people usually put an ikamen or a woven mat on them. It is made from strong materials, usually from narra or other durable woods. This is so that it can be passed on to generations to come."
+        },
+        "487": {
+            "artifact_name": "Baey / Beey",
+            "script": "These structures are usually of a somewhat makeshift nature but typically feature a ridgepole with a two-sided roof, though occasionally a single-sloped shed roof is used. The walls are never made of wood, but are commonly constructed from grass thatch, reeds, or sawali, and sometimes bark. The type of flooring varies based on the building's permanence—ranging from a reed mat laid directly on the ground, to a raised platform separate from the main structure, or a more permanent floor supported by poles tied to the uprights."
+        },
+        "810": {
+            "artifact_name": "Balay",
+            "script": "In traditional houses like a balay, most domestic tasks can be done without needing a lot of vertical space, even during bad weather. However, threshing rice with a mortar and pestle (a process where rice is pounded to remove the husks) requires more headroom because it involves raising the pestle high above the head. Despite this, many people who live in these houses, referred to as abong-dwellers, don't face this issue as much because they rely more on root crops or corn, which don't require the same kind of processing. This was either their current practice or had been their practice until recently."
+        },
+        "486": {
+            "artifact_name": "Baley",
+            "script": "The Bontocs, as we have seen，use this same term for houses in general, but baley is also wellknown to them in the forms faley11 or finarey，by which they designate those classic “three-story” houses which carry the Southern Strain in their granary-form hearts."
+        },
+        "941": {
+            "artifact_name": "Baliyag / Kayabang",
+            "script": "The Baliyag or Balyag is a transport basket used for farm produce like camote (sweet potato). It has a strap that is worn across the forehead that is usually made from rattan. This supports the weight of the whole basket which distributes the load evenly across the wearer's body."
+        },
+        "838": {
+            "artifact_name": "Banga",
+            "script": "The banga is a large jar made from clay that is used to contain liquids to avoid spillage. A banga that used  only for water is called a Balanga."
+        },
+        "269": {
+            "artifact_name": "Bayaong",
+            "script": "Although Bayaong is used as an ordinary blanket by anyone of any status, it is popularly known as a wrap for rich dead men or men who performed kedot or peshet (highest form of cañao. It is also used to wrap the corpse of a person who died young or those who never had children."
+        },
+        "1078": {
+            "artifact_name": "Bayuka",
+            "script": "In typical Sagada houses, spaces for a pig-pen is excavated under their houses for the animals to stay warm. A bayuka can be typically found in  spaces like this and serves as a feeder for pigs."
+        },
+        "1088": {
+            "artifact_name": "Biki",
+            "script": "A pest control basket used during epidemics to transport chicken elsewhere and to carry/house chickens and other fowls. It can also be used to separate baby chicks from the hen."
+        },
+        "1047": {
+            "artifact_name": "Bukong",
+            "script": "A blacksmith's tool that are used to  stoke high temperature fires that is necessary for metalworking. "
+        },
+        "37": {
+            "artifact_name": "Burden Baskets",
+            "script": "Similar to Kayabang, burden baskets are used to carry produce however it is made to carry heavier loads which helps farmers carry it and travel over long distances. "
+        },
+        "797": {
+            "artifact_name": "Dalikan",
+            "script": "The dalikan us made using three large rocks which gives a stable platform for the pot. It forms a triangular shaped base, this gives enough space underneath to build a fire. Cooking in an open fire usually gives unique flavor to the food."
+        },
+        "884": {
+            "artifact_name": "Dapilan",
+            "script": " This would squeeze the juice out from the sugar cane. The juice can be drank as is or processed into wine. The Dapilan rollers not only maximizes the extraction of the juices but also preserves the natural flavors."
+        },
+        "800": {
+            "artifact_name": "Earthenware",
+            "script": "Researchers were able to find out what the pots were used for by the shape of the pots. For example"
+        },
+        "484": {
+            "artifact_name": "Fale",
+            "script": "Faleys are traditionally only a one-room house and is designed to withstand heavy rains. It's central hearth is called dap-ay which essentially a fireplace the heats the home and is also used for cooking."
+        },
+        "255": {
+            "artifact_name": "Female Belt ",
+            "script": "This belt or waistband is woven by women traditionally and it used for ceremonial purposes. "
+        },
+        "226": {
+            "artifact_name": "Forcos",
+            "script": "The forcos is made from the inner part of certain trees which are soft. It's primary function was to cover men's buttocks and genitals. "
+        },
+        "489": {
+            "artifact_name": "Furuy",
+            "script": "Furuy traditional house of the Kankanaey people in the Cordillera region, particularly in the town of Mankayan, Benguet. These houses are notable for their unique architectural style and cultural significance.  Building a furuy is a communal activity which shows us how the Kankanaey had a strong sense of community and cooperation."
+        },
+        "1048": {
+            "artifact_name": "Gaidan and Alinteg",
+            "script": "Among the Kankana-ey and Ibaloi, recovery of gold from broken down ore or gravel was largely the work of women who physically separated gold from the ore through milling, gravitation and panning. They used a series of basalt grinders and mortars to mill gold. Larger basalt mortars are called alintegan, while the grinders are called an alinteg. To grind the ore into a powder-like consistency, a flat basalt stone called a gaidan."
+        },
+        "30": {
+            "artifact_name": "Gangsa",
+            "script": "Men would traditionally be the ones who play the gangsa as this is part of ritually cleansing the warriors before and after taking a head of an enemy in battle. As time progresses, headhunting became less and less common so gangsa is played more on community gatherings and celebrations. Men used to primarily play this instrument however there has been an increase in women playing it over the years. "
+        },
+        "947": {
+            "artifact_name": "Gimata / Khimata",
+            "script": "A plaited transport basket is fastened to each end of pole, which is then carried across the shoulders. It consists of two (twin) deep baskets connected by a piece of carved wood called aksiw. This basket is used primarily for transporting rice, but is also used for carrying other items, such as sweet potatoes during harvest season. When large animals were butchered during festivities such as cows, pigs and water buffalo, the gimata was used to transport meat. This is the primary transport basket among both Fideisan and Tanulong in Sagada, and in Bontoc, Mt. Province. Each family has at least one gimata"
+        },
+        "886": {
+            "artifact_name": "Igadan",
+            "script": "To use this, you would have to sit on the bench facing the sharp blade, with half a coconut on hand you would rub the meat of a mature coconut against the blade till gata or coconut milk pours out. The gata would be collected on a container underneath. It is a tool with teeth that is used to shred, grate. The blade is commonly fixed on a wooden seat likea shetmog stool for user to sit on comfortably, and the blade at the end is like a teeth of a saw, over which the item to be shredded is rubbed, there are also sheet metal igadan with holes for grating, used on coconuts for the kangkanen rice cake, it can also be used for camoted, taro root, and cassava for making kinokad and topig."
+        },
+        "1090": {
+            "artifact_name": "Kalalaw / Kulong",
+            "script": "The Kulong is a traditional chicken coop used by various indigenous communities in Cordillera. These coops are designed to provide a safe place for raising chickens and sometimes even pigs. "
+        },
+        "940": {
+            "artifact_name": "Kalawag",
+            "script": "The kalawag  is made from rattan , bamboo or other sturdy vines for durability and flexibility to carry heavy loads."
+        },
+        "1152": {
+            "artifact_name": "Kalong",
+            "script": "Traditional Ibaloi's preserve the remains of their loved ones in a mummification process, these mummies were buried in the wooden coffins called Kalong."
+        },
+        "488": {
+            "artifact_name": "Kinipas / Finarvon",
+            "script": "Big sheds like kinipas are supported on six posts and the floor joists are cut into the posts that supports the roof. These supports are called olub. Kalinga style housed have have ground-level entrances."
+        },
+        "1086": {
+            "artifact_name": "Kubi",
+            "script": "A kubi is a chicken coop used by the Ifugao. The Ifugao would let their chickens to roam around  during the day but at night the chickens are kept in the kubi to protect them from predators. The kubi is hung under the house, usually about a meter and a half from the ground."
+        },
+        "535": {
+            "artifact_name": "Kulbung",
+            "script": "Baskets like this are usually have handles for carrying and hanging which helps items far from the reach of pests and rats and such."
+        },
+        "942": {
+            "artifact_name": "Lagba",
+            "script": "The intricate designs seen in the baskets indicate that weaving baskets were hobbies back then. It is also seen as a high level of art."
+        },
+        "502": {
+            "artifact_name": "Liga-o",
+            "script": "The shape of a lig-o / liga-o can tell you where the tray came from. A round shape is a Bontoc winnowing tray and a square tray is from Ifugao."
+        },
+        "228": {
+            "artifact_name": "Loincloth for men",
+            "script": "Loincloths then were a piece of cloth that are 4 to 5 meters long and less than a meter wide. The ends are actually called wayaway, the front is called ampis and the back part is called pakawar."
+        },
+        "946": {
+            "artifact_name": "Luwa / Nuwa",
+            "script": "This is a burden basket typically used to carry lighter loads like harvested rice, vegetables and fruits to their home."
+        },
+        "885": {
+            "artifact_name": "Okisan / Gilingan di kape",
+            "script": "People used to handpick local coffee beans. They then put it into the Okisan; the friction in the rough surface of the wooden device peels the outer skin of the beans in preparation for creating coffee grounds."
+        },
+         "1003": {
+            "artifact_name": "Paatan",
+            "script": "The paatan is traditional weaving tool that is used for centuries. It is known for its portability and simplicity.  IT is tied around a weaver's waist and utilize their own body to create tension on the warp threads"
+        },
+        "841": {
+            "artifact_name": "Putik ",
+            "script": "Generally a large jar made out of mud or clay used to store rice wine to avoid it from evaporating too quickly however it has been documented that it is also used for other things. "
+        },
+        "29": {
+            "artifact_name": "Salibaw",
+            "script": "The salibaw is used in many cultural and ceremonial celebrations or rituals. It is often played with a gong. "
+        },
+        "939": {
+            "artifact_name": "Shagi / Dagi",
+            "script": "The shagi or dagi is designed to be carried on the back or shoulders with straps of the same material or sometimes cloth. It is used to transport various things like crops, farming tools, firewood and more."
+        },
+        "482": {
+            "artifact_name": "Stilt / Pile Houses",
+            "script": "Stilt houses are designed to be elevated living spaces to avoid floods and protect people from pests. The spaces underneath are used for storage and keeping livestocks. The roofs are designed to facilitate rain water to help keep the inside of the house dry. "
+        },
+        "1082": {
+            "artifact_name": "Suyong",
+            "script": "The suyong has a conical shape with a wide opening at the top and a narrow spout at the bottom, this is for precision on transferring liquids and avoid spillage. This is often used for water, oils or even sauces to be put in containers or jars. "
+        },
+        "1022": {
+            "artifact_name": "Tilar",
+            "script": "In contrast to the paatan, The tilar is large and stationary. It is made out of hardwood, weavers do not need to use their body as tension here as it has a warp beam. In addition to that it also has a harness, heddle, shuttle, reed, and a cloth roller."
+        },
+        "1009": {
+            "artifact_name": "Ullaw ",
+            "script": "The ullaw helps the thread have a uniform shape, this is done by spooling the thread around the bamboo crossbars which prevents the thread from tangling and makes it sure that it is evenly distributed and tension before its placed on the loom. "
+        },
+        "253": {
+            "artifact_name": "Skirt, Blouse and Belt for women",
+            "script": "There are many names and variations of these parts clothing materials from all over the Philippines. Early Filipinos used natural fibers for weaving and plants and roots as dye. Designs and patterns can indicate wearer's clan or social status."
+        },
+        "216": {
+            "artifact_name": "Akelshang / Ageldang",
+            "script": "The Akleshang / Ageldang is a type of zither or lute that is often played in social gatherings. It is usually made from a single piece of bamboo with five to seven strings that are raised slightly from the body which is plucked like a harp. It's body serves a resonator that amplifies the sound.  "
         }
     }
 }
+

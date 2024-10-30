@@ -97,16 +97,16 @@ if (is_null($_SESSION["guest"])) {
     <div class="info-box">
         <p class="welcome-2">WELCOME!</p>
         <p class="info-box-text">
-            This application will provide you with more information about the
-            museum artifacts.
+            This application will provide you with more information about the museum artifacts.
         </p>
         <p class="info-box-text">
-            To use it, simply position your phone's camera in front of the QR
-            codes located near the artifacts.
+            To use it, simply position your phone's camera in front of the QR codes located near the artifacts.
         </p>
         <p class="info-box-text">
-            It will automatically detect the codes and display detailed
-            information about each artifact.
+            It will automatically detect the codes and display detailed information about each artifact.
+        </p>
+        <p class="info-box-text">
+            Need a bit more insight? Tap once to hear more from the avatar; tap twice to pause.
         </p>
     </div>
 </div>
