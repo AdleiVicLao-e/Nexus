@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 01, 2024 at 12:07 PM
--- Server version: 5.7.40
--- PHP Version: 8.0.26
+-- Generation Time: Oct 31, 2024 at 06:25 AM
+-- Server version: 8.3.0
+-- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,16 +30,18 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `credentials`;
 CREATE TABLE IF NOT EXISTS `credentials` (
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `status` int NOT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `credentials`
 --
 
-INSERT INTO `credentials` (`username`, `password`) VALUES
-('hello', 'hello'),
-('asd', 'asd');
+INSERT INTO `credentials` (`username`, `password`, `status`) VALUES
+('hello', 'hello', 0),
+('asd', 'asd', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
