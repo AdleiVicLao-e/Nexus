@@ -172,12 +172,6 @@ button, .search-button, #refreshBtn:hover {
     margin-top: -20px;
 }
 
-
-
-	.artifact-checkbox {
-
-	}
-
 .chart-container {
 	min-height: 300px;
 	position: relative;
@@ -666,7 +660,7 @@ input[type="file"] {
 .modal {
 	display: none;
 	position: fixed;
-	z-index: 1;
+	z-index: 10;
 	left: 0;
 	top: 0;
 	width: 100%;
@@ -1018,7 +1012,7 @@ canvas {
   
   /* table-responsive */
   .table-responsive {
-	height: 700px;
+	height: 400px;
 	width: 100% !important;
 	overflow-x: auto;
 	overflow-y: auto;
@@ -1076,6 +1070,7 @@ td {
 	border-bottom: 1px solid #ccc;
 
 }
+
 
 #refreshBtn {
     font-family: 'Inter', sans-serif;

@@ -4,24 +4,71 @@
   background-color: #073066;
   border-radius: 4px;
   border: 1px solid #ddd;
-  width: 278px;
-  max-width: none;
+  width: 478px !important; 
   padding: 0;
   margin-top: 7px;
   top: 100px;
   left: 20px;
   z-index: 3001;
   display: none;
-  font-family: arial;
+  font-family: Arial, sans-serif;
   font-size: 15px;
   line-height: 1em;
   background-color: #eee;
+}
+
+.daterangepicker {
+  display: flex; /* Using flexbox to align items */
+  justify-content: space-between; /* Space between the calendars */
+  width: 100%; /* Full width */
+}
+
+.daterangepicker .drp-calendar {
+  flex: 1; /* Make each calendar take equal space */
+  padding: 8px;
+  box-sizing: border-box;
+  margin: 0 10px; /* Space on the sides */
 }
 
 tbody {
   background-color: #eee;
 }
 
+/* Table Styles within daterangepicker */
+.daterangepicker table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+}
+
+.daterangepicker thead th {
+  position: sticky;
+  top: 0; 
+  z-index: 10;
+  background-color: #073066; /* Header background color */
+  color: white;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #f6c500; /* Bottom border */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+.daterangepicker th, .daterangepicker td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.daterangepicker tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.daterangepicker tr:hover {
+  background-color: #e0e7ff;
+}
+
+.daterangepicker td {
+  border-bottom: 1px solid #ccc;
+}
 
 .daterangepicker:before, .daterangepicker:after {
   position: absolute;
@@ -115,16 +162,19 @@ tbody {
 }
 
 .daterangepicker .drp-calendar {
-  display: none;
-  max-width: 350px;
+  display: inline-block;
+  width: calc(50% - 10px); /* Adjusted width to fit two calendars with 20px space */
+  vertical-align: top;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .daterangepicker .drp-calendar.left {
-  padding: 8px 0 8px 8px;
+  margin-right: 20px; /* Right margin for the left calendar */
 }
 
 .daterangepicker .drp-calendar.right {
-  padding: 8px;
+  margin-left: 0;
 }
 
 .daterangepicker .drp-calendar.single .calendar-table {
@@ -283,7 +333,7 @@ tbody {
   display: inline-block;
   font-size: 12px;
   padding-right: 8px;
-  color: #ddd;
+  color: #08c;
 }
 
 .daterangepicker .drp-buttons .btn {
@@ -341,26 +391,54 @@ tbody {
   color: #fff;
 }
 
-/*  Larger Screen Styling */
+/* Larger Screen Styling */
 @media (min-width: 564px) {
+  
   .daterangepicker {
-    width: auto;
+    display: flex; /* Use flexbox for layout */
+    width: 720px !important; /* Adjusted width to accommodate spacing */
+  }
+
+  .daterangepicker .ranges {
+    margin-right: 20px; /* Margin to the right for space */
+  }
+
+  .daterangepicker .drp-calendar {
+    flex: 1; /* Each calendar takes equal space */
+    vertical-align: top; /* Ensures top alignment */
+  }
+
+  /* Specific adjustments for the left calendar */
+  .daterangepicker .drp-calendar.left {
+    margin-right: 20px; /* Adds gap to the right of the left calendar */
+  }
+
+  /* Table and General Styling */
+  .daterangepicker table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .daterangepicker td, .daterangepicker th {
+    padding: 12px 15px;
+    text-align: center;
+    vertical-align: middle;
+    width: 32px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
   }
 
   .daterangepicker .ranges ul {
-    width: 140px;
-  }
-
-  .daterangepicker.single .ranges ul {
-    width: 100%;
-  }
-
-  .daterangepicker.single .drp-calendar.left {
-    clear: none;
+    width: 140px; /* Keep this if you want a fixed width for the ranges */
   }
 
   .daterangepicker.single .ranges, .daterangepicker.single .drp-calendar {
-    float: left;
+    display: flex; /* Use flexbox for better layout management */
   }
 
   .daterangepicker {
@@ -368,33 +446,22 @@ tbody {
     text-align: left;
   }
 
-  .daterangepicker .drp-calendar.left {
-    clear: left;
-    margin-right: 0;
-  }
-
+  /* Calendar border adjustments */
   .daterangepicker .drp-calendar.left .calendar-table {
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  .daterangepicker .drp-calendar.right {
-    margin-left: 0;
-  }
-
   .daterangepicker .drp-calendar.right .calendar-table {
     border-left: none;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    margin-left: 75px;
   }
 
   .daterangepicker .drp-calendar.left .calendar-table {
     padding-right: 8px;
-  }
-
-  .daterangepicker .ranges, .daterangepicker .drp-calendar {
-    float: left;
   }
 }
 
