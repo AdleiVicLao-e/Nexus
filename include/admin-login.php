@@ -10,14 +10,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
     $result = $stmt->get_result();
+    $resultRow = $result->fetch_assoc();
 
+    // If account exists
     if ($result->num_rows > 0) {
-        $_SESSION["admin"] = $_POST['admin_username'];
-        header("Location: ../admin/admin.php");
-        exit();
+        // Check status
+        if ($resultRow["status"] == 0) {
+            // Make user online
+            $updateStatusStmt = "UPDATE credentials SET status=1 WHERE username='$username'";
+            mysqli_query($conn, $updateStatusStmt);
+            // Redirect user
+            $_SESSION["admin"] = $_POST['admin_username'];
+            header("Location: ../admin/admin.php");
+            exit();
+        } else {
+            echo '<script>
+                alert("User is logged in another session.");
+                window.location.href="../admin/admin-login.php";
+                </script>';
+        }
     } else {
         header("Location: ../admin/401.php");
     }
+    
     $stmt->close();
     $conn->close();
 }
