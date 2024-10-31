@@ -9,6 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         case 'create_section':
             $newSectionTitle = isset($_POST['new_section']) ? trim($_POST['new_section']) : '';
 
+            // Validate input
+            if (empty($newSectionTitle)) {
+                echo '<script>
+                    alert("Section title cannot be empty");
+                    window.location.href="../admin/admin.php";
+                </script>';
+                exit;
+            }
+
             // Check if the section name already exists
             $checkQuery = "SELECT COUNT(*) AS count FROM section WHERE section_name = ?";
             $stmt = $mysqli->prepare($checkQuery);
@@ -50,6 +59,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $sectionId = isset($_POST['section_id']) ? (int)$_POST['section_id'] : 0;
             $newCatalogName = isset($_POST['new_catalog']) ? trim($_POST['new_catalog']) : '';
 
+            // Validate input
+            if (empty($newCatalogName) || $sectionId <= 0) {
+                echo '<script>
+                    alert("Catalog name cannot be empty and a section must be selected");
+                    window.location.href="../admin/admin.php";
+                </script>';
+                exit;
+            }
+
             // Check if the catalog name already exists in this section
             $checkQuery = "SELECT COUNT(*) AS count FROM catalogue WHERE catalogue_name = ? AND section_id = ?";
             $stmt = $mysqli->prepare($checkQuery);
@@ -89,6 +107,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         case 'create_subcatalog':
             $catalogueId = isset($_POST['catalogue_id']) ? (int)$_POST['catalogue_id'] : 0;
             $newSubcatalogName = isset($_POST['new_subcatalog']) ? trim($_POST['new_subcatalog']) : '';
+
+            // Validate input
+            if (empty($newSubcatalogName) || $catalogueId <= 0) {
+                echo '<script>
+                    alert("Subcatalog name cannot be empty and a catalog must be selected");
+                    window.location.href="../admin/admin.php";
+                </script>';
+                exit;
+            }
 
             // Check if the subcatalog name already exists in this catalog
             $checkQuery = "SELECT COUNT(*) AS count FROM subcatalogue WHERE subcat_name = ? AND catalogue_id = ?";
