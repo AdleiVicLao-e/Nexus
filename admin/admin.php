@@ -69,7 +69,9 @@ if (isset($_SESSION["admin"])) {
             </div>
             <img src="../res/images/user-image.png" alt="User Icon" aria-hidden="true">
             <div class="greeting" style="margin-right: 10px;">
-                <div class="curator">Hi, Curator!</div>
+                <div id="admin-name" class="curator">
+                    <?php echo "Hi! " . htmlspecialchars($_SESSION["admin"]) ?>
+                </div>
                 <nav>
                     <a href="../include/logout.php" aria-label="Logout">Logout</a>
                 </nav>
@@ -571,51 +573,57 @@ if (isset($_SESSION["admin"])) {
         });
         </script>
         <script type="text/javascript">
-        $(function() {
+            $(function() {
 
-            $('input[name="datefilter"]').daterangepicker({
-                autoUpdateInput: false,
-                locale: {
-                    cancelLabel: 'Clear'
-                }
+                $('input[name="datefilter"]').daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear'
+                    }
+                });
+
+                $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
+                        'MM/DD/YYYY'));
+                });
+
+                $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                });
+
             });
-
-            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
-                    'MM/DD/YYYY'));
-            });
-
-            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-
-        });
         </script>
 
         <script>
-        function toggleNotifications() {
-            const popup = document.getElementById('notificationPopup');
-            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
-        }
-
-        // Optional: Close the notification popup when clicking outside of it
-        window.onclick = function(event) {
-            const popup = document.getElementById('notificationPopup');
-            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
-                popup.style.display = 'none';
+            function toggleNotifications() {
+                const popup = document.getElementById('notificationPopup');
+                popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
             }
-        }
+
+            // Optional: Close the notification popup when clicking outside of it
+            window.onclick = function(event) {
+                const popup = document.getElementById('notificationPopup');
+                if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
+                    popup.style.display = 'none';
+                }
+            }
         </script>
         <script>
         // Load feedback when the page is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('../include/getFeedback.php')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('feedback-table-body').innerHTML = data;
-                })
-                .catch(error => console.error('Error fetching feedback:', error));
-        });
+            document.addEventListener('DOMContentLoaded', function() {
+                fetch('../include/getFeedback.php')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('feedback-table-body').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error fetching feedback:', error));
+            });
+        </script>
+        <script>
+            // Logs the user off when browser closes
+            window.addEventListener("beforeunload", function (event) {
+                navigator.sendBeacon('../include/logout.php', JSON.stringify({ action: 'close' }));
+            });
         </script>
 </body>
 
