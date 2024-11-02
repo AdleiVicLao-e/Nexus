@@ -112,8 +112,8 @@ function onQRCodeScanned() {
     // Reset the timeout whenever a QR code is scanned
     clearTimeout(scriptTimeoutId);
 
-    // Set a new timeout to reset the script after 5 minutes
-    scriptTimeoutId = setTimeout(resetScript, 300000);
+    // Set a new timeout to reset the script after 1 minute
+    scriptTimeoutId = setTimeout(resetScript, 60000);
 }
 
 // Synchronize lip movement based on the motion data
@@ -323,6 +323,7 @@ function onPointerUp(event) {
 function handleDoubleTap(event) {
     event.stopPropagation(); // Prevent default behavior
     stopTTS(); // Call stopTTS function on double tap
+    resetScript();
 }
 
 function handleArtifact(artifactId) {

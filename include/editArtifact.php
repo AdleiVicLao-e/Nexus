@@ -9,8 +9,8 @@ if (isset($data['id'], $data['name'], $data['section_id'], $data['description'])
     $id = $data['id'];
     $name = $data['name'];
     $sectionId = $data['section_id'];
-    $catalogId = isset($data['catalog_id']) && is_numeric($data['catalog_id']) ? $data['catalog_id'] : null; // Handle null case
-    $subcatalogId = isset($data['subcatalog_id']) && is_numeric($data['subcatalog_id']) ? $data['subcatalog_id'] : null; // Handle null case
+    $catalogId = isset($data['catalog_id']) && is_numeric($data['catalog_id']) ? $data['catalog_id'] : 0; // Handle null case
+    $subcatalogId = isset($data['subcatalog_id']) && is_numeric($data['subcatalog_id']) ? $data['subcatalog_id'] : 0; // Handle null case
     $description = $data['description'];
 
     // Prepare and execute the update query

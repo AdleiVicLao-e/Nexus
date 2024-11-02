@@ -388,6 +388,7 @@ function fetchArtifactOptions() {
             sectionSelect.addEventListener('change', (e) => {
                 const sectionId = e.target.value;
                 if (sectionId) {
+                    console.log(sectionId + " bro");
                     updateCatalogOptions(sectionId);
                     document.getElementById('catalog').disabled = false;
                 } else {
@@ -414,6 +415,7 @@ function updateCatalogOptions(sectionId) {
         fetch('/include/get.php?section_id=' + sectionId)
             .then(response => response.json())
             .then(data => {
+                console.log(data.catalogues);
                 catalogSelect.innerHTML = '<option value="" selected disabled>Select Catalog</option>';
                 if (data.catalogues) {
                     data.catalogues.forEach(catalogue => {
@@ -426,6 +428,7 @@ function updateCatalogOptions(sectionId) {
                 } else {
                     catalogSelect.disabled = true;
                 }
+
                 subCatalogSelect.innerHTML = '<option value="" selected disabled>Select Sub Catalog</option>';
                 subCatalogSelect.disabled = true;
             })

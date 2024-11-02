@@ -542,10 +542,12 @@ if (isset($_SESSION["admin"])) {
                         const sectionSelect = document.getElementById("create-select-section");
                         const sections = data.sections;
                         sections.forEach(section => {
-                            const option = document.createElement("option");
-                            option.value = section.section_id;
-                            option.text = section.section_name;
-                            sectionSelect.appendChild(option);
+                            if (section.section_name !== "N/A") {
+                                const option = document.createElement("option");
+                                option.value = section.section_id;
+                                option.text = section.section_name;
+                                sectionSelect.appendChild(option);
+                            }
                         });
                     }).catch(error => {
                         console.error("Error fetching sections:", error);
@@ -554,19 +556,24 @@ if (isset($_SESSION["admin"])) {
             // Function to fetch catalog data for a dropdown
             function fetchCatalogData() {
                 fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json()).then(data => {
+                    .then(response => response.json())
+                    .then(data => {
                         const catalogSelect = document.getElementById("create-select-catalog");
                         const catalogues = data.catalogues;
                         catalogues.forEach(catalog => {
-                            const option = document.createElement("option");
-                            option.value = catalog.catalogue_id;
-                            option.text = catalog.catalogue_name;
-                            catalogSelect.appendChild(option);
+                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = catalog.catalogue_id;
+                                option.text = catalog.catalogue_name;
+                                catalogSelect.appendChild(option);
+                            }
                         });
-                    }).catch(error => {
+                    })
+                    .catch(error => {
                         console.error("Error fetching catalogues:", error);
                     });
             }
+
             // Consolidate DOMContentLoaded
             fetchSectionData(); // Fetch and populate sections in the dropdown
             fetchCatalogData(); // Fetch and populate catalogues in the dropdown

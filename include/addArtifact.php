@@ -9,8 +9,8 @@ $newArtifactId = $lastArtifactId + 1;
 
 $artifactName = $_POST['artifact-name'];
 $sectionId = $_POST['section'];
-$catalogId = isset($_POST['catalog']) && $_POST['catalog'] !== '' ? $_POST['catalog'] : null;
-$subCatalogId = isset($_POST['sub-catalog']) && $_POST['sub-catalog'] !== '' ? $_POST['sub-catalog'] : null;
+$catalogId = isset($_POST['catalog']) && $_POST['catalog'] !== '' ? $_POST['catalog'] : 0;
+$subCatalogId = isset($_POST['sub-catalog']) && $_POST['sub-catalog'] !== '' ? $_POST['sub-catalog'] : 0;
 $description = $_POST['description'];
 $condition = $_POST['condition'];
 
