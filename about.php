@@ -206,34 +206,23 @@ if (is_null($_SESSION["guest"])) {
             <section id="portfolio" class="portfolio">
               <div class="container">
                 <div class="section-title" data-aos="fade-up">
-                  <h2>Portfolio</h2>
-                  <p>What what whattt</p>
+                  <h2>Gallery</h2>
+                  <p>A glimpse into the team's journey of research and webapp creation.</p>
                 </div>
                 <div class="row" data-aos="fade-up" data-aos-delay="100">
-                  <div class="col-lg-12">
-                    <ul id="portfolio-flters">
-                      <li data-filter="*" class="filter-active">All</li>
-                      <li data-filter=".filter-app">Filming</li>
-                      <li data-filter=".filter-card">Coding</li>
-                      <li data-filter=".filter-web">Meeting</li>
-                    </ul>
-                  </div>
                 </div>
                 <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                     <div class="portfolio-wrap">
                       <img src="../assets/img/folio/Visiting.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
-                        <a href="./assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox" title="App 1">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
+                        <a href="../assets/img/folio/Visiting.jpg" data-gall="portfolioGallery" class="venobox" title="App 1">
+                        <i class="icofont-ui-zoom-in"></i>
                         </a>
                       </div>
                       <div class="portfolio-info">
                         <h4>Visiting the Museum</h4>
-                        <p>Description here</p>
+                        <p>Visiting the museum to connect with the curator and gather project insights.</p>
                       </div>
                     </div>
                   </div>
@@ -241,16 +230,13 @@ if (is_null($_SESSION["guest"])) {
                     <div class="portfolio-wrap">
                       <img src="../assets/img/folio/Filming.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-2.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
+                        <a href="../assets/img/folio/Filming.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3">
+                        <i class="icofont-ui-zoom-in"></i>
                         </a>
                       </div>
                       <div class="portfolio-info">
                         <h4>Filming a demonstration</h4>
-                        <p>Description here</p>
+                        <p>Filming a demonstration on traditional instruments at the Bindiyan Workshop, led by CCPG members.</p>
                       </div>
                     </div>
                   </div>
@@ -258,16 +244,13 @@ if (is_null($_SESSION["guest"])) {
                     <div class="portfolio-wrap">
                       <img src="../assets/img/folio/Checking_Artifacts.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox" title="App 2">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
+                        <a href="../assets/img/folio/Checking_Artifacts.jpg" data-gall="portfolioGallery" class="venobox" title="App 2">
+                        <i class="icofont-ui-zoom-in"></i>
                         </a>
                       </div>
                       <div class="portfolio-info">
                         <h4>Checking Artifacts</h4>
-                        <p>Description here</p>
+                        <p>Checking artifacts to analyze placement options for scanning features.</p>
                       </div>
                     </div>
                   </div>
@@ -275,16 +258,13 @@ if (is_null($_SESSION["guest"])) {
                     <div class="portfolio-wrap">
                       <img src="../assets/img/folio/Listing Artifacts.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-4.jpg" data-gall="portfolioGallery" class="venobox" title="Card 2">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
+                        <a href="../assets/img/folio/Listing Artifacts.jpg" data-gall="portfolioGallery" class="venobox" title="Card 2">
+                        <i class="icofont-ui-zoom-in"></i>
                         </a>
                       </div>
                       <div class="portfolio-info">
                         <h4>Meeting with the Curator</h4>
-                        <p>Description here</p>
+                        <p>Consultation with the curator to review progress and receive feedback.</p>
                       </div>
                     </div>
                   </div>
@@ -292,33 +272,27 @@ if (is_null($_SESSION["guest"])) {
                     <div class="portfolio-wrap">
                       <img src="../assets/img/folio/Filming-6.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-5.jpg" data-gall="portfolioGallery" class="venobox" title="Web 2">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
+                        <a href="../assets/img/folio/Filming-6.jpg" data-gall="portfolioGallery" class="venobox" title="Web 2">
+                        <i class="icofont-ui-zoom-in"></i>
                         </a>
                       </div>
                       <div class="portfolio-info">
                         <h4>Filming a dance</h4>
-                        <p>Description here</p>
+                        <p>Capturing cultural dances for showcase on the website.</p>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                     <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
+                      <img src="assets/img/Curator.JPEG" class="img-fluid" alt="">
                       <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-6.jpg" data-gall="portfolioGallery" class="venobox" title="App 3">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
+                        <a href="assets/img/Curator.JPEG" data-gall="portfolioGallery" class="venobox" title="App 3">
+                        <i class="icofont-ui-zoom-in"></i>
                         </a>
                       </div>
                       <div class="portfolio-info">
-                        <h4>App 3</h4>
-                        <p>App</p>
+                        <h4>The curator guides performers</h4>
+                        <p>Curator overseeing performers to ensure exceptional cultural dance presentations.</p>
                       </div>
                     </div>
                   </div>
@@ -327,52 +301,9 @@ if (is_null($_SESSION["guest"])) {
                       <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
                       <div class="portfolio-links">
                         <a href="assets/img/portfolio/portfolio-7.jpg" data-gall="portfolioGallery" class="venobox" title="Card 1">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
+                        <i class="icofont-ui-zoom-in"></i>
                         </a>
                       </div>
-                      <div class="portfolio-info">
-                        <h4>Card 1</h4>
-                        <p>Card</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-                      <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-8.jpg" data-gall="portfolioGallery" class="venobox" title="Card 3">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
-                        </a>
-                      </div>
-                      <div class="portfolio-info">
-                        <h4>Card 3</h4>
-                        <p>Card</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                    <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-                      <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-9.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3">
-                          <i class="icofont-plus-circle"></i>
-                        </a>
-                        <a href="#" title="More Details">
-                          <i class="icofont-link"></i>
-                        </a>
-                      </div>
-                      <div class="portfolio-info">
-                        <h4>Web 3</h4>
-                        <p>Web</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </section>
