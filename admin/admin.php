@@ -364,7 +364,6 @@ if (isset($_SESSION["admin"])) {
                             
                             <!-- Save and Delete Buttons -->
                             <button id="saveSectionBtn" type="button" onclick="saveSectionChanges()">Save</button>
-                            <button id="delBtn" type="button" onclick="deleteSection(document.getElementById('section-id').value)">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -389,7 +388,6 @@ if (isset($_SESSION["admin"])) {
                             
                             <!-- Save and Delete Buttons -->
                             <button id="saveCatalogBtn" type="button" onclick="saveCatalogChanges()">Save</button>
-                            <button id="delBtn" type="button" onclick="deleteCatalog(document.getElementById('catalog-id').value)">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -414,7 +412,6 @@ if (isset($_SESSION["admin"])) {
                             
                             <!-- Save and Delete Buttons -->
                             <button id="saveSubcatalogBtn" type="button" onclick="saveSubcatalogChanges()">Save</button>
-                            <button id="delBtn" type="button" onclick="deleteSubcatalog(document.getElementById('subcatalog-id').value)">Delete</button>
                         </form>
                     </div>
                 </div>
