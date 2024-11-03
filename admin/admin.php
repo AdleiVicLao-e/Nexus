@@ -143,6 +143,10 @@ if (isset($_SESSION["admin"])) {
                     <div class="tab" onclick="openTab('add2')">Add Artifact Group
                         <i class="fas fa-archive"></i>
                     </div>
+                    <div class="tab active" onclick="openTab('edit-group')">
+                        Edit Artifact Group
+                        <i class="fas fa-edit"></i>
+                    </div>
                 </div>
                 <div id="search" class="tab-content active" style="background-color: #ffffff;">
                     <div class="search-container">
@@ -292,8 +296,92 @@ if (isset($_SESSION["admin"])) {
                                     Subcatalog</button>
                             </div>
                         </form>
+                    </div>  
+                </div>
+                
+                <div id="edit-group" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
+                    <div class="form-container">
+                        <form action="" method="post">
+                            <h3 style="text-align: center;">Edit Section</h3>
+                            <div class="form-group">
+                                <label for="edit-select-section">Section:</label>
+                                <select id="edit-select-section" name="section_id">
+                                    <option value="">Select Section</option>
+                                </select>
+                            </div>
+                            <div class="button-container">
+                                <button type="button" class="btn" onclick="openModal()">Edit Section</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Delete Section</button>
+                            </div>
+                            <h1> </h1>
+                            <hr>
+                            <h3 style="text-align: center;">Edit Catalog</h3>
+                            <div class="form-group">
+                                <label for="edit-select-catalog">Catalog:</label>
+                                <select id="edit-select-catalog" name="section_id">
+                                    <option value="">Select Catalog</option>
+                                </select>
+                            </div>
+                            <div class="button-container">
+                                <button type="submit" name="action" value="edit_catalog" class="btn">Edit
+                                    Catalog</button>
+                                    <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Delete Catalog</button>
+                            </div>
+                            <h1> </h1>
+                            <hr>
+                            <h3 style="text-align: center;">Edit Subcatalog</h3>
+                            <div class="form-group">
+                                <label for="edit-select-subcatalog">Subcatalog:</label>
+                                <select id="edit-select-subcatalog" name="catalogue_id">
+                                    <option value="">Select Subcatalog</option>
+                                </select>
+                            </div>
+                            <div class="button-container">
+                                <button type="submit" name="action" value="create_subcatalog" class="btn">Edit
+                                    Subcatalog</button>
+                                    <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete Subcatalog</button>
+                            </div>
+                        </form>
+                    </div> 
+                </div>
+               <!-- Edit Section Popup Window -->
+                <div id="edit-section-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeModal()">&times;</span>
+                        <h2>Edit Section</h2>
+                        <form id="edit-section-form" action="../include/editSection.php" method="POST">
+                            <input type="hidden" id="section-id" name="section-id">
+                            
+                            <!-- Display Section ID -->
+                            <label for="section-id">Section ID:</label>
+                            <span id="section-id-display"></span>
+                            <br>
+                            
+                            <!-- Section Name -->
+                            <label for="editSectionName">Section Name:</label>
+                            <input type="text" id="editSectionName" name="section-name">
+                            <br>
+                            
+                            <!-- Catalogue Selection -->
+                            <label for="editCatalog">Catalogue:</label>
+                            <select id="editCatalog" name="catalog" onchange="fetchSubcatalogs(this.value)"></select>
+                            <br>
+                            
+                            <!-- Subcatalogue Selection -->
+                            <label for="editSubcatalog">Subcatalogue:</label>
+                            <select id="editSubcatalog" name="subcatalog"></select>
+                            <br>
+                            
+                            <!-- Section Description -->
+                            <label for="sectionDescription">Description:</label>
+                            <textarea id="sectionDescription" name="description"></textarea>
+                            <br>
+                            
+                            <!-- Save and Delete Buttons -->
+                            <button id="saveSectionBtn" type="button" onclick="saveSectionChanges()">Save</button>
+                            <button id="deleteSectionBtn" type="button" onclick="deleteSection(document.getElementById('section-id').value)">Delete</button>
+                        </form>
                     </div>
-
                 </div>
                 <div class="cordi-media">
                     <!-- Start of Cordilleran Performing Arts Media div -->
@@ -418,6 +506,7 @@ if (isset($_SESSION["admin"])) {
             document.querySelector(".edit-media-popup").style.display = "none"
         })
         </script>
+        
 
         <script src="/res/js/admin/admin.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -574,9 +663,71 @@ if (isset($_SESSION["admin"])) {
                     });
             }
 
+            function fetchEditSectionData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                        const sectionSelect = document.getElementById("edit-select-section");
+                        const sections = data.sections;
+                        sections.forEach(section => {
+                            if (section.section_name !== "N/A") {
+                                const option = document.createElement("option");
+                                option.value = section.section_id;
+                                option.text = section.section_name;
+                                sectionSelect.appendChild(option);
+                            }
+                        });
+                    }).catch(error => {
+                        console.error("Error fetching sections:", error);
+                    });
+            }
+                 // Function to fetch catalog data for a dropdown
+            function fetchEditCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const catalogSelect = document.getElementById("edit-select-catalog");
+                        const catalogues = data.catalogues;
+                        catalogues.forEach(catalog => {
+                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = catalog.catalogue_id;
+                                option.text = catalog.catalogue_name;
+                                catalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
+
+                // Function to fetch catalog data for a dropdown
+                function fetchEditSubCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const subcatalogSelect = document.getElementById("edit-select-subcatalog");
+                        const subcatalogues = data.subcatalogues;
+                        subcatalogues.forEach(subcatalog => {
+                            if (subcatalog.subcat_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = subcatalog.subcat_id;
+                                option.text = subcatalog.subcat_name;
+                                subcatalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
             // Consolidate DOMContentLoaded
             fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchEditSectionData();
+            fetchEditCatalogData();
             fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+            fetchEditSubCatalogData();
+            
         });
         </script>
         <script type="text/javascript">
@@ -634,4 +785,4 @@ if (isset($_SESSION["admin"])) {
         </script>
 </body>
 
-</html>
+</html> 

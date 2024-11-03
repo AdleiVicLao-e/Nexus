@@ -527,6 +527,22 @@ function openModal(item) {
     document.getElementById('edit-modal').style.display = 'block';
 }
 
+    // Function to open the section edit modal with section details
+    function openModal(section) {
+        // Populate modal fields
+        document.getElementById('section-id').value = section['ID'];
+        document.getElementById('editSectionName').value = section['Name'];
+        document.getElementById('sectionDescription').value = section['Description'] || '';
+        
+        // Fetch catalogs and subcatalogs, and set them in the dropdowns
+        fetchCatalogs(section['Catalog Name'], () => {
+            fetchSubcatalogs(section['Catalog Name'], section['Subcatalogue Name']);
+        });
+
+        // Display the modal
+        document.getElementById('edit-section-modal').style.display = 'block';
+    }
+
 
 // Function to delete a single artifact
 function deleteArtifact(id) {
@@ -571,6 +587,7 @@ function fetchSections(selectedSectionName, callback) {
         if (this.status === 200) {
             const data = JSON.parse(this.responseText);
             const sectionSelect = document.getElementById('editSection');
+
             sectionSelect.innerHTML = '<option value="">Select Section</option>'; // Reset options
 
 
