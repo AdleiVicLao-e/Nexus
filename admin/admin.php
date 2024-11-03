@@ -310,7 +310,7 @@ if (isset($_SESSION["admin"])) {
                                 </select>
                             </div>
                             <div class="button-container">
-                                <button type="button" class="btn" onclick="openModal()">Edit Section</button>
+                                <button type="button" class="btn" onclick="openEditSectionModal()">Edit Section</button>
                                 <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Delete Section</button>
                             </div>
                             <h1> </h1>
@@ -323,7 +323,7 @@ if (isset($_SESSION["admin"])) {
                                 </select>
                             </div>
                             <div class="button-container">
-                                <button type="submit" name="action" value="edit_catalog" class="btn">Edit
+                                <button type="button" name="action" value="edit_catalog" class="btn"  onclick="openEditCatalogModal()">Edit
                                     Catalog</button>
                                     <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Delete Catalog</button>
                             </div>
@@ -337,19 +337,19 @@ if (isset($_SESSION["admin"])) {
                                 </select>
                             </div>
                             <div class="button-container">
-                                <button type="submit" name="action" value="create_subcatalog" class="btn">Edit
+                                <button type="button" name="action" value="create_subcatalog" onclick="openEditSubcatalogModal()" class="btn">Edit
                                     Subcatalog</button>
                                     <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete Subcatalog</button>
                             </div>
                         </form>
                     </div> 
                 </div>
-               <!-- Edit Section Popup Window -->
-                <div id="edit-section-modal" class="modal">
+                <!-- Edit Section Popup Window -->
+                <div id="edit-section-modal" class="modal" style="display: none;">
                     <div class="modal-content">
                         <span class="close-button" onclick="closeModal()">&times;</span>
                         <h2>Edit Section</h2>
-                        <form id="edit-section-form" action="../include/editSection.php" method="POST">
+                        <form id="edit-section-form" action=" " method="POST">
                             <input type="hidden" id="section-id" name="section-id">
                             
                             <!-- Display Section ID -->
@@ -362,27 +362,63 @@ if (isset($_SESSION["admin"])) {
                             <input type="text" id="editSectionName" name="section-name">
                             <br>
                             
-                            <!-- Catalogue Selection -->
-                            <label for="editCatalog">Catalogue:</label>
-                            <select id="editCatalog" name="catalog" onchange="fetchSubcatalogs(this.value)"></select>
-                            <br>
-                            
-                            <!-- Subcatalogue Selection -->
-                            <label for="editSubcatalog">Subcatalogue:</label>
-                            <select id="editSubcatalog" name="subcatalog"></select>
-                            <br>
-                            
-                            <!-- Section Description -->
-                            <label for="sectionDescription">Description:</label>
-                            <textarea id="sectionDescription" name="description"></textarea>
-                            <br>
-                            
                             <!-- Save and Delete Buttons -->
                             <button id="saveSectionBtn" type="button" onclick="saveSectionChanges()">Save</button>
-                            <button id="deleteSectionBtn" type="button" onclick="deleteSection(document.getElementById('section-id').value)">Delete</button>
+                            <button id="delBtn" type="button" onclick="deleteSection(document.getElementById('section-id').value)">Delete</button>
                         </form>
                     </div>
                 </div>
+
+                <!-- Edit Catalog Popup Window -->
+                <div id="edit-catalog-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeCatalogModal()">&times;</span>
+                        <h2>Edit Catalog</h2>
+                        <form id="edit-catalog-form" action=" " method="POST">
+                            <input type="hidden" id="catalog-id" name="catalog-id">
+                            
+                            <!-- Display Catalog ID -->
+                            <label for="catalog-id">Catalog ID:</label>
+                            <span id="catalog-id-display"></span>
+                            <br>
+                            
+                            <!-- Catalog Name -->
+                            <label for="editCatalogName">Catalog Name:</label>
+                            <input type="text" id="editCatalogName" name="catalog-name" required>
+                            <br>
+                            
+                            <!-- Save and Delete Buttons -->
+                            <button id="saveCatalogBtn" type="button" onclick="saveCatalogChanges()">Save</button>
+                            <button id="delBtn" type="button" onclick="deleteCatalog(document.getElementById('catalog-id').value)">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Edit Subcatalog Popup Window -->
+                <div id="edit-subcatalog-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeSubcatalogModal()">&times;</span>
+                        <h2>Edit Subcatalog</h2>
+                        <form id="edit-subcatalog-form" action=" " method="POST">
+                            <input type="hidden" id="subcatalog-id" name="subcatalog-id">
+                            
+                            <!-- Display Subcatalog ID -->
+                            <label for="subcatalog-id">Subcatalog ID:</label>
+                            <span id="subcatalog-id-display"></span>
+                            <br>
+                            
+                            <!-- Subcatalog Name -->
+                            <label for="editSubcatalogName">Subcatalog Name:</label>
+                            <input type="text" id="editSubcatalogName" name="subcatalog-name" required>
+                            <br>
+                            
+                            <!-- Save and Delete Buttons -->
+                            <button id="saveSubcatalogBtn" type="button" onclick="saveSubcatalogChanges()">Save</button>
+                            <button id="delBtn" type="button" onclick="deleteSubcatalog(document.getElementById('subcatalog-id').value)">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="cordi-media">
                     <!-- Start of Cordilleran Performing Arts Media div -->
                     <h2>Cordilleran Performing Arts Media</h2>
@@ -721,14 +757,53 @@ if (isset($_SESSION["admin"])) {
                         console.error("Error fetching catalogues:", error);
                     });
             }
+
+
             // Consolidate DOMContentLoaded
             fetchSectionData(); // Fetch and populate sections in the dropdown
             fetchEditSectionData();
             fetchEditCatalogData();
             fetchCatalogData(); // Fetch and populate catalogues in the dropdown
             fetchEditSubCatalogData();
+            openEditSectionModal();
+            closeModal();
+            openEditCatalogModal();
+            closeCatalogModal();
+            openEditSubcatalogModal();
+            closeSubcatalogModal();
             
         });
+        
+        // Function to open the Edit Section modal
+        function openEditSectionModal() {
+            // Display the modal
+            document.getElementById("edit-section-modal").style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById("edit-section-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Subcatalog modal
+        function openEditSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "block";
+        }
+
+        // Function to close the Edit Subcatalog modal
+        function closeSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Catalog modal
+        function openEditCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "block";
+        }
+
+        // Function to close the Edit Catalog modal
+        function closeCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "none";
+        }
         </script>
         <script type="text/javascript">
             $(function() {
