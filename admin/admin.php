@@ -270,10 +270,6 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Section</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="create-new-catalog">New Catalog Name:</label>
-                                <input type="text" id="create-new-catalog" name="new_catalog">
-                            </div>
                             <div class="button-container">
                                 <button type="submit" name="action" value="create_catalog" class="btn">Create
                                     Catalog</button>
@@ -296,9 +292,9 @@ if (isset($_SESSION["admin"])) {
                                     Subcatalog</button>
                             </div>
                         </form>
-                    </div>  
+                    </div>
                 </div>
-                
+
                 <div id="edit-group" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
                     <div class="form-container">
                         <form action="" method="post">
@@ -309,7 +305,7 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Section</option>
                                 </select>
                             </div>
-                            <div class="button-container">
+                            <div class="button-container" id="button-container-section">
                                 <button type="button" class="btn" onclick="openEditSectionModal()">Edit Section</button>
                                 <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Delete Section</button>
                             </div>
@@ -322,10 +318,9 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Catalog</option>
                                 </select>
                             </div>
-                            <div class="button-container">
-                                <button type="button" name="action" value="edit_catalog" class="btn"  onclick="openEditCatalogModal()">Edit
-                                    Catalog</button>
-                                    <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Delete Catalog</button>
+                            <div class="button-container" id="button-container-catalog">
+                                <button type="button" name="action" value="edit_catalog" class="btn" onclick="openEditCatalogModal()">Edit Catalog</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Delete Catalog</button>
                             </div>
                             <h1> </h1>
                             <hr>
@@ -336,13 +331,12 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Subcatalog</option>
                                 </select>
                             </div>
-                            <div class="button-container">
-                                <button type="button" name="action" value="create_subcatalog" onclick="openEditSubcatalogModal()" class="btn">Edit
-                                    Subcatalog</button>
-                                    <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete Subcatalog</button>
+                            <div class="button-container" id="button-container-subcatalog">
+                                <button type="button" name="action" value="create_subcatalog" onclick="openEditSubcatalogModal()" class="btn">Edit Subcatalog</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete Subcatalog</button>
                             </div>
                         </form>
-                    </div> 
+                    </div>
                 </div>
                 <!-- Edit Section Popup Window -->
                 <div id="edit-section-modal" class="modal" style="display: none;">
@@ -351,17 +345,22 @@ if (isset($_SESSION["admin"])) {
                         <h2>Edit Section</h2>
                         <form id="edit-section-form" action=" " method="POST">
                             <input type="hidden" id="section-id" name="section-id">
-                            
+
                             <!-- Display Section ID -->
                             <label for="section-id">Section ID:</label>
                             <span id="section-id-display"></span>
                             <br>
-                            
-                            <!-- Section Name -->
-                            <label for="editSectionName">Section Name:</label>
+
+                            <!-- Display Section Name -->
+                            <label for="section-id">Section Name:</label>
+                            <span id="section-name-display"></span>
+                            <br>
+
+                            <!-- New Section Name -->
+                            <label for="editSectionName">New Section Name:</label>
                             <input type="text" id="editSectionName" name="section-name">
                             <br>
-                            
+
                             <!-- Save and Delete Buttons -->
                             <button id="saveSectionBtn" type="button" onclick="saveSectionChanges()">Save</button>
                         </form>
@@ -375,17 +374,22 @@ if (isset($_SESSION["admin"])) {
                         <h2>Edit Catalog</h2>
                         <form id="edit-catalog-form" action=" " method="POST">
                             <input type="hidden" id="catalog-id" name="catalog-id">
-                            
+
                             <!-- Display Catalog ID -->
                             <label for="catalog-id">Catalog ID:</label>
                             <span id="catalog-id-display"></span>
                             <br>
-                            
+
+                            <!-- Display Catalog Name -->
+                            <label for="catalog-name">Catalog Name:</label>
+                            <span id="catalog-name-display"></span>
+                            <br>
+
                             <!-- Catalog Name -->
-                            <label for="editCatalogName">Catalog Name:</label>
+                            <label for="editCatalogName">New Catalog Name:</label>
                             <input type="text" id="editCatalogName" name="catalog-name" required>
                             <br>
-                            
+
                             <!-- Save and Delete Buttons -->
                             <button id="saveCatalogBtn" type="button" onclick="saveCatalogChanges()">Save</button>
                         </form>
@@ -399,17 +403,22 @@ if (isset($_SESSION["admin"])) {
                         <h2>Edit Subcatalog</h2>
                         <form id="edit-subcatalog-form" action=" " method="POST">
                             <input type="hidden" id="subcatalog-id" name="subcatalog-id">
-                            
+
                             <!-- Display Subcatalog ID -->
                             <label for="subcatalog-id">Subcatalog ID:</label>
                             <span id="subcatalog-id-display"></span>
                             <br>
-                            
+
+                            <!-- Display Subcatalog Name -->
+                            <label for="subcatalog-name">Subcatalog Name:</label>
+                            <span id="subcatalog-name-display"></span>
+                            <br>
+
                             <!-- Subcatalog Name -->
-                            <label for="editSubcatalogName">Subcatalog Name:</label>
+                            <label for="editSubcatalogName">New Subcatalog Name:</label>
                             <input type="text" id="editSubcatalogName" name="subcatalog-name" required>
                             <br>
-                            
+
                             <!-- Save and Delete Buttons -->
                             <button id="saveSubcatalogBtn" type="button" onclick="saveSubcatalogChanges()">Save</button>
                         </form>
@@ -539,7 +548,7 @@ if (isset($_SESSION["admin"])) {
             document.querySelector(".edit-media-popup").style.display = "none"
         })
         </script>
-        
+
 
         <script src="/res/js/admin/admin.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -713,7 +722,7 @@ if (isset($_SESSION["admin"])) {
                         console.error("Error fetching sections:", error);
                     });
             }
-                 // Function to fetch catalog data for a dropdown
+            // Function to fetch catalog data for a dropdown
             function fetchEditCatalogData() {
                 fetch('../include/get.php') // Adjust the path if necessary
                     .then(response => response.json())
@@ -734,8 +743,8 @@ if (isset($_SESSION["admin"])) {
                     });
             }
 
-                // Function to fetch catalog data for a dropdown
-                function fetchEditSubCatalogData() {
+            // Function to fetch catalog data for a dropdown
+            function fetchEditSubCatalogData() {
                 fetch('../include/get.php') // Adjust the path if necessary
                     .then(response => response.json())
                     .then(data => {
@@ -771,66 +780,99 @@ if (isset($_SESSION["admin"])) {
             openEditSubcatalogModal();
             closeSubcatalogModal();
         });
-        
         </script>
         <script type="text/javascript">
-            $(function() {
+        $(function() {
 
-                $('input[name="datefilter"]').daterangepicker({
-                    autoUpdateInput: false,
-                    locale: {
-                        cancelLabel: 'Clear'
-                    }
-                });
-
-                $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
-                        'MM/DD/YYYY'));
-                });
-
-                $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-                    $(this).val('');
-                });
-
+            $('input[name="datefilter"]').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                }
             });
+
+            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
+                    'MM/DD/YYYY'));
+            });
+
+            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+
+        });
         </script>
 
         <script>
-            function toggleNotifications() {
-                const popup = document.getElementById('notificationPopup');
-                popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
-            }
+        function toggleNotifications() {
+            const popup = document.getElementById('notificationPopup');
+            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
+        }
 
-            // Optional: Close the notification popup when clicking outside of it
-            window.onclick = function(event) {
-                const popup = document.getElementById('notificationPopup');
-                if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
-                    popup.style.display = 'none';
-                }
+        // Optional: Close the notification popup when clicking outside of it
+        window.onclick = function(event) {
+            const popup = document.getElementById('notificationPopup');
+            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
+                popup.style.display = 'none';
             }
+        }
         </script>
         <script>
         // Load feedback when the page is ready
-            document.addEventListener('DOMContentLoaded', function() {
-                fetch('../include/getFeedback.php')
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('feedback-table-body').innerHTML = data;
-                    })
-                    .catch(error => console.error('Error fetching feedback:', error));
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../include/getFeedback.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('feedback-table-body').innerHTML = data;
+                })
+                .catch(error => console.error('Error fetching feedback:', error));
+        });
         </script>
         <script>
-            // Logs the user off when browser closes
-            window.addEventListener("beforeunload", function (event) {
-                navigator.sendBeacon('../include/logout.php', JSON.stringify({ action: 'close' }));
-            });
-        </script>
-        <script>
-             // Function to open the Edit Section modal
+        // Initially hide all buttons
+        document.querySelectorAll(".button-container .btn").forEach(function(button) {
+            button.style.display = 'none';
+        });
+        // Function to toggle button visibility based on the selected value
+        document.getElementById("edit-select-section").addEventListener("change", function() {
+            toggleButtons("edit-select-section", "button-container-section");
+        });
+
+        document.getElementById("edit-select-catalog").addEventListener("change", function() {
+            toggleButtons("edit-select-catalog", "button-container-catalog");
+        });
+
+        document.getElementById("edit-select-subcatalog").addEventListener("change", function() {
+            toggleButtons("edit-select-subcatalog", "button-container-subcatalog");
+        });
+
+        function toggleButtons(selectId, buttonContainer) {
+            var select = document.getElementById(selectId);
+            var buttons = document.querySelectorAll(`#${buttonContainer} .btn`);
+
+            if (select.value) {
+                buttons.forEach(function(button) {
+                    button.style.display = 'inline-block'; // Show buttons
+                });
+            } else {
+                buttons.forEach(function(button) {
+                    button.style.display = 'none'; // Hide buttons
+                });
+            }
+        }
+
+        // Function to open the Edit Section modal
         function openEditSectionModal() {
             // Display the modal
             document.getElementById("edit-section-modal").style.display = "block";
+            var section = document.getElementById('edit-select-section');
+            var sectionIdValue = section.options[section.selectedIndex].value;
+            var sectionIdSpan = document.getElementById("section-id-display");
+            sectionIdSpan.textContent = sectionIdValue;
+
+            var sectionNameValue = section.options[section.selectedIndex].text;
+            var sectionNameSpan = document.getElementById("section-name-display");
+            sectionNameSpan.textContent = sectionNameValue;
         }
 
         // Function to close the modal
@@ -838,26 +880,42 @@ if (isset($_SESSION["admin"])) {
             document.getElementById("edit-section-modal").style.display = "none";
         }
 
-        // Function to open the Edit Subcatalog modal
-        function openEditSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "block";
-        }
-
-        // Function to close the Edit Subcatalog modal
-        function closeSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "none";
-        }
-
         // Function to open the Edit Catalog modal
         function openEditCatalogModal() {
             document.getElementById("edit-catalog-modal").style.display = "block";
+            var catalog = document.getElementById('edit-select-catalog');
+            var catalogIdValue = catalog.options[catalog.selectedIndex].value;
+            var catalogIdSpan = document.getElementById("catalog-id-display");
+            catalogIdSpan.textContent = catalogIdValue;
+
+            var catalogNameValue = catalog.options[catalog.selectedIndex].text;
+            var catalogNameSpan = document.getElementById("catalog-name-display");
+            catalogNameSpan.textContent = catalogNameValue;
         }
 
         // Function to close the Edit Catalog modal
         function closeCatalogModal() {
             document.getElementById("edit-catalog-modal").style.display = "none";
         }
+
+        // Function to open the Edit Subcatalog modal
+        function openEditSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "block";
+            var subcatalog = document.getElementById('edit-select-subcatalog');
+            var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
+            var subcatalogIdSpan = document.getElementById("subcatalog-id-display");
+            subcatalogIdSpan.textContent = subcatalogIdValue;
+
+            var subcatalogNameValue = subcatalog.options[subcatalog.selectedIndex].text;
+            var subcatalogNameSpan = document.getElementById("subcatalog-name-display");
+            subcatalogNameSpan.textContent = subcatalogNameValue;
+        }
+
+        // Function to close the Edit Subcatalog modal
+        function closeSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "none";
+        }
         </script>
 </body>
 
-</html> 
+</html>

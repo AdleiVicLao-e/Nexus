@@ -1040,9 +1040,6 @@ function printQRCode(item) {
     }
 }
 
-
-
-
 function selectMedia(id) {
     // Hide the popup
     var popup = document.getElementById('edit-media-popup');
@@ -1139,6 +1136,203 @@ function deleteMedia(id) {
     // Hide the popup
     var popup = document.getElementById('edit-media-popup');
     popup.style.display = 'none';
+}
+
+// Edit and Delete Section, Catalog, Subcatalog
+
+function saveSectionChanges() {
+    var section = document.getElementById('edit-select-section');
+    var sectionIdValue = section.options[section.selectedIndex].value;
+    var newSection = document.getElementById('editSectionName');
+    var newSectionName = newSection.value;
+
+    if (newSectionName !== "") {
+        // Send the data to the server using fetch
+        fetch('../include/updateSection.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            },
+            body: new URLSearchParams({ 
+                'id': sectionIdValue,
+                'newName': newSectionName
+             }) 
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                // Alert for successful deletion
+                alert("Rename Successful \nSection ID: " + sectionIdValue + " \nNew Section Name: " + newSectionName);
+            } else {
+                // Alert for failed deletion
+                alert("Rename failed. Section ID: " + sectionIdValue + ". \nError: " + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    } else {
+        alert("Name cannot be empty");
+    }
+}
+
+function deleteSection() {
+    var section = document.getElementById('edit-select-section');
+    var sectionIdValue = section.options[section.selectedIndex].value;
+
+    // Send the data to the server using fetch
+    fetch('../include/deleteSection.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', 
+        },
+        body: new URLSearchParams({ 'id': sectionIdValue }) 
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        if (data.success) {
+            // Alert for successful deletion
+            alert("Delete successful, \nSection ID: " + sectionIdValue);
+        } else {
+            // Alert for failed deletion
+            alert("Delete failed. Section ID: " + sectionIdValue + ". \nError: " + data.message);
+        }
+        location.reload();
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+function saveCatalogChanges() {
+    var catalog = document.getElementById('edit-select-catalog');
+    var catalogIdValue = catalog.options[catalog.selectedIndex].value;
+    var newCatalog = document.getElementById('editCatalogName');
+    var newCatalogName = newCatalog.value;
+
+    if (newCatalogName !== "") {
+        // Send the data to the server using fetch
+        fetch('../include/updateCatalog.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            },
+            body: new URLSearchParams({ 
+                'id': catalogIdValue,
+                'newName': newCatalogName
+             }) 
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                // Alert for successful deletion
+                alert("Rename Successful \nCatalog ID: " + catalogIdValue + " \nNew Catalog Name: " + newCatalogName);
+            } else {
+                // Alert for failed deletion
+                alert("Rename Failed. Catalog ID: " + catalogIdValue + ". \nError: " + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    } else {
+        alert("Name cannot be empty");
+    }
+}
+
+function deleteCatalog() {
+    var catalog = document.getElementById('edit-select-catalog');
+    var catalogIdValue = catalog.options[catalog.selectedIndex].value;
+
+    // Send the data to the server using fetch
+    fetch('../include/deleteCatalog.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', 
+        },
+        body: new URLSearchParams({ 'id': catalogIdValue }) 
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        if (data.success) {
+            // Alert for successful deletion
+            alert("Delete successful, Section ID: " + catalogIdValue);
+        } else {
+            // Alert for failed deletion
+            alert("Delete failed. Section ID: " + catalogIdValue + ". Error: " + data.message);
+        }
+        location.reload();
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+function saveSubcatalogChanges() {
+    var subcatalog = document.getElementById('edit-select-subcatalog');
+    var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
+    var newSubcatalog = document.getElementById('editSubcatalogName');
+    var newSubcatalogName = newSubcatalog.value;
+
+    if (newSubcatalogName !== "") {
+        // Send the data to the server using fetch
+        fetch('../include/updateSubcatalog.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            },
+            body: new URLSearchParams({ 
+                'id': subcatalogIdValue,
+                'newName': newSubcatalogName
+             }) 
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                // Alert for successful deletion
+                alert("Rename Successful \nSubcatalog ID: " + subcatalogIdValue + " \nNew Subcatalog Name: " + newSubcatalogName);
+            } else {
+                // Alert for failed deletion
+                alert("Rename Failed. Subcatalog ID: " + subcatalogIdValue + ". \nError: " + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    } else {
+        alert("Name cannot be empty");
+    }
+}
+
+function deleteSubcat() {
+    var subcatalog = document.getElementById('edit-select-subcatalog');
+    var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
+
+    // Send the data to the server using fetch
+    fetch('../include/deleteSubcatalog.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', 
+        },
+        body: new URLSearchParams({ 'id': subcatalogIdValue }) 
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        if (data.success) {
+            // Alert for successful deletion
+            alert("Delete successful, Section ID: " + subcatalogIdValue);
+        } else {
+            // Alert for failed deletion
+            alert("Delete failed. Section ID: " + subcatalogIdValue + ". Error: " + data.message);
+        }
+        location.reload();
+    })
+    .catch(error => {
+        console.log(error);
+    });
 }
 
 // -----------------------
