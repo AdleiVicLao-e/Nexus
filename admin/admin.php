@@ -347,7 +347,7 @@ if (isset($_SESSION["admin"])) {
                 <!-- Edit Section Popup Window -->
                 <div id="edit-section-modal" class="modal" style="display: none;">
                     <div class="modal-content">
-                        <span class="close-button" onclick="closeModal()">&times;</span>
+                        <span class="close-button" onclick="closeSectionModal()">&times;</span>
                         <h2>Edit Section</h2>
                         <form id="edit-section-form" action=" " method="POST">
                             <input type="hidden" id="section-id" name="section-id">
@@ -758,49 +758,20 @@ if (isset($_SESSION["admin"])) {
 
             // Consolidate DOMContentLoaded
             fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+            fetchSectionData(); // Fetch and populate sections in the dropdown
             fetchEditSectionData();
             fetchEditCatalogData();
             fetchCatalogData(); // Fetch and populate catalogues in the dropdown
             fetchEditSubCatalogData();
             openEditSectionModal();
-            closeModal();
+            closeSectionModal();
             openEditCatalogModal();
             closeCatalogModal();
             openEditSubcatalogModal();
             closeSubcatalogModal();
-            
         });
         
-        // Function to open the Edit Section modal
-        function openEditSectionModal() {
-            // Display the modal
-            document.getElementById("edit-section-modal").style.display = "block";
-        }
-
-        // Function to close the modal
-        function closeModal() {
-            document.getElementById("edit-section-modal").style.display = "none";
-        }
-
-        // Function to open the Edit Subcatalog modal
-        function openEditSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "block";
-        }
-
-        // Function to close the Edit Subcatalog modal
-        function closeSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "none";
-        }
-
-        // Function to open the Edit Catalog modal
-        function openEditCatalogModal() {
-            document.getElementById("edit-catalog-modal").style.display = "block";
-        }
-
-        // Function to close the Edit Catalog modal
-        function closeCatalogModal() {
-            document.getElementById("edit-catalog-modal").style.display = "none";
-        }
         </script>
         <script type="text/javascript">
             $(function() {
@@ -854,6 +825,38 @@ if (isset($_SESSION["admin"])) {
             window.addEventListener("beforeunload", function (event) {
                 navigator.sendBeacon('../include/logout.php', JSON.stringify({ action: 'close' }));
             });
+        </script>
+        <script>
+             // Function to open the Edit Section modal
+        function openEditSectionModal() {
+            // Display the modal
+            document.getElementById("edit-section-modal").style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeSectionModal() {
+            document.getElementById("edit-section-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Subcatalog modal
+        function openEditSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "block";
+        }
+
+        // Function to close the Edit Subcatalog modal
+        function closeSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Catalog modal
+        function openEditCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "block";
+        }
+
+        // Function to close the Edit Catalog modal
+        function closeCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "none";
+        }
         </script>
 </body>
 
