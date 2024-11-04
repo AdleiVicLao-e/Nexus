@@ -305,7 +305,7 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Section</option>
                                 </select>
                             </div>
-                            <div class="button-container" id="button-container-section">
+                            <div class="edit-delete-button-container" id="button-container-section">
                                 <button type="button" class="btn" onclick="openEditSectionModal()">Edit Section</button>
                                 <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Delete Section</button>
                             </div>
@@ -318,7 +318,7 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Catalog</option>
                                 </select>
                             </div>
-                            <div class="button-container" id="button-container-catalog">
+                            <div class="edit-delete-button-container" id="button-container-catalog">
                                 <button type="button" name="action" value="edit_catalog" class="btn" onclick="openEditCatalogModal()">Edit Catalog</button>
                                 <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Delete Catalog</button>
                             </div>
@@ -331,7 +331,7 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Subcatalog</option>
                                 </select>
                             </div>
-                            <div class="button-container" id="button-container-subcatalog">
+                            <div class="edit-delete-button-container" id="button-container-subcatalog">
                                 <button type="button" name="action" value="create_subcatalog" onclick="openEditSubcatalogModal()" class="btn">Edit Subcatalog</button>
                                 <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete Subcatalog</button>
                             </div>
@@ -361,7 +361,7 @@ if (isset($_SESSION["admin"])) {
                             <input type="text" id="editSectionName" name="section-name">
                             <br>
 
-                            <!-- Save and Delete Buttons -->
+                            <!-- Save Button -->
                             <button id="saveSectionBtn" type="button" onclick="saveSectionChanges()">Save</button>
                         </form>
                     </div>
@@ -390,7 +390,7 @@ if (isset($_SESSION["admin"])) {
                             <input type="text" id="editCatalogName" name="catalog-name" required>
                             <br>
 
-                            <!-- Save and Delete Buttons -->
+                            <!-- Save Button -->
                             <button id="saveCatalogBtn" type="button" onclick="saveCatalogChanges()">Save</button>
                         </form>
                     </div>
@@ -419,7 +419,7 @@ if (isset($_SESSION["admin"])) {
                             <input type="text" id="editSubcatalogName" name="subcatalog-name" required>
                             <br>
 
-                            <!-- Save and Delete Buttons -->
+                            <!-- Save Button -->
                             <button id="saveSubcatalogBtn" type="button" onclick="saveSubcatalogChanges()">Save</button>
                         </form>
                     </div>
@@ -830,9 +830,12 @@ if (isset($_SESSION["admin"])) {
         </script>
         <script>
         // Initially hide all buttons
-        document.querySelectorAll(".button-container .btn").forEach(function(button) {
-            button.style.display = 'none';
+        document.querySelectorAll(".edit-delete-button-container").forEach(function(container) {
+            container.querySelectorAll(".btn").forEach(function(button) {
+                button.style.display = 'none';
+            });
         });
+        
         // Function to toggle button visibility based on the selected value
         document.getElementById("edit-select-section").addEventListener("change", function() {
             toggleButtons("edit-select-section", "button-container-section");
