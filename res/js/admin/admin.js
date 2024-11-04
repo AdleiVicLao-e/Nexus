@@ -1,3 +1,35 @@
+//Testing
+function submitForm(action) {
+    const formData = new FormData(document.getElementById('category-form'));
+    formData.append('action', action);
+
+    fetch('../include/addCategory.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())  // Parse the response as JSON
+        .then(data => {
+            document.getElementById('overlayMessage').textContent = data.message;
+            showOverlay();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+}
+
+function showOverlay() {
+    document.getElementById('messageOverlay').style.display = 'block';
+}
+
+function closeOverlay() {
+    console.log('closeOverlay triggered');
+    document.getElementById('messageOverlay').style.display = 'none';
+    setTimeout(() => {
+        location.reload();  // Using location.reload() as an alternative
+    }, 100);  // Small delay to ensure DOM is updated
+}
+
 // admin.js
 let selectedArtifact = null;
 let highlightedItem = null;

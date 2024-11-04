@@ -11,10 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             // Validate input
             if (empty($newSectionTitle)) {
-                echo '<script>
-                    alert("Section title cannot be empty");
-                    window.location.href="../admin/admin.php";
-                </script>';
+                $response['message'] = "Section title cannot be empty";
+                echo json_encode($response);
                 exit;
             }
 
@@ -27,10 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $row = $result->fetch_assoc();
 
             if ($row['count'] > 0) {
-                echo '<script>
-                    alert("Section with this name already exists");
-                    window.location.href="../admin/admin.php";
-                </script>';
+                $response['message'] = "Section with this name already exists";
+                echo json_encode($response);
+                exit;
             } else {
                 // Generate new section ID
                 $idQuery = "SELECT MAX(section_id) AS max_id FROM section";
@@ -43,10 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->bind_param("is", $newSectionId, $newSectionTitle);
 
                 if ($stmt->execute()) {
-                    echo '<script>
-                        alert("New section added");
-                        window.location.href="../admin/admin.php";
-                    </script>';
+                    $response['message'] = "New section added";
+                    echo json_encode($response);
+                    exit;
                 } else {
                     echo "Error: " . $stmt->error;
                 }
@@ -61,10 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             // Validate input
             if (empty($newCatalogName) || $sectionId <= 0) {
-                echo '<script>
-                    alert("Catalog name cannot be empty and a section must be selected");
-                    window.location.href="../admin/admin.php";
-                </script>';
+                $response['message'] = "Catalog name cannot be empty and a section must be selected";
+                echo json_encode($response);
                 exit;
             }
 
@@ -77,10 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $row = $result->fetch_assoc();
 
             if ($row['count'] > 0) {
-                echo '<script>
-                    alert("Catalogue with this name already exists in this section");
-                    window.location.href="../admin/admin.php";
-                </script>';
+                $response['message'] = "Catalogu with this name already exists in this section";
+                echo json_encode($response);
+                exit;
             } else {
                 // Generate new catalog ID
                 $idQuery = "SELECT MAX(catalogue_id) AS max_id FROM catalogue";
@@ -93,10 +86,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->bind_param("iis", $newCatalogId, $sectionId, $newCatalogName);
 
                 if ($stmt->execute()) {
-                    echo '<script>
-                        alert("New catalogue added");
-                        window.location.href="../admin/admin.php";
-                    </script>';
+
+                    $response['message'] = "New catalogue added";
+                    echo json_encode($response);
+                    exit;
                 } else {
                     echo "Error: " . $stmt->error;
                 }
@@ -110,10 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             // Validate input
             if (empty($newSubcatalogName) || $catalogueId <= 0) {
-                echo '<script>
-                    alert("Subcatalog name cannot be empty and a catalog must be selected");
-                    window.location.href="../admin/admin.php";
-                </script>';
+                $response['message'] = "Subcatalog name cannot be empty and a catalog must be selected";
+                echo json_encode($response);
                 exit;
             }
 
@@ -126,10 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $row = $result->fetch_assoc();
 
             if ($row['count'] > 0) {
-                echo '<script>
-                    alert("Subcatalogue with this name already exists in this catalogue");
-                    window.location.href="../admin/admin.php";
-                </script>';
+                $response['message'] = "Subcatalog with this name already exists in this catalogue";
+                echo json_encode($response);
+                exit;
             } else {
                 // Generate new subcatalog ID
                 $idQuery = "SELECT MAX(subcat_id) AS max_id FROM subcatalogue";
@@ -142,10 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->bind_param("iis", $newSubcatalogId, $catalogueId, $newSubcatalogName);
 
                 if ($stmt->execute()) {
-                    echo '<script>
-                        alert("New subcatalogue added");
-                        window.location.href="../admin/admin.php";
-                    </script>';
+                    $response['message'] = "New subcatalogue added";
+                    echo json_encode($response);
+                    exit;
                 } else {
                     echo "Error: " . $stmt->error;
                 }
@@ -154,7 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             break;
     }
 }
-
 $mysqli->close();
 
 ?>

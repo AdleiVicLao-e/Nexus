@@ -265,15 +265,14 @@ if (isset($_SESSION["admin"])) {
 
                 <div id="add2" class="tab-content">
                     <div class="form-container">
-                        <form action="../include/addCategory.php" method="post">
+                        <form id="category-form">
                             <h3 style="text-align: center;">Add New Section</h3>
                             <div class="form-group">
                                 <label for="create-new-section">New Section Title:</label>
                                 <input type="text" id="create-new-section" name="new_section">
                             </div>
                             <div class="button-container">
-                                <button type="submit" name="action" value="create_section" class="btn">Create
-                                    Section</button>
+                                <button type="button" onclick="submitForm('create_section')" class="btn">Create Section</button>
                             </div>
                             <h1> </h1>
                             <hr>
@@ -284,9 +283,12 @@ if (isset($_SESSION["admin"])) {
                                     <option value="">Select Section</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="create-new-catalog">New Catalog Name:</label>
+                                <input type="text" id="create-new-catalog" name="new_catalog">
+                            </div>
                             <div class="button-container">
-                                <button type="submit" name="action" value="create_catalog" class="btn">Create
-                                    Catalog</button>
+                                <button type="button" onclick="submitForm('create_catalog')" class="btn">Create Catalog</button>
                             </div>
                             <h1> </h1>
                             <hr>
@@ -302,10 +304,16 @@ if (isset($_SESSION["admin"])) {
                                 <input type="text" id="create-new-subcatalog" name="new_subcatalog">
                             </div>
                             <div class="button-container">
-                                <button type="submit" name="action" value="create_subcatalog" class="btn">Create
-                                    Subcatalog</button>
+                                <button type="button" onclick="submitForm('create_subcatalog')" class="btn">Create Subcatalog</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+
+                <div id="messageOverlay" class="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000;">
+                    <div class="overlay-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <p id="overlayMessage"></p>
+                        <button onclick="closeOverlay()" style="margin-top: 10px;">Okay</button>
                     </div>
                 </div>
 
