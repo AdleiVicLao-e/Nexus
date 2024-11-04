@@ -1,6 +1,20 @@
 <?php
 session_start();
+
+$timeout_duration = 5; // 15 minutes in seconds
+
 if (isset($_SESSION["admin"])) {
+    if (isset($_SESSION['LAST_ACTIVITY'])) {
+        if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout_duration) {
+            // Session has timed out, logout
+            echo '<script>
+            alert("Session timed out. Redirecting to login.");
+            window.location.href="../include/logout.php";
+            </script>';
+        }
+    }
+    $_SESSION['LAST_ACTIVITY'] = time();
+
     echo '<script>
     console.log("User logged in. Redirecting...");
     </script>';

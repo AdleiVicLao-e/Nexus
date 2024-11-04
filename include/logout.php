@@ -15,5 +15,6 @@ if (isset($_SESSION["admin"])) {
     window.location.href="../index.php";
     </script>';
 }
+session_unset();
 session_destroy();
 ?>
