@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$timeout_duration = 5; // 15 minutes in seconds
+$timeout_duration = 5 * 60; // 15 minutes in seconds
 
 if (isset($_SESSION["admin"])) {
     if (isset($_SESSION['LAST_ACTIVITY'])) {
