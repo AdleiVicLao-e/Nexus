@@ -171,7 +171,7 @@ if (is_null($_SESSION["guest"])) {
                       <h4 class="title">
                         <a href="">Interactive Museum Experience</a>
                       </h4>
-                      <p class="description">Explore the museum at your own pace with an interactive guide that enhances your learning experience.</p>
+                      <p class="description">Explore the museum at your own pace with an interactive guide that enhances your learning experience</p>
                     </div>
                   </div>
                 </div>
@@ -297,15 +297,6 @@ if (is_null($_SESSION["guest"])) {
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <div class="portfolio-wrap">
-                      <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-                      <div class="portfolio-links">
-                        <a href="assets/img/portfolio/portfolio-7.jpg" data-gall="portfolioGallery" class="venobox" title="Card 1">
-                        <i class="icofont-ui-zoom-in"></i>
-                        </a>
-                      </div>
-                </div>
               </div>
             </section>
             <!-- End Portfolio Section -->
