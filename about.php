@@ -208,7 +208,7 @@ if (is_null($_SESSION["guest"])) {
               <div class="container">
                 <div class="section-title" data-aos="fade-up">
                   <h2>Gallery</h2>
-                  <p>A glimpse into the team's journey of research and webapp creation.</p>
+                  <p>A glimpse into the team's journey of research and webapp creation</p>
                 </div>
                 <div class="row" data-aos="fade-up" data-aos-delay="100">
                 </div>
