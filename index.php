@@ -32,7 +32,7 @@ $_SESSION["guest"] = "guest";
             </div>
             <div class="input-container" style="width: 300px">
               <p style="text-align: left; font-weight: lighter; font-size: 16px"> School </p>
-              <select id="schoolSelect" class="input-field" onchange="showOtherInput()">
+              <select id="schoolSelect" class="input-field" onchange="showOtherInput()" required>
                 <option value="" disabled selected>Select School</option>
                   <option value="Basic Education School">Basic Education School</option>
                   <option value="School of Accountancy, Management, Computing and Information Studies">School of Accountancy, Management, Computing and Information Studies</option>
@@ -54,6 +54,10 @@ $_SESSION["guest"] = "guest";
           <button type="submit" class="btn-access" id="btn-submit"> Submit </button>
         </form>
       </div>
+    </div>
+    <div id="overlay" class="overlay">
+        <div class="overlay-message" id="overlay-message">
+        </div>
     </div>
     <script>
         // Show or hide the 'Other School' input field
@@ -96,7 +100,7 @@ $_SESSION["guest"] = "guest";
                     : document.getElementById('schoolSelect').value;
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('POST', '../include/user-db.php', true);
+                xhr.open('POST', '../include/userLog.php', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
                 xhr.onload = function() {
@@ -104,16 +108,23 @@ $_SESSION["guest"] = "guest";
                         const response = JSON.parse(xhr.responseText);
 
                         if (response.success) {
-                            alert(response.message); // Alert the success message
-                            window.location.href = 'homepage.php'; // Redirect to homepage
+                            const overlay = document.getElementById('overlay');
+                            const overlayMessage = document.getElementById('overlay-message');
+                            overlayMessage.textContent = response.message;
+                            overlay.style.display = 'flex';
+
+                            setTimeout(function() {
+                                window.location.href = 'homepage.php';
+                            }, 2000);
                         } else {
-                            alert('Error: ' + response.message); // Show error message from PHP
+                            alert('Error: ' + response.message);
                         }
                     } else {
                         // Handle error case here
                         alert('Error submitting the form. Server returned status: ' + xhr.status);
                     }
                 };
+
 
                 xhr.onerror = function() {
                     alert('An error occurred while submitting the form.');
@@ -123,7 +134,6 @@ $_SESSION["guest"] = "guest";
                 xhr.send(`user_name=${encodeURIComponent(userName)}&user_school=${encodeURIComponent(userSchool)}`);
             }
         });
-
     </script>
   </body>
 </html>
