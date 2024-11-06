@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-$timeout_duration = 5 * 60; // 15 minutes in seconds
+$timeout_duration = 5 * 60; // 5 minutes
 
 if (isset($_SESSION["admin"])) {
-    if (isset($_SESSION['LAST_ACTIVITY'])) {
-        if (time() - $_SESSION['LAST_ACTIVITY'] > $timeout_duration) {
+    if (isset($_SESSION['lastActivity'])) {
+        if (time() - $_SESSION['lastActivity'] > $timeout_duration) {
             // Session has timed out, logout
             echo '<script>
             alert("Session timed out. Redirecting to login.");
@@ -13,16 +13,7 @@ if (isset($_SESSION["admin"])) {
             </script>';
         }
     }
-    $_SESSION['LAST_ACTIVITY'] = time();
-
-    echo '<script>
-    console.log("User logged in. Redirecting...");
-    </script>';
-} else {
-    echo '<script>
-    alert("Not logged in. Redirected to Admin Login.");
-    window.location.href="admin-login.php";
-    </script>';
+    $_SESSION['lastActivity'] = time();
 }
 ?>
 <!DOCTYPE html>
@@ -83,9 +74,7 @@ if (isset($_SESSION["admin"])) {
             </div>
             <img src="../res/images/user-image.png" alt="User Icon" aria-hidden="true">
             <div class="greeting" style="margin-right: 10px;">
-                <div id="admin-name" class="curator">
-                    <?php echo "Hi! " . htmlspecialchars($_SESSION["admin"]) ?>
-                </div>
+                <div id="admin-name" class="curator"></div>
                 <nav>
                     <a href="../include/logout.php" aria-label="Logout">Logout</a>
                 </nav>
@@ -939,6 +928,36 @@ if (isset($_SESSION["admin"])) {
         // Function to close the Edit Subcatalog modal
         function closeSubcatalogModal() {
             document.getElementById("edit-subcatalog-modal").style.display = "none";
+        }
+        </script>
+        <script>
+        const sessionData = <?php echo json_encode($_SESSION); ?>;
+        if (sessionData.admin) {
+            localStorage.setItem('admin', sessionData.admin);
+        }
+        </script>
+        <script defer>
+        const adminSession = localStorage.getItem('admin');
+        if (adminSession) {
+            console.log("User logged in. Redirecting...");
+            document.getElementById('admin-name').innerHTML = "Hi! " + adminSession;
+
+            // Send the data to the server using Fetch API (AJAX)
+            fetch('../include/processLocalstorage.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ admin: adminSession })
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Server response:', data);
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            alert("Not logged in. Redirected to Admin Login.");
+            window.location.href="admin-login.php";
         }
         </script>
 </body>

@@ -8,13 +8,9 @@ if (isset($_SESSION["admin"])) {
     mysqli_query($conn, $updateStatusStmt);
 
     echo '<script>
+    localStorage.clear();
     window.location.href="../admin/admin-login.php";
     </script>';
-} else if (isset($_SESSION["guest"])) {
-    echo '<script>
-    window.location.href="../index.php";
-    </script>';
-}
+} 
 session_unset();
 session_destroy();
-?>

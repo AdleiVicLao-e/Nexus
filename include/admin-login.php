@@ -30,10 +30,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </script>';
         }
     } else {
-        header("Location: ../admin/401.php");
+        echo '<script>
+                alert("Invalid credentials.");
+                window.location.href="../admin/admin-login.php";
+                </script>';
     }
     
     $stmt->close();
     $conn->close();
 }
-?>
