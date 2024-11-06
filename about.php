@@ -332,7 +332,7 @@ if (is_null($_SESSION["guest"])) {
                           <a href="https://www.linkedin.com/in/trisha-garas" target="_blank">
                             <i class="icofont-linkedin"></i>
                           </a>
-                          <a href="">
+                          <a href="https://drive.google.com/file/d/1ABATjFJn6eSYF-L0KlNdjRTyW-Zd9aeU/view" target="_blank">
                             <i class="icofont-paper-clip"></i>
                           </a>
                         </div>
