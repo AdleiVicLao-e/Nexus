@@ -182,14 +182,11 @@ function scrollToSection() {
 }
 
 function checkDevice() {
-    // Define a breakpoint for mobile devices (e.g., 768px)
-    if (window.innerWidth > 768) {
-        // Show the desktop warning
-        document.getElementById("desktop-warning").style.display = "flex";
-        setTimeout(function() {
-            alert("Please use your mobile phone to access this site.");
-        }, 100);
-    }
+            // Define a breakpoint for mobile devices (e.g., 768px)
+            if (window.innerWidth > 768) {
+                // Redirect to the desktop page
+                window.location.href = "desktop.html";
+            }
 }
 </script>
 <script defer>
