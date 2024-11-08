@@ -1,13 +1,7 @@
-<?php
-session_start();
-if (is_null($_SESSION["guest"])) {
-  header("Location: ../index.php");
-}
-?>
 <!DOCTYPE html>
-
 <html lang="en">
-  <head>
+
+<head>
     <title>Igorot Dances</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="content-language" content="en" />
@@ -20,76 +14,79 @@ if (is_null($_SESSION["guest"])) {
     <link rel="stylesheet" href="res\css\dances.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
-  </head>
-  <body>
-  <div id="app">
-      <div id="sidebar_menu_bg"></div>
-      <div id="sidebar_menu">
-        <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee;color: #111;">
-          <i class="fa fa-angle-left mr-2"></i>Close menu </button>
-        <ul class="nav sidebar_menu-list">
-        <li class="nav-item active">
-            <a class="nav-link" href="homepage.php" title="Home">Homepage</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link" href="scanner.php" title="Home">Scanner</a>
-         </li>
-         <li class="nav-item">
-          <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
-         </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.php" title="About">About</a>
-          </li>
-          <div class="clearfix"></div>
-      </div>
-      </li>
-      </ul>
-      <div class="clearfix"></div>
-    </div>
-    
-    <div id="wrapper">
-      <div id="header">
-        <div class="container">
-          <div id="mobile_menu">
-            <i class="fa fa-bars"></i>
-          </div>
-          <a href="scanner.php" id="logo">
-            <img src="./assets/img/logo.png" alt="Logo">
-          </a>
-          
-          <!--Begin: Menu-->
-          <div id="header_menu">
-            <ul class="nav header_menu-list">
-              <li class="nav-item">
-                <a href="scanner.php" title="Home">Home</a>
-              </li>
-              <li class="nav-item">
-              <a href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="about.php" title="About">About</a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <!--End: Menu-->
-          <div class="clearfix"></div>
-        </div>
-      </div>
+</head>
 
-    <!-- Content Section -->
-    <section id="content">
-        <h2>Discover Igorot Dances</h2>
-        <p>Experience the beauty and diversity of Igorot dances, each one telling a unique story of the Igorot people’s life, beliefs, and heritage.</p>
-        <!-- Add more dance sections as needed -->
-    </section>
-    
-    <!--Begin: Related-->
-    <div class="container">
-        <?php
+<body>
+    <div id="app">
+        <div id="sidebar_menu_bg"></div>
+        <div id="sidebar_menu">
+            <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar"
+                style="border-radius: 30px; background: #eee; border-color: #eee;color: #111;">
+                <i class="fa fa-angle-left mr-2"></i>Close menu </button>
+            <ul class="nav sidebar_menu-list">
+                <li class="nav-item active">
+                    <a class="nav-link" href="homepage.php" title="Home">Homepage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="scanner.php" title="Home">Scanner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php" title="About">About</a>
+                </li>
+                <div class="clearfix"></div>
+        </div>
+        </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+
+    <div id="wrapper">
+        <div id="header">
+            <div class="container">
+                <div id="mobile_menu">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <a href="scanner.php" id="logo">
+                    <img src="./assets/img/logo.png" alt="Logo">
+                </a>
+
+                <!--Begin: Menu-->
+                <div id="header_menu">
+                    <ul class="nav header_menu-list">
+                        <li class="nav-item">
+                            <a href="scanner.php" title="Home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="about.php" title="About">About</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <!--End: Menu-->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <section id="content">
+            <h2>Discover Igorot Dances</h2>
+            <p>Experience the beauty and diversity of Igorot dances, each one telling a unique story of the Igorot
+                people’s life, beliefs, and heritage.</p>
+            <!-- Add more dance sections as needed -->
+        </section>
+
+        <!--Begin: Related-->
+        <div class="container">
+            <?php
         include 'include/artifact-db.php';
 
         // Fetch video details from the database
@@ -120,65 +117,81 @@ if (is_null($_SESSION["guest"])) {
 
         $mysqli->close();
         ?>
-           </div>
-            <div class="clearfix"></div>
-          </div>
+        </div>
         <div class="clearfix"></div>
-      </div>
-          </div>
-            </section>
-            <!--End: Section film list-->
-          </div>
-        </div>
-        <!--End: Related-->
-      </div>
-      <!--End: Main-->
-      <div id="footer">
+    </div>
+    <div class="clearfix"></div>
+    </div>
+    </div>
+    </section>
+    <!--End: Section film list-->
+    </div>
+    </div>
+    <!--End: Related-->
+    </div>
+    <!--End: Main-->
+    <div id="footer">
         <div class="container">
-          <div class="footer-about">
-          </div>
-          <div class="footer-notice">
-          </div>
-          <div class="footer-logo-block">
-            <a href="https://www.facebook.com/slumuseum" class="footer-logo">
-              <img src="./assets/img/logo.png" alt="Logo footer">
-            </a>
-            <p class="copyright">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
-          </div>
-          <div class="clearfix"></div>
+            <div class="footer-about">
+            </div>
+            <div class="footer-notice">
+            </div>
+            <div class="footer-logo-block">
+                <a href="https://www.facebook.com/slumuseum" class="footer-logo">
+                    <img src="./assets/img/logo.png" alt="Logo footer">
+                </a>
+                <p class="copyright">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
+            </div>
+            <div class="clearfix"></div>
         </div>
-      </div>
+    </div>
     </div>
     </div>
 
     <script>
-        document.getElementById('preview').addEventListener('click', function(event) {
+    document.getElementById('preview').addEventListener('click', function(event) {
         event.preventDefault(); // Prevent the default link behavior
-        
+
         // Set the video source to the desired path
         var videoPath = 'assets/img/bRoll.mp4';
         var videoSource = document.getElementById('video-source');
         var videoPlayer = document.getElementById('video-player');
-        
+
         // Set the video source and load the video
         videoSource.src = videoPath;
         videoPlayer.load();
-        
+
         // Show the video container and play the video
         document.getElementById('video-container').style.display = 'block';
         videoPlayer.play();
 
         function scrollToSection() {
-        document.getElementById("content").scrollIntoView({ behavior: "smooth" });
+            document.getElementById("content").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    });
+    </script>
+    <script defer>
+    const guestSession = getLocalStorageItem('guest');
+    if (guestSession) {
+        console.log("Guest logged in. Redirecting...");
+    } else {
+        alert("Not logged in. Redirected to Login.");
+        window.location.href = "index.php";
     }
-      });
-      </script>
+    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async>
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async>
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
     <script type="text/javascript" src="res/js/client/dances.js"></script>
-  </body>
+</body>
+
 </html>

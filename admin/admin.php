@@ -930,7 +930,9 @@ if (isset($_SESSION["admin"])) {
             document.getElementById("edit-subcatalog-modal").style.display = "none";
         }
         </script>
+        
         <script>
+        // Session Handling
         const sessionData = <?php echo json_encode($_SESSION); ?>;
         if (sessionData.admin) {
             localStorage.setItem('admin', sessionData.admin);

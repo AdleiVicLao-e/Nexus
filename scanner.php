@@ -1,16 +1,6 @@
-<?php
-session_start();
-if (is_null($_SESSION["guest"])) {
-    header("Location: ../index.php");
-    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
-    header("Pragma: no-cache"); // HTTP 1.0.
-    header("Expires: 0"); // Proxies.
-
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>QR Code Scanner with AR</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -75,45 +65,46 @@ if (is_null($_SESSION["guest"])) {
             </div>
         </div>
 </head>
+
 <body>
-<!-- AR Elements -->
-<video id="video" autoplay></video>
-<canvas id="canvas"></canvas>
-<div id="va-container">
-    <canvas id="va-canvas"></canvas>
-</div>
-
-<div class="edge-lighting" id="edgeLighting"></div>
-
-<!-- Floating Buttons -->
-<!-- Gangsa icon with onclick event -->
-<img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" />
-
-<button id="watchVideos" onclick="redirectToVideo();">Watch Videos</button>
-
-<!-- Overlay with the info box -->
-<div class="overlay" id="infoOverlay">
-    <button class="exit-button" id="exitButton">✖</button> <!-- Exit button -->
-    <div class="info-box">
-        <p class="welcome-2">WELCOME!</p>
-        <p class="info-box-text">
-            This application will provide you with more information about the museum artifacts.
-        </p>
-        <p class="info-box-text">
-            To use it, simply position your phone's camera in front of the QR codes located near the artifacts.
-        </p>
-        <p class="info-box-text">
-            It will automatically detect the codes and display detailed information about each artifact.
-        </p>
-        <p class="info-box-text">
-            Need a bit more insight? Tap once to hear more from the avatar; tap twice to pause.
-        </p>
+    <!-- AR Elements -->
+    <video id="video" autoplay></video>
+    <canvas id="canvas"></canvas>
+    <div id="va-container">
+        <canvas id="va-canvas"></canvas>
     </div>
-</div>
 
-<div id="desktop-warning"></div>
+    <div class="edge-lighting" id="edgeLighting"></div>
 
-<script>
+    <!-- Floating Buttons -->
+    <!-- Gangsa icon with onclick event -->
+    <img class="lightbulb-icon" id="lightbulbIcon" src="/assets/img/gong.png" alt="Info" onclick="viewDetails()" />
+
+    <button id="watchVideos" onclick="redirectToVideo();">Watch Videos</button>
+
+    <!-- Overlay with the info box -->
+    <div class="overlay" id="infoOverlay">
+        <button class="exit-button" id="exitButton">✖</button> <!-- Exit button -->
+        <div class="info-box">
+            <p class="welcome-2">WELCOME!</p>
+            <p class="info-box-text">
+                This application will provide you with more information about the museum artifacts.
+            </p>
+            <p class="info-box-text">
+                To use it, simply position your phone's camera in front of the QR codes located near the artifacts.
+            </p>
+            <p class="info-box-text">
+                It will automatically detect the codes and display detailed information about each artifact.
+            </p>
+            <p class="info-box-text">
+                Need a bit more insight? Tap once to hear more from the avatar; tap twice to pause.
+            </p>
+        </div>
+    </div>
+
+    <div id="desktop-warning"></div>
+
+    <script>
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");
     const canvasContext = canvas.getContext("2d");
@@ -129,7 +120,9 @@ if (is_null($_SESSION["guest"])) {
     async function startVideo() {
         try {
             video.srcObject = await navigator.mediaDevices.getUserMedia({
-                video: {facingMode: "environment"},
+                video: {
+                    facingMode: "environment"
+                },
             });
             // required to play video inline on iOS
             video.setAttribute("playsinline", true);
@@ -212,7 +205,8 @@ if (is_null($_SESSION["guest"])) {
                                 if (testWidth > maxLineWidth && index > 0) {
                                     canvasContext.fillText(
                                         currentLine,
-                                        centerX - boxWidth / 2 + padding + leftOffset, // Add leftOffset here
+                                        centerX - boxWidth / 2 + padding +
+                                        leftOffset, // Add leftOffset here
                                         currentY
                                     );
                                     currentLine = word + " ";
@@ -250,7 +244,7 @@ if (is_null($_SESSION["guest"])) {
 
     function fetchArtifactInfo(artifactId) {
         fetch(`include/getArtifact.php?artifact_id=${artifactId}&t=${Date.now()}`)
-                .then((response) => response.json())
+            .then((response) => response.json())
             .then((data) => {
                 console.log("Data:", data);
 
@@ -264,8 +258,8 @@ if (is_null($_SESSION["guest"])) {
                     displayBox = true;
 
                     if (data["fileName"] && data["fileName"] !== "0") {
-                    // Show the watch button if fileName is present and not 0
-                    watchButton.style.display = "block";  // Show button
+                        // Show the watch button if fileName is present and not 0
+                        watchButton.style.display = "block"; // Show button
                     }
                 } else {
                     // If artifact is not found or if an error occurred
@@ -320,20 +314,34 @@ if (is_null($_SESSION["guest"])) {
     // Start the video stream when the page loads
     startVideo();
     checkDevice();
-</script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
-<script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
-<script src="./res/js/client/VA.js"></script>
-<script src="./res/js/scripts.js"></script>
-<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+    </script>
+    <script defer>
+    const guestSession = getLocalStorageItem('guest');
+    if (guestSession) {
+        console.log("Guest logged in. Redirecting...");
+    } else {
+        alert("Not logged in. Redirected to Login.");
+        window.location.href = "index.php";
+    }
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async>
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
+    <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
+    <script src="./res/js/client/VA.js"></script>
+    <script src="./res/js/scripts.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 </body>
+
 </html>
