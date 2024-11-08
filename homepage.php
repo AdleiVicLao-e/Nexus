@@ -156,7 +156,7 @@
 </body>
 
 <!-- Footer -->
-<div id="footer" class="container">
+<div id="footer" style="margin: bottom -3px;0px">
     <div class="container">
         <div class="footer-logo-block">
             <a href="https://www.facebook.com/slumuseum" class="footer-logo">
