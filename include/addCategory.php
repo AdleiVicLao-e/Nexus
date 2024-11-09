@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $row = $result->fetch_assoc();
 
             if ($row['count'] > 0) {
-                $response['message'] = "Catalogu with this name already exists in this section";
+                $response['message'] = "Catalogue with this name already exists in this section";
                 echo json_encode($response);
                 exit;
             } else {
