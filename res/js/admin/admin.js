@@ -1212,29 +1212,92 @@ function saveSectionChanges() {
 function deleteSection() {
     var section = document.getElementById('edit-select-section');
     var sectionIdValue = section.options[section.selectedIndex].value;
+    var sectionText = section.options[section.selectedIndex].text;
 
-    // Send the data to the server using fetch
-    fetch('../include/deleteSection.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded', 
-        },
-        body: new URLSearchParams({ 'id': sectionIdValue }) 
-    })
-    .then(response => response.json()) 
-    .then(data => {
-        if (data.success) {
-            // Alert for successful deletion
-            alert("Delete successful, \nSection ID: " + sectionIdValue);
-        } else {
-            // Alert for failed deletion
-            alert("Delete failed. Section ID: " + sectionIdValue + ". \nError: " + data.message);
-        }
-        location.reload();
-    })
-    .catch(error => {
-        console.log(error);
-    });
+    // Create the main overlay container
+    var overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    overlay.style.display = 'block'; // Initially hidden
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    overlay.style.zIndex = '1000';
+
+    // Create the inner content container
+    var innerContainer = document.createElement('div');
+    innerContainer.style.position = 'absolute';
+    innerContainer.style.top = '50%';
+    innerContainer.style.left = '50%';
+    innerContainer.style.transform = 'translate(-50%, -50%)';
+    innerContainer.style.background = 'white';
+    innerContainer.style.padding = '20px';
+    innerContainer.style.borderRadius = '5px';
+    innerContainer.style.textAlign = 'center';
+
+    // Create the overlay message paragraph
+    var message = document.createElement('h3');
+    message.id = 'overlay-message';
+    message.innerHTML = 'Confirm Deletion';
+    var sectionId = document.createElement('p');
+    sectionId.innerHTML = "Section ID: " + sectionIdValue;
+    var sectionName = document.createElement('p');
+    sectionName.innerHTML = "Section Name: " + sectionText;
+
+    innerContainer.appendChild(message);
+    innerContainer.appendChild(sectionId);
+    innerContainer.appendChild(sectionName);
+
+    // Create the "Cancel" button
+    var cancelButton = document.createElement('button');
+    cancelButton.id = 'delBtn';
+    cancelButton.class = 'btn';
+    cancelButton.textContent = 'Cancel';
+    cancelButton.onclick = function() {
+        // Simply hide the overlay when canceled
+        overlay.style.display = 'none';
+    };
+    innerContainer.appendChild(cancelButton);
+
+    // Create the "Confirm" button
+    var confirmButton = document.createElement('button');
+    confirmButton.id = 'saveBtn';
+    confirmButton.class = 'btn';
+    confirmButton.textContent = 'Confirm';
+    confirmButton.onclick = function() {
+        // Send the data to the server using fetch
+        fetch('../include/deleteSection.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            },
+            body: new URLSearchParams({ 'id': sectionIdValue }) 
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                // Alert for successful deletion
+                alert("Delete successful. \nSection ID: " + sectionIdValue + "\nSection Name: " + sectionText);
+            } else {
+                // Alert for failed deletion
+                alert("Delete failed. \nSection ID: " + sectionIdValue + "\nSection Name: " + sectionText + ". \nError: " + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+        overlay.style.display = 'none';  // Hide the overlay after confirmation
+    };
+    innerContainer.appendChild(confirmButton);
+
+    // Append the inner content container to the overlay
+    overlay.appendChild(innerContainer);
+
+    // Append the overlay to the body
+    document.body.appendChild(overlay);
 }
 
 function saveCatalogChanges() {
@@ -1277,29 +1340,91 @@ function saveCatalogChanges() {
 function deleteCatalog() {
     var catalog = document.getElementById('edit-select-catalog');
     var catalogIdValue = catalog.options[catalog.selectedIndex].value;
+    var catalogText = catalog.options[catalog.selectedIndex].text;
 
-    // Send the data to the server using fetch
-    fetch('../include/deleteCatalog.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded', 
-        },
-        body: new URLSearchParams({ 'id': catalogIdValue }) 
-    })
-    .then(response => response.json()) 
-    .then(data => {
-        if (data.success) {
-            // Alert for successful deletion
-            alert("Delete successful, Section ID: " + catalogIdValue);
-        } else {
-            // Alert for failed deletion
-            alert("Delete failed. Section ID: " + catalogIdValue + ". Error: " + data.message);
-        }
-        location.reload();
-    })
-    .catch(error => {
-        console.log(error);
-    });
+    // Create the main overlay container
+    var overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    overlay.style.display = 'block'; // Initially hidden
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    overlay.style.zIndex = '1000';
+
+    // Create the inner content container
+    var innerContainer = document.createElement('div');
+    innerContainer.style.position = 'absolute';
+    innerContainer.style.top = '50%';
+    innerContainer.style.left = '50%';
+    innerContainer.style.transform = 'translate(-50%, -50%)';
+    innerContainer.style.background = 'white';
+    innerContainer.style.padding = '20px';
+    innerContainer.style.borderRadius = '5px';
+    innerContainer.style.textAlign = 'center';
+
+    // Create the overlay message paragraph
+    var message = document.createElement('h3');
+    message.id = 'overlay-message';
+    message.innerHTML = 'Confirm Deletion';
+    var catalogId = document.createElement('p');
+    catalogId.innerHTML = "Catalog ID: " + catalogIdValue;
+    var catalogName = document.createElement('p');
+    catalogName.innerHTML = "Catalog Name: " + catalogText;
+
+    innerContainer.appendChild(message);
+    innerContainer.appendChild(catalogId);
+    innerContainer.appendChild(catalogName);
+
+    // Create the "Cancel" button
+    var cancelButton = document.createElement('button');
+    cancelButton.id = 'delBtn';
+    cancelButton.class = 'btn';
+    cancelButton.textContent = 'Cancel';
+    cancelButton.onclick = function() {
+        // Simply hide the overlay when canceled
+        overlay.style.display = 'none';
+    };
+    innerContainer.appendChild(cancelButton);
+
+    // Create the "Confirm" button
+    var confirmButton = document.createElement('button');
+    confirmButton.id = 'saveBtn';
+    confirmButton.class = 'btn';
+    confirmButton.textContent = 'Confirm';
+    confirmButton.onclick = function() {
+        // Send the data to the server using fetch
+        fetch('../include/deleteCatalog.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            },
+            body: new URLSearchParams({ 'id': catalogIdValue }) 
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                // Alert for successful deletion
+                alert("Delete successful. \nCatalog ID: " + catalogIdValue + "\nCatalog Name: " + catalogText);
+            } else {
+                // Alert for failed deletion
+                alert("Delete failed. \nCatalog ID: " + catalogIdValue + "\nCatalog Name: " + catalogText + ". Error: " + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    };
+    innerContainer.appendChild(confirmButton);
+
+    // Append the inner content container to the overlay
+    overlay.appendChild(innerContainer);
+
+    // Append the overlay to the body
+    document.body.appendChild(overlay);  
 }
 
 function saveSubcatalogChanges() {
@@ -1342,29 +1467,91 @@ function saveSubcatalogChanges() {
 function deleteSubcat() {
     var subcatalog = document.getElementById('edit-select-subcatalog');
     var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
+    var subcatalogText = subcatalog.options[subcatalog.selectedIndex].text;
 
-    // Send the data to the server using fetch
-    fetch('../include/deleteSubcatalog.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded', 
-        },
-        body: new URLSearchParams({ 'id': subcatalogIdValue }) 
-    })
-    .then(response => response.json()) 
-    .then(data => {
-        if (data.success) {
-            // Alert for successful deletion
-            alert("Delete successful, Section ID: " + subcatalogIdValue);
-        } else {
-            // Alert for failed deletion
-            alert("Delete failed. Section ID: " + subcatalogIdValue + ". Error: " + data.message);
-        }
-        location.reload();
-    })
-    .catch(error => {
-        console.log(error);
-    });
+    // Create the main overlay container
+    var overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    overlay.style.display = 'block'; // Initially hidden
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    overlay.style.zIndex = '1000';
+
+    // Create the inner content container
+    var innerContainer = document.createElement('div');
+    innerContainer.style.position = 'absolute';
+    innerContainer.style.top = '50%';
+    innerContainer.style.left = '50%';
+    innerContainer.style.transform = 'translate(-50%, -50%)';
+    innerContainer.style.background = 'white';
+    innerContainer.style.padding = '20px';
+    innerContainer.style.borderRadius = '5px';
+    innerContainer.style.textAlign = 'center';
+
+    // Create the overlay message paragraph
+    var message = document.createElement('h3');
+    message.id = 'overlay-message';
+    message.innerHTML = 'Confirm Deletion';
+    var subcatalogId = document.createElement('p');
+    subcatalogId.innerHTML = "Sub-catalog ID: " + subcatalogIdValue;
+    var subcatalogName = document.createElement('p');
+    subcatalogName.innerHTML = "Sub-catalog Name: " + subcatalogText;
+
+    innerContainer.appendChild(message);
+    innerContainer.appendChild(subcatalogId);
+    innerContainer.appendChild(subcatalogName);
+
+    // Create the "Cancel" button
+    var cancelButton = document.createElement('button');
+    cancelButton.id = 'delBtn';
+    cancelButton.class = 'btn';
+    cancelButton.textContent = 'Cancel';
+    cancelButton.onclick = function() {
+        // Simply hide the overlay when canceled
+        overlay.style.display = 'none';
+    };
+    innerContainer.appendChild(cancelButton);
+
+    // Create the "Confirm" button
+    var confirmButton = document.createElement('button');
+    confirmButton.id = 'saveBtn';
+    confirmButton.class = 'btn';
+    confirmButton.textContent = 'Confirm';
+    confirmButton.onclick = function() {
+        // Send the data to the server using fetch
+        fetch('../include/deleteSubcatalog.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            },
+            body: new URLSearchParams({ 'id': subcatalogIdValue }) 
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                // Alert for successful deletion
+                alert("Delete successful. \nSub-catalog ID: " + subcatalogIdValue + "\nSub-catalog Name: " + subcatalogText);
+            } else {
+                // Alert for failed deletion
+                alert("Delete failed. \nSub-catalog ID: " + subcatalogIdValue + "\nSub-catalog Name: " + subcatalogText + ". Error: " + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    };
+    innerContainer.appendChild(confirmButton);
+
+    // Append the inner content container to the overlay
+    overlay.appendChild(innerContainer);
+
+    // Append the overlay to the body
+    document.body.appendChild(overlay);  
 }
 
 // -----------------------
