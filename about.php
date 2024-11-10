@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>About Us</title> 
+    <title>About Us</title>
     <link rel="stylesheet" href="res\css\aboutStyle.css">
     <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
     <link href="assets/img/favicon.png" rel="icon">
@@ -15,188 +16,212 @@
     <!-- Boxicons CDN Link -->
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="app">
-      <div id="sidebar_menu_bg"></div>
-      <div id="sidebar_menu">
-        <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee;
+        <div id="sidebar_menu_bg"></div>
+        <div id="sidebar_menu">
+            <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee;
     color: #111;">
-          <i class="fa fa-angle-left mr-2"></i>Close menu </button>
-        <ul class="nav sidebar_menu-list">
-        <li class="nav-item active">
-        <a class="nav-link" href="homepage.php" title="Home">Home</a>
-        <a class="nav-link" href="scanner.php" title="Home">Scanner</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
-         </li>
-         <li class="nav-item">
-          <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
-         </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.php" title="About">About</a>
-          </li>
-          <div class="clearfix"></div>
-      </div>
-      </li>
-      </ul>
-      <div class="clearfix"></div>
+                <i class="fa fa-angle-left mr-2"></i>Close menu </button>
+            <ul class="nav sidebar_menu-list">
+                <li class="nav-item active">
+                    <a class="nav-link" href="homepage.php" title="Home">Home</a>
+                    <a class="nav-link" href="scanner.php" title="Home">Scanner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php" title="About">About</a>
+                </li>
+                <div class="clearfix"></div>
+        </div>
+        </li>
+        </ul>
+        <div class="clearfix"></div>
     </div>
     <div id="wrapper">
-      <div id="header">
-        <div class="container">
-          <div id="mobile_menu">
-            <i class="fa fa-bars"></i>
-          </div>
-          <a href="scanner.php" id="logo">
-            <img src="./assets/img/logo.png" alt="Logo">
-          </a>
-          <!--Begin: Menu-->
-          <div id="header_menu">
-            <ul class="nav header_menu-list">
-              <li class="nav-item">
-                <a href="homepage.php" title="Home">Home</a>
-              </li>
-              <li class="nav-item">
-              <a href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="about.php" title="About">About</a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <!--End: Menu-->
-          <div class="clearfix"></div>
-        </div>
-      </div>
-      <!--Begin: Main-->
-      <div id="main-wrapper">
-        <div>
-          <!-- ======= Hero Section ======= -->
-          <section id="hero" class="d-flex align-items-center">
+        <div id="header">
             <div class="container">
-              <div class="row">
-                <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1">
-                  <h1>Discover Igorot Heritage with the SLU Museum WebApp</h1>
-                  <h2> Welcome to the <strong>
-                      <a href="https://www.slu.edu.ph/museum-of-igorot-culture-and-arts/" class="museum-link"> SLU Museum of Igorot Cultures and Arts </a>
-                    </strong>! Our web app enhances your visit with a digital artifact guide and informative content about our unique artifacts. </h2>
-                  <a href="#about" class="btn-red">Get Started</a>
+                <div id="mobile_menu">
+                    <i class="fa fa-bars"></i>
                 </div>
-                <div class="col-lg-6 order-1 order-lg-2 hero-img">
-                  <img src="assets/img/Museum-Photography.svg" class="img-fluid animated" alt="">
+                <a href="scanner.php" id="logo">
+                    <img src="./assets/img/logo.png" alt="Logo">
+                </a>
+                <!--Begin: Menu-->
+                <div id="header_menu">
+                    <ul class="nav header_menu-list">
+                        <li class="nav-item">
+                            <a href="homepage.php" title="Home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="feedback.php" title="Feedback">Feedback</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="about.php" title="About">About</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
                 </div>
-              </div>
+                <!--End: Menu-->
+                <div class="clearfix"></div>
             </div>
-          </section>
-          <!-- End Hero -->
-          <main id="main">
-            <!-- ======= About Section ======= -->
-            <section id="about" class="about">
-              <div class="container">
-                <div class="row justify-content-between">
-                  <div class="col-lg-5 d-flex align-items-center justify-content-center about-img">
-                    <img src="assets/img/collab.png" class="img-fluid" alt="" data-aos="zoom-in">
-                  </div>
-                  <div class="col-lg-6 pt-5 pt-lg-0">
-                    <h3 data-aos="fade-up">A Collaborative Effort</h3>
-                    <p data-aos="fade-up" data-aos-delay="100"> The <strong>
-                        <a href="https://www.slu.edu.ph/museum-of-igorot-culture-and-arts/" class="museum-link"> SLU Museum of Igorot Cultures and Arts </a>
-                      </strong> proudly presents this web application, a collaboration between <strong>Team Nexus</strong>, <strong>4th-year IT students</strong> from the <strong>School of Accountancy, Management, Computing, and Information Studies</strong>, and the museum. This project merges technology with cultural heritage, enhancing the visitor experience and promoting the rich legacy of the Igorot people. </p>
-                    <div class="row">
-                      <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <i class="bx bx-book-open"></i>
-                        <h4>A Commitment to Cultural Heritage</h4>
-                        <p>This partnership reflects our dedication to preserving and sharing the unique heritage of the Igorot people, ensuring that their stories and artifacts are accessible to everyone.</p>
-                      </div>
-                      <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
-                        <i class="bx bx-link"></i>
-                        <h4>Bridging Technology and Tradition</h4>
-                        <p>By integrating innovative technology into the museum experience, we aim to educate and engage visitors in a meaningful way, fostering a deeper appreciation for Igorot culture. </p>
-                      </div>
+        </div>
+        <!--Begin: Main-->
+        <div id="main-wrapper">
+            <div>
+                <!-- ======= Hero Section ======= -->
+                <section id="hero" class="d-flex align-items-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1">
+                                <h1>Discover Igorot Heritage with the SLU Museum WebApp</h1>
+                                <h2> Welcome to the <strong>
+                                        <a href="https://www.slu.edu.ph/museum-of-igorot-culture-and-arts/"
+                                            class="museum-link"> SLU Museum of Igorot Cultures and Arts </a>
+                                    </strong>! Our web app enhances your visit with a digital artifact guide and
+                                    informative content about our unique artifacts. </h2>
+                                <a href="#about" class="btn-red">Get Started</a>
+                            </div>
+                            <div class="col-lg-6 order-1 order-lg-2 hero-img">
+                                <img src="assets/img/Museum-Photography.svg" class="img-fluid animated" alt="">
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <!-- End About Section -->
-            <!-- ======= Services Section ======= -->
-            <section id="services" class="services section-bg">
-              <div class="container">
-                <div class="section-title" data-aos="fade-up">
-                  <h2>Key Features</h2>
-                  <p>Discover features designed to enhance your museum visit</p>
-                </div>
-                <div class="row">
-                  <!-- First row with 3 columns -->
-                  <div class="col-md-6 col-lg-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon-box">
-                      <div class="icon">
-                        <i class="bx bx-scan"></i>
-                      </div>
-                      <h4 class="title">
-                        <a href="">QR Code Scanning</a>
-                      </h4>
-                      <p class="description">Easily scan QR codes placed alongside artifacts to instantly access detailed information about each piece.</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="icon-box">
-                      <div class="icon">
-                        <i class="bx bx-book"></i>
-                      </div>
-                      <h4 class="title">
-                        <a href="">Digital Artifact Guide</a>
-                      </h4>
-                      <p class="description">Discover the history, significance, and cultural background of the displayed items through comprehensive text descriptions.</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="icon-box">
-                      <div class="icon">
-                        <i class="bx bx-intersect"></i>
-                      </div>
-                      <h4 class="title">
-                        <a href="">Interactive Museum Experience</a>
-                      </h4>
-                      <p class="description">Explore the museum at your own pace with an interactive guide that enhances your learning experience</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <!-- Second row with 2 columns -->
-                  <div class="col-md-6 col-lg-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="icon-box">
-                      <div class="icon">
-                        <i class="bx bx-mobile-alt"></i>
-                      </div>
-                      <h4 class="title">
-                        <a href="">Mobile-Friendly Design</a>
-                      </h4>
-                      <p class="description">Navigate and interact with the museum’s resources smoothly on any mobile device.</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="500">
-                    <div class="icon-box">
-                      <div class="icon">
-                        <i class="bx bx-brain"></i>
-                      </div>
-                      <h4 class="title">
-                        <a href="">Enhanced Learning Experience</a>
-                      </h4>
-                      <p class="description">Dive deeper into Igorot heritage with educational content designed to enrich your visit.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <!-- End Services Section -->
-            <!-- ======= Portfolio Section ======= -->
+                </section>
+                <!-- End Hero -->
+                <main id="main">
+                    <!-- ======= About Section ======= -->
+                    <section id="about" class="about">
+                        <div class="container">
+                            <div class="row justify-content-between">
+                                <div class="col-lg-5 d-flex align-items-center justify-content-center about-img">
+                                    <img src="assets/img/collab.png" class="img-fluid" alt="" data-aos="zoom-in">
+                                </div>
+                                <div class="col-lg-6 pt-5 pt-lg-0">
+                                    <h3 data-aos="fade-up">A Collaborative Effort</h3>
+                                    <p data-aos="fade-up" data-aos-delay="100"> The <strong>
+                                            <a href="https://www.slu.edu.ph/museum-of-igorot-culture-and-arts/"
+                                                class="museum-link"> SLU Museum of Igorot Cultures and Arts </a>
+                                        </strong> proudly presents this web application, a collaboration between
+                                        <strong>Team Nexus</strong>, <strong>4th-year IT students</strong> from the
+                                        <strong>School of Accountancy, Management, Computing, and Information
+                                            Studies</strong>, and the museum. This project merges technology with
+                                        cultural heritage, enhancing the visitor experience and promoting the rich
+                                        legacy of the Igorot people. </p>
+                                    <div class="row">
+                                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                                            <i class="bx bx-book-open"></i>
+                                            <h4>A Commitment to Cultural Heritage</h4>
+                                            <p>This partnership reflects our dedication to preserving and sharing the
+                                                unique heritage of the Igorot people, ensuring that their stories and
+                                                artifacts are accessible to everyone.</p>
+                                        </div>
+                                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                                            <i class="bx bx-link"></i>
+                                            <h4>Bridging Technology and Tradition</h4>
+                                            <p>By integrating innovative technology into the museum experience, we aim
+                                                to educate and engage visitors in a meaningful way, fostering a deeper
+                                                appreciation for Igorot culture. </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- End About Section -->
+                    <!-- ======= Services Section ======= -->
+                    <section id="services" class="services section-bg">
+                        <div class="container">
+                            <div class="section-title" data-aos="fade-up">
+                                <h2>Key Features</h2>
+                                <p>Discover features designed to enhance your museum visit</p>
+                            </div>
+                            <div class="row">
+                                <!-- First row with 3 columns -->
+                                <div class="col-md-6 col-lg-4 d-flex align-items-stretch" data-aos="zoom-in"
+                                    data-aos-delay="100">
+                                    <div class="icon-box">
+                                        <div class="icon">
+                                            <i class="bx bx-scan"></i>
+                                        </div>
+                                        <h4 class="title">
+                                            <a href="">QR Code Scanning</a>
+                                        </h4>
+                                        <p class="description">Easily scan QR codes placed alongside artifacts to
+                                            instantly access detailed information about each piece.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 d-flex align-items-stretch" data-aos="zoom-in"
+                                    data-aos-delay="200">
+                                    <div class="icon-box">
+                                        <div class="icon">
+                                            <i class="bx bx-book"></i>
+                                        </div>
+                                        <h4 class="title">
+                                            <a href="">Digital Artifact Guide</a>
+                                        </h4>
+                                        <p class="description">Discover the history, significance, and cultural
+                                            background of the displayed items through comprehensive text descriptions.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-4 d-flex align-items-stretch" data-aos="zoom-in"
+                                    data-aos-delay="300">
+                                    <div class="icon-box">
+                                        <div class="icon">
+                                            <i class="bx bx-intersect"></i>
+                                        </div>
+                                        <h4 class="title">
+                                            <a href="">Interactive Museum Experience</a>
+                                        </h4>
+                                        <p class="description">Explore the museum at your own pace with an interactive
+                                            guide that enhances your learning experience</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Second row with 2 columns -->
+                                <div class="col-md-6 col-lg-6 d-flex align-items-stretch" data-aos="zoom-in"
+                                    data-aos-delay="400">
+                                    <div class="icon-box">
+                                        <div class="icon">
+                                            <i class="bx bx-mobile-alt"></i>
+                                        </div>
+                                        <h4 class="title">
+                                            <a href="">Mobile-Friendly Design</a>
+                                        </h4>
+                                        <p class="description">Navigate and interact with the museum’s resources
+                                            smoothly on any mobile device.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6 d-flex align-items-stretch" data-aos="zoom-in"
+                                    data-aos-delay="500">
+                                    <div class="icon-box">
+                                        <div class="icon">
+                                            <i class="bx bx-brain"></i>
+                                        </div>
+                                        <h4 class="title">
+                                            <a href="">Enhanced Learning Experience</a>
+                                        </h4>
+                                        <p class="description">Dive deeper into Igorot heritage with educational content
+                                            designed to enrich your visit.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- End Services Section -->
+                   <!-- ======= Portfolio Section ======= -->
             <section id="portfolio" class="portfolio">
               <div class="container">
                 <div class="section-title" data-aos="fade-up">
@@ -524,31 +549,45 @@
                 </div>
               </div>
             </section>
-
-          </main>
-          <!-- End #main -->
+                </main>
+                <!-- End #main -->
+            </div>
+            <!--End: Main-->
         </div>
-        <!--End: Main-->
-      </div>
-      <div id="footer">
-        <div class="container">
-          <div class="footer-logo-block">
-            <a href="https://www.facebook.com/slumuseum" class="footer-logo">
-              <img src="assets\img\logo.png" alt="Logo footer">
-            </a>
-            <p class="copyright" style="font-size: 15px">© 2024 SLU Museum of Igorot Cultures and Arts. All Rights Reserved.</p>
-          </div>
-          <div class="clearfix"></div>
+        <div id="footer">
+            <div class="container">
+                <div class="footer-logo-block">
+                    <a href="https://www.facebook.com/slumuseum" class="footer-logo">
+                        <img src="assets\img\logo.png" alt="Logo footer">
+                    </a>
+                    <p class="copyright" style="font-size: 15px">© 2024 SLU Museum of Igorot Cultures and Arts. All
+                        Rights Reserved.</p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
         </div>
-      </div>
     </div>
     </div>
+    <script defer>
+    const guestSession = getLocalStorageItem('guest');
+    if (guestSession) {
+        console.log("Guest logged in. Redirecting...");
+    } else {
+        alert("Not logged in. Redirected to Login.");
+        window.location.href = "index.php";
+    }
+    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js">
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async>
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js" async>
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
     <script type="text/javascript" src="res/js/client/about.js"></script>
-  </body>
+</body>
+
 </html>
