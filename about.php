@@ -1,9 +1,3 @@
-<?php
-session_start();
-if (is_null($_SESSION["guest"])) {
-  header("Location: ../index.php");
-}
-?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
