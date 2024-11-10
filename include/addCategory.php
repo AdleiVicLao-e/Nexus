@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $row = $result->fetch_assoc();
 
             if ($row['count'] > 0) {
-                $response['message'] = "Catalogue with this name already exists in this section";
+                $response['message'] = "Catalog with this name already exists in this section";
                 echo json_encode($response);
                 exit;
             } else {
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                 if ($stmt->execute()) {
 
-                    $response['message'] = "New catalogue added";
+                    $response['message'] = "New catalog added";
                     echo json_encode($response);
                     exit;
                 } else {
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $row = $result->fetch_assoc();
 
             if ($row['count'] > 0) {
-                $response['message'] = "Subcatalog with this name already exists in this catalogue";
+                $response['message'] = "Subcatalog with this name already exists in this catalog";
                 echo json_encode($response);
                 exit;
             } else {
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $stmt->bind_param("iis", $newSubcatalogId, $catalogueId, $newSubcatalogName);
 
                 if ($stmt->execute()) {
-                    $response['message'] = "New subcatalogue added";
+                    $response['message'] = "New subcatalog added";
                     echo json_encode($response);
                     exit;
                 } else {
