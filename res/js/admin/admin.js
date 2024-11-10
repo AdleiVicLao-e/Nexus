@@ -1,35 +1,3 @@
-//Testing
-function submitForm(action) {
-    const formData = new FormData(document.getElementById('category-form'));
-    formData.append('action', action);
-
-    fetch('../include/addCategory.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())  // Parse the response as JSON
-        .then(data => {
-            document.getElementById('overlayMessage').textContent = data.message;
-            showOverlay();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        });
-}
-
-function showOverlay() {
-    document.getElementById('messageOverlay').style.display = 'block';
-}
-
-function closeOverlay() {
-    console.log('closeOverlay triggered');
-    document.getElementById('messageOverlay').style.display = 'none';
-    setTimeout(() => {
-        location.reload();  // Using location.reload() as an alternative
-    }, 100);  // Small delay to ensure DOM is updated
-}
-
 // admin.js
 let selectedArtifact = null;
 let highlightedItem = null;
@@ -58,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.success) {
                         // Generate the QR code after successfully adding the artifact
                         generateQRCode(data.artifact_id, formData.get('artifact-name'));
+
+                        // Add the QR Code message, left-aligned
+                        const qrCodeMessage = '<p style="text-align:mid; margin-top: 10px;">QR Code generated</p>';
+                        document.getElementById('overlay-message').innerHTML += qrCodeMessage;
 
                         // Collect script content to update
                         const scriptContent = document.getElementById('script').value;
@@ -963,7 +935,7 @@ function updateScript(artifactId, artifactName, scriptContent) {
                     // Both Artifact and Script Updated Successfully
                     closeModal();
                     searchArtifact();
-                    alert('Artifact and script updated successfully.');
+                    // alert('Artifact and script updated successfully.');
                 } else {
                     // Handle Script Update Failure
                     alert('Artifact updated, but failed to update script: ' + responseScript.error);
@@ -1552,6 +1524,41 @@ function deleteSubcat() {
 
     // Append the overlay to the body
     document.body.appendChild(overlay);  
+}
+
+// -----------------------
+// Overlay Message Add Artifact Group
+// -----------------------
+
+function submitForm(action) {
+    const formData = new FormData(document.getElementById('category-form'));
+    formData.append('action', action);
+
+    fetch('../include/addCategory.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())  // Parse the response as JSON
+        .then(data => {
+            document.getElementById('overlayMessage').textContent = data.message;
+            showOverlay();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+}
+
+function showOverlay() {
+    document.getElementById('messageOverlay').style.display = 'block';
+}
+
+function closeOverlay() {
+    console.log('closeOverlay triggered');
+    document.getElementById('messageOverlay').style.display = 'none';
+    setTimeout(() => {
+        location.reload();  // Using location.reload() as an alternative
+    }, 100);  // Small delay to ensure DOM is updated
 }
 
 // -----------------------
