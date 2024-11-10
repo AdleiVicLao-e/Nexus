@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cleanliness_ambiance = $_POST['cleanliness'];
     $staff_service = $_POST['staff'];
     $overall_experience = $_POST['experience'];
-    $comments = $_POST['comments'];
+    $comments = htmlspecialchars($_POST['comments']);
 
     // Execute the query
     if ($stmt->execute()) {
