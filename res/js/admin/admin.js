@@ -497,37 +497,30 @@ function deleteSelectedArtifacts() {
         return;
     }
 
-
     // Get selected artifact IDs
     const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute('data-id'));
 
-    // Update the overlay message to show the number of selected artifacts
     const overlayMessage = `You have selected ${selectedIds.length} artifact(s). Do you want to delete them?`;
     document.getElementById('overlay-message-delete').textContent = overlayMessage;
 
-    // Show the delete confirmation overlay
     document.getElementById('overlay-delete-confirmation').style.display = 'block';
 
-    // Handle Cancel button action
     const cancelButton = document.getElementById('cancel-delete');
     cancelButton.onclick = function() {
-        // Close the delete confirmation overlay without reloading the page
         document.getElementById('overlay-delete-confirmation').style.display = 'none';
     }
 
-    // Handle Confirm Delete button action
     const confirmButton = document.getElementById('confirm-delete');
     confirmButton.onclick = function() {
-        // Perform deletion via AJAX
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '../include/deleteMultipleArtifacts.php', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function () {
             const response = JSON.parse(this.responseText);
             if (response.success) {
-                // Show success message in overlay
-                document.getElementById('overlay-message-success').textContent = response.message;
-                document.getElementById('overlay-success').style.display = 'block';
+                document.getElementById('overlay-message-success2').textContent = "Artifacts successfully deleted.";
+                document.getElementById('overlay-success2').style.display = 'block';
+
             } else {
                 alert(response.message);
             }
@@ -537,11 +530,14 @@ function deleteSelectedArtifacts() {
         };
         xhr.send(JSON.stringify({ ids: selectedIds, deleteMedia: true }));
 
-        // Hide the delete confirmation overlay after the action
+        document.getElementById('overlay-message-success2').textContent = `Successfully deleted ${selectedIds.length} artifact(s).`;
+        document.getElementById('overlay-success2').style.display = 'block';
+
         document.getElementById('overlay-delete-confirmation').style.display = 'none';
 
-        // Reload the page after confirmation
-        window.location.reload(); // Reload the page after successful deletion
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
     }
 }
 // -----------------------
@@ -584,7 +580,7 @@ function deleteArtifact(id) {
         xhr.onload = function () {
             const response = JSON.parse(this.responseText);
             if (response.success) {
-                alert(response.message);
+                showSuccessOverlay("Artifact successfully deleted.");
                 closeModal();
                 searchArtifact();
             } else {
@@ -602,10 +598,22 @@ function deleteArtifact(id) {
     };
 }
 
+function deleteArtifactOverlay(message) {
+    const successOverlay = document.getElementById('overlay-success2');
+    const successMessage = document.getElementById('overlay-message-success2');
+    successMessage.textContent = message;
+    successOverlay.style.display = 'block';
+}
 function closeOverlay2(event) {
     const overlay = document.getElementById('overlay2');
     overlay.style.display = 'none';
 }
+
+function closeOverlaySuccess() {
+    const successOverlay = document.getElementById('overlay-success2');
+    successOverlay.style.display = 'none';
+}
+
 
 document.getElementById('overlay2').onclick = function(event) {
     if (event.target === this) {
@@ -615,8 +623,17 @@ document.getElementById('overlay2').onclick = function(event) {
 
 document.getElementById('close-overlay2').addEventListener('click', function(event) {
     event.preventDefault();
-    closeOverlay(event);
+    closeOverlay3(event);
 });
+
+function closeOverlay3() {
+    console.log('closeOverlay triggered');
+    deleteArtifactOverlay("Artifact successfully deleted.");
+    setTimeout(() => {
+        location.reload();  // Using location.reload() as an alternative
+    }, 2000);  // Small delay to ensure DOM is updated
+}
+
 
 // Function to confirm deletion (optional, currently integrated within deleteArtifact)
 // function confirmDelete(id) {
