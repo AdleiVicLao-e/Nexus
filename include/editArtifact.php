@@ -7,11 +7,11 @@ $data = json_decode(file_get_contents("php://input"), true);
 // Validate input
 if (isset($data['id'], $data['name'], $data['section_id'], $data['description'])) {
     $id = $data['id'];
-    $name = $data['name'];
+    $name = htmlspecialchars(trim($data['name']), ENT_QUOTES, 'UTF-8'); // Sanitize the 'name' input
     $sectionId = $data['section_id'];
     $catalogId = isset($data['catalog_id']) && is_numeric($data['catalog_id']) ? $data['catalog_id'] : 0; // Handle null case
     $subcatalogId = isset($data['subcatalog_id']) && is_numeric($data['subcatalog_id']) ? $data['subcatalog_id'] : 0; // Handle null case
-    $description = $data['description'];
+    $description = htmlspecialchars(trim($data['description']), ENT_QUOTES, 'UTF-8'); // Sanitize the 'description' input
 
     // Prepare and execute the update query
     $query = "

@@ -1,6 +1,5 @@
 <?php
 include 'artifact-db.php';
-
 // Get input values and trim whitespace
 $artifactName = trim($_POST['artifact-name']);
 $sectionId = $_POST['section'];
@@ -8,6 +7,10 @@ $catalogId = isset($_POST['catalog']) && $_POST['catalog'] !== '' ? $_POST['cata
 $subCatalogId = isset($_POST['sub-catalog']) && $_POST['sub-catalog'] !== '' ? $_POST['sub-catalog'] : 0;
 $description = trim($_POST['description']);
 $condition = trim($_POST['condition']);
+
+$artifactName = htmlspecialchars($artifactName, ENT_QUOTES, 'UTF-8');
+$description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
+$condition = htmlspecialchars($condition, ENT_QUOTES, 'UTF-8');
 
 // Validate inputs
 if (empty($artifactName) || empty($description) || empty($condition)) {

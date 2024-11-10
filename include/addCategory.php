@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 exit;
             }
 
+            $newSectionTitle = htmlspecialchars($newSectionTitle, ENT_QUOTES, 'UTF-8');
+
             // Check if the section name already exists
             $checkQuery = "SELECT COUNT(*) AS count FROM section WHERE section_name = ?";
             $stmt = $mysqli->prepare($checkQuery);
@@ -62,6 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 exit;
             }
 
+            $newCatalogName = htmlspecialchars($newCatalogName, ENT_QUOTES, 'UTF-8');
+
+
             // Check if the catalog name already exists in this section
             $checkQuery = "SELECT COUNT(*) AS count FROM catalogue WHERE catalogue_name = ? AND section_id = ?";
             $stmt = $mysqli->prepare($checkQuery);
@@ -107,6 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 echo json_encode($response);
                 exit;
             }
+
+            $newSubcatalogName = htmlspecialchars($newSubcatalogName, ENT_QUOTES, 'UTF-8');
 
             // Check if the subcatalog name already exists in this catalog
             $checkQuery = "SELECT COUNT(*) AS count FROM subcatalogue WHERE subcat_name = ? AND catalogue_id = ?";

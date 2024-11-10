@@ -5,6 +5,8 @@ include 'artifact-db.php';
 $catalogId = $_POST['id'];
 $newCatalogName = $_POST['newName'];
 
+$newCatalogName = htmlspecialchars(trim($newCatalogName), ENT_QUOTES, 'UTF-8');
+
 $stmt = $mysqli->prepare("UPDATE catalogue SET catalogue_name = ? WHERE catalogue_id = ?");
 $stmt->bind_param("si", $newCatalogName, $catalogId);
 // Execute the delete statement and check for success/failure

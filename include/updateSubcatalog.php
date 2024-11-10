@@ -5,6 +5,8 @@ include 'artifact-db.php';
 $subcatalogId = $_POST['id'];
 $newSubcatalogName = $_POST['newName'];
 
+$newSubcatalogName = htmlspecialchars(trim($newSubcatalogName), ENT_QUOTES, 'UTF-8');
+
 $stmt = $mysqli->prepare("UPDATE subcatalogue SET subcat_name = ? WHERE subcat_id = ?");
 $stmt->bind_param("si", $newSubcatalogName, $subcatalogId);
 // Execute the delete statement and check for success/failure
