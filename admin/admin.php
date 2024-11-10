@@ -163,6 +163,40 @@ if (isset($_SESSION["admin"])) {
                     <div id="search-results"></div>
                 </div>
 
+                <div id="overlay-success"
+                     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+                    <div
+                            style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+                        <p id="overlay-message-success"></p>
+                        <button id="close-overlay-success">Okay</button>
+                    </div>
+                </div>
+
+                <div id="overlay2"
+                     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+                    <div
+                            style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+                        <p id="overlay-message2"></p>
+                        <button id="close-overlay2">Okay</button>
+                        <button onclick="closeOverlay2()">Cancel</button> <!-- Cancel button -->
+                    </div>
+                </div>
+
+                <div id="overlay-delete-confirmation" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+                        <p id="overlay-message-delete"></p>
+                        <button id="confirm-delete">Confirm Delete</button>
+                        <button id="cancel-delete">Cancel</button>
+                    </div>
+                </div>
+
+                <div id="overlay-no-selection" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+                        <p id="overlay-message-no-selection"></p>
+                        <button id="close-overlay-no-selection">Okay</button>
+                    </div>
+                </div>
+
                 <!-- Edit Popup Window -->
                 <div id="edit-modal" class="modal">
                     <div class="modal-content">
@@ -172,6 +206,7 @@ if (isset($_SESSION["admin"])) {
                             <input type="hidden" id="artifact-id" name="artifact-id">
                             <label for="artifact-id">Artifact ID:</label>
                             <span id="artifact-id-display"></span>
+                            <br>
                             <br>
                             <label for="editName">Name:</label>
                             <input type="text" id="editName" name="name">

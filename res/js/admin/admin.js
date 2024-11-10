@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const qrCodeMessage = '<p style="text-align:mid; margin-top: 10px;">QR Code generated</p>';
                         document.getElementById('overlay-message').innerHTML += qrCodeMessage;
 
+
                         // Collect script content to update
                         const scriptContent = document.getElementById('script').value;
 
@@ -306,6 +307,11 @@ function toggleEditButton(item, listItem) {
     const deleteButton = document.getElementById('delete-button');
     const printButton = document.getElementById('print-button');
 
+    // Populate the fields in the modal with selected artifact's data
+    document.getElementById('artifact-id-display').textContent = item['ID'];  // Artifact ID
+    document.getElementById('artifact-id').value = item['ID'];  // Hidden field
+    document.getElementById('editName').value = item['Name'];  // Name field
+
 
     if (selectedArtifact && selectedArtifact['ID'] === item['ID']) {
         selectedArtifact = null;
@@ -476,27 +482,52 @@ function updateSubCatalogOptions(catalogId) {
 }
 
 
-
-
 // Function to delete selected artifacts (multi-select)
 function deleteSelectedArtifacts() {
     const selectedCheckboxes = document.querySelectorAll('.artifact-checkbox:checked');
     if (selectedCheckboxes.length === 0) {
-        alert('No artifacts selected.');
+        const overlayMessage = 'No artifacts selected. Please select one or more artifacts to delete.';
+        document.getElementById('overlay-message-no-selection').textContent = overlayMessage;
+        document.getElementById('overlay-no-selection').style.display = 'block';
+
+        document.getElementById('close-overlay-no-selection').onclick = function() {
+            document.getElementById('overlay-no-selection').style.display = 'none';
+        };
+
         return;
     }
 
+
+    // Get selected artifact IDs
     const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute('data-id'));
 
-    if (confirm(`Are you sure you want to delete ${selectedIds.length} artifact(s)?`)) {
+    // Update the overlay message to show the number of selected artifacts
+    const overlayMessage = `You have selected ${selectedIds.length} artifact(s). Do you want to delete them?`;
+    document.getElementById('overlay-message-delete').textContent = overlayMessage;
+
+    // Show the delete confirmation overlay
+    document.getElementById('overlay-delete-confirmation').style.display = 'block';
+
+    // Handle Cancel button action
+    const cancelButton = document.getElementById('cancel-delete');
+    cancelButton.onclick = function() {
+        // Close the delete confirmation overlay without reloading the page
+        document.getElementById('overlay-delete-confirmation').style.display = 'none';
+    }
+
+    // Handle Confirm Delete button action
+    const confirmButton = document.getElementById('confirm-delete');
+    confirmButton.onclick = function() {
+        // Perform deletion via AJAX
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '../include/deleteMultipleArtifacts.php', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function () {
             const response = JSON.parse(this.responseText);
             if (response.success) {
-                alert(response.message);
-                searchArtifact();
+                // Show success message in overlay
+                document.getElementById('overlay-message-success').textContent = response.message;
+                document.getElementById('overlay-success').style.display = 'block';
             } else {
                 alert(response.message);
             }
@@ -505,9 +536,14 @@ function deleteSelectedArtifacts() {
             alert('An error occurred while deleting artifacts.');
         };
         xhr.send(JSON.stringify({ ids: selectedIds, deleteMedia: true }));
+
+        // Hide the delete confirmation overlay after the action
+        document.getElementById('overlay-delete-confirmation').style.display = 'none';
+
+        // Reload the page after confirmation
+        window.location.reload(); // Reload the page after successful deletion
     }
 }
-
 // -----------------------
 // Single Selected Artifact Functionalities
 // -----------------------
@@ -534,38 +570,60 @@ function openModal(item) {
 
 // Function to delete a single artifact
 function deleteArtifact(id) {
-    // Confirm deletion with the user
-    confirmDelete = confirm("Are you sure you want to delete this artifact?");
-    if (!confirmDelete) return; // Exit if the user cancels
+    const overlay = document.getElementById('overlay2');
+    const overlayMessage = document.getElementById('overlay-message2');
+    const closeOverlayButton = document.getElementById('close-overlay2');
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('DELETE', '../include/deleteArtifact.php', true); // Ensure this is the correct endpoint
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function () {
-        const response = JSON.parse(this.responseText);
-        if (response.success) {
-            alert(response.message); // Show success message
-            closeModal(); // Close the modal
-            searchArtifact(); // Refresh the search results
-        } else {
-            alert(response.message); // Show error message
-        }
-    };
-    xhr.onerror = function () {
-        alert('An error occurred while deleting the artifact.');
-    };
+    overlayMessage.textContent = "Are you sure you want to delete this artifact?";
+    overlay.style.display = 'block';
 
-    // Send the ID of the artifact to delete
-    const data = { id: id, deleteMedia: true }; // Also indicate media should be deleted
-    xhr.send(JSON.stringify(data));
+    closeOverlayButton.onclick = function() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('DELETE', '../include/deleteArtifact.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            const response = JSON.parse(this.responseText);
+            if (response.success) {
+                alert(response.message);
+                closeModal();
+                searchArtifact();
+            } else {
+                alert(response.message);
+            }
+        };
+        xhr.onerror = function () {
+            alert('An error occurred while deleting the artifact.');
+        };
+
+        const data = { id: id, deleteMedia: true };
+        xhr.send(JSON.stringify(data));
+
+        overlay.style.display = 'none';
+    };
 }
+
+function closeOverlay2(event) {
+    const overlay = document.getElementById('overlay2');
+    overlay.style.display = 'none';
+}
+
+document.getElementById('overlay2').onclick = function(event) {
+    if (event.target === this) {
+        closeOverlay2(event);
+    }
+};
+
+document.getElementById('close-overlay2').addEventListener('click', function(event) {
+    event.preventDefault();
+    closeOverlay(event);
+});
 
 // Function to confirm deletion (optional, currently integrated within deleteArtifact)
-function confirmDelete(id) {
-    if (confirm("Are you sure you want to delete this artifact?")) {
-        deleteArtifact(id);
-    }
-}
+// function confirmDelete(id) {
+//     if (confirm("Are you sure you want to delete this artifact?")) {
+//         deleteArtifact(id);
+//     }
+// }
 
 // Function to fetch Sections for the edit modal
 function fetchSections(selectedSectionName, callback) {
@@ -827,6 +885,8 @@ function saveChanges() {
                     }
                     updateArtifactMedia(id, sectionId, catalogId, subcatalogId, name);
                     updateQRCode(id, name);
+                    // Show success overlay message
+                    showSuccessOverlay("Your changes have been successfully saved!");
                 } else {
                     // Handle Artifact Update Failure
                     console.log(`Artifact Update Failed: ID=${id}, Response Message=${responseArtifact.message}, Invalid Fields=${JSON.stringify(responseArtifact.invalidFields)}`);
@@ -847,6 +907,23 @@ function saveChanges() {
 
     // Send Artifact Data
     xhrArtifact.send(JSON.stringify(artifactData));
+}
+
+function showSuccessOverlay(message) {
+    const overlay = document.getElementById('overlay-success');
+    const overlayMessage = document.getElementById('overlay-message-success');
+    const closeButton = document.getElementById('close-overlay-success');
+
+    // Set the message in the overlay
+    overlayMessage.textContent = message;
+
+    // Show the overlay
+    overlay.style.display = 'block';
+
+    // Close overlay on Okay button click
+    closeButton.onclick = function () {
+        overlay.style.display = 'none';
+    };
 }
 function updateArtifactMedia(artifactId, sectionId, catalogId, subcatalogId, artifactName) {
     // Construct the filename based on the IDs
