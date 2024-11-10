@@ -600,14 +600,14 @@ if (isset($_SESSION["admin"])) {
                                     label: 'User Count by School',
                                     data: data.counts,
                                     backgroundColor: ["#ea5545",
-                                        "#f46a9b",
-                                        "#ef9b20",
-                                        "#edbf33",
+                                        "#FFC400",
+                                        "#F46A9B",
+                                        "#FF1900",
                                         "#ede15b",
                                         "#bdcf32",
                                         "#87bc45",
                                         "#27aeef",
-                                        "#b33dc6", // Color 9
+                                        "#656565", // Color 9
                                         "#c94800", "#22beb6", "#727900"
                                     ],
                                     borderColor: 'white',
