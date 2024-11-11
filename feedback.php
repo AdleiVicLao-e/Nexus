@@ -1,43 +1,3 @@
-<?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "user";
-
-$connection = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
-
-// Process form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Prepare and bind
-    $stmt = $connection->prepare("INSERT INTO feedback (date, quality_presentation, cleanliness_ambiance, staff_service, overall_experience, comments) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $date, $quality_presentation, $cleanliness_ambiance, $staff_service, $overall_experience, $comments);
-
-    // Set parameters
-    $date = $_POST['date'];
-    $quality_presentation = $_POST['exhibits'];
-    $cleanliness_ambiance = $_POST['cleanliness'];
-    $staff_service = $_POST['staff'];
-    $overall_experience = $_POST['experience'];
-    $comments = htmlspecialchars($_POST['comments']);
-
-    // Execute the query
-    if ($stmt->execute()) {
-        echo "";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-    $connection->close();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -113,12 +73,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="feedback-form">
             <h2>Museum Feedback Form</h2>
-            <form action="#" method="post" onsubmit="showThankYouMessage(event)">
+            <form onsubmit="showThankYouMessage(event)">
 
-                <!-- Date Field -->
+                <br>
                 <div class="form-group">
-                    <label for="date">Date:</label><br>
-                    <input type="date" id="date" name="date" required>
+                    <h2>Museum Feedback Form</h2>
                 </div>
 
                 <!-- Quality/Presentation of Exhibits -->
@@ -184,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Comments, Questions, or Suggestions -->
                 <div class="form-group">
                     <label for="comments">Comments, Questions, or Suggestions:</label><br>
-                    <textarea id="comments" name="comments" placeholder="Enter your feedback here..."></textarea>
+                    <textarea id="comments" name="comments" placeholder="Enter your feedback here..." required></textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -198,6 +157,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div id="thankYouMessage" class="thank-you-message" style="display:none;">
             <img src="/assets/img/thanks.png" alt="Descriptive text" class="responsive-image">
             <h3>Thank you for your feedback!</h3>
+        </div>
+
+        <!-- Success Overlay -->
+        <div id="overlay-success"
+             style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+                <p id="overlay-message-success"></p>
+            </div>
         </div>
 
         <div id="footer" style="height:200px">
@@ -214,17 +181,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('date').value = today;
-    });
-
-    // Show thank you message after form submission
-    function showThankYouMessage(event) {
-        alert('Thank you! Your feedback has been successfully submitted.');
-    }
-    </script>
     <script defer>
     const guestSession = getLocalStorageItem('guest');
     if (guestSession) {
@@ -245,6 +201,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
     <script type="text/javascript" src="res/js/client/about.js"></script>
+    <script src="res/js/scripts.js"></script>
 </body>
-
 </html>

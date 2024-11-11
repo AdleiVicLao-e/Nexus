@@ -1,33 +1,32 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "user";
+// Database connection
+include 'user-db.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+// Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $rating = ucfirst($_POST['rating']);
-    $message = $_POST['message'];
 
-    $sql = "SELECT MAX(feedbackId) AS maxId FROM feedback";
-    $result = $conn->query($sql);
-    $row = $result->fetch_assoc();
+    $result = $conn->query("SELECT MAX(feedbackId) AS last_id FROM feedback");
+    $lastId = $result->fetch_assoc()['last_id'];
 
-    $newFeedbackId = is_null($row['maxId']) ? 1 : $row['maxId'] + 1;
+    $feedbackId = $lastId ? $lastId + 1 : 1;
 
-    $sql = "INSERT INTO feedback (feedbackId, rating, message) VALUES ('$newFeedbackId', '$rating', '$message')";
+    $stmt = $conn->prepare("INSERT INTO feedback (feedbackId, date, quality_presentation, cleanliness_ambiance, staff_service, overall_experience, comments) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issssss", $feedbackId, $date, $quality_presentation, $cleanliness_ambiance, $staff_service, $overall_experience, $comments);
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Feedback submitted successfully!'); window.location.href='../feedback.php';</script>";
+    $date = $_POST['date'];
+    $quality_presentation = $_POST['exhibits'];
+    $cleanliness_ambiance = $_POST['cleanliness'];
+    $staff_service = $_POST['staff'];
+    $overall_experience = $_POST['experience'];
+    $comments = htmlspecialchars($_POST['comments']);
+
+    if ($stmt->execute()) {
+        echo "success";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 
+    $stmt->close();
     $conn->close();
 }
 ?>
