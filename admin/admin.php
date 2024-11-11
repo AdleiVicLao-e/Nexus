@@ -577,8 +577,8 @@ if (isset($_SESSION["admin"])) {
 
                                     // Edit and Delete buttons
                                     echo '<div style="margin-left: 10px;">';
-                                    echo '<button onclick="selectMedia(' . $row["id"] . ')">Edit</button> ';
-                                    echo '<button onclick="deleteMedia(' . $row["id"] . ')">Delete</button>';
+                                    echo '<button id="saveBtn" onclick="selectMedia(' . $row["id"] . ')">Edit</button> ';
+                                    echo '<button id="delBtn" onclick="deleteMedia(' . $row["id"] . ')">Delete</button>';
                                     echo '</div>'; // End of buttons container
                                     echo '</li>'; // End of the list item
                                 }

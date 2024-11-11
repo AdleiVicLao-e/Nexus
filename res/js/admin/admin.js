@@ -1196,9 +1196,11 @@ function updateMedia() {
         .then(data => {
             console.log('Response from server:', data);
             if (data.success) {
-                alert("Update successful: " + data.message);
+                alert(data.message + ".\nMedia ID: " + mediaId + "\nNew Title: " + newTitle + "\nNew Description: " + newDescription);
+                location.reload();
             } else {
-                alert("Update failed: " + data.message);
+                alert(data.message  + ".\nMedia ID: " + mediaId);
+                location.reload();
             }
         })
         .catch(error => {
@@ -1208,32 +1210,95 @@ function updateMedia() {
 }
 
 function deleteMedia(id) {
-    // Send the data to the server using fetch
-    fetch('../include/deleteMedia.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded', 
-        },
-        body: new URLSearchParams({ 'id': id }) 
-    })
-    .then(response => response.json()) 
-    .then(data => {
-        if (data.success) {
-            // Alert for successful deletion
-            alert("Delete successful, ID: " + id);
-        } else {
-            // Alert for failed deletion
-            alert("Delete failed. ID: " + id + ". Error: " + data.message);
-        }
-        location.reload();
-    })
-    .catch(error => {
-        console.log(error);
-    });
+    var mediaDiv = document.getElementById(id);
+    var mediaTitle = mediaDiv.childNodes[1];
+    // Create the main overlay container
+    var overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    overlay.style.display = 'block'; // Initially hidden
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    overlay.style.zIndex = '1000';
 
-    // Hide the popup
-    var popup = document.getElementById('edit-media-popup');
-    popup.style.display = 'none';
+    // Create the inner content container
+    var innerContainer = document.createElement('div');
+    innerContainer.style.position = 'absolute';
+    innerContainer.style.top = '50%';
+    innerContainer.style.left = '50%';
+    innerContainer.style.transform = 'translate(-50%, -50%)';
+    innerContainer.style.background = 'white';
+    innerContainer.style.padding = '20px';
+    innerContainer.style.borderRadius = '5px';
+    innerContainer.style.textAlign = 'center';
+
+    // Create the overlay message paragraph
+    var message = document.createElement('h3');
+    message.id = 'overlay-message';
+    message.innerHTML = 'Confirm Deletion';
+    var mediaId = document.createElement('p');
+    mediaId.innerHTML = "Media ID: " + id;
+    var mediaName = document.createElement('p');
+    mediaName.innerHTML = "Media " + mediaTitle.innerHTML;
+
+    innerContainer.appendChild(message);
+    innerContainer.appendChild(mediaId);
+    innerContainer.appendChild(mediaName);
+
+    // Create the "Cancel" button
+    var cancelButton = document.createElement('button');
+    cancelButton.id = 'delBtn';
+    cancelButton.class = 'btn';
+    cancelButton.textContent = 'Cancel';
+    cancelButton.onclick = function() {
+        // Simply hide the overlay when canceled
+        overlay.style.display = 'none';
+    };
+    innerContainer.appendChild(cancelButton);
+
+    // Create the "Confirm" button
+    var confirmButton = document.createElement('button');
+    confirmButton.id = 'saveBtn';
+    confirmButton.class = 'btn';
+    confirmButton.textContent = 'Confirm';
+    confirmButton.onclick = function() {
+        // Send the data to the server using fetch
+        fetch('../include/deleteMedia.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            },
+            body: new URLSearchParams({ 'id': id }) 
+        })
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.success) {
+                // Alert for successful deletion
+                alert("Delete successful, ID: " + id);
+            } else {
+                // Alert for failed deletion
+                alert("Delete failed. ID: " + id + ". Error: " + data.message);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+        // Hide the popup
+        var popup = document.getElementById('edit-media-popup');
+        popup.style.display = 'none';
+    };
+    innerContainer.appendChild(confirmButton);
+
+    // Append the inner content container to the overlay
+    overlay.appendChild(innerContainer);
+
+    // Append the overlay to the body
+    document.body.appendChild(overlay);  
 }
 
 // Edit and Delete Section, Catalog, Subcatalog
@@ -1664,43 +1729,3 @@ function closeOverlay() {
 // -----------------------
 // End of admin.js
 // -----------------------
-
-
-// Function to fetch artifact options
-// function fetchArtifactOptions() {
-//     fetch('include/get.php')
-//         .then(response => response.json())
-//         .then(data => {
-//             // Populate the section select
-//             let sectionSelect = document.getElementById('section');
-//             sectionSelect.innerHTML = '<option value="create_section">Create Section</option>';
-//             data.sections.forEach(section => {
-//                 let option = document.createElement('option');
-//                 option.value = section.section_id;
-//                 option.textContent = section.section_name;
-//                 sectionSelect.appendChild(option);
-//             });
-//
-//             // Populate the catalogue select
-//             let catalogueSelect = document.getElementById('catalog');
-//             catalogueSelect.innerHTML = '<option value="create_catalog">Create Catalog</option>';
-//             data.catalogues.forEach(catalogue => {
-//                 let option = document.createElement('option');
-//                 option.value = catalogue.catalogue_id;
-//                 option.textContent = catalogue.catalogue_name;
-//                 catalogueSelect.appendChild(option);
-//             });
-//
-//             // Populate the subcatalogue select
-//             let subcatalogueSelect = document.getElementById('sub-catalog');
-//             subcatalogueSelect.innerHTML = '<option value="create_subcatalog">Create Sub Catalog</option>';
-//             data.subcatalogues.forEach(subcatalogue => {
-//                 let option = document.createElement('option');
-//                 option.value = subcatalogue.subcat_id;
-//                 option.textContent = subcatalogue.subcat_name;
-//                 subcatalogueSelect.appendChild(option);
-//             });
-//         })
-//         .catch(error => console.error('Error fetching options:', error));
-// }
-// document.addEventListener("DOMContentLoaded", fetchArtifactOptions);
