@@ -2,7 +2,7 @@
 include 'user-db.php';
 
 // SQL query to fetch data from user_log table
-$sql = "SELECT user_number, user_name, user_school, time FROM user_log";
+$sql = "SELECT user_number, user_name, user_school, time FROM user_log ORDER BY user_number ASC";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

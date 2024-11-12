@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "user";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'user-db.php';
 
 // Updated SQL query to select all relevant fields
 $sql = "SELECT date, quality_presentation, cleanliness_ambiance, staff_service, overall_experience, comments FROM feedback";

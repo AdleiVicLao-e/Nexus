@@ -57,21 +57,7 @@ if (isset($_SESSION["admin"])) {
             <h3 class="dashboardTitle" style="margin-left: 30px;"> Admin Dashboard</h3>
         </div>
         <div class="greetings" style="display: flex; align-items: center; margin-left:-30px">
-            <div style="position: relative; margin-right: 30px;">
-                <i class="fas fa-bell" style="font-size: 20px; cursor: pointer;" aria-label="Notifications"
-                    onclick="toggleNotifications()"></i>
-                <span
-                    style="position: absolute; top: -5px; right: -10px; width: 10px; height: 10px; background-color: red; border-radius: 50%; display: block;"></span>
-                <div id="notificationPopup"
-                    style="display: none; position: absolute; right: 0; top: 25px; background: white; border: 1px solid #ccc; border-radius: 5px; width: 250px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); z-index: 10;">
-                    <div style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ccc; color: black;">Notifications</div>
-                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
-                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
-                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
-                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
-                    <div style="padding: 10px; cursor: pointer; color: black;">New feedback received</div>
-                </div>
-            </div>
+
             <img src="../res/images/user-image.png" alt="User Icon" aria-hidden="true">
             <div class="greeting" style="margin-right: 10px;">
                 <div id="admin-name" class="curator"></div>
@@ -89,7 +75,6 @@ if (isset($_SESSION["admin"])) {
                 <h3>Visitor by School</h3>
                 <canvas id="donutChart" width="1000" height="300"></canvas>
                 <h3>Visitor Log Book</h3>
-                <input type="text" name="datefilter" value="" placeholder="Choose Date Range" />
                 <div id="userTableContainer">
                     <table id="visitorAnalyticsTable">
                         <thead>
@@ -105,8 +90,7 @@ if (isset($_SESSION["admin"])) {
                         </tbody>
                     </table>
                 </div>
-
-                <button id="refreshBtn">Refresh Data</button>
+                <br>
                 <div class="feedbackSection">
                     <br>
                     <div class="card-head-row card-tools-still-right">
@@ -610,7 +594,6 @@ if (isset($_SESSION["admin"])) {
         <script>
         document.addEventListener("DOMContentLoaded", function() {
             const userTableContainer = document.getElementById("userTableContainer");
-            const refreshBtn = document.getElementById("refreshBtn");
             // Function to fetch and display user data
             function fetchUserData() {
                 const xhr = new XMLHttpRequest();
@@ -629,7 +612,7 @@ if (isset($_SESSION["admin"])) {
                 };
                 xhr.send();
             }
-            async function fetchData() {
+            async function fetchChartData() {
                 try {
                     const response = await fetch('../include/chart.php'); // Adjust the path
                     const data = await response.json();
@@ -644,7 +627,12 @@ if (isset($_SESSION["admin"])) {
                         });
 
                         const ctx = document.getElementById('donutChart').getContext('2d');
-                        const donutChart = new Chart(ctx, {
+
+                        if (window.donutChartInstance) {
+                            window.donutChartInstance.destroy();
+                        }
+
+                        window.donutChartInstance = new Chart(ctx, {
                             type: 'doughnut',
                             data: {
                                 labels: labelsWithPercentages, // Use labels with percentages
@@ -721,12 +709,20 @@ if (isset($_SESSION["admin"])) {
                 }
             }
 
-            fetchData();
+            function updateVisitorLog() {
+                fetchUserData();  // Update user data table
+            }
 
-            // Event listener for refresh button
-            refreshBtn.addEventListener("click", fetchUserData);
-            // Fetch user data on initial load
-            fetchUserData();
+            function updateChartData() {
+                fetchChartData();  // Update chart data
+            }
+
+            updateVisitorLog();
+            updateChartData();
+            setInterval(updateVisitorLog, 5000); // 5000ms = 5 seconds for visitor log updates
+            setInterval(updateChartData, 3600000); // 3600000ms = 1 hour for chart updates
+
+
             // Function to fetch section data for a dropdown
             function fetchSectionData() {
                 fetch('../include/get.php') // Adjust the path if necessary
@@ -879,15 +875,23 @@ if (isset($_SESSION["admin"])) {
         }
         </script>
         <script>
-        // Load feedback when the page is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('../include/getFeedback.php')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('feedback-table-body').innerHTML = data;
-                })
-                .catch(error => console.error('Error fetching feedback:', error));
-        });
+            // Function to fetch feedback data
+            function fetchFeedback() {
+                fetch('../include/getFeedback.php')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('feedback-table-body').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error fetching feedback:', error));
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                fetchFeedback();
+
+                // Set interval to check for new feedback every 3 seconds
+                setInterval(fetchFeedback, 3000); // 3000ms = 3 seconds
+            });
+        </script
         </script>
         <script>
         // Initially hide all buttons

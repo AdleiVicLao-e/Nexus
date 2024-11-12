@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "user";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'user-db.php';
 
 // Allowed schools list
 $allowed_schools = [
@@ -52,13 +41,13 @@ if ($result->num_rows > 0) {
     exit;
 }
 
-$conn->close();
-
 // Prepare data for JSON output
 $data = [
     'schools' => $schools,
     'counts' => $counts
 ];
+
+$conn->close();
 
 // Output JSON data
 header('Content-Type: application/json');
