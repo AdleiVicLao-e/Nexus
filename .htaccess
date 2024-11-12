@@ -1,0 +1,10 @@
+RewriteEngine On
+# Enable URL rewriting
+
+# Map '/kultoura' to 'admin/admin-login.php'
+RewriteRule ^kultoura$ /admin/admin-login.php [L]
+
+# Redirect to '404.html' if the file or folder does not exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /404.html [L]
