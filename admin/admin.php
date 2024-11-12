@@ -112,6 +112,24 @@ if (isset($_SESSION["admin"])) {
                                 </tbody>
                             </table>
                         </div>
+                        <br>
+                        <!-- Feedback Summary Section -->
+                        <div class="feedback-summary">
+                            <div class="card-title">Feedback Summary</div>
+                            <table class="table align-items-center mb-0">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="text-end">Category</th>
+                                    <th scope="col" class="text-end">Excellent</th>
+                                    <th scope="col" class="text-end">Good</th>
+                                    <th scope="col" class="text-end">Average</th>
+                                    <th scope="col" class="text-end">Dissatisfied</th>
+                                </tr>
+                                </thead>
+                                <tbody id="feedback-summary-body">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -885,13 +903,38 @@ if (isset($_SESSION["admin"])) {
                     .catch(error => console.error('Error fetching feedback:', error));
             }
 
+            // Function to fetch feedback summary data
+            function fetchFeedbackSummary() {
+                fetch('../include/getFeedbackSummary.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        let summaryHTML = '';
+                        data.forEach(summary => {
+                            summaryHTML += `
+                        <tr>
+                            <td class="text-end">${summary.category}</td>
+                            <td class="text-end">${summary.excellent}</td>
+                            <td class="text-end">${summary.good}</td>
+                            <td class="text-end">${summary.average}</td>
+                            <td class="text-end">${summary.dissatisfied}</td>
+                        </tr>
+                    `;
+                        });
+                        document.getElementById('feedback-summary-body').innerHTML = summaryHTML;
+                    })
+                    .catch(error => console.error('Error fetching feedback summary:', error));
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
                 fetchFeedback();
+                fetchFeedbackSummary();
 
                 // Set interval to check for new feedback every 3 seconds
                 setInterval(fetchFeedback, 3000); // 3000ms = 3 seconds
+                setInterval(fetchFeedbackSummary, 3000); // 3000ms = 3 seconds
+
             });
-        </script
+        </script>
         </script>
         <script>
         // Initially hide all buttons
