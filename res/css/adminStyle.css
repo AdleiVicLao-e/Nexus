@@ -1033,6 +1033,24 @@ canvas {
 	background-color: #fff;
 }
 
+/* Table container styling */
+.table-responsive {
+    width: 300px; /* Fixed width */
+    max-height: 400px; /* Optional: Limit the height to show a vertical scrollbar */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
+/* Ensure table takes full width of the container */
+.table {
+    width: 100%; /* Table will fit the width of the container */
+    min-width: 600px; /* Optional: Set minimum width to force horizontal scrolling */
+    box-sizing: border-box;
+}
+
+
 thead th {
     position: sticky;
     top: 0;  /* Stick the header at the top */

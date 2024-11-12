@@ -116,19 +116,21 @@ if (isset($_SESSION["admin"])) {
                         <!-- Feedback Summary Section -->
                         <div class="feedback-summary">
                             <div class="card-title">Feedback Summary</div>
-                            <table class="table align-items-center mb-0">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th scope="col" class="text-end">Category</th>
-                                    <th scope="col" class="text-end">Excellent</th>
-                                    <th scope="col" class="text-end">Good</th>
-                                    <th scope="col" class="text-end">Average</th>
-                                    <th scope="col" class="text-end">Dissatisfied</th>
-                                </tr>
-                                </thead>
-                                <tbody id="feedback-summary-body">
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="text-end">Category</th>
+                                        <th scope="col" class="text-end">Excellent</th>
+                                        <th scope="col" class="text-end">Good</th>
+                                        <th scope="col" class="text-end">Average</th>
+                                        <th scope="col" class="text-end">Dissatisfied</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="feedback-summary-body">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
