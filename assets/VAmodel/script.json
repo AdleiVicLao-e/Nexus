@@ -224,9 +224,13 @@
             "artifact_name": "Akelshang \/ Ageldang",
             "script": "The Akleshang \/ Ageldang is a type of zither or lute that is often played in social gatherings. It is usually made from a single piece of bamboo with five to seven strings that are raised slightly from the body which is plucked like a harp. It's body serves a resonator that amplifies the sound.  "
         },
-        "1295": {
-            "artifact_name": "jieben",
-            "script": "asd"
+        "105": {
+            "artifact_name": "Gangsa 1 (set of 4)",
+            "script": "Gangsa is traditionally played by men as part of the ritual cleansing process for warriors before and after taking a head in battle. Over time, the practice of headhunting became less common. As a result, the gangsa began to be played more during community gatherings and celebrations."
+        },
+        "116": {
+            "artifact_name": "Solibao 1",
+            "script": "The salibaw is a traditional percussion musical instrument used for cultural and ceremonial celebrations among the Cordillera tribes. This is often made of bamboo or wood, which produces a resonant sound when struck. "
         }
     }
 }
