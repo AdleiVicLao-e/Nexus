@@ -86,7 +86,7 @@
 
         <!--Begin: Related-->
         <div class="container">
-            <?php
+        <?php
         include 'include/artifact-db.php';
 
         // Fetch video details from the database
@@ -105,18 +105,19 @@
                 <div style="margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; margin-top: 30px;">
                     <h2 style="font-size: 24px; color: #333; margin-bottom: 10px; margin-top: 10px;">' . htmlspecialchars($title) . '</h2>
                     <p style="font-size: 16px; color: #666; margin-bottom: 15px; margin-top: 10px;">' . htmlspecialchars($description) . '</p>
-                    <video id="video-player" autoplay muted playsinline style="width: 100%; max-width: 600px; border-radius: 5px;" poster="' . htmlspecialchars($posterPath) . '">
-                    <source src="' . htmlspecialchars($videoPath) . '" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                    <video id="video-player" controls autoplay muted playsinline style="width: 100%; max-width: 600px; border-radius: 5px;" poster="' . htmlspecialchars($posterPath) . '">
+                        <source src="' . htmlspecialchars($videoPath) . '" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>';
             }
         } else {
             echo '<p>No videos available.</p>';
         }
-
-        $mysqli->close();
-        ?>
+            // Close the database connection
+            $mysqli->close();
+            ?>
+        </div>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -149,78 +150,7 @@
     </div>
 
     <script>
-    document.querySelectorAll('video').forEach(video => {
-        // Handle play/pause on click
-        video.addEventListener('click', function() {
-            // Check if the video is currently playing
-            if (video.paused) {
-                // If the video is paused, play it
-                video.muted = false; // Ensure audio is enabled
-                video.play();
-            } else {
-                // If the video is playing, pause it
-                video.pause();
-            }
-        });
-
-        // Fullscreen toggle for video when clicked (for mobile)
-        video.addEventListener('click', function() {
-            // Check if the video is in fullscreen mode
-            if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-                document.exitFullscreen
-                    ? document.exitFullscreen()
-                    : document.webkitExitFullscreen
-                    ? document.webkitExitFullscreen()
-                    : document.msExitFullscreen && document.msExitFullscreen();
-            } else {
-                // Enter full screen mode
-                if (video.requestFullscreen) {
-                    video.requestFullscreen();
-                } else if (video.webkitRequestFullscreen) { // Safari
-                    video.webkitRequestFullscreen();
-                } else if (video.msRequestFullscreen) { // IE/Edge
-                    video.msRequestFullscreen();
-                }
-            }
-        });
-
-        // Rewind 10 seconds button functionality for all videos
-        const rewindButton = document.createElement('button');
-        rewindButton.textContent = 'Rewind 10s';
-        rewindButton.style.position = 'absolute';
-        rewindButton.style.bottom = '10px';
-        rewindButton.style.left = '10px';
-        rewindButton.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-        rewindButton.style.color = '#fff';
-        rewindButton.style.padding = '10px';
-        rewindButton.style.border = 'none';
-        rewindButton.style.borderRadius = '5px';
-        rewindButton.style.fontSize = '16px';
-        video.parentElement.style.position = 'relative'; // Ensure parent is positioned for button placement
-        video.parentElement.appendChild(rewindButton);
-
-        rewindButton.addEventListener('click', function() {
-            video.currentTime -= 10;  // Rewind the video by 10 seconds
-        });
-
-        // Forward 10 seconds button functionality for all videos
-        const forwardButton = document.createElement('button');
-        forwardButton.textContent = 'Forward 10s';
-        forwardButton.style.position = 'absolute';
-        forwardButton.style.bottom = '10px';
-        forwardButton.style.right = '10px';
-        forwardButton.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-        forwardButton.style.color = '#fff';
-        forwardButton.style.padding = '10px';
-        forwardButton.style.border = 'none';
-        forwardButton.style.borderRadius = '5px';
-        forwardButton.style.fontSize = '16px';
-        video.parentElement.appendChild(forwardButton);
-
-        forwardButton.addEventListener('click', function() {
-            video.currentTime += 10;  // Jump forward by 10 seconds
-        });
-    });
+    
     </script>
 
     <script defer>
