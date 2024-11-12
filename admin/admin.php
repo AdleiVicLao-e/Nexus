@@ -630,92 +630,105 @@ if (isset($_SESSION["admin"])) {
                 xhr.send();
             }
             async function fetchData() {
-                try {
-                    const response = await fetch('../include/chart.php'); // Adjust the path
-                    const data = await response.json();
-                    if (!data.error) {
-                        const ctx = document.getElementById('donutChart').getContext('2d');
-                        const donutChart = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: {
-                                labels: data.schools,
-                                datasets: [{
-                                    label: 'User Count by School',
-                                    data: data.counts,
-                                    backgroundColor: ["#ea5545",
-                                        "#FFC400",
-                                        "#F46A9B",
-                                        "#FF1900",
-                                        "#ede15b",
-                                        "#bdcf32",
-                                        "#87bc45",
-                                        "#27aeef",
-                                        "#656565", // Color 9
-                                        "#c94800", "#22beb6", "#727900"
-                                    ],
-                                    borderColor: 'white',
-                                    borderWidth: 2,
-                                    hoverOffset: 10
-                                }]
+    try {
+        const response = await fetch('../include/chart.php'); // Adjust the path
+        const data = await response.json();
+        if (!data.error) {
+            const total = data.counts.reduce((sum, count) => sum + count, 0);
+
+            // Add percentages to labels
+            const labelsWithPercentages = data.schools.map((school, index) => {
+                const count = data.counts[index];
+                const percentage = ((count / total) * 100).toFixed(2);
+                return `${school} (${percentage}%)`;
+            });
+
+            const ctx = document.getElementById('donutChart').getContext('2d');
+            const donutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labelsWithPercentages, // Use labels with percentages
+                    datasets: [{
+                        label: 'User Count by School',
+                        data: data.counts,
+                        backgroundColor: [
+                            "#ea5545", "#FFC400", "#F46A9B", "#FF1900", 
+                            "#ede15b", "#bdcf32", "#87bc45", "#27aeef", 
+                            "#656565", "#c94800", "#22beb6", "#727900"
+                        ],
+                        borderColor: 'white',
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            align: 'start',
+                            labels: {
+                                font: {
+                                    family: "Inter, serif",
+                                    size: 12,
+                                    weight: 'bold',
+                                    color: '#333',
+                                },
+                                usePointStyle: true,
                             },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom', // Position legend at the bottom
-                                        align: 'start', // Align legend to the left
-                                        labels: {
-                                            font: {
-                                                family: "Inter, serif",
-                                                size: 12,
-                                                weight: 'bold',
-                                                color: '#333',
-                                            },
-                                            usePointStyle: true,
-                                        },
-                                    },
-                                    title: {
-                                        display: true,
-                                        font: {
-                                            family: "Inter, serif",
-                                            size: 14,
-                                            weight: 'bold',
-                                            color: '#333',
-                                        },
-                                        padding: {
-                                            top: 10,
-                                            bottom: 20,
-                                        },
-                                    },
-                                    tooltip: {
-                                        titleFont: {
-                                            family: "Inter, serif",
-                                            size: 12,
-                                            weight: 'bold',
-                                            color: '#fff',
-                                        },
-                                        bodyFont: {
-                                            family: "Inter, serif",
-                                            size: 10,
-                                            color: '#fff',
-                                        },
-                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                                        borderColor: 'white',
-                                        borderWidth: 1,
-                                        padding: 10,
-                                    },
+                        },
+                        title: {
+                            display: true,
+                            text: 'User Distribution by School',
+                            font: {
+                                family: "Inter, serif",
+                                size: 14,
+                                weight: 'bold',
+                                color: '#333',
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20,
+                            },
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const count = data.counts[tooltipItem.dataIndex];
+                                    const percentage = ((count / total) * 100).toFixed(2);
+                                    return `${data.schools[tooltipItem.dataIndex]}: ${count} (${percentage}%)`;
                                 }
-                            }
-                        });
-                    } else {
-                        console.error(data.error);
+                            },
+                            titleFont: {
+                                family: "Inter, serif",
+                                size: 12,
+                                weight: 'bold',
+                                color: '#fff',
+                            },
+                            bodyFont: {
+                                family: "Inter, serif",
+                                size: 10,
+                                color: '#fff',
+                            },
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            borderColor: 'white',
+                            borderWidth: 1,
+                            padding: 10,
+                        },
                     }
-                } catch (error) {
-                    console.error('Error fetching data:', error);
                 }
-            }
-            fetchData();
+            });
+        } else {
+            console.error(data.error);
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+fetchData();
+
             // Event listener for refresh button
             refreshBtn.addEventListener("click", fetchUserData);
             // Fetch user data on initial load
