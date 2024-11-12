@@ -1,3 +1,44 @@
+function showThankYouMessage(event) {
+    event.preventDefault();
+
+    const today = new Date().toISOString().split('T')[0];
+
+    const formData = new FormData(event.target);
+    formData.append("date", today);
+    formData.append("quality_presentation", document.querySelector('input[name="exhibits"]:checked').value);
+    formData.append("cleanliness_ambiance", document.querySelector('input[name="cleanliness"]:checked').value);
+    formData.append("staff_service", document.querySelector('input[name="staff"]:checked').value);
+    formData.append("overall_experience", document.querySelector('input[name="experience"]:checked').value);
+    formData.append("comments", document.getElementById("comments").value);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../include/addFeedback.php", true);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const response = xhr.responseText;
+
+            if (response.includes("success")) {
+                document.getElementById("overlay-message-success").innerText = "Thank you! Your feedback has been successfully submitted.";
+                document.getElementById("overlay-success").style.display = "block";
+
+                event.target.reset();
+
+                setTimeout(function () {
+                    window.location.href = "../../feedback.php";
+                }, 2000);
+            } else {
+                document.getElementById("overlay-message-error").innerText = "There was an error submitting your feedback. Please try again."; // Set error message
+                document.getElementById("overlay-error").style.display = "block";
+            }
+        } else {
+            document.getElementById("overlay-message-error").innerText = "Error with the request. Please try again."; // Set error message
+            document.getElementById("overlay-error").style.display = "block";
+        }
+    };
+    xhr.send(formData);
+}
+
 $(document).ready(function() {
     function p(p) {
         $(p.target).prev(".toggle-submenu").find(".more-less").toggleClass("fa-plus-square fa-minus-square")
