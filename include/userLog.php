@@ -25,7 +25,7 @@ $stmt->bind_param("isss", $new_user_number, $user_name, $user_school, $time);
 
 // Execute the statement and return success/failure response
 if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Your entry has been saved successfully']);
+    echo json_encode(['success' => true, 'message' => 'Welcome!']);
 } else {
     echo json_encode(['success' => false, 'message' => 'Error: Unable to log your activity. Please try again.' . $stmt->error]);
 }
