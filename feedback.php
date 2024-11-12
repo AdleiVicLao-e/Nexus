@@ -22,22 +22,26 @@
     <div id="app">
         <div id="sidebar_menu_bg"></div>
         <div id="sidebar_menu">
-            <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee;
-    color: #111;">
-                <i class="fa fa-angle-left mr-2"></i>Close menu </button>
-            <ul class="nav sidebar_menu-list">
-                <li class="nav-item active">
-                    <a class="nav-link" href="homepage.php" title="Home">Home</a>
-                    <a class="nav-link" href="scanner.php" title="Home">Scanner</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.php" title="About">About</a>
-                </li>
-                <div class="clearfix"></div>
-        </div>
+          <button class="btn btn-radius btn-sm btn-secondary toggle-sidebar" style="border-radius: 30px; background: #eee; border-color: #eee; color: #111;">
+              <i class="fa fa-angle-left mr-2"></i>Close menu
+          </button>
+          <ul class="nav sidebar_menu-list">
+              <li class="nav-item active">
+                  <a class="nav-link" href="homepage.php" title="Home">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="scanner.php" title="Scanner">Scanner</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="igorot-dances.php" title="Igorot Dances">Igorot Dances</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="about.php" title="About">About</a>
+              </li>
+          </ul>
+          <div class="clearfix"></div>
+      </div>
+      
         </li>
         </ul>
         <div class="clearfix"></div>
@@ -201,6 +205,5 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/postscribe/2.0.8/postscribe.min.js"></script>
     <script type="text/javascript" src="res/js/client/about.js"></script>
-    <script src="res/js/scripts.js"></script>
 </body>
 </html>
