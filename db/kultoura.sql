@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 01, 2024 at 05:04 PM
+-- Generation Time: Nov 12, 2024 at 09:14 AM
 -- Server version: 8.3.0
--- PHP Version: 8.2.18
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -152,7 +152,7 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (102, 1, 2, 4, 'Couple with dogs', 'Wood panel with surface carvings', 'No problem', '0'),
 (103, 1, 2, 5, 'The dead on a sangadil (death chair)', 'Solar painting (21cm L x 33cm W)', 'No problem', '0'),
 (104, 1, 2, 5, 'Igorot warrior defender', 'Solar painting (94cm L x 63.5cm W)', 'No problem', '0'),
-(105, 2, 3, 0, 'Gangsa 1 (set of 4)', 'Metal', 'Old, not resonant', '0'),
+(105, 2, 3, 0, 'Gangsa 1 (set of 4)', 'Gangsa is traditionally played by men as part of the ritual cleansing process for warriors before and after taking a head in battle. Over time, the practice of headhunting became less common. As a result, the gangsa began to be played more during community gatherings and celebrations.', 'Old, not resonant', '105.2.3.0-Gangsa 1 (set of 4).mp4'),
 (106, 2, 3, 0, 'Gangsa 2 (set of 4)', 'Metal', 'Old, not resonant', '0'),
 (107, 2, 3, 0, 'Gangsa 3 (set of 4)', 'Metal', 'Old, not resonant', '0'),
 (108, 2, 3, 0, 'Gangsa 4 (set of 4)', 'Metal', 'Old, not resonant', '0'),
@@ -163,10 +163,10 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (113, 2, 3, 0, 'Gangsa 5 (set of 7)', 'Brass', 'No problem', '0'),
 (114, 2, 3, 0, 'Gangsa 6 (set of 7)', 'Brass', 'No problem', '0'),
 (115, 2, 3, 0, 'Gangsa 7 (set of 7)', 'Brass', 'No problem', '0'),
-(116, 2, 3, 0, 'Solibao 1', 'Long drum 1 (black)', 'Torn drum head; not functional', '0'),
-(117, 2, 3, 0, 'Solibao 2', 'Long drum 2 (black)', 'No problem', '0'),
-(118, 2, 3, 0, 'Solibao 3', 'Kalanguya drum (brown)', 'No problem', '0'),
-(119, 2, 3, 0, 'Solibao 4', 'Kalanguya drum (black)', 'No problem', '0'),
+(116, 2, 3, 0, 'Solibao 1', 'The salibaw is a traditional percussion musical instrument used for cultural and ceremonial celebrations among the Cordillera tribes. This is often made of bamboo or wood, which produces a resonant sound when struck. ', 'Torn drum head; not functional', '116.2.3.0-Solibao 1.mp4'),
+(117, 2, 3, 0, 'Solibao 2', 'The salibaw is a traditional percussion musical instrument used for cultural and ceremonial celebrations among the Cordillera tribes. This is often made of bamboo or wood, which produces a resonant sound when struck. ', 'No problem', '0'),
+(118, 2, 3, 0, 'Solibao 3', 'The salibaw is a traditional percussion musical instrument used for cultural and ceremonial celebrations among the Cordillera tribes. This is often made of bamboo or wood, which produces a resonant sound when struck. ', 'No problem', '0'),
+(119, 2, 3, 0, 'Solibao 4', 'The salibaw is a traditional percussion musical instrument used for cultural and ceremonial celebrations among the Cordillera tribes. This is often made of bamboo or wood, which produces a resonant sound when struck. ', 'No problem', '0'),
 (120, 2, 4, 0, 'Kalaleng 1 (Nose flute)', 'This Kalaleng is a brass nose flute. This flute is usually accompanied by bamboo percussion instruments.', 'No problem', '0'),
 (121, 2, 4, 0, 'Kalaleng 2', 'This Kalaleng is a wooden nose flute. Songs played with this flute are usually upbeat or melodious.', 'No problem', '0'),
 (122, 2, 4, 0, 'Kalaleng 3', 'Bamboo', 'No problem', '0'),
@@ -639,7 +639,8 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (589, 8, 30, 8, 'Duyo/ Shuyo', 'Wooden soup bowl', 'With crack', '0'),
 (590, 8, 30, 8, 'Duyo or Sukong', 'Wooden soup bowl with handle', 'With crack and hole', '0'),
 (591, 8, 30, 8, 'Duyo/ Shuyo', 'Wooden Soup bowl', 'With crack', '0'),
-(592, 8, 30, 8, 'Duyo or Sukong', 'Wooden rectangle soup bowl', 'No problem', '0'),
+(592, 8, 30, 8, 'Duyo or Sukong', 'Wooden rectangle soup bowl', 'No problem', '0');
+INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `fileName`) VALUES
 (593, 8, 30, 8, 'Duyo/ Chuyo', 'Wooden square soup bowl', 'With breakage at the basement', '0'),
 (594, 8, 30, 8, 'Duyo/ Shuyo', 'Wooden soup bowl', 'With crack', '0'),
 (595, 8, 30, 8, 'Duyo/ Shuyo', 'Wooden soup bowl', 'With crack', '0'),
@@ -655,8 +656,7 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (605, 8, 30, 8, 'Pamahan', 'Wooden soup bowl', 'With crack', '0'),
 (606, 8, 30, 8, 'Pamahan', 'Wooden soup bowl', 'No problem', '0'),
 (607, 8, 30, 8, 'Ungot 1', 'Coconut shell bowl', 'No problem', '0'),
-(608, 8, 30, 8, 'Ungot 2/ Silap 2', 'Coconut shell bowl', 'No problem', '0');
-INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `fileName`) VALUES
+(608, 8, 30, 8, 'Ungot 2/ Silap 2', 'Coconut shell bowl', 'No problem', '0'),
 (609, 8, 30, 8, 'Ungot 3/ Silap 3', 'Coconut shell bowl', 'No problem', '0'),
 (610, 8, 30, 8, 'Sakob', 'Wooden soup bowl', 'With crack', '0'),
 (611, 8, 30, 8, 'Ungot/ Silap 1', 'Coconut shell bowl', 'No problem', '0'),
@@ -1234,7 +1234,8 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (1183, 20, 0, 0, 'Photos of body art tattoos', '1 large frame', 'No problem', '0'),
 (1184, 20, 0, 0, 'Photos of Cordillera rice terraces by Fitz Quintin', '5 photos in a frame', 'No problem', '0'),
 (1185, 20, 0, 0, 'Photos of Igorot mummies', '1 large frame', 'No problem', '0'),
-(1186, 20, 0, 0, 'Photos of Cordillera traditional music and dance', '1 large frame', 'No problem', '0'),
+(1186, 20, 0, 0, 'Photos of Cordillera traditional music and dance', '1 large frame', 'No problem', '0');
+INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `fileName`) VALUES
 (1187, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '8 frames', 'No problem', '0'),
 (1188, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '9 frames', 'No problem', '0'),
 (1189, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '10 frames', 'No problem', '0'),
@@ -1243,8 +1244,7 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (1192, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '13 frames', 'No problem', '0'),
 (1193, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '14 frames', 'No problem', '0'),
 (1194, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '15 frames', 'No problem', '0'),
-(1195, 21, 0, 0, 'Ijang tool 1', 'Flat rounded stone with depression at the middle', 'No problem', '0');
-INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `fileName`) VALUES
+(1195, 21, 0, 0, 'Ijang tool 1', 'Flat rounded stone with depression at the middle', 'No problem', '0'),
 (1196, 21, 0, 0, 'Ijang tool 2', 'Flat rounded stone with depression at the middle top', 'No problem', '0'),
 (1197, 21, 0, 0, 'Ijang tool 3', 'Flat rounded stone with depression at the middle top', 'No problem', '0'),
 (1198, 21, 0, 0, 'Ijang tool 4', 'Elongated stone weapon with depression', 'No problem', '0'),
@@ -1507,7 +1507,8 @@ CREATE TABLE IF NOT EXISTS `uncategorized_media` (
   `id` int NOT NULL,
   `title` text NOT NULL,
   `description` text NOT NULL,
-  `fileName` text NOT NULL
+  `fileName` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -1515,8 +1516,20 @@ CREATE TABLE IF NOT EXISTS `uncategorized_media` (
 --
 
 INSERT INTO `uncategorized_media` (`id`, `title`, `description`, `fileName`) VALUES
-(0, 'Initial', 'Initial', 'Initial'),
-(1, 'asdgasdf', 'gasdfasg', '1-asdgasdf');
+(1, 'Pagaddut', 'Paggadut is a traditional Igorot dance originating from the mountainous regions of the Philippines, primarily performed during community celebrations and cultural events. Characterized by its lively movements and vibrant costumes, the dance often symbolizes the community\'s connection to nature, fertility, and harvest. Paggadut showcases the rich cultural heritage of the Igorot people, reflecting their beliefs, stories, and social values through rhythmic footwork and expressive gestures.', '1-Pagaddut.mp4'),
+(2, 'A Group Performance of the Traditional Paggadut Dance', 'Watch as participants from our workshop come together to perform the Paggadut, a lively and rhythmic traditional dance that celebrates community and cultural heritage. Their synchronized movements and vibrant energy showcase the spirit of this rich tradition, passed down through generations.', '2-A Group Performance of the Traditional Paggadut Dance.mp4'),
+(3, 'Men\'s Traditional Paggadut Dance Performance', 'A group of men delivers a dynamic performance of the traditional Paggadut dance, embodying strength, rhythm, and cultural pride. Their synchronized steps and energetic movements reflect the deep-rooted heritage of this powerful dance, passed down through generations.', '3-Men\'s Traditional Paggadut Dance Performance.mp4'),
+(4, 'Women\'s Traditional Paggadut Dance Performance', 'In this captivating performance, a group of women showcases the graceful yet powerful movements of the traditional Paggadut dance. Their unity and precision bring to life the cultural significance of this vibrant dance, highlighting the strength and elegance of women in indigenous traditions.', '4-Women\'s Traditional Paggadut Dance Performance.mp4'),
+(5, 'Dinuyya (Community Dance) - Ifugao', 'The Dinuyya is a traditional Ifugao community dance performed during harvest festivals and important social gatherings. Accompanied by chanting and gong rhythms, dancers move in coordinated steps, symbolizing unity, gratitude, and the Ifugao people\'s connection to their ancestral land.', '5-Dinuyya (Community Dance) - Ifugao.MP4'),
+(6, 'Boogie (Courtship Dance) - Mt. Province', 'The Boogie is a lively courtship dance from the Mountain Province that reflects playful interaction between potential partners. Set to upbeat rhythms, it showcases flirtatious movements and expressive gestures, symbolizing the excitement of romantic pursuit within the community.', '6-Boogie (Courtship Dance) - Mt. Province.MP4'),
+(7, 'Boogie (War Dance) - Mt. Province ', 'The Boogie War Dance from the Mountain Province is a vigorous and expressive performance that simulates the movements of warriors in battle. Featuring bold, rhythmic steps and strong arm gestures, it symbolizes courage, strength, and the warrior spirit of the community.', '7-Boogie (War Dance) - Mt. Province .mp4'),
+(8, 'Boogie (War Dance) - Western Mt. Province', 'The Boogie War Dance of the Western Mountain Province is an energetic, powerful dance that portrays the bravery and readiness of warriors. Through dynamic footwork and assertive arm movements, dancers embody the resilience and strength essential to protect their community.', '8-Boogie (War Dance) - Western Mt. Province.mp4'),
+(9, 'Balliwes (Community Dance) - Abra', 'The Balliwes is a traditional community dance from Abra that celebrates unity and cultural heritage through rhythmic movements and lively music. Often performed during festivals and social gatherings, it features participants dancing in circles, symbolizing togetherness and the shared identity of the community.', '9-Balliwes (Community Dance) - Abra.MP4'),
+(10, 'Tupayya (Courtship Dance ) - Kalinga ', 'The Tupayya is a vibrant courtship dance from Kalinga, characterized by playful movements that reflect the flirty interactions between young couples. Accompanied by traditional music, the dance showcases the cultural significance of courtship rituals, highlighting themes of love, attraction, and community bonding.', '10-Tupayya (Courtship Dance ) - Kalinga .MP4'),
+(11, 'Takkik - Western Mr. Province (Kankanaey)', 'Takkik is a traditional dance of the Kankanaey people in Western Mountain Province, often performed during celebrations and cultural events. The dance features lively footwork and rhythmic body movements that express joy and communal spirit, reflecting the rich heritage and vibrant culture of the Kankanaey community.', '11-Takkik - Western Mr. Province (Kankanaey).MP4'),
+(12, 'Tadok - Western Mt. Province (Kankanaey)', 'The Tadok is a traditional Kankanaey dance from the Western Mountain Province, performed during rituals and festive occasions to celebrate important community events. Characterized by graceful movements and intricate footwork, the dance embodies cultural storytelling and showcases the Kankanaey\'s deep connection to their ancestral traditions and communal identity.', '12-Tadok - Western Mt. Province (Kankanaey).mp4'),
+(13, 'Lablabbaan (Courtship Dance) - Abra', 'The Lablabbaan is a captivating courtship dance from Abra, characterized by lively movements that convey the playful interactions between suitors and their potential partners. Accompanied by traditional music, the dance highlights themes of romance and attraction, reflecting the vibrant cultural practices of the community.', '13-Lablabbaan (Courtship Dance) - Abra.MP4'),
+(14, 'Tadok (Community Dance) - Kalinga', 'The Tadok is a spirited community dance from Kalinga, performed during celebrations and important social gatherings. It features energetic movements and rhythmic patterns that embody the collective joy and cultural identity of the Kalinga people, fostering a sense of unity and community spirit.', '14-Tadok (Community Dance) - Kalinga.mp4');
 
 --
 -- Constraints for dumped tables
