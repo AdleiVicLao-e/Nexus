@@ -1365,7 +1365,6 @@ CREATE TABLE IF NOT EXISTS `catalogue` (
 --
 
 INSERT INTO `catalogue` (`catalogue_id`, `section_id`, `catalogue_name`) VALUES
-(0, 0, 'N/A'),
 (1, 1, 'Traditional wood arts'),
 (2, 1, 'Contemporary wood arts'),
 (3, 2, 'Gongs and drums'),
@@ -1438,7 +1437,6 @@ CREATE TABLE IF NOT EXISTS `section` (
 --
 
 INSERT INTO `section` (`section_id`, `section_name`) VALUES
-(0, 'N/A'),
 (1, 'Wood arts'),
 (2, 'Musical instruments'),
 (3, 'Clothing and textiles'),
@@ -1483,7 +1481,6 @@ CREATE TABLE IF NOT EXISTS `subcatalogue` (
 --
 
 INSERT INTO `subcatalogue` (`subcat_id`, `catalogue_id`, `subcat_name`) VALUES
-(0, 0, 'N/A'),
 (1, 2, 'Stand-alone carvings'),
 (2, 2, 'Miniature diorama'),
 (3, 2, 'Stylized furniture'),
