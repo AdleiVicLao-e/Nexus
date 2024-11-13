@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS `credentials` (
 --
 
 INSERT INTO `credentials` (`username`, `password`, `status`) VALUES
-('hello', 'hello', 0),
-('asd', 'asd', 0);
+('admin', 'admin321', 0),
+('curator', 'curator321', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
