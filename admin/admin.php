@@ -1,4 +1,5 @@
 <?php
+global $mysqli;
 session_start();
 
 $timeout_duration = 5 * 60; // 5 minutes
@@ -940,7 +941,6 @@ if (isset($_SESSION["admin"])) {
                 setInterval(fetchFeedbackSummary, 3000); // 3000ms = 3 seconds
 
             });
-        </script>
         </script>
         <script>
         // Initially hide all buttons

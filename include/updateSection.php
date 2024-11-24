@@ -5,7 +5,7 @@ include 'artifact-db.php';
 $sectionId = $_POST['id'];
 $newSectionName = $_POST['newName'];
 
-$newSectionName = htmlspecialchars(trim($newSectionName), ENT_QUOTES, 'UTF-8');\
+$newSectionName = htmlspecialchars(trim($newSectionName), ENT_QUOTES, 'UTF-8');
 
 $stmt = $mysqli->prepare("UPDATE section SET section_name = ? WHERE section_id = ?");
 $stmt->bind_param("si", $newSectionName, $sectionId);
