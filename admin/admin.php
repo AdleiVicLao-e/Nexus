@@ -911,8 +911,11 @@ if (isset($_SESSION["admin"])) {
                     .then(response => response.json())
                     .then(data => {
                         let summaryHTML = '';
-                        data.forEach(summary => {
-                            summaryHTML += `
+                        if (data.length === 1 && data[0].category === '') {
+                            summaryHTML = data[0].excellent;
+                        } else {
+                            data.forEach(summary => {
+                                summaryHTML += `
                         <tr>
                             <td class="text-end">${summary.category}</td>
                             <td class="text-end">${summary.excellent}</td>
@@ -921,7 +924,8 @@ if (isset($_SESSION["admin"])) {
                             <td class="text-end">${summary.dissatisfied}</td>
                         </tr>
                     `;
-                        });
+                            });
+                        }
                         document.getElementById('feedback-summary-body').innerHTML = summaryHTML;
                     })
                     .catch(error => console.error('Error fetching feedback summary:', error));

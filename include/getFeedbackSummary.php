@@ -39,9 +39,14 @@ $sql = "
 $result = $conn->query($sql);
 
 $summary = [];
+$hasData = false;
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        if ($row['excellent'] || $row['good'] || $row['average'] || $row['dissatisfied']) {
+            $hasData = true;
+        }
+
         $summary[] = [
             'category' => $row['category'],
             'excellent' => $row['excellent'],
@@ -52,7 +57,19 @@ if ($result->num_rows > 0) {
     }
 }
 
-echo json_encode($summary);
+if ($hasData) {
+    echo json_encode($summary);
+} else {
+    echo json_encode([
+        [
+            'category' => '',
+            'excellent' => '<tr><td colspan="5" class="text-center">No feedback summary available</td></tr>',
+            'good' => '',
+            'average' => '',
+            'dissatisfied' => ''
+        ]
+    ]);
+}
 
 $conn->close();
 ?>
