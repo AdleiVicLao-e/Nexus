@@ -228,7 +228,7 @@ if (isset($_SESSION["admin"])) {
                             <select id="editSection" name="section" onchange="fetchCatalogs(this.value)"></select>
                             <br>
                             <label for="editCatalog">Catalogue:</label>
-                            <select id="editCatalog" name="catalog" onchange="fetchSubcatalogs(this.value)"></select>
+                            <select id="editCatalog" name="catalog"></select>
                             <br>
                             <label for="editSubcatalog">Subcatalogue:</label>
                             <select id="editSubcatalog" name="subcatalog"></select>
