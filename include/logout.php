@@ -14,3 +14,7 @@ if (isset($_SESSION["admin"])) {
 } 
 session_unset();
 session_destroy();
+
+header("Location: ../admin/admin-login.php");
+exit();
+?>
