@@ -1065,6 +1065,11 @@ if (isset($_SESSION["admin"])) {
             window.location.href="admin-login.php";
         }
         </script>
+        <script>
+            window.addEventListener("beforeunload", function () {
+                navigator.sendBeacon("../include/logout.php");
+            });
+        </script>
 </body>
 
 </html>
