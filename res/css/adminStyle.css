@@ -1264,3 +1264,79 @@ td {
 	}
 
 }
+
+@media only screen and (min-width: 1280px) and (max-width: 1920px) {
+
+	html,
+	body {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	header {
+		width: 100vw;
+		padding-left: 0;
+		margin: 0;
+		left: 0;
+		right: 0;
+		position: relative;
+		box-sizing: border-box;
+	}
+
+	header .logo {
+		font-size: 3vmin;
+	}
+
+	.main-container {
+		display: flex;
+		align-items: flex-start;
+		height: 100%;
+	}
+
+	.left-container,
+	.right-container {
+		flex: 1;
+		box-sizing: border-box;
+	}
+
+	.left-container {
+		margin-top: 12px;
+		margin-right: 10px;
+	}
+
+	.right-container {
+		margin-top: -50px;
+	}
+
+	button {
+		padding: 10px 20px;
+		font-size: 1.2em;
+	}
+
+	header .greetings {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+	
+	header .logo,
+	header .greetings {
+		flex-shrink: 1;
+	
+	}
+	
+	header .greetings img {
+		height: 30px;
+		border: 1px solid white;
+		border-radius: 5px;
+	}
+	
+	header .greeting {
+		font-size: 2.1vmin;
+		margin-left: auto;
+		padding-right: 30px;
+	}
+
+}
