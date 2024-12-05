@@ -76,6 +76,14 @@ if (isset($_SESSION["admin"])) {
                 <h3>Visitor by School</h3>
                 <canvas id="donutChart" width="1000" height="300"></canvas>
                 <h3>Visitor Log Book</h3>
+                <div>
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate">
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate">
+                    <button id="applyFilter">Apply Filter</button>
+                    <button id="resetFilter">Reset</button>
+                </div>
                 <div id="userTableContainer">
                     <table id="visitorAnalyticsTable">
                         <thead>
@@ -90,6 +98,9 @@ if (isset($_SESSION["admin"])) {
                             <!-- Dynamically populated rows -->
                         </tbody>
                     </table>
+                </div>
+                <div>
+                    <button id="printTable">Print Table</button>
                 </div>
                 <br>
                 <div class="feedbackSection">
@@ -615,24 +626,148 @@ if (isset($_SESSION["admin"])) {
         <script>
         document.addEventListener("DOMContentLoaded", function() {
             const userTableContainer = document.getElementById("userTableContainer");
+            const startDateInput = document.getElementById("startDate");
+            const endDateInput = document.getElementById("endDate");
+            const applyFilterButton = document.getElementById("applyFilter");
+            const resetFilterButton = document.getElementById("resetFilter");
+            const printTableButton = document.getElementById("printTable");
+
+
+            let autoUpdateInterval = null; // To track the interval
+            let appliedFilter = null; // To track the current filter
+
+            // Function to format a date string in 'YYYY-MM-DD h:mm A' format
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                const options = {
+                    hour12: true,
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                return date.toLocaleString('en-US', options)
+                    .replace(', ', ' ') // Replace the default comma after the date with a space
+                    .replace(/:00$/, ''); // Remove seconds if not needed
+            }
+
+
             // Function to fetch and display user data
-            function fetchUserData() {
+            function fetchUserData(startDate = null, endDate = null) {
                 const xhr = new XMLHttpRequest();
-                xhr.open("GET", "../include/get-user.php",
-                    true); // Adjusted path to point to the include folder
-                xhr.onload = function() {
+                let url = "../include/get-user.php";
+
+                // Append date filters if provided
+                if (startDate && endDate) {
+                    url += `?startDate=${startDate}&endDate=${endDate}`;
+                }
+
+                xhr.open("GET", url, true);
+                xhr.onload = function () {
                     if (this.status === 200) {
-                        userTableContainer.innerHTML = this
-                            .responseText; // Populate the container with the response
+                        let response = this.responseText;
+                        // Assuming the response contains HTML with date strings that need formatting
+                        response = response.replace(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/g, function(match) {
+                            return formatDate(match);
+                        });
+                        userTableContainer.innerHTML = response;
                     } else {
-                        userTableContainer.innerHTML = " < p > Error fetching data. < /p>";
+                        userTableContainer.innerHTML = "<p>Error fetching data.</p>";
                     }
                 };
-                xhr.onerror = function() {
-                    userTableContainer.innerHTML = " < p > Request failed. < /p>";
+                xhr.onerror = function () {
+                    userTableContainer.innerHTML = "<p>Request failed.</p>";
                 };
                 xhr.send();
             }
+
+            // Function to start automatic updates
+            function startAutoUpdate() {
+                if (!autoUpdateInterval) {
+                    autoUpdateInterval = setInterval(() => fetchUserData(), 3000); // 3 seconds interval
+                }
+            }
+
+            // Function to stop automatic updates
+            function stopAutoUpdate() {
+                if (autoUpdateInterval) {
+                    clearInterval(autoUpdateInterval);
+                    autoUpdateInterval = null;
+                }
+            }
+
+            fetchUserData();
+
+            // Event listener for applying the filter
+            applyFilterButton.addEventListener("click", function () {
+                const startDate = startDateInput.value;
+                const endDate = endDateInput.value;
+
+                if (startDate && endDate) {
+                    stopAutoUpdate(); // Stop auto-update when a filter is applied
+                    appliedFilter = { startDate, endDate }; // Set the applied filter
+                    fetchUserData(startDate, endDate);
+                } else {
+                    alert("Please select both start and end dates.");
+                }
+            });
+
+            // Event listener for resetting the filter
+            resetFilterButton.addEventListener("click", function () {
+                startDateInput.value = "";
+                endDateInput.value = "";
+                fetchUserData(); // Fetch all data
+                startAutoUpdate(); // Resume auto-update after reset
+            });
+
+            // Event listener for printing the table
+            printTableButton.addEventListener("click", function () {
+                const tableContent = userTableContainer.innerHTML;
+                const printWindow = window.open("", "", "width=800,height=600");
+                printWindow.document.write("<html><head><title>Print Table</title></head><body>");
+
+                if (appliedFilter) {
+                    // Format the start and end dates for display
+                    const formattedStartDate = new Date(appliedFilter.startDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    });
+                    const formattedEndDate = new Date(appliedFilter.endDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    });
+
+                    // Check if the start and end dates are the same
+                    if (formattedStartDate === formattedEndDate) {
+                        // Display just one date if they are the same
+                        printWindow.document.write(
+                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate})</p>`
+                        );
+                    } else {
+                        // Display both dates if they are different
+                        printWindow.document.write(
+                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate} to ${formattedEndDate})</p>`
+                        );
+                    }
+                } else {
+                    // No filter selected, just display "Visitor Log"
+                    printWindow.document.write("<h1>Visitor Log</h1>");
+                }
+
+                printWindow.document.write(tableContent);
+                printWindow.document.write("</body></html>");
+                printWindow.document.close();
+                printWindow.print();
+            });
+
+            // Start automatic updates on page load
+            startAutoUpdate();
+
+
+
             async function fetchChartData() {
                 try {
                     const response = await fetch('../include/chart.php'); // Adjust the path
@@ -730,17 +865,11 @@ if (isset($_SESSION["admin"])) {
                 }
             }
 
-            function updateVisitorLog() {
-                fetchUserData();  // Update user data table
-            }
-
             function updateChartData() {
                 fetchChartData();  // Update chart data
             }
 
-            updateVisitorLog();
             updateChartData();
-            setInterval(updateVisitorLog, 5000); // 5000ms = 5 seconds for visitor log updates
             setInterval(updateChartData, 3600000); // 3600000ms = 1 hour for chart updates
 
 
