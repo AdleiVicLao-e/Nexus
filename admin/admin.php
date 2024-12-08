@@ -27,7 +27,11 @@ if (isset($_SESSION["admin"])) {
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../res/css/adminStyle.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="../res/css/datePicker.css">
+=======
+    <link rel="stylesheet" href="../res/css/datepicker.css">
+>>>>>>> d90077e849e44312272370baa4bbcef81f8b3c54
     <link href="../assets/img/favicon.png" rel="icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -48,6 +52,13 @@ if (isset($_SESSION["admin"])) {
 
     <!-- Custom Scripts -->
     <script src="../res/js/admin/javascript.js"></script>
+<<<<<<< HEAD
+=======
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+>>>>>>> d90077e849e44312272370baa4bbcef81f8b3c54
 </head>
 
 
@@ -82,6 +93,7 @@ if (isset($_SESSION["admin"])) {
                 <button id="applyFilter">Apply Filter</button>
                 <button id="resetFilter">Reset</button>
             </div>
+<<<<<<< HEAD
             <br>
             <div class="border-box">
             <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -101,6 +113,41 @@ if (isset($_SESSION["admin"])) {
             <br>
             <div class="border-box">
             <div style="display: flex; align-items: center; justify-content: space-between;">
+=======
+        </div>
+    </header>
+    <div class="main-container">
+<<<<<<< HEAD
+      <div class="left-container">
+        <div class="analytics">
+          <h1>Visitor Analytics</h1>
+          <h3>Visitor by School</h3>
+          <canvas id="donutChart" width="1000" height="300"></canvas>
+          <h3>Visitor Log Book</h3>
+          <input type="text" name="datefilter" value="" placeholder="Choose Date Range"/>
+          <div id="userTableContainer">
+            <table id="visitorAnalyticsTable">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>School</th>
+                  <th>Date of Visit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+          <button id="refreshBtn">Refresh Data</button>
+=======
+        <div class="left-container">
+            <div class="analytics">
+                <h1>Visitor Analytics</h1>
+                <h3>Visitor by School</h3>
+                <canvas id="donutChart" width="1000" height="300"></canvas>
+>>>>>>> d90077e849e44312272370baa4bbcef81f8b3c54
                 <h3>Visitor Log Book</h3>
                 <div>
                 <button class="btn-red" id="printVisitorLogBook"> Print <i class="fas fa-print"></i></button>
@@ -183,6 +230,7 @@ if (isset($_SESSION["admin"])) {
                     </div>
                 </div>
             </div>
+>>>>>>> b350d831bfe7d3b5cd66ebee36d52f77e1289bb6
         </div>
     </div>
 
@@ -736,7 +784,24 @@ if (isset($_SESSION["admin"])) {
 
     <script src="/res/js/admin/admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Include Chart.js library -->
+    <script>
+        $(document).on('ready', function () {
+          $('.js-daterangepicker-clear').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+              cancelLabel: 'Clear'
+            }
+          });
+      
+          $('.js-daterangepicker-clear').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+          });
+      
+          $('.js-daterangepicker-clear').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+          });
+        });
+      </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const startDateInput = document.getElementById("startDate");
@@ -1383,6 +1448,7 @@ if (isset($_SESSION["admin"])) {
         });
 
     </script>
+<<<<<<< HEAD
     <script>
         // For archive view section
         // Function to open the View Archive Section modal
@@ -1719,6 +1785,32 @@ if (isset($_SESSION["admin"])) {
     <!--                navigator.sendBeacon("../include/logout.php");-->
     <!--            });-->
     <!--        </script>-->
+=======
+<<<<<<< HEAD
+    <script>
+        $(function() {
+        
+          $('input[name="datefilter"]').daterangepicker({
+              autoUpdateInput: false,
+              locale: {
+                  cancelLabel: 'Clear'
+              }
+          });
+        
+          $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+              $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+          });
+        
+          $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+              $(this).val('');
+          });
+        
+        });
+        </script>
+  </body>
+=======
+>>>>>>> d90077e849e44312272370baa4bbcef81f8b3c54
 </body>
 
+>>>>>>> b350d831bfe7d3b5cd66ebee36d52f77e1289bb6
 </html>
