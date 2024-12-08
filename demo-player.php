@@ -5,7 +5,7 @@ include 'include/artifact-db.php';
 $artifact_id = isset($_GET['artifact_id']) ? intval($_GET['artifact_id']) : 0;
 
 // SQL Query withh all the fields properly initialized
-$sql = "SELECT name, fileName, description FROM artifact_info WHERE artifact_id = ?";
+$sql = "SELECT name, artifact_video, description FROM artifact_info WHERE artifact_id = ?";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param("i", $artifact_id);
 $stmt->execute();
@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
   // Fetch artifact details
   $row = $result->fetch_assoc();
   $name = $row['name'];
-  $fileName = $row['fileName'];
+  $fileName = $row['artifact_video'];
   $description = $row['description']; // Fetching description
 } else {
   $name = 'Artifact not found';

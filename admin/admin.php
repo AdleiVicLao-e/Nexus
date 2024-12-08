@@ -564,7 +564,7 @@ if (isset($_SESSION["admin"])) {
                         <?php
                             include '../include/artifact-db.php';
 
-                            $result = $mysqli->query("SELECT * FROM uncategorized_media");
+                            $result = $mysqli->query("SELECT * FROM igorot_dances");
 
                             if ($result->num_rows > 0) {
                                 // Output the data of each row in boxes
@@ -573,7 +573,7 @@ if (isset($_SESSION["admin"])) {
                                     // Wrap video and description in a div container for side-by-side layout
                                     echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
                                     // Displaying the video
-                                    $videoPath = '../assets/videos/general/' . $row["fileName"];
+                                    $videoPath = '../assets/videos/general/' . $row["file_name"];
                                     if (file_exists($videoPath)) {
                                         // Displaying the video
                                         echo '<video width="240" height="180" controls style="margin-right: 20px;">';
@@ -588,7 +588,7 @@ if (isset($_SESSION["admin"])) {
                                     echo '<p id="media-id">ID: ' . $row["id"] . '</p>';
                                     echo '<p id="media-title">Title: ' . html_entity_decode($row["title"]) . '</p>';
                                     echo '<p id="media-description">Description: ' . html_entity_decode($row["description"]) . '</p>';
-                                    echo '<p id="media-file-name">File Name: ' . html_entity_decode($row["fileName"]) . '</p>';
+                                    echo '<p id="media-file-name">File Name: ' . html_entity_decode($row["file_name"]) . '</p>';
                                     echo '</div>';
 
                                     // Edit and Delete buttons

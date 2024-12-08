@@ -257,7 +257,7 @@
                     // alert(artifactInfo);
                     displayBox = true;
 
-                    if (data["fileName"] && data["fileName"] !== "0") {
+                    if (data["fileName"] && data["artifact_video"] !== "0") {
                         // Show the watch button if fileName is present and not 0
                         watchButton.style.display = "block"; // Show button
                     }

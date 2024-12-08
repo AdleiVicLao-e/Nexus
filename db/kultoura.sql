@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `artifact_info` (
   `name` text,
   `description` text,
   `condition` text,
-  `fileName` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `artifact_video` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`artifact_id`),
   KEY `artisect_idx` (`section_id`),
   KEY `articat_idx` (`catalogue_id`),
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `artifact_info` (
 -- Dumping data for table `artifact_info`
 --
 
-INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `fileName`) VALUES
+INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `artifact_video`) VALUES
 (1, 1, 1, 0, 'House door', 'With surface carvings of animals and other designs', 'With crack and hole', '0'),
 (2, 1, 1, 0, 'Panel wall', 'With surface carvings of anthropomorphic designs', 'With woodworm holes and crack', '0'),
 (3, 1, 1, 0, 'Sliding panel door', 'With surface carvings of anthropomorphic designs', 'With cracks', '0'),
@@ -640,7 +640,7 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (590, 8, 30, 8, 'Duyo or Sukong', 'Wooden soup bowl with handle', 'With crack and hole', '0'),
 (591, 8, 30, 8, 'Duyo/ Shuyo', 'Wooden Soup bowl', 'With crack', '0'),
 (592, 8, 30, 8, 'Duyo or Sukong', 'Wooden rectangle soup bowl', 'No problem', '0');
-INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `fileName`) VALUES
+INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `artifact_video`) VALUES
 (593, 8, 30, 8, 'Duyo/ Chuyo', 'Wooden square soup bowl', 'With breakage at the basement', '0'),
 (594, 8, 30, 8, 'Duyo/ Shuyo', 'Wooden soup bowl', 'With crack', '0'),
 (595, 8, 30, 8, 'Duyo/ Shuyo', 'Wooden soup bowl', 'With crack', '0'),
@@ -1235,7 +1235,7 @@ INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subca
 (1184, 20, 0, 0, 'Photos of Cordillera rice terraces by Fitz Quintin', '5 photos in a frame', 'No problem', '0'),
 (1185, 20, 0, 0, 'Photos of Igorot mummies', '1 large frame', 'No problem', '0'),
 (1186, 20, 0, 0, 'Photos of Cordillera traditional music and dance', '1 large frame', 'No problem', '0');
-INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `fileName`) VALUES
+INSERT INTO `artifact_info` (`artifact_id`, `section_id`, `catalogue_id`, `subcat_id`, `name`, `description`, `condition`, `artifact_video`) VALUES
 (1187, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '8 frames', 'No problem', '0'),
 (1188, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '9 frames', 'No problem', '0'),
 (1189, 20, 0, 0, '\"Cordillera house architecture:\"\" pencil sketches by Charles Picpican\"', '10 frames', 'No problem', '0'),
@@ -1507,7 +1507,7 @@ CREATE TABLE IF NOT EXISTS `uncategorized_media` (
   `id` int NOT NULL,
   `title` text NOT NULL,
   `description` text NOT NULL,
-  `fileName` text NOT NULL,
+  `file_name` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -1515,7 +1515,7 @@ CREATE TABLE IF NOT EXISTS `uncategorized_media` (
 -- Dumping data for table `uncategorized_media`
 --
 
-INSERT INTO `uncategorized_media` (`id`, `title`, `description`, `fileName`) VALUES
+INSERT INTO `uncategorized_media` (`id`, `title`, `description`, `file_name`) VALUES
 (1, 'Pagaddut', 'Paggadut is a traditional Igorot dance originating from the mountainous regions of the Philippines, primarily performed during community celebrations and cultural events. Characterized by its lively movements and vibrant costumes, the dance often symbolizes the community\'s connection to nature, fertility, and harvest. Paggadut showcases the rich cultural heritage of the Igorot people, reflecting their beliefs, stories, and social values through rhythmic footwork and expressive gestures.', '1-Pagaddut.mp4'),
 (2, 'A Group Performance of the Traditional Paggadut Dance', 'Watch as participants from our workshop come together to perform the Paggadut, a lively and rhythmic traditional dance that celebrates community and cultural heritage. Their synchronized movements and vibrant energy showcase the spirit of this rich tradition, passed down through generations.', '2-A Group Performance of the Traditional Paggadut Dance.mp4'),
 (3, 'Men\'s Traditional Paggadut Dance Performance', 'A group of men delivers a dynamic performance of the traditional Paggadut dance, embodying strength, rhythm, and cultural pride. Their synchronized steps and energetic movements reflect the deep-rooted heritage of this powerful dance, passed down through generations.', '3-Men\'s Traditional Paggadut Dance Performance.mp4'),

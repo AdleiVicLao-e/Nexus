@@ -5,7 +5,7 @@ include 'artifact-db.php';
 $mediaId = $_POST['id'];
 
 // Fetch the filename from the database
-$stmtFetchFile = $mysqli->prepare("SELECT fileName FROM uncategorized_media WHERE id = ?");
+$stmtFetchFile = $mysqli->prepare("SELECT file_name FROM igorot_dances WHERE id = ?");
 $stmtFetchFile->bind_param("i", $mediaId);
 $stmtFetchFile->execute();
 $stmtFetchFile->bind_result($fileName);
@@ -21,7 +21,7 @@ if ($stmtFetchFile->fetch()) {
     if (file_exists($filePath)) {
         if (unlink($filePath)) {
             // File deleted successfully, now delete the database record
-            $stmtDelete = $mysqli->prepare("DELETE FROM uncategorized_media WHERE id = ?");
+            $stmtDelete = $mysqli->prepare("DELETE FROM igorot_dances WHERE id = ?");
             $stmtDelete->bind_param("i", $mediaId);
 
             // Execute the delete statement and check for success/failure

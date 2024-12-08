@@ -14,7 +14,7 @@ $ids = $data['ids'];
 $idString = implode(',', array_map('intval', $ids)); // Sanitize IDs
 
 // Fetch fileName for all the selected artifact IDs
-$selectQuery = "SELECT artifact_id, fileName, name FROM artifact_info WHERE artifact_id IN ($idString)";
+$selectQuery = "SELECT artifact_id, artifact_video, name FROM artifact_info WHERE artifact_id IN ($idString)";
 $result = $mysqli->query($selectQuery);
 
 if ($result && $result->num_rows > 0) {
@@ -23,7 +23,7 @@ if ($result && $result->num_rows > 0) {
 
 
     while ($row = $result->fetch_assoc()) {
-        $fileNames[$row['artifact_id']] = $row['fileName'];
+        $fileNames[$row['artifact_id']] = $row['artifact_video'];
     }
 
     // Proceed with deletion of the artifact records

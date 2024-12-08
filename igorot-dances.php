@@ -90,14 +90,14 @@
         include 'include/artifact-db.php';
 
         // Fetch video details from the database
-        $result = $mysqli->query("SELECT title, description, fileName FROM uncategorized_media");
+        $result = $mysqli->query("SELECT title, description, file_name FROM igorot_dances");
 
         if ($result->num_rows > 0) {
             // Display each video
             while ($row = $result->fetch_assoc()) {
                 $title = $row['title'];
                 $description = $row['description'];
-                $fileName = $row['fileName'];
+                $fileName = $row['file_name'];
                 $videoPath = "../assets/videos/general/" . $fileName;
                 $posterPath = "../assets/videos/general/thumbnails/" . pathinfo($fileName, PATHINFO_FILENAME) . ".jpg";
 

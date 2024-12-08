@@ -41,7 +41,7 @@ try {
 
             if (move_uploaded_file($fileTmpName, $uploadFilePath)) {
                 // Insert the file path into the database
-                $sql = "UPDATE artifact_info SET fileName = ? WHERE artifact_id = ?";
+                $sql = "UPDATE artifact_info SET artifact_video = ? WHERE artifact_id = ?";
                 $stmt = $mysqli->prepare($sql);
                 $stmt->bind_param("si", $fileName, $newArtifactId);
 

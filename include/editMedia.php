@@ -7,7 +7,7 @@ if (isset($_POST['media_id'], $_POST['new-media-title'], $_POST['new-media-descr
     $newDescription = $_POST['new-media-description'];
 
     // SQL Query with all the fields properly initialized
-    $sql = "UPDATE uncategorized_media SET title = ?, description = ? WHERE id = ?";
+    $sql = "UPDATE igorot_dances SET title = ?, description = ? WHERE id = ?";
 
     // Prepare the statement
     $stmt = $mysqli->prepare($sql);

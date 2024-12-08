@@ -6,7 +6,7 @@ include 'artifact-db.php';
 $message = '';
 
 // Generate the new artifact ID
-$result = $mysqli->query("SELECT MAX(id) AS last_id FROM uncategorized_media");
+$result = $mysqli->query("SELECT MAX(id) AS last_id FROM igorot_dances");
 $row = $result->fetch_assoc();
 $lastId = $row['last_id'] !== null ? $row['last_id'] : 0;
 $newId = $lastId + 1;
@@ -39,7 +39,7 @@ if (isset($_FILES['media-file'])  && $_FILES['media-file']['error'] == 0) {
             </script>';
 
             // SQL Query withh all the fields properly initialized
-            $sql = "INSERT INTO uncategorized_media (id, title, description, fileName) 
+            $sql = "INSERT INTO igorot_dances (id, title, description, file_name) 
                     VALUES (?, ?, ?, ?)";
             
             $stmt = $mysqli->prepare($sql);

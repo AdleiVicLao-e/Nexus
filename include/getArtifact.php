@@ -17,7 +17,7 @@ $query = "
         a.name AS 'Name',
         a.description AS 'Description',
         a.condition AS 'Condition',
-        a.fileName AS 'fileName'
+        a.artifact_video AS 'Artifact Video'
     FROM 
         artifact_info a
     LEFT JOIN 

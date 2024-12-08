@@ -14,12 +14,12 @@ $response = ['success' => false, 'message' => '', 'raw_input' => $input];
 
 if ($id) {
     // Fetch fileName and artifact name from the artifact_info table
-    $selectQuery = "SELECT fileName, name FROM artifact_info WHERE artifact_id = $id";
+    $selectQuery = "SELECT artifact_video, name FROM artifact_info WHERE artifact_id = $id";
     $result = $mysqli->query($selectQuery);
 
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $fileName = $row['fileName'];
+        $fileName = $row['artifact_video'];
         $qrName = "{$id}-{$row['name']}";
 
         // Proceed with deletion of the artifact record
