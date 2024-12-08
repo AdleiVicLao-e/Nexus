@@ -13,8 +13,20 @@ $allowed_schools = [
     "School of Teacher Education and Liberal Arts"
 ];
 
-// SQL query to fetch data from user_log table
-$sql = "SELECT user_school, COUNT(user_number) as count FROM user_log GROUP BY user_school";
+// Get start and end date from the request (assuming it's passed as 'start_date' and 'end_date' in 'YYYY-MM-DD' format)
+$startDate = isset($_GET['startDate']) ? $_GET['startDate'] : null;
+$endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
+
+// Base SQL query with date filter if specified
+$sql = "SELECT user_school, COUNT(user_number) as count FROM user_log";
+
+// Add date range condition to the SQL query if start_date and end_date are provided
+if ($startDate && $endDate) {
+    $sql .= " WHERE time BETWEEN '$startDate' AND '$endDate'";
+}
+
+// Group by school and execute the query
+$sql .= " GROUP BY user_school";
 $result = $conn->query($sql);
 
 // Prepare data for the pie chart
@@ -37,7 +49,13 @@ if ($result->num_rows > 0) {
         }
     }
 } else {
-    echo json_encode(["error" => "No records found."]);
+    // If no records are found, output a clear message
+    $data = [
+        'error' => 'No records found for the given date range.'
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($data);
+    $conn->close();
     exit;
 }
 

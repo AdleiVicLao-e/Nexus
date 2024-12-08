@@ -76,6 +76,9 @@ if (isset($_SESSION["admin"])) {
             <h3>Visitor by School</h3>
             <div>
                 <canvas id="donutChart" width="1000" height="600"></canvas>
+                <div id="errorMessage" class="text-center" style="color: black; display: none;">
+                    No records found for the given date range.
+                </div>
                 <button id="printChart">Print Chart</button>
             </div>
             <div>
@@ -103,7 +106,7 @@ if (isset($_SESSION["admin"])) {
                 </table>
             </div>
             <div>
-                <button id="printTable">Print Table</button>
+                <button id="printVisitorLogBook">Print Visitor Log Book</button>
             </div>
             <br>
             <div class="feedbackSection">
@@ -157,6 +160,7 @@ if (isset($_SESSION["admin"])) {
             </div>
         </div>
     </div>
+
     <div class="right-container">
         <div class="artifacts">
             <h2>Artifacts</h2>
@@ -634,12 +638,11 @@ if (isset($_SESSION["admin"])) {
     <!-- Include Chart.js library -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const userTableContainer = document.getElementById("userTableContainer");
             const startDateInput = document.getElementById("startDate");
             const endDateInput = document.getElementById("endDate");
             const applyFilterButton = document.getElementById("applyFilter");
             const resetFilterButton = document.getElementById("resetFilter");
-            const printTableButton = document.getElementById("printTable");
+            const printVisitorLogBookButton = document.getElementById("printVisitorLogBook");
 
             let autoUpdateInterval = null; // To track the interval
             let appliedFilter = null; // To track the current filter
@@ -660,6 +663,70 @@ if (isset($_SESSION["admin"])) {
                     .replace(/:00$/, ''); // Remove seconds if not needed
             }
 
+            function formatFeedbackDate(dateStr) {
+                const date = new Date(dateStr);
+                // Extract the month, day, and year
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 to get the correct month and pad with 0
+                const day = String(date.getDate()).padStart(2, '0'); // Pad day with 0 if needed
+                const year = date.getFullYear();
+                return `${month}/${day}/${year}`;
+            }
+
+
+            // Function to fetch feedback data
+            function fetchFeedback(startDate = null, endDate = null) {
+                let url = '../include/getFeedback.php';
+
+                // Append date filters if provided
+                if (startDate && endDate) {
+                    url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+                }
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        // Replace date format in the data
+                        const formattedData = data.replace(/(\d{4}-\d{2}-\d{2})/g, function(match) {
+                            return formatFeedbackDate(match); // Format to 'MM/DD/YYYY'
+                        });
+                        document.getElementById('feedback-table-body').innerHTML = formattedData;
+                    })
+                    .catch(error => console.error('Error fetching feedback:', error));
+            }
+
+            // Function to fetch feedback summary data
+            function fetchFeedbackSummary(startDate = null, endDate = null) {
+
+                let url = '../include/getFeedbackSummary.php';
+
+                // Append date filters if provided
+                if (startDate && endDate) {
+                    url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+                }
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        let summaryHTML = '';
+                        if (data.length === 1 && data[0].category === '') {
+                            summaryHTML = data[0].excellent;
+                        } else {
+                            data.forEach(summary => {
+                                summaryHTML += `
+                        <tr>
+                            <td class="text-end">${summary.category}</td>
+                            <td class="text-end">${summary.excellent}</td>
+                            <td class="text-end">${summary.good}</td>
+                            <td class="text-end">${summary.average}</td>
+                            <td class="text-end">${summary.dissatisfied}</td>
+                        </tr>
+                    `;
+                            });
+                        }
+                        document.getElementById('feedback-summary-body').innerHTML = summaryHTML;
+                    })
+                    .catch(error => console.error('Error fetching feedback summary:', error));
+            }
 
             // Function to fetch and display user data
             function fetchUserData(startDate = null, endDate = null) {
@@ -675,17 +742,16 @@ if (isset($_SESSION["admin"])) {
                 xhr.onload = function () {
                     if (this.status === 200) {
                         let response = this.responseText;
-                        // Assuming the response contains HTML with date strings that need formatting
                         response = response.replace(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/g, function(match) {
                             return formatDate(match);
                         });
-                        userTableContainer.innerHTML = response;
+                        document.getElementById("userTableContainer").innerHTML = response;
                     } else {
-                        userTableContainer.innerHTML = "<p>Error fetching data.</p>";
+                        document.getElementById("userTableContainer").innerHTML = "<p>Error fetching data.</p>";
                     }
                 };
                 xhr.onerror = function () {
-                    userTableContainer.innerHTML = "<p>Request failed.</p>";
+                    document.getElementById("userTableContainer").innerHTML = "<p>Request failed.</p>";
                 };
                 xhr.send();
             }
@@ -693,8 +759,17 @@ if (isset($_SESSION["admin"])) {
             // Function to start automatic updates
             function startAutoUpdate() {
                 if (!autoUpdateInterval) {
-                    autoUpdateInterval = setInterval(() => fetchUserData(), 3000); // 3 seconds interval
+                    autoUpdateInterval = setInterval(() => {
+                        fetchUserData();
+                        fetchFeedback(); // Update feedback data as well
+                        fetchFeedbackSummary();
+                    }, 3000); // 3 seconds interval for feedback and user data updates
                 }
+
+                // Separate interval for fetchChartData (1 hour interval)
+                setInterval(() => {
+                    fetchChartData(); // Update chart data every 1 hour
+                }, 3600000); // 1 hour = 3600000 milliseconds
             }
 
             // Function to stop automatic updates
@@ -706,6 +781,10 @@ if (isset($_SESSION["admin"])) {
             }
 
             fetchUserData();
+            fetchFeedback();
+            fetchFeedbackSummary();
+            fetchChartData(); // Reset chart data
+
 
             // Event listener for applying the filter
             applyFilterButton.addEventListener("click", function () {
@@ -714,8 +793,10 @@ if (isset($_SESSION["admin"])) {
 
                 if (startDate && endDate) {
                     stopAutoUpdate();
-                    appliedFilter = { startDate, endDate };
                     fetchUserData(startDate, endDate);
+                    fetchFeedback(startDate, endDate);
+                    fetchFeedbackSummary(startDate, endDate); // Added this line to filter the feedback summary
+                    fetchChartData(startDate, endDate); // Filter chart data
                 } else {
                     alert("Please select both start and end dates.");
                 }
@@ -725,61 +806,64 @@ if (isset($_SESSION["admin"])) {
             resetFilterButton.addEventListener("click", function () {
                 startDateInput.value = "";
                 endDateInput.value = "";
-                appliedFilter = null;
+                const errorMessageContainer = document.getElementById("errorMessage");
+                errorMessageContainer.style.display = "none";
                 fetchUserData();
+                fetchFeedback();
+                fetchFeedbackSummary();
+                fetchChartData();
                 startAutoUpdate();
-            });
-
-            // Event listener for printing the table
-            printTableButton.addEventListener("click", function () {
-                const tableContent = userTableContainer.innerHTML;
-                const printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write("<html><head><title>Print Table</title></head><body>");
-
-                if (appliedFilter) {
-                    // Format the start and end dates for display
-                    const formattedStartDate = new Date(appliedFilter.startDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: '2-digit'
-                    });
-                    const formattedEndDate = new Date(appliedFilter.endDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: '2-digit'
-                    });
-
-                    // Check if the start and end dates are the same
-                    if (formattedStartDate === formattedEndDate) {
-                        // Display just one date if they are the same
-                        printWindow.document.write(
-                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate})</p>`
-                        );
-                    } else {
-                        // Display both dates if they are different
-                        printWindow.document.write(
-                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate} to ${formattedEndDate})</p>`
-                        );
-                    }
-                } else {
-                    // No filter selected, just display "Visitor Log"
-                    printWindow.document.write("<h1>Visitor Log</h1>");
-                }
-
-                printWindow.document.write(tableContent);
-                printWindow.document.write("</body></html>");
-                printWindow.document.close();
-                printWindow.print();
             });
 
             // Start automatic updates on page load
             startAutoUpdate();
 
 
-            async function fetchChartData() {
+            async function fetchChartData(startDate = null, endDate = null) {
                 try {
-                    const response = await fetch('../include/chart.php'); // Adjust the path
+                    // Construct the URL with query parameters if dates are provided
+                    let url = '../include/chart.php';
+                    if (startDate && endDate) {
+                        url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+                    }
+
+                    const response = await fetch(url);
                     const data = await response.json();
+
+                    if (data.error) {
+                        // Display error if data contains an error message
+                        console.log("Error:", data.error);
+
+                        // Set and display the error message in the errorMessage container
+                        const errorMessageContainer = document.getElementById("errorMessage");
+                        errorMessageContainer.textContent = "No records found for the given date range.";
+                        errorMessageContainer.style.display = "block"; // Show the error message
+
+                        // Destroy any existing chart instance
+                        if (window.donutChartInstance) {
+                            window.donutChartInstance.destroy();
+                        }
+
+                        return; // Exit the function if there's no valid data
+                    }
+
+                    if (data.counts.length === 0 || data.counts.every(count => count === 0)) {
+                        // Handle case where there are no records or counts are all zero
+                        console.log("No records found for the given date range.");
+
+                        // Set and display the error message in the errorMessage container
+                        const errorMessageContainer = document.getElementById("errorMessage");
+                        errorMessageContainer.textContent = "No records found for the given date range.";
+                        errorMessageContainer.style.display = "block"; // Show the error message
+
+                        // Destroy any existing chart instance
+                        if (window.donutChartInstance) {
+                            window.donutChartInstance.destroy();
+                        }
+
+                        return; // Exit the function if no data to display
+                    }
+                    
                     if (!data.error) {
                         const total = data.counts.reduce((sum, count) => sum + count, 0);
 
@@ -884,13 +968,6 @@ if (isset($_SESSION["admin"])) {
                 }
             }
 
-            function updateChartData() {
-                fetchChartData();  // Update chart data
-            }
-
-            updateChartData();
-            setInterval(updateChartData, 3600000); // 3600000ms = 1 hour for chart updates
-
             // Add event listener for the print button
             document.getElementById("printChart").addEventListener("click", function() {
                 const chartCanvas = document.getElementById("donutChart");
@@ -921,30 +998,133 @@ if (isset($_SESSION["admin"])) {
                 printWindow.print();
             });
 
-
-            document.getElementById("printFeedbackTable").addEventListener("click", function() {
-                const feedbackTableContent = document.getElementById("feedback-table-body").innerHTML;
+            // Event listener for printing the table
+            printVisitorLogBookButton.addEventListener("click", function () {
+                const tableContent = userTableContainer.innerHTML;
                 const printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write("<html><head><title>Print Feedback</title></head><body>");
-                printWindow.document.write("<h1>Visitor Feedback</h1>");
-                printWindow.document.write(feedbackTableContent);
+                printWindow.document.write("<html><head><title>Print Table</title></head><body>");
+
+                if (appliedFilter) {
+                    // Format the start and end dates for display
+                    const formattedStartDate = new Date(appliedFilter.startDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    });
+                    const formattedEndDate = new Date(appliedFilter.endDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    });
+
+                    // Check if the start and end dates are the same
+                    if (formattedStartDate === formattedEndDate) {
+                        // Display just one date if they are the same
+                        printWindow.document.write(
+                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate})</p>`
+                        );
+                    } else {
+                        // Display both dates if they are different
+                        printWindow.document.write(
+                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate} to ${formattedEndDate})</p>`
+                        );
+                    }
+                } else {
+                    // No filter selected, just display "Visitor Log"
+                    printWindow.document.write("<h1>Visitor Log</h1>");
+                }
+
+                printWindow.document.write(tableContent);
                 printWindow.document.write("</body></html>");
                 printWindow.document.close();
                 printWindow.print();
             });
 
-// Event listener for printing the feedback summary
-            document.getElementById("printFeedbackSummary").addEventListener("click", function() {
-                const feedbackSummaryContent = document.getElementById("feedback-summary-body").innerHTML;
+
+            document.getElementById('printFeedbackTable').addEventListener("click", function () {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+
+                // Format the start and end dates using formatDate function
+                const formattedStartDate = formatDate(startDate);
+                const formattedEndDate = formatDate(endDate);
+
+                let dateRangeString = '';
+
+                if (startDate && endDate) {
+                    if (formattedStartDate === formattedEndDate) {
+                        // Display just one date if they are the same
+                        dateRangeString = `Date Range: ${formattedStartDate}`;
+                    } else {
+                        // Display both dates if they are different
+                        dateRangeString = `Date Range: ${formattedStartDate} to ${formattedEndDate}`;
+                    }
+                } else if (startDate) {
+                    dateRangeString = `Start Date: ${formattedStartDate}`;
+                } else if (endDate) {
+                    dateRangeString = `End Date: ${formattedEndDate}`;
+                }
+
+                const feedbackTableContent = document.getElementById('feedback-table-body').innerHTML;
+                const printWindow = window.open("", "", "width=800,height=600");
+                printWindow.document.write("<html><head><title>Print Feedback Table</title></head><body>");
+                printWindow.document.write("<h1>Visitor Feedback</h1>");
+
+                // Print the date range if it exists
+                if (dateRangeString) {
+                    printWindow.document.write(`<p><strong>${dateRangeString}</strong></p>`);
+                }
+
+                printWindow.document.write('<table border="1" cellpadding="5">');
+                printWindow.document.write('<tr><th>Date</th><th>Quality/Presentation of Exhibits</th><th>Cleanliness and Ambiance</th><th>Museum Staff Service</th><th>Overall Experience</th><th>Comments</th></tr>');
+                printWindow.document.write(feedbackTableContent);
+                printWindow.document.write("</table></body></html>");
+                printWindow.document.close();
+                printWindow.print();
+            });
+
+            // Function to print the feedback summary
+            document.getElementById('printFeedbackSummary').addEventListener("click", function () {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+
+                // Format the start and end dates using formatDate function
+                const formattedStartDate = formatDate(startDate);
+                const formattedEndDate = formatDate(endDate);
+
+                let dateRangeString = '';
+
+                if (startDate && endDate) {
+                    if (formattedStartDate === formattedEndDate) {
+                        // Display just one date if they are the same
+                        dateRangeString = `Date Range: ${formattedStartDate}`;
+                    } else {
+                        // Display both dates if they are different
+                        dateRangeString = `Date Range: ${formattedStartDate} to ${formattedEndDate}`;
+                    }
+                } else if (startDate) {
+                    dateRangeString = `Start Date: ${formattedStartDate}`;
+                } else if (endDate) {
+                    dateRangeString = `End Date: ${formattedEndDate}`;
+                }
+
+                const feedbackSummaryContent = document.getElementById('feedback-summary-body').innerHTML;
                 const printWindow = window.open("", "", "width=800,height=600");
                 printWindow.document.write("<html><head><title>Print Feedback Summary</title></head><body>");
                 printWindow.document.write("<h1>Feedback Summary</h1>");
+
+                // Print the date range if it exists
+                if (dateRangeString) {
+                    printWindow.document.write(`<p><strong>${dateRangeString}</strong></p>`);
+                }
+
+                printWindow.document.write('<table border="1" cellpadding="5">');
+                printWindow.document.write('<tr><th>Category</th><th>Excellent</th><th>Good</th><th>Average</th><th>Dissatisfied</th></tr>');
                 printWindow.document.write(feedbackSummaryContent);
-                printWindow.document.write("</body></html>");
+                printWindow.document.write("</table></body></html>");
                 printWindow.document.close();
                 printWindow.print();
             });
-
 
             // Function to fetch section data for a dropdown
             function fetchSectionData() {
@@ -1060,81 +1240,10 @@ if (isset($_SESSION["admin"])) {
             openEditSubcatalogModal();
             closeSubcatalogModal();
         });
+
     </script>
-    f
     <script>
-        // Function to fetch feedback data
-        function fetchFeedback() {
-            fetch('../include/getFeedback.php')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('feedback-table-body').innerHTML = data;
-                })
-                .catch(error => console.error('Error fetching feedback:', error));
-        }
 
-        // Function to fetch feedback summary data
-        function fetchFeedbackSummary() {
-            fetch('../include/getFeedbackSummary.php')
-                .then(response => response.json())
-                .then(data => {
-                    let summaryHTML = '';
-                    if (data.length === 1 && data[0].category === '') {
-                        summaryHTML = data[0].excellent;
-                    } else {
-                        data.forEach(summary => {
-                            summaryHTML += `
-                        <tr>
-                            <td class="text-end">${summary.category}</td>
-                            <td class="text-end">${summary.excellent}</td>
-                            <td class="text-end">${summary.good}</td>
-                            <td class="text-end">${summary.average}</td>
-                            <td class="text-end">${summary.dissatisfied}</td>
-                        </tr>
-                    `;
-                        });
-                    }
-                    document.getElementById('feedback-summary-body').innerHTML = summaryHTML;
-                })
-                .catch(error => console.error('Error fetching feedback summary:', error));
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchFeedback();
-            fetchFeedbackSummary();
-
-            // Set interval to check for new feedback every 3 seconds
-            setInterval(fetchFeedback, 3000); // 3000ms = 3 seconds
-            setInterval(fetchFeedbackSummary, 3000); // 3000ms = 3 seconds
-
-        });
-
-        document.getElementById('printFeedbackTable').addEventListener("click", function () {
-            const feedbackTableContent = document.getElementById('feedback-table-body').innerHTML;
-            const printWindow = window.open("", "", "width=800,height=600");
-            printWindow.document.write("<html><head><title>Print Feedback Table</title></head><body>");
-            printWindow.document.write("<h1>Visitor Feedback</h1>");
-            printWindow.document.write('<table border="1" cellpadding="5">');
-            printWindow.document.write('<tr><th>Date</th><th>Quality/Presentation of Exhibits</th><th>Cleanliness and Ambiance</th><th>Museum Staff Service</th><th>Overall Experience</th><th>Comments</th></tr>');
-            printWindow.document.write(feedbackTableContent);
-            printWindow.document.write("</table></body></html>");
-            printWindow.document.close();
-            printWindow.print();
-        });
-
-        // Function to print the feedback summary
-        document.getElementById('printFeedbackSummary').addEventListener("click", function () {
-            const feedbackSummaryContent = document.getElementById('feedback-summary-body').innerHTML;
-            const printWindow = window.open("", "", "width=800,height=600");
-            printWindow.document.write("<html><head><title>Print Feedback Summary</title></head><body>");
-            printWindow.document.write("<h1>Feedback Summary</h1>");
-            printWindow.document.write('<table border="1" cellpadding="5">');
-            printWindow.document.write('<tr><th>Category</th><th>Excellent</th><th>Good</th><th>Average</th><th>Dissatisfied</th></tr>');
-            printWindow.document.write(feedbackSummaryContent);
-            printWindow.document.write("</table></body></html>");
-            printWindow.document.close();
-            printWindow.print();
-        });
     </script>
 
     <script type="text/javascript">

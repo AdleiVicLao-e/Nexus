@@ -1,8 +1,16 @@
 <?php
 include 'user-db.php';
 
+$startDate = isset($_GET['startDate']) ? $_GET['startDate'] : null;
+$endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
+
 // Updated SQL query to select all relevant fields
 $sql = "SELECT date, quality_presentation, cleanliness_ambiance, staff_service, overall_experience, comments FROM feedback";
+
+if ($startDate && $endDate) {
+    $sql .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+}
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

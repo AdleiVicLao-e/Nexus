@@ -1,7 +1,10 @@
 <?php
 include 'user-db.php';
 
-// Prepare the SQL query to get the counts for each rating
+$startDate = isset($_GET['startDate']) ? $_GET['startDate'] : null;
+$endDate = isset($_GET['endDate']) ? $_GET['endDate'] : null;
+
+// Prepare the base SQL query to get the counts for each rating
 $sql = "
     SELECT 
         'Quality/Presentation of Exhibits' AS category,
@@ -9,7 +12,14 @@ $sql = "
         SUM(CASE WHEN quality_presentation = 'Good' THEN 1 ELSE 0 END) AS good,
         SUM(CASE WHEN quality_presentation = 'Average' THEN 1 ELSE 0 END) AS average,
         SUM(CASE WHEN quality_presentation = 'Dissatisfied' THEN 1 ELSE 0 END) AS dissatisfied
-    FROM feedback
+    FROM feedback";
+
+// Add date filtering to the query if dates are provided
+if ($startDate && $endDate) {
+    $sql .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+}
+
+$sql .= "
     UNION
     SELECT 
         'Cleanliness and Ambiance',
@@ -17,7 +27,14 @@ $sql = "
         SUM(CASE WHEN cleanliness_ambiance = 'Good' THEN 1 ELSE 0 END),
         SUM(CASE WHEN cleanliness_ambiance = 'Average' THEN 1 ELSE 0 END),
         SUM(CASE WHEN cleanliness_ambiance = 'Dissatisfied' THEN 1 ELSE 0 END)
-    FROM feedback
+    FROM feedback";
+
+// Add date filtering to subsequent queries as well
+if ($startDate && $endDate) {
+    $sql .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+}
+
+$sql .= "
     UNION
     SELECT 
         'Museum Staff Service',
@@ -25,7 +42,13 @@ $sql = "
         SUM(CASE WHEN staff_service = 'Good' THEN 1 ELSE 0 END),
         SUM(CASE WHEN staff_service = 'Average' THEN 1 ELSE 0 END),
         SUM(CASE WHEN staff_service = 'Dissatisfied' THEN 1 ELSE 0 END)
-    FROM feedback
+    FROM feedback";
+
+if ($startDate && $endDate) {
+    $sql .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+}
+
+$sql .= "
     UNION
     SELECT 
         'Overall Experience',
@@ -33,8 +56,13 @@ $sql = "
         SUM(CASE WHEN overall_experience = 'Good' THEN 1 ELSE 0 END),
         SUM(CASE WHEN overall_experience = 'Average' THEN 1 ELSE 0 END),
         SUM(CASE WHEN overall_experience = 'Dissatisfied' THEN 1 ELSE 0 END)
-    FROM feedback
-";
+    FROM feedback";
+
+// Add date filtering to the last query as well
+if ($startDate && $endDate) {
+    $sql .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+}
+
 
 $result = $conn->query($sql);
 
