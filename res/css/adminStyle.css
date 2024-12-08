@@ -208,6 +208,27 @@ button, .search-button, #refreshBtn:hover {
 	margin-right: 0px !important;
 }
 
+.btn-red {
+	background-color: #073066;
+	color: #FFFFFF;
+	border: 1.25px solid #073066;
+	padding: 12px 50px;
+	cursor: pointer;
+	border-radius: 20px;
+	font-size: 16px;
+	text-decoration: none;
+	display: inline-block;
+	margin: 5px;
+	transition: background-color 0.3s ease-in-out;
+}
+
+.btn-red:hover {
+	background-color: #f6c500;
+	color: #073066;
+	font-weight: bold;
+	border: 1.25px solid #073066;
+}
+
 .btn-label i {
 	font-size: 27px;
 	vertical-align: middle;
@@ -361,7 +382,7 @@ button, .search-button, #refreshBtn:hover {
 
 .left-container {
 	align-items: center;
-	margin-top: 590px;
+	margin-top: 530px;
 }
 
 .right-container {
@@ -592,6 +613,35 @@ input[type="file"] {
 	margin-right: 10px;
 }
 
+/* Centering the filter form */
+.centered-filter-container {
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    gap: 5px; /* Space between elements */
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    margin: 20px 0; /* Optional: Add margin to top and bottom */
+}
+
+.centered-filter-container label,
+.centered-filter-container input,
+.centered-filter-container button {
+    margin: 1px; /* Add margin around each element */
+}
+
+#applyFilter,
+#resetFilter {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#applyFilter:hover,
+#resetFilter:hover {
+	background-color: #073066;
+	color: #FFFFFF;
+	border: 1.25px solid #FFFFFF;
+}
+
 .right-container .artifacts .upload-container,
 .right-container .artifacts .edit-container {
 	background-color: #f1f1f1;
@@ -814,6 +864,50 @@ input[type="file"] {
     cursor: pointer; /* Change cursor to pointer */
 }
 
+/* Style for section with background color */
+.border-box {
+    background-color: #f1f1f1f1; /* Background color #073066 with 50% opacity */
+    border-radius: 5px; /* Optional: Rounded corners */
+    padding: 15px; /* Space inside the box */
+    margin-bottom: 15px; /* Space between this box and other elements */
+}
+
+/* Optional: Styling for the table */
+#visitorAnalyticsTable {
+    width: 100%; /* Full-width table */
+    border-collapse: collapse; /* Remove space between table cells */
+    margin-top: 10px; /* Space between the table and the heading/button */
+}
+
+#visitorAnalyticsTable th, #visitorAnalyticsTable td {
+    border: 1px solid #ddd; /* Border for table cells */
+    padding: 8px; /* Padding for readability */
+    text-align: left; /* Align text to the left */
+}
+
+#visitorAnalyticsTable th {
+    background-color: #f2f2f2; /* Light gray background for header */
+}
+
+#startDate,
+#endDate {
+	font-family: 'Inter', sans-serif;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 200px; /* Adjust as needed */
+	
+}
+
+/* Focus State for Date Inputs */
+#startDate:focus,
+#endDate:focus {
+    border-color: #007bff; /* Primary color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Optional: Add a subtle shadow */
+}
 
 #search-results li button {
     margin-left: 10px; /* Space between content and button */
@@ -1226,7 +1320,7 @@ td {
 	}
 
 	.left-container {
-		margin-top: 55px;
+		margin-top: 155px;
 		margin-right: 10px;
 	}
 
@@ -1302,7 +1396,7 @@ td {
 	}
 
 	.left-container {
-		margin-top: 12px;
+		margin-top: 55px;
 		margin-right: 10px;
 	}
 
