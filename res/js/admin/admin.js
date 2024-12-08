@@ -351,15 +351,15 @@ function toggleEditButton(item, listItem) {
     newEditButton.style.cursor = 'pointer'; // Change cursor to pointer
     newEditButton.onclick = () => openModal(item);
 
+    //Change this to Archive
     const newDeleteButton = document.createElement('button');
     newDeleteButton.id = 'delete-button';
     newDeleteButton.classList.add('delete-button'); // Add class for styling
-    newDeleteButton.innerHTML = '<i class="fas fa-trash" style="color: red; font-size: 20px; margin-left: -120px;"></i>'; // Font Awesome delete icon
+    newDeleteButton.innerHTML = '<i class="fas fa-archive" style="color: red; font-size: 20px; margin-left: -120px;"></i>'; // Font Awesome delete icon
     newDeleteButton.style.background = 'none'; // Remove default button styles
     newDeleteButton.style.border = 'none'; // Remove border
     newDeleteButton.style.cursor = 'pointer'; // Change cursor to pointer
     newDeleteButton.onclick = () => deleteArtifact(item['ID']); // Call the existing delete function
-
 
      // Create a new print button with an icon
      const newPrintButton = document.createElement('button');

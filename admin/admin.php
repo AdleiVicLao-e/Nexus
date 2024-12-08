@@ -30,6 +30,7 @@ if (isset($_SESSION["admin"])) {
     <link rel="stylesheet" href="../res/css/datePicker.css">
     <link href="../assets/img/favicon.png" rel="icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
 
     <!-- jQuery (Single inclusion) -->
@@ -73,15 +74,7 @@ if (isset($_SESSION["admin"])) {
     <div class="left-container">
         <div class="analytics">
             <h1>Visitor Analytics</h1>
-            <h3>Visitor by School</h3>
-            <div>
-                <canvas id="donutChart" width="1000" height="600"></canvas>
-                <div id="errorMessage" class="text-center" style="color: black; display: none;">
-                    No records found for the given date range.
-                </div>
-                <button id="printChart">Print Chart</button>
-            </div>
-            <div>
+            <div class="centered-filter-container">
                 <label for="startDate">Start Date:</label>
                 <input type="date" id="startDate">
                 <label for="endDate">End Date:</label>
@@ -89,7 +82,30 @@ if (isset($_SESSION["admin"])) {
                 <button id="applyFilter">Apply Filter</button>
                 <button id="resetFilter">Reset</button>
             </div>
-            <h3>Visitor Log Book</h3>
+            <br>
+            <div class="border-box">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h3>Visitor by School</h3>
+                    <button class="btn-red" id="printChart">
+                        Print <i class="fas fa-print"></i>
+                    </button>
+                </div>
+            <div>
+                <canvas id="donutChart" width="1000" height="600"></canvas>
+                <div id="errorMessage" class="text-center" style="color: black; display: none;">
+                    No records found for the given date range.
+                </div>
+            </div>
+            </div>
+            <br>
+            <br>
+            <div class="border-box">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h3>Visitor Log Book</h3>
+                <div>
+                <button class="btn-red" id="printVisitorLogBook"> Print <i class="fas fa-print"></i></button>
+            </div>
+            </div>
             <div id="userTableContainer">
                 <table id="visitorAnalyticsTable">
                     <thead>
@@ -105,14 +121,19 @@ if (isset($_SESSION["admin"])) {
                     </tbody>
                 </table>
             </div>
-            <div>
-                <button id="printVisitorLogBook">Print Visitor Log Book</button>
             </div>
             <br>
+
             <div class="feedbackSection">
                 <br>
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">Visitor Feedback</div>
+                <div class="border-box">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="card-title">Visitor Feedback</div>
+                            <div>
+                            <button class="btn-red" id="printFeedbackTable"> Print <i class="fas fa-print"></i></button>
+                        </div>
+                    </div>  
                     <div class="table-responsive">
                         <table class="table align-items-center mb-0">
                             <thead class="thead-light">
@@ -130,13 +151,19 @@ if (isset($_SESSION["admin"])) {
                             </tbody>
                         </table>
                     </div>
-                    <div>
-                        <button id="printFeedbackTable">Print Feedback</button>
                     </div>
+
+                    <br>
                     <br>
                     <!-- Feedback Summary Section -->
                     <div class="feedback-summary">
-                        <div class="card-title">Feedback Summary</div>
+                    <div class="border-box">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="card-title">Feedback Summary</div>
+                            <div>
+                            <button class="btn-red" id="printFeedbackSummary"> Print <i class="fas fa-print"></i></button>
+                        </div>
+                    </div> 
                         <div class="table-responsive">
                             <table class="table align-items-center mb-0">
                                 <thead class="thead-light">
@@ -151,9 +178,7 @@ if (isset($_SESSION["admin"])) {
                                 <tbody id="feedback-summary-body">
                                 </tbody>
                             </table>
-                            <div>
-                                <button id="printFeedbackSummary">Print Feedback Summary</button>
-                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -179,6 +204,10 @@ if (isset($_SESSION["admin"])) {
                     Edit Artifact Group
                     <i class="fas fa-edit"></i>
                 </div>
+                <div class="tab active" onclick="openTab('archive-group')">
+                        View Archive
+                        <i class="fas fa-box"></i>
+                    </div>
             </div>
             <div id="search" class="tab-content active" style="background-color: #ffffff;">
                 <div class="search-container">
@@ -188,7 +217,7 @@ if (isset($_SESSION["admin"])) {
                 </div>
                 <button id="toggle-multi-select" onclick="toggleMultiSelect()">Enable Multi-Select</button>
                 <button id="delete-selected-button" style="display: none;"
-                        onclick="deleteSelectedArtifacts()">Delete Selected</button>
+                        onclick="deleteSelectedArtifacts()">Archive Selected</button>
                 <div id="search-results"></div>
             </div>
 
@@ -222,7 +251,7 @@ if (isset($_SESSION["admin"])) {
             <div id="overlay-delete-confirmation" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
                 <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
                     <p id="overlay-message-delete"></p>
-                    <button id="confirm-delete">Confirm Delete</button>
+                    <button id="confirm-delete">Confirm Archive</button>
                     <button id="cancel-delete">Cancel</button>
                 </div>
             </div>
@@ -269,7 +298,7 @@ if (isset($_SESSION["admin"])) {
                         <button type="submit">Upload</button>
                         <button id="saveBtn" type="button" onclick="saveChanges()">Save</button>
                         <button id="delBtn" type="button"
-                                onclick="deleteArtifact(document.getElementById('artifact-id').value)">Delete</button>
+                                onclick="deleteArtifact(document.getElementById('artifact-id').value)">Archive</button>
                     </form>
                 </div>
             </div>
@@ -389,8 +418,8 @@ if (isset($_SESSION["admin"])) {
                             </select>
                         </div>
                         <div class="edit-delete-button-container" id="button-container-section">
-                            <button type="button" class="btn" onclick="openEditSectionModal()">Edit Section</button>
-                            <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Delete Section</button>
+                            <button type="button" class="btn" onclick="openEditSectionModal()">Edit</button>
+                            <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Archive</button>
                         </div>
                         <h1> </h1>
                         <hr>
@@ -402,8 +431,8 @@ if (isset($_SESSION["admin"])) {
                             </select>
                         </div>
                         <div class="edit-delete-button-container" id="button-container-catalog">
-                            <button type="button" name="action" value="edit_catalog" class="btn" onclick="openEditCatalogModal()">Edit Catalog</button>
-                            <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Delete Catalog</button>
+                            <button type="button" name="action" value="edit_catalog" class="btn" onclick="openEditCatalogModal()">Edit</button>
+                            <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Archive</button>
                         </div>
                         <h1> </h1>
                         <hr>
@@ -415,8 +444,8 @@ if (isset($_SESSION["admin"])) {
                             </select>
                         </div>
                         <div class="edit-delete-button-container" id="button-container-subcatalog">
-                            <button type="button" name="action" value="create_subcatalog" onclick="openEditSubcatalogModal()" class="btn">Edit Subcatalog</button>
-                            <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete Subcatalog</button>
+                            <button type="button" name="action" value="create_subcatalog" onclick="openEditSubcatalogModal()" class="btn">Edit</button>
+                            <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Archive</button>
                         </div>
                     </form>
                 </div>
@@ -507,6 +536,78 @@ if (isset($_SESSION["admin"])) {
                     </form>
                 </div>
             </div>
+
+            <div id="archive-group" class="tab-content" style="background-color: #ffffff; margin-top: -20px;">
+                    <div class="form-container">
+                        <form action="" method="post">
+                        <h3 style="text-align: center;">Archived Artifacts</h3>
+                            <div class="form-group">
+                                <label for="arch-select-artifact">Artifacts:</label>
+                                <select id="arch-select-artifact" name="section_id">
+                                    <option value="">Select Section</option>
+                                </select>
+                            </div>
+                            <div class="arch-delete-button-container" id="button-container-section">
+                                <button type="button" class="btn" onclick="openArchSectionModal()">Archive</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Delete</button>
+                            </div>
+                            <h1> </h1>
+                            <hr>
+
+                            <h3 style="text-align: center;">Archived Section</h3>
+                            <div class="form-group">
+                                <label for="arch-select-section">Section:</label>
+                                <select id="arch-select-section" name="section_id">
+                                    <option value="">Select Section</option>
+                                </select>
+                            </div>
+                            <div class="arch-delete-button-container" id="button-container-section">
+                                <button type="button" class="btn" onclick="openArchSectionModal()">Archive</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteSection()">Delete</button>
+                            </div>
+                            <h1> </h1>
+                            <hr>
+                            <h3 style="text-align: center;">Archived Catalog</h3>
+                            <div class="form-group">
+                                <label for="arch-select-catalog">Catalog:</label>
+                                <select id="arch-select-catalog" name="section_id">
+                                    <option value="">Select Catalog</option>
+                                </select>
+                            </div>
+                            <div class="arch-delete-button-container" id="button-container-catalog">
+                                <button type="button" name="action" value="edit_catalog" class="btn" onclick="openArchCatalogModal()">Archive</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteCatalog()">Delete</button>
+                            </div>
+                            <h1> </h1>
+                            <hr>
+                            <h3 style="text-align: center;">Archived Subcatalog</h3>
+                            <div class="form-group">
+                                <label for="arch-select-subcatalog">Subcatalog:</label>
+                                <select id="arch-select-subcatalog" name="catalogue_id">
+                                    <option value="">Select Subcatalog</option>
+                                </select>
+                            </div>
+                            <div class="arch-delete-button-container" id="button-container-subcatalog">
+                                <button type="button" name="action" value="create_subcatalog" onclick="openArchSubcatalogModal()" class="btn">Archive</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete</button>
+                            </div>
+
+                            <h3 style="text-align: center;">Archived Media</h3>
+                            <div class="form-group">
+                                <label for="arch-select-subcatalog">Media:</label>
+                                <select id="arch-select-subcatalog" name="catalogue_id">
+                                    <option value="">Select Media</option>
+                                </select>
+                            </div>
+                            <!-- Make this for media -->
+                            <div class="arch-delete-button-container" id="button-container-subcatalog">
+                                <button type="button" name="action" value="create_subcatalog" onclick="openEditSubcatalogModal()" class="btn">Archive</button>
+                                <button type="button" id="delBtn" class="btn" onclick="deleteSubcat()">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
 
             <div class="cordi-media">
                 <!-- Start of Cordilleran Performing Arts Media div -->
@@ -607,7 +708,7 @@ if (isset($_SESSION["admin"])) {
                             // Edit and Delete buttons
                             echo '<div style="margin-left: 10px;">';
                             echo '<button id="saveBtn" onclick="selectMedia(' . $row["id"] . ')">Edit</button> ';
-                            echo '<button id="delBtn" onclick="deleteMedia(' . $row["id"] . ')">Delete</button>';
+                            echo '<button id="delBtn" onclick="deleteMedia(' . $row["id"] . ')">Archive</button>';
                             echo '</div>'; // End of buttons container
                             echo '</li>'; // End of the list item
                         }
@@ -863,7 +964,7 @@ if (isset($_SESSION["admin"])) {
 
                         return; // Exit the function if no data to display
                     }
-                    
+
                     if (!data.error) {
                         const total = data.counts.reduce((sum, count) => sum + count, 0);
 
@@ -871,8 +972,24 @@ if (isset($_SESSION["admin"])) {
                         const labelsWithPercentages = data.schools.map((school, index) => {
                             const count = data.counts[index];
                             const percentage = Math.round((count / total) * 100); // Rounds to the nearest whole number
-                            return `${school} \n(${count} users, ${percentage}%)`;
+                            return `${school} \n(${count} visitors, ${percentage}%)`;
                         });
+
+                        // Define the color scheme for the schools
+                        const colorScheme = {
+                            "Basic Education School": "#20176b", // St. Patrick's Blue
+                            "School of Accountancy, Management, Computing and Information Studies": "#f6c500", // Golden Poppy
+                            "School of Advanced Studies": "#563a23", // Liver (Dogs)
+                            "School of Engineering and Architecture": "#7c0404", // Barn Red
+                            "School of Law": "#fe0101", // Red
+                            "School of Medicine": "#0c5736", // Blue-Green
+                            "School of Nursing, Allied Health, and Biological Sciences": "#27908c", // Celadon Green
+                            "School of Teacher Education and Liberal Arts": "#5776fc", // Light Blue
+                            "Others": "#808080" // Gray
+                        };
+
+                        // Map schools to their respective colors based on the color scheme
+                        const backgroundColors = data.schools.map(school => colorScheme[school] || "#808080"); // Default to Gray if not found in the color scheme
 
                         const ctx = document.getElementById('donutChart').getContext('2d');
 
@@ -887,11 +1004,7 @@ if (isset($_SESSION["admin"])) {
                                 datasets: [{
                                     label: 'User Count by School',
                                     data: data.counts,
-                                    backgroundColor: [
-                                        "#ea5545", "#FFC400", "#F46A9B", "#FF1900",
-                                        "#ede15b", "#bdcf32", "#87bc45", "#27aeef",
-                                        "#656565", "#c94800", "#22beb6", "#727900"
-                                    ],
+                                    backgroundColor: backgroundColors, // Apply the background color based on the schools
                                     borderColor: 'white',
                                     borderWidth: 2,
                                     hoverOffset: 10
@@ -940,7 +1053,6 @@ if (isset($_SESSION["admin"])) {
                                         },
                                     },
                                     tooltip: {
-
                                         titleFont: {
                                             family: "Inter, serif",
                                             size: 12,
@@ -968,6 +1080,7 @@ if (isset($_SESSION["admin"])) {
                 }
             }
 
+
             // Add event listener for the print button
             document.getElementById("printChart").addEventListener("click", function() {
                 const chartCanvas = document.getElementById("donutChart");
@@ -975,8 +1088,35 @@ if (isset($_SESSION["admin"])) {
                 const chartLabel = "User Distribution by School";
 
                 // Create a new print window
-                const printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write("<html><head><title>Print Chart</title></head><body>");
+                const printWindow = window.open("", "", "width=1000,height=800");
+                printWindow.document.write("<html><head><title>Print Chart</title><style>");
+                
+                // Add styles for centering content and increasing size
+                printWindow.document.write(`
+                    body {
+                        font-family: 'Arial', sans-serif;
+                        text-align: center;
+                        margin: 0;
+                        padding: 30px;
+                    }
+                    h1 {
+                        font-size: 36px;  /* Increased font size for title */
+                        color: #333;
+                        margin-bottom: 20px;
+                    }
+                    .chart-container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-top: 20px;
+                    }
+                    canvas {
+                        width: 80%;  /* Increased width for canvas */
+                        height: auto;
+                    }
+                `);
+
+                printWindow.document.write("</style></head><body>");
 
                 // Print chart title
                 printWindow.document.write(`<h1>${chartLabel}</h1>`);
@@ -988,15 +1128,16 @@ if (isset($_SESSION["admin"])) {
                 const ctxCopy = canvasCopy.getContext('2d');
                 ctxCopy.drawImage(chartCanvas, 0, 0);
 
-                // Add the copied canvas to the print window
-                printWindow.document.write('<div style="text-align: center;">');
+                // Add the copied canvas to the print window inside a centered container
+                printWindow.document.write('<div class="chart-container">');
                 printWindow.document.body.appendChild(canvasCopy);
-
                 printWindow.document.write('</div>');
+
                 printWindow.document.write("</body></html>");
                 printWindow.document.close();
                 printWindow.print();
             });
+
 
             // Event listener for printing the table
             printVisitorLogBookButton.addEventListener("click", function () {
@@ -1243,7 +1384,174 @@ if (isset($_SESSION["admin"])) {
 
     </script>
     <script>
+        // For archive view section
+        // Function to open the View Archive Section modal
+        function fetchSectionData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                    const sectionSelect = document.getElementById("create-select-section");
+                    const sections = data.sections;
+                    sections.forEach(section => {
+                        if (section.section_name !== "N/A") {
+                            const option = document.createElement("option");
+                            option.value = section.section_id;
+                            option.text = section.section_name;
+                            sectionSelect.appendChild(option);
+                        }
+                    });
+                }).catch(error => {
+                    console.error("Error fetching sections:", error);
+                });
+            }
+            // Function to fetch catalog data for a dropdown
+            function fetchCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const catalogSelect = document.getElementById("create-select-catalog");
+                        const catalogues = data.catalogues;
+                        catalogues.forEach(catalog => {
+                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = catalog.catalogue_id;
+                                option.text = catalog.catalogue_name;
+                                catalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
 
+            function fetchEditSectionData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                    const sectionSelect = document.getElementById("arch-select-section");
+                    const sections = data.sections;
+                    sections.forEach(section => {
+                        if (section.section_name !== "N/A") {
+                            const option = document.createElement("option");
+                            option.value = section.section_id;
+                            option.text = section.section_name;
+                            sectionSelect.appendChild(option);
+                        }
+                    });
+                }).catch(error => {
+                    console.error("Error fetching sections:", error);
+                });
+            }
+            // Function to fetch catalog data for a dropdown
+            function fetchEditCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const catalogSelect = document.getElementById("arch-select-catalog");
+                        const catalogues = data.catalogues;
+                        catalogues.forEach(catalog => {
+                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = catalog.catalogue_id;
+                                option.text = catalog.catalogue_name;
+                                catalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
+
+            // Function to fetch catalog data for a dropdown
+            function fetchEditSubCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const subcatalogSelect = document.getElementById("arch-select-subcatalog");
+                        const subcatalogues = data.subcatalogues;
+                        subcatalogues.forEach(subcatalog => {
+                            if (subcatalog.subcat_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = subcatalog.subcat_id;
+                                option.text = subcatalog.subcat_name;
+                                subcatalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
+
+
+            // Consolidate DOMContentLoaded
+            fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+            fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchEditSectionData();
+            fetchEditCatalogData();
+            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+            fetchEditSubCatalogData();
+            openArchSectionModal();
+            closeSectionModal();
+            openArchCatalogModal();
+            closeCatalogModal();
+            openArchSubcatalogModal();
+            closeSubcatalogModal();
+
+    </script>
+    <script>
+         // Display the modal
+         document.getElementById("arch-section-modal").style.display = "block";
+            var section = document.getElementById('arch-select-section');
+            var sectionIdValue = section.options[section.selectedIndex].value;
+            var sectionIdSpan = document.getElementById("section-id-display");
+            sectionIdSpan.textContent = sectionIdValue;
+
+            var sectionNameValue = section.options[section.selectedIndex].text;
+            var sectionNameSpan = document.getElementById("section-name-display");
+            sectionNameSpan.textContent = sectionNameValue;
+
+        // Function to close the modal
+        function closeSectionModal() {
+            document.getElementById("arch-section-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Catalog modal
+        function openEditCatalogModal() {
+            document.getElementById("arch-catalog-modal").style.display = "block";
+            var catalog = document.getElementById('arch-select-catalog');
+            var catalogIdValue = catalog.options[catalog.selectedIndex].value;
+            var catalogIdSpan = document.getElementById("catalog-id-display");
+            catalogIdSpan.textContent = catalogIdValue;
+
+            var catalogNameValue = catalog.options[catalog.selectedIndex].text;
+            var catalogNameSpan = document.getElementById("catalog-name-display");
+            catalogNameSpan.textContent = catalogNameValue;
+        }
+
+        // Function to close the Edit Catalog modal
+        function closeCatalogModal() {
+            document.getElementById("arch-catalog-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Subcatalog modal
+        function openEditSubcatalogModal() {
+            document.getElementById("arch-subcatalog-modal").style.display = "block";
+            var subcatalog = document.getElementById('arch-select-subcatalog');
+            var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
+            var subcatalogIdSpan = document.getElementById("subcatalog-id-display");
+            subcatalogIdSpan.textContent = subcatalogIdValue;
+
+            var subcatalogNameValue = subcatalog.options[subcatalog.selectedIndex].text;
+            var subcatalogNameSpan = document.getElementById("subcatalog-name-display");
+            subcatalogNameSpan.textContent = subcatalogNameValue;
+        }
+
+        // Function to close the Edit Subcatalog modal
+        function closeSubcatalogModal() {
+            document.getElementById("arch-subcatalog-modal").style.display = "none";
+        }
     </script>
 
     <script type="text/javascript">
@@ -1386,7 +1694,7 @@ if (isset($_SESSION["admin"])) {
         const adminSession = localStorage.getItem('admin');
         if (adminSession) {
             console.log("User logged in. Redirecting...");
-            document.getElementById('admin-name').innerHTML = "Hi! " + adminSession;
+            document.getElementById('admin-name').innerHTML = "Hi, " + adminSession + "!";
 
             // Send the data to the server using Fetch API (AJAX)
             fetch('../include/processLocalstorage.php', {
