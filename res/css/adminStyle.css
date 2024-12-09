@@ -110,11 +110,10 @@ button, .search-button, #refreshBtn:hover {
 
 .left-container {
 	margin-right: 20px;
+	align-items: flex-start;
+	padding-top: 4.5vmin;
 }
 
-.right-container {
-	margin-top: -105px;
-}
 
 .left-container,
 .right-container {
@@ -380,14 +379,10 @@ button, .search-button, #refreshBtn:hover {
 	display: flex;
 }
 
-.left-container {
-	align-items: center;
-	margin-top: 530px;
-}
 
 .right-container {
 	align-items: flex-start;
-	padding-top: 10vmin;
+	padding-top: 3.5vmin;
 }
 
 .analytics,
@@ -1385,9 +1380,10 @@ td {
 
 	.main-container {
 		display: flex;
-		align-items: flex-start;
+		align-items: flex-start; /* or you could try 'center' to better control vertical positioning */
 		height: 100%;
 	}
+	
 
 	.left-container,
 	.right-container {
@@ -1396,12 +1392,12 @@ td {
 	}
 
 	.left-container {
-		margin-top: 55px;
+		margin-top: -10px;
 		margin-right: 10px;
 	}
 
 	.right-container {
-		margin-top: -50px;
+		margin-top: 0px;
 	}
 
 	button {
