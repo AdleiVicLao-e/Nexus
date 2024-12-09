@@ -483,6 +483,7 @@
                         <form id="edit-catalog-form" action=" " method="POST">
                             <input type="hidden" id="catalog-id" name="catalog-id">
 
+<<<<<<< HEAD
                             <!-- Display Catalog ID -->
                             <label for="catalog-id">Catalog ID:</label>
                             <span id="catalog-id-display"></span>
@@ -679,6 +680,34 @@
                         </form>
                     </div>
                 </div> <!-- End of Cordilleran Performing Arts Media div -->
+=======
+                    $result = $mysqli->query("SELECT * FROM igorot_dances");
+
+                    if ($result->num_rows > 0) {
+                        // Output the data of each row in boxes
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<li>';
+                            // Wrap video and description in a div container for side-by-side layout
+                            echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
+                            // Displaying the video
+                            $videoPath = '../assets/videos/general/' . $row["file_name"];
+                            if (file_exists($videoPath)) {
+                                // Displaying the video
+                                echo '<video width="240" height="180" controls style="margin-right: 20px;">';
+                                echo '<source src="' . $videoPath . '" type="video/mp4">';
+                                echo '</video>';
+                            } else {
+                                // Displaying a message if the video file is not found
+                                echo '<p style="font-weight: bold; color: red; font-size: 20px;">File Missing</p>';
+                            }
+                            // Description container
+                            echo '<div id="' . $row["id"] . '">';
+                            echo '<p id="media-id">ID: ' . $row["id"] . '</p>';
+                            echo '<p id="media-title">Title: ' . html_entity_decode($row["title"]) . '</p>';
+                            echo '<p id="media-description">Description: ' . html_entity_decode($row["description"]) . '</p>';
+                            echo '<p id="media-file-name">File Name: ' . html_entity_decode($row["file_name"]) . '</p>';
+                            echo '</div>';
+>>>>>>> 48d89c9bbe320e819272a942ab46c6b372d9f1e4
 
             </div> <!-- End of artifacts div -->
         </div> <!-- End of right-container div -->
