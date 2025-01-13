@@ -47,6 +47,791 @@ if (isset($_SESSION["admin"])) {
 
     <!-- Custom Scripts -->
     <script src="../res/js/admin/javascript.js"></script>
+
+    <script>
+        document.getElementById("select-media-button").addEventListener("click", function() {
+            document.querySelector(".edit-media-popup").style.display = "flex";
+        })
+
+        document.querySelector(".close-edit").addEventListener("click", function() {
+            document.querySelector(".edit-media-popup").style.display = "none"
+        })
+    </script>
+
+
+    <script src="/res/js/admin/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include Chart.js library -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const startDateInput = document.getElementById("startDate");
+            const endDateInput = document.getElementById("endDate");
+            const applyFilterButton = document.getElementById("applyFilter");
+            const resetFilterButton = document.getElementById("resetFilter");
+            const printVisitorLogBookButton = document.getElementById("printVisitorLogBook");
+
+            let autoUpdateInterval = null; // To track the interval
+            let appliedFilter = null; // To track the current filter
+
+            // Function to format a date string in 'YYYY-MM-DD h:mm A' format
+            function formatDate(dateStr) {
+                const date = new Date(dateStr);
+                const options = {
+                    hour12: true,
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                return date.toLocaleString('en-US', options)
+                    .replace(', ', ' ') // Replace the default comma after the date with a space
+                    .replace(/:00$/, ''); // Remove seconds if not needed
+            }
+
+            function formatFeedbackDate(dateStr) {
+                const date = new Date(dateStr);
+                // Extract the month, day, and year
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 to get the correct month and pad with 0
+                const day = String(date.getDate()).padStart(2, '0'); // Pad day with 0 if needed
+                const year = date.getFullYear();
+                return `${month}/${day}/${year}`;
+            }
+
+
+            // Function to fetch feedback data
+            function fetchFeedback(startDate = null, endDate = null) {
+                let url = '../include/getFeedback.php';
+
+                // Append date filters if provided
+                if (startDate && endDate) {
+                    url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+                }
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        // Replace date format in the data
+                        const formattedData = data.replace(/(\d{4}-\d{2}-\d{2})/g, function(match) {
+                            return formatFeedbackDate(match); // Format to 'MM/DD/YYYY'
+                        });
+                        document.getElementById('feedback-table-body').innerHTML = formattedData;
+                    })
+                    .catch(error => console.error('Error fetching feedback:', error));
+            }
+
+            // Function to fetch feedback summary data
+            function fetchFeedbackSummary(startDate = null, endDate = null) {
+
+                let url = '../include/getFeedbackSummary.php';
+
+                // Append date filters if provided
+                if (startDate && endDate) {
+                    url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+                }
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        let summaryHTML = '';
+                        if (data.length === 1 && data[0].category === '') {
+                            summaryHTML = data[0].excellent;
+                        } else {
+                            data.forEach(summary => {
+                                summaryHTML += `
+                        <tr>
+                            <td class="text-end">${summary.category}</td>
+                            <td class="text-end">${summary.excellent}</td>
+                            <td class="text-end">${summary.good}</td>
+                            <td class="text-end">${summary.average}</td>
+                            <td class="text-end">${summary.dissatisfied}</td>
+                        </tr>
+                    `;
+                            });
+                        }
+                        document.getElementById('feedback-summary-body').innerHTML = summaryHTML;
+                    })
+                    .catch(error => console.error('Error fetching feedback summary:', error));
+            }
+
+            // Function to fetch and display user data
+            function fetchUserData(startDate = null, endDate = null) {
+                const xhr = new XMLHttpRequest();
+                let url = "../include/get-user.php";
+
+                // Append date filters if provided
+                if (startDate && endDate) {
+                    url += `?startDate=${startDate}&endDate=${endDate}`;
+                }
+
+                xhr.open("GET", url, true);
+                xhr.onload = function () {
+                    if (this.status === 200) {
+                        let response = this.responseText;
+                        response = response.replace(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/g, function(match) {
+                            return formatDate(match);
+                        });
+                        document.getElementById("userTableContainer").innerHTML = response;
+                    } else {
+                        document.getElementById("userTableContainer").innerHTML = "<p>Error fetching data.</p>";
+                    }
+                };
+                xhr.onerror = function () {
+                    document.getElementById("userTableContainer").innerHTML = "<p>Request failed.</p>";
+                };
+                xhr.send();
+            }
+
+            // Function to start automatic updates
+            function startAutoUpdate() {
+                if (!autoUpdateInterval) {
+                    autoUpdateInterval = setInterval(() => {
+                        fetchUserData();
+                        fetchFeedback(); // Update feedback data as well
+                        fetchFeedbackSummary();
+                    }, 3000); // 3 seconds interval for feedback and user data updates
+                }
+
+                // Separate interval for fetchChartData (1 hour interval)
+                setInterval(() => {
+                    fetchChartData(); // Update chart data every 1 hour
+                }, 3600000); // 1 hour = 3600000 milliseconds
+            }
+
+            // Function to stop automatic updates
+            function stopAutoUpdate() {
+                if (autoUpdateInterval) {
+                    clearInterval(autoUpdateInterval);
+                    autoUpdateInterval = null;
+                }
+            }
+
+            fetchUserData();
+            fetchFeedback();
+            fetchFeedbackSummary();
+            fetchChartData(); // Reset chart data
+
+
+            // Event listener for applying the filter
+            applyFilterButton.addEventListener("click", function () {
+                const startDate = startDateInput.value;
+                const endDate = endDateInput.value;
+
+                if (startDate && endDate) {
+                    stopAutoUpdate();
+                    fetchUserData(startDate, endDate);
+                    fetchFeedback(startDate, endDate);
+                    fetchFeedbackSummary(startDate, endDate); // Added this line to filter the feedback summary
+                    fetchChartData(startDate, endDate); // Filter chart data
+                } else {
+                    alert("Please select both start and end dates.");
+                }
+            });
+
+            // Event listener for resetting the filter
+            resetFilterButton.addEventListener("click", function () {
+                startDateInput.value = "";
+                endDateInput.value = "";
+                const errorMessageContainer = document.getElementById("errorMessage");
+                errorMessageContainer.style.display = "none";
+                fetchUserData();
+                fetchFeedback();
+                fetchFeedbackSummary();
+                fetchChartData();
+                startAutoUpdate();
+            });
+
+            // Start automatic updates on page load
+            startAutoUpdate();
+
+
+            async function fetchChartData(startDate = null, endDate = null) {
+                try {
+                    // Construct the URL with query parameters if dates are provided
+                    let url = '../include/chart.php';
+                    if (startDate && endDate) {
+                        url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+                    }
+
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    if (data.error) {
+                        // Display error if data contains an error message
+                        console.log("Error:", data.error);
+
+                        // Set and display the error message in the errorMessage container
+                        const errorMessageContainer = document.getElementById("errorMessage");
+                        errorMessageContainer.textContent = "No records found for the given date range.";
+                        errorMessageContainer.style.display = "block"; // Show the error message
+
+                        // Destroy any existing chart instance
+                        if (window.donutChartInstance) {
+                            window.donutChartInstance.destroy();
+                        }
+
+                        return; // Exit the function if there's no valid data
+                    }
+
+                    if (data.counts.length === 0 || data.counts.every(count => count === 0)) {
+                        // Handle case where there are no records or counts are all zero
+                        console.log("No records found for the given date range.");
+
+                        // Set and display the error message in the errorMessage container
+                        const errorMessageContainer = document.getElementById("errorMessage");
+                        errorMessageContainer.textContent = "No records found for the given date range.";
+                        errorMessageContainer.style.display = "block"; // Show the error message
+
+                        // Destroy any existing chart instance
+                        if (window.donutChartInstance) {
+                            window.donutChartInstance.destroy();
+                        }
+
+                        return; // Exit the function if no data to display
+                    }
+
+                    if (!data.error) {
+                        const total = data.counts.reduce((sum, count) => sum + count, 0);
+
+                        // Add percentages to labels
+                        const labelsWithPercentages = data.schools.map((school, index) => {
+                            const count = data.counts[index];
+                            const percentage = Math.round((count / total) * 100); // Rounds to the nearest whole number
+                            return `${school} \n(${count} users, ${percentage}%)`;
+                        });
+
+                        const ctx = document.getElementById('donutChart').getContext('2d');
+
+                        if (window.donutChartInstance) {
+                            window.donutChartInstance.destroy();
+                        }
+
+                        window.donutChartInstance = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: labelsWithPercentages, // Use labels with percentages
+                                datasets: [{
+                                    label: 'User Count by School',
+                                    data: data.counts,
+                                    backgroundColor: [
+                                        "#ea5545", "#FFC400", "#F46A9B", "#FF1900",
+                                        "#ede15b", "#bdcf32", "#87bc45", "#27aeef",
+                                        "#656565", "#c94800", "#22beb6", "#727900"
+                                    ],
+                                    borderColor: 'white',
+                                    borderWidth: 2,
+                                    hoverOffset: 10
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        align: 'start',
+                                        labels: {
+                                            generateLabels: function(chart) {
+                                                // Custom function to add line breaks and maintain colors
+                                                return chart.data.labels.map((label, index) => {
+                                                    return {
+                                                        text: label.replace(/,/g, ',\n'), // Add line breaks
+                                                        fillStyle: chart.data.datasets[0].backgroundColor[index], // Use the color assigned to each label
+                                                        hidden: false,
+                                                        lineWidth: 1
+                                                    };
+                                                });
+                                            },
+                                            font: {
+                                                family: "Inter, serif",
+                                                size: 12,
+                                                weight: 'normal',
+                                                color: '#333',
+                                            },
+                                            usePointStyle: true,
+                                        },
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Visitor Distribution by School',
+                                        font: {
+                                            family: "Inter, serif",
+                                            size: 14,
+                                            weight: 'bold',
+                                            color: '#333',
+                                        },
+                                        padding: {
+                                            top: 10,
+                                            bottom: 20,
+                                        },
+                                    },
+                                    tooltip: {
+
+                                        titleFont: {
+                                            family: "Inter, serif",
+                                            size: 12,
+                                            weight: 'bold',
+                                            color: '#fff',
+                                        },
+                                        bodyFont: {
+                                            family: "Inter, serif",
+                                            size: 10,
+                                            color: '#fff',
+                                        },
+                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                        borderColor: 'white',
+                                        borderWidth: 1,
+                                        padding: 10,
+                                    },
+                                }
+                            }
+                        });
+                    } else {
+                        console.error(data.error);
+                    }
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+
+            // Add event listener for the print button
+            document.getElementById("printChart").addEventListener("click", function() {
+                const chartCanvas = document.getElementById("donutChart");
+                const chartContainer = chartCanvas.parentElement;
+                const chartLabel = "User Distribution by School";
+
+                // Create a new print window
+                const printWindow = window.open("", "", "width=800,height=600");
+                printWindow.document.write("<html><head><title>Print Chart</title></head><body>");
+
+                // Print chart title
+                printWindow.document.write(`<h1>${chartLabel}</h1>`);
+
+                // Create a canvas copy and draw the chart
+                const canvasCopy = document.createElement('canvas');
+                canvasCopy.width = chartCanvas.width;
+                canvasCopy.height = chartCanvas.height;
+                const ctxCopy = canvasCopy.getContext('2d');
+                ctxCopy.drawImage(chartCanvas, 0, 0);
+
+                // Add the copied canvas to the print window
+                printWindow.document.write('<div style="text-align: center;">');
+                printWindow.document.body.appendChild(canvasCopy);
+
+                printWindow.document.write('</div>');
+                printWindow.document.write("</body></html>");
+                printWindow.document.close();
+                printWindow.print();
+            });
+
+            // Event listener for printing the table
+            printVisitorLogBookButton.addEventListener("click", function () {
+                const tableContent = userTableContainer.innerHTML;
+                const printWindow = window.open("", "", "width=800,height=600");
+                printWindow.document.write("<html><head><title>Print Table</title></head><body>");
+
+                if (appliedFilter) {
+                    // Format the start and end dates for display
+                    const formattedStartDate = new Date(appliedFilter.startDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    });
+                    const formattedEndDate = new Date(appliedFilter.endDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    });
+
+                    // Check if the start and end dates are the same
+                    if (formattedStartDate === formattedEndDate) {
+                        // Display just one date if they are the same
+                        printWindow.document.write(
+                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate})</p>`
+                        );
+                    } else {
+                        // Display both dates if they are different
+                        printWindow.document.write(
+                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate} to ${formattedEndDate})</p>`
+                        );
+                    }
+                } else {
+                    // No filter selected, just display "Visitor Log"
+                    printWindow.document.write("<h1>Visitor Log</h1>");
+                }
+
+                printWindow.document.write(tableContent);
+                printWindow.document.write("</body></html>");
+                printWindow.document.close();
+                printWindow.print();
+            });
+
+
+            document.getElementById('printFeedbackTable').addEventListener("click", function () {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+
+                // Format the start and end dates using formatDate function
+                const formattedStartDate = formatDate(startDate);
+                const formattedEndDate = formatDate(endDate);
+
+                let dateRangeString = '';
+
+                if (startDate && endDate) {
+                    if (formattedStartDate === formattedEndDate) {
+                        // Display just one date if they are the same
+                        dateRangeString = `Date Range: ${formattedStartDate}`;
+                    } else {
+                        // Display both dates if they are different
+                        dateRangeString = `Date Range: ${formattedStartDate} to ${formattedEndDate}`;
+                    }
+                } else if (startDate) {
+                    dateRangeString = `Start Date: ${formattedStartDate}`;
+                } else if (endDate) {
+                    dateRangeString = `End Date: ${formattedEndDate}`;
+                }
+
+                const feedbackTableContent = document.getElementById('feedback-table-body').innerHTML;
+                const printWindow = window.open("", "", "width=800,height=600");
+                printWindow.document.write("<html><head><title>Print Feedback Table</title></head><body>");
+                printWindow.document.write("<h1>Visitor Feedback</h1>");
+
+                // Print the date range if it exists
+                if (dateRangeString) {
+                    printWindow.document.write(`<p><strong>${dateRangeString}</strong></p>`);
+                }
+
+                printWindow.document.write('<table border="1" cellpadding="5">');
+                printWindow.document.write('<tr><th>Date</th><th>Quality/Presentation of Exhibits</th><th>Cleanliness and Ambiance</th><th>Museum Staff Service</th><th>Overall Experience</th><th>Comments</th></tr>');
+                printWindow.document.write(feedbackTableContent);
+                printWindow.document.write("</table></body></html>");
+                printWindow.document.close();
+                printWindow.print();
+            });
+
+            // Function to print the feedback summary
+            document.getElementById('printFeedbackSummary').addEventListener("click", function () {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+
+                // Format the start and end dates using formatDate function
+                const formattedStartDate = formatDate(startDate);
+                const formattedEndDate = formatDate(endDate);
+
+                let dateRangeString = '';
+
+                if (startDate && endDate) {
+                    if (formattedStartDate === formattedEndDate) {
+                        // Display just one date if they are the same
+                        dateRangeString = `Date Range: ${formattedStartDate}`;
+                    } else {
+                        // Display both dates if they are different
+                        dateRangeString = `Date Range: ${formattedStartDate} to ${formattedEndDate}`;
+                    }
+                } else if (startDate) {
+                    dateRangeString = `Start Date: ${formattedStartDate}`;
+                } else if (endDate) {
+                    dateRangeString = `End Date: ${formattedEndDate}`;
+                }
+
+                const feedbackSummaryContent = document.getElementById('feedback-summary-body').innerHTML;
+                const printWindow = window.open("", "", "width=800,height=600");
+                printWindow.document.write("<html><head><title>Print Feedback Summary</title></head><body>");
+                printWindow.document.write("<h1>Feedback Summary</h1>");
+
+                // Print the date range if it exists
+                if (dateRangeString) {
+                    printWindow.document.write(`<p><strong>${dateRangeString}</strong></p>`);
+                }
+
+                printWindow.document.write('<table border="1" cellpadding="5">');
+                printWindow.document.write('<tr><th>Category</th><th>Excellent</th><th>Good</th><th>Average</th><th>Dissatisfied</th></tr>');
+                printWindow.document.write(feedbackSummaryContent);
+                printWindow.document.write("</table></body></html>");
+                printWindow.document.close();
+                printWindow.print();
+            });
+
+            // Function to fetch section data for a dropdown
+            function fetchSectionData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                    const sectionSelect = document.getElementById("create-select-section");
+                    const sections = data.sections;
+                    sections.forEach(section => {
+                        if (section.section_name !== "N/A") {
+                            const option = document.createElement("option");
+                            option.value = section.section_id;
+                            option.text = section.section_name;
+                            sectionSelect.appendChild(option);
+                        }
+                    });
+                }).catch(error => {
+                    console.error("Error fetching sections:", error);
+                });
+            }
+            // Function to fetch catalog data for a dropdown
+            function fetchCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const catalogSelect = document.getElementById("create-select-catalog");
+                        const catalogues = data.catalogues;
+                        catalogues.forEach(catalog => {
+                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = catalog.catalogue_id;
+                                option.text = catalog.catalogue_name;
+                                catalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
+
+            function fetchEditSectionData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json()).then(data => {
+                    const sectionSelect = document.getElementById("edit-select-section");
+                    const sections = data.sections;
+                    sections.forEach(section => {
+                        if (section.section_name !== "N/A") {
+                            const option = document.createElement("option");
+                            option.value = section.section_id;
+                            option.text = section.section_name;
+                            sectionSelect.appendChild(option);
+                        }
+                    });
+                }).catch(error => {
+                    console.error("Error fetching sections:", error);
+                });
+            }
+            // Function to fetch catalog data for a dropdown
+            function fetchEditCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const catalogSelect = document.getElementById("edit-select-catalog");
+                        const catalogues = data.catalogues;
+                        catalogues.forEach(catalog => {
+                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = catalog.catalogue_id;
+                                option.text = catalog.catalogue_name;
+                                catalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
+
+            // Function to fetch catalog data for a dropdown
+            function fetchEditSubCatalogData() {
+                fetch('../include/get.php') // Adjust the path if necessary
+                    .then(response => response.json())
+                    .then(data => {
+                        const subcatalogSelect = document.getElementById("edit-select-subcatalog");
+                        const subcatalogues = data.subcatalogues;
+                        subcatalogues.forEach(subcatalog => {
+                            if (subcatalog.subcat_name !== "N/A") { // Check if the catalogue name is not "N/A"
+                                const option = document.createElement("option");
+                                option.value = subcatalog.subcat_id;
+                                option.text = subcatalog.subcat_name;
+                                subcatalogSelect.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching catalogues:", error);
+                    });
+            }
+
+
+            // Consolidate DOMContentLoaded
+            fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+            fetchSectionData(); // Fetch and populate sections in the dropdown
+            fetchEditSectionData();
+            fetchEditCatalogData();
+            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
+            fetchEditSubCatalogData();
+            openEditSectionModal();
+            closeSectionModal();
+            openEditCatalogModal();
+            closeCatalogModal();
+            openEditSubcatalogModal();
+            closeSubcatalogModal();
+        });
+
+    </script>
+    <script>
+
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+
+            $('input[name="datefilter"]').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                }
+            });
+
+            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
+                    'MM/DD/YYYY'));
+            });
+
+            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+
+        });
+    </script>
+
+    <script>
+        function toggleNotifications() {
+            const popup = document.getElementById('notificationPopup');
+            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
+        }
+
+        // Optional: Close the notification popup when clicking outside of it
+        window.onclick = function(event) {
+            const popup = document.getElementById('notificationPopup');
+            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
+                popup.style.display = 'none';
+            }
+        }
+    </script>
+
+    <script>
+        // Initially hide all buttons
+        document.querySelectorAll(".edit-delete-button-container").forEach(function(container) {
+            container.querySelectorAll(".btn").forEach(function(button) {
+                button.style.display = 'none';
+            });
+        });
+
+        // Function to toggle button visibility based on the selected value
+        document.getElementById("edit-select-section").addEventListener("change", function() {
+            toggleButtons("edit-select-section", "button-container-section");
+        });
+
+        document.getElementById("edit-select-catalog").addEventListener("change", function() {
+            toggleButtons("edit-select-catalog", "button-container-catalog");
+        });
+
+        document.getElementById("edit-select-subcatalog").addEventListener("change", function() {
+            toggleButtons("edit-select-subcatalog", "button-container-subcatalog");
+        });
+
+        function toggleButtons(selectId, buttonContainer) {
+            var select = document.getElementById(selectId);
+            var buttons = document.querySelectorAll(`#${buttonContainer} .btn`);
+
+            if (select.value) {
+                buttons.forEach(function(button) {
+                    button.style.display = 'inline-block'; // Show buttons
+                });
+            } else {
+                buttons.forEach(function(button) {
+                    button.style.display = 'none'; // Hide buttons
+                });
+            }
+        }
+
+        // Function to open the Edit Section modal
+        function openEditSectionModal() {
+            // Display the modal
+            document.getElementById("edit-section-modal").style.display = "block";
+            var section = document.getElementById('edit-select-section');
+            var sectionIdValue = section.options[section.selectedIndex].value;
+            var sectionIdSpan = document.getElementById("section-id-display");
+            sectionIdSpan.textContent = sectionIdValue;
+
+            var sectionNameValue = section.options[section.selectedIndex].text;
+            var sectionNameSpan = document.getElementById("section-name-display");
+            sectionNameSpan.textContent = sectionNameValue;
+        }
+
+        // Function to close the modal
+        function closeSectionModal() {
+            document.getElementById("edit-section-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Catalog modal
+        function openEditCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "block";
+            var catalog = document.getElementById('edit-select-catalog');
+            var catalogIdValue = catalog.options[catalog.selectedIndex].value;
+            var catalogIdSpan = document.getElementById("catalog-id-display");
+            catalogIdSpan.textContent = catalogIdValue;
+
+            var catalogNameValue = catalog.options[catalog.selectedIndex].text;
+            var catalogNameSpan = document.getElementById("catalog-name-display");
+            catalogNameSpan.textContent = catalogNameValue;
+        }
+
+        // Function to close the Edit Catalog modal
+        function closeCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Subcatalog modal
+        function openEditSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "block";
+            var subcatalog = document.getElementById('edit-select-subcatalog');
+            var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
+            var subcatalogIdSpan = document.getElementById("subcatalog-id-display");
+            subcatalogIdSpan.textContent = subcatalogIdValue;
+
+            var subcatalogNameValue = subcatalog.options[subcatalog.selectedIndex].text;
+            var subcatalogNameSpan = document.getElementById("subcatalog-name-display");
+            subcatalogNameSpan.textContent = subcatalogNameValue;
+        }
+
+        // Function to close the Edit Subcatalog modal
+        function closeSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "none";
+        }
+    </script>
+
+    <script>
+        // Session Handling
+        const sessionData = <?php echo json_encode($_SESSION); ?>;
+        if (sessionData.admin) {
+            localStorage.setItem('admin', sessionData.admin);
+        }
+    </script>
+    <script defer>
+        const adminSession = localStorage.getItem('admin');
+        if (adminSession) {
+            console.log("User logged in. Redirecting...");
+            document.getElementById('admin-name').innerHTML = "Hi! " + adminSession;
+
+            // Send the data to the server using Fetch API (AJAX)
+            fetch('../include/processLocalstorage.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ admin: adminSession })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server response:', data);
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            alert("Not logged in. Redirected to Admin Login.");
+            window.location.href="admin-login.php";
+        }
+    </script>
 </head>
 
 
@@ -621,791 +1406,6 @@ if (isset($_SESSION["admin"])) {
             </div>
         </div>
     </div>
-
-    <script>
-        document.getElementById("select-media-button").addEventListener("click", function() {
-            document.querySelector(".edit-media-popup").style.display = "flex";
-        })
-
-        document.querySelector(".close-edit").addEventListener("click", function() {
-            document.querySelector(".edit-media-popup").style.display = "none"
-        })
-    </script>
-
-
-    <script src="/res/js/admin/admin.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Include Chart.js library -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const startDateInput = document.getElementById("startDate");
-            const endDateInput = document.getElementById("endDate");
-            const applyFilterButton = document.getElementById("applyFilter");
-            const resetFilterButton = document.getElementById("resetFilter");
-            const printVisitorLogBookButton = document.getElementById("printVisitorLogBook");
-
-            let autoUpdateInterval = null; // To track the interval
-            let appliedFilter = null; // To track the current filter
-
-            // Function to format a date string in 'YYYY-MM-DD h:mm A' format
-            function formatDate(dateStr) {
-                const date = new Date(dateStr);
-                const options = {
-                    hour12: true,
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                };
-                return date.toLocaleString('en-US', options)
-                    .replace(', ', ' ') // Replace the default comma after the date with a space
-                    .replace(/:00$/, ''); // Remove seconds if not needed
-            }
-
-            function formatFeedbackDate(dateStr) {
-                const date = new Date(dateStr);
-                // Extract the month, day, and year
-                const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 to get the correct month and pad with 0
-                const day = String(date.getDate()).padStart(2, '0'); // Pad day with 0 if needed
-                const year = date.getFullYear();
-                return `${month}/${day}/${year}`;
-            }
-
-
-            // Function to fetch feedback data
-            function fetchFeedback(startDate = null, endDate = null) {
-                let url = '../include/getFeedback.php';
-
-                // Append date filters if provided
-                if (startDate && endDate) {
-                    url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
-                }
-
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        // Replace date format in the data
-                        const formattedData = data.replace(/(\d{4}-\d{2}-\d{2})/g, function(match) {
-                            return formatFeedbackDate(match); // Format to 'MM/DD/YYYY'
-                        });
-                        document.getElementById('feedback-table-body').innerHTML = formattedData;
-                    })
-                    .catch(error => console.error('Error fetching feedback:', error));
-            }
-
-            // Function to fetch feedback summary data
-            function fetchFeedbackSummary(startDate = null, endDate = null) {
-
-                let url = '../include/getFeedbackSummary.php';
-
-                // Append date filters if provided
-                if (startDate && endDate) {
-                    url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
-                }
-
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        let summaryHTML = '';
-                        if (data.length === 1 && data[0].category === '') {
-                            summaryHTML = data[0].excellent;
-                        } else {
-                            data.forEach(summary => {
-                                summaryHTML += `
-                        <tr>
-                            <td class="text-end">${summary.category}</td>
-                            <td class="text-end">${summary.excellent}</td>
-                            <td class="text-end">${summary.good}</td>
-                            <td class="text-end">${summary.average}</td>
-                            <td class="text-end">${summary.dissatisfied}</td>
-                        </tr>
-                    `;
-                            });
-                        }
-                        document.getElementById('feedback-summary-body').innerHTML = summaryHTML;
-                    })
-                    .catch(error => console.error('Error fetching feedback summary:', error));
-            }
-
-            // Function to fetch and display user data
-            function fetchUserData(startDate = null, endDate = null) {
-                const xhr = new XMLHttpRequest();
-                let url = "../include/get-user.php";
-
-                // Append date filters if provided
-                if (startDate && endDate) {
-                    url += `?startDate=${startDate}&endDate=${endDate}`;
-                }
-
-                xhr.open("GET", url, true);
-                xhr.onload = function () {
-                    if (this.status === 200) {
-                        let response = this.responseText;
-                        response = response.replace(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/g, function(match) {
-                            return formatDate(match);
-                        });
-                        document.getElementById("userTableContainer").innerHTML = response;
-                    } else {
-                        document.getElementById("userTableContainer").innerHTML = "<p>Error fetching data.</p>";
-                    }
-                };
-                xhr.onerror = function () {
-                    document.getElementById("userTableContainer").innerHTML = "<p>Request failed.</p>";
-                };
-                xhr.send();
-            }
-
-            // Function to start automatic updates
-            function startAutoUpdate() {
-                if (!autoUpdateInterval) {
-                    autoUpdateInterval = setInterval(() => {
-                        fetchUserData();
-                        fetchFeedback(); // Update feedback data as well
-                        fetchFeedbackSummary();
-                    }, 3000); // 3 seconds interval for feedback and user data updates
-                }
-
-                // Separate interval for fetchChartData (1 hour interval)
-                setInterval(() => {
-                    fetchChartData(); // Update chart data every 1 hour
-                }, 3600000); // 1 hour = 3600000 milliseconds
-            }
-
-            // Function to stop automatic updates
-            function stopAutoUpdate() {
-                if (autoUpdateInterval) {
-                    clearInterval(autoUpdateInterval);
-                    autoUpdateInterval = null;
-                }
-            }
-
-            fetchUserData();
-            fetchFeedback();
-            fetchFeedbackSummary();
-            fetchChartData(); // Reset chart data
-
-
-            // Event listener for applying the filter
-            applyFilterButton.addEventListener("click", function () {
-                const startDate = startDateInput.value;
-                const endDate = endDateInput.value;
-
-                if (startDate && endDate) {
-                    stopAutoUpdate();
-                    fetchUserData(startDate, endDate);
-                    fetchFeedback(startDate, endDate);
-                    fetchFeedbackSummary(startDate, endDate); // Added this line to filter the feedback summary
-                    fetchChartData(startDate, endDate); // Filter chart data
-                } else {
-                    alert("Please select both start and end dates.");
-                }
-            });
-
-            // Event listener for resetting the filter
-            resetFilterButton.addEventListener("click", function () {
-                startDateInput.value = "";
-                endDateInput.value = "";
-                const errorMessageContainer = document.getElementById("errorMessage");
-                errorMessageContainer.style.display = "none";
-                fetchUserData();
-                fetchFeedback();
-                fetchFeedbackSummary();
-                fetchChartData();
-                startAutoUpdate();
-            });
-
-            // Start automatic updates on page load
-            startAutoUpdate();
-
-
-            async function fetchChartData(startDate = null, endDate = null) {
-                try {
-                    // Construct the URL with query parameters if dates are provided
-                    let url = '../include/chart.php';
-                    if (startDate && endDate) {
-                        url += `?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
-                    }
-
-                    const response = await fetch(url);
-                    const data = await response.json();
-
-                    if (data.error) {
-                        // Display error if data contains an error message
-                        console.log("Error:", data.error);
-
-                        // Set and display the error message in the errorMessage container
-                        const errorMessageContainer = document.getElementById("errorMessage");
-                        errorMessageContainer.textContent = "No records found for the given date range.";
-                        errorMessageContainer.style.display = "block"; // Show the error message
-
-                        // Destroy any existing chart instance
-                        if (window.donutChartInstance) {
-                            window.donutChartInstance.destroy();
-                        }
-
-                        return; // Exit the function if there's no valid data
-                    }
-
-                    if (data.counts.length === 0 || data.counts.every(count => count === 0)) {
-                        // Handle case where there are no records or counts are all zero
-                        console.log("No records found for the given date range.");
-
-                        // Set and display the error message in the errorMessage container
-                        const errorMessageContainer = document.getElementById("errorMessage");
-                        errorMessageContainer.textContent = "No records found for the given date range.";
-                        errorMessageContainer.style.display = "block"; // Show the error message
-
-                        // Destroy any existing chart instance
-                        if (window.donutChartInstance) {
-                            window.donutChartInstance.destroy();
-                        }
-
-                        return; // Exit the function if no data to display
-                    }
-                    
-                    if (!data.error) {
-                        const total = data.counts.reduce((sum, count) => sum + count, 0);
-
-                        // Add percentages to labels
-                        const labelsWithPercentages = data.schools.map((school, index) => {
-                            const count = data.counts[index];
-                            const percentage = Math.round((count / total) * 100); // Rounds to the nearest whole number
-                            return `${school} \n(${count} users, ${percentage}%)`;
-                        });
-
-                        const ctx = document.getElementById('donutChart').getContext('2d');
-
-                        if (window.donutChartInstance) {
-                            window.donutChartInstance.destroy();
-                        }
-
-                        window.donutChartInstance = new Chart(ctx, {
-                            type: 'doughnut',
-                            data: {
-                                labels: labelsWithPercentages, // Use labels with percentages
-                                datasets: [{
-                                    label: 'User Count by School',
-                                    data: data.counts,
-                                    backgroundColor: [
-                                        "#ea5545", "#FFC400", "#F46A9B", "#FF1900",
-                                        "#ede15b", "#bdcf32", "#87bc45", "#27aeef",
-                                        "#656565", "#c94800", "#22beb6", "#727900"
-                                    ],
-                                    borderColor: 'white',
-                                    borderWidth: 2,
-                                    hoverOffset: 10
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        align: 'start',
-                                        labels: {
-                                            generateLabels: function(chart) {
-                                                // Custom function to add line breaks and maintain colors
-                                                return chart.data.labels.map((label, index) => {
-                                                    return {
-                                                        text: label.replace(/,/g, ',\n'), // Add line breaks
-                                                        fillStyle: chart.data.datasets[0].backgroundColor[index], // Use the color assigned to each label
-                                                        hidden: false,
-                                                        lineWidth: 1
-                                                    };
-                                                });
-                                            },
-                                            font: {
-                                                family: "Inter, serif",
-                                                size: 12,
-                                                weight: 'normal',
-                                                color: '#333',
-                                            },
-                                            usePointStyle: true,
-                                        },
-                                    },
-                                    title: {
-                                        display: true,
-                                        text: 'Visitor Distribution by School',
-                                        font: {
-                                            family: "Inter, serif",
-                                            size: 14,
-                                            weight: 'bold',
-                                            color: '#333',
-                                        },
-                                        padding: {
-                                            top: 10,
-                                            bottom: 20,
-                                        },
-                                    },
-                                    tooltip: {
-
-                                        titleFont: {
-                                            family: "Inter, serif",
-                                            size: 12,
-                                            weight: 'bold',
-                                            color: '#fff',
-                                        },
-                                        bodyFont: {
-                                            family: "Inter, serif",
-                                            size: 10,
-                                            color: '#fff',
-                                        },
-                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                                        borderColor: 'white',
-                                        borderWidth: 1,
-                                        padding: 10,
-                                    },
-                                }
-                            }
-                        });
-                    } else {
-                        console.error(data.error);
-                    }
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-            }
-
-            // Add event listener for the print button
-            document.getElementById("printChart").addEventListener("click", function() {
-                const chartCanvas = document.getElementById("donutChart");
-                const chartContainer = chartCanvas.parentElement;
-                const chartLabel = "User Distribution by School";
-
-                // Create a new print window
-                const printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write("<html><head><title>Print Chart</title></head><body>");
-
-                // Print chart title
-                printWindow.document.write(`<h1>${chartLabel}</h1>`);
-
-                // Create a canvas copy and draw the chart
-                const canvasCopy = document.createElement('canvas');
-                canvasCopy.width = chartCanvas.width;
-                canvasCopy.height = chartCanvas.height;
-                const ctxCopy = canvasCopy.getContext('2d');
-                ctxCopy.drawImage(chartCanvas, 0, 0);
-
-                // Add the copied canvas to the print window
-                printWindow.document.write('<div style="text-align: center;">');
-                printWindow.document.body.appendChild(canvasCopy);
-
-                printWindow.document.write('</div>');
-                printWindow.document.write("</body></html>");
-                printWindow.document.close();
-                printWindow.print();
-            });
-
-            // Event listener for printing the table
-            printVisitorLogBookButton.addEventListener("click", function () {
-                const tableContent = userTableContainer.innerHTML;
-                const printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write("<html><head><title>Print Table</title></head><body>");
-
-                if (appliedFilter) {
-                    // Format the start and end dates for display
-                    const formattedStartDate = new Date(appliedFilter.startDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: '2-digit'
-                    });
-                    const formattedEndDate = new Date(appliedFilter.endDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: '2-digit'
-                    });
-
-                    // Check if the start and end dates are the same
-                    if (formattedStartDate === formattedEndDate) {
-                        // Display just one date if they are the same
-                        printWindow.document.write(
-                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate})</p>`
-                        );
-                    } else {
-                        // Display both dates if they are different
-                        printWindow.document.write(
-                            `<h1>Visitor Log</h1><p style="font-size: 14px; color: grey;">(${formattedStartDate} to ${formattedEndDate})</p>`
-                        );
-                    }
-                } else {
-                    // No filter selected, just display "Visitor Log"
-                    printWindow.document.write("<h1>Visitor Log</h1>");
-                }
-
-                printWindow.document.write(tableContent);
-                printWindow.document.write("</body></html>");
-                printWindow.document.close();
-                printWindow.print();
-            });
-
-
-            document.getElementById('printFeedbackTable').addEventListener("click", function () {
-                const startDate = document.getElementById('startDate').value;
-                const endDate = document.getElementById('endDate').value;
-
-                // Format the start and end dates using formatDate function
-                const formattedStartDate = formatDate(startDate);
-                const formattedEndDate = formatDate(endDate);
-
-                let dateRangeString = '';
-
-                if (startDate && endDate) {
-                    if (formattedStartDate === formattedEndDate) {
-                        // Display just one date if they are the same
-                        dateRangeString = `Date Range: ${formattedStartDate}`;
-                    } else {
-                        // Display both dates if they are different
-                        dateRangeString = `Date Range: ${formattedStartDate} to ${formattedEndDate}`;
-                    }
-                } else if (startDate) {
-                    dateRangeString = `Start Date: ${formattedStartDate}`;
-                } else if (endDate) {
-                    dateRangeString = `End Date: ${formattedEndDate}`;
-                }
-
-                const feedbackTableContent = document.getElementById('feedback-table-body').innerHTML;
-                const printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write("<html><head><title>Print Feedback Table</title></head><body>");
-                printWindow.document.write("<h1>Visitor Feedback</h1>");
-
-                // Print the date range if it exists
-                if (dateRangeString) {
-                    printWindow.document.write(`<p><strong>${dateRangeString}</strong></p>`);
-                }
-
-                printWindow.document.write('<table border="1" cellpadding="5">');
-                printWindow.document.write('<tr><th>Date</th><th>Quality/Presentation of Exhibits</th><th>Cleanliness and Ambiance</th><th>Museum Staff Service</th><th>Overall Experience</th><th>Comments</th></tr>');
-                printWindow.document.write(feedbackTableContent);
-                printWindow.document.write("</table></body></html>");
-                printWindow.document.close();
-                printWindow.print();
-            });
-
-            // Function to print the feedback summary
-            document.getElementById('printFeedbackSummary').addEventListener("click", function () {
-                const startDate = document.getElementById('startDate').value;
-                const endDate = document.getElementById('endDate').value;
-
-                // Format the start and end dates using formatDate function
-                const formattedStartDate = formatDate(startDate);
-                const formattedEndDate = formatDate(endDate);
-
-                let dateRangeString = '';
-
-                if (startDate && endDate) {
-                    if (formattedStartDate === formattedEndDate) {
-                        // Display just one date if they are the same
-                        dateRangeString = `Date Range: ${formattedStartDate}`;
-                    } else {
-                        // Display both dates if they are different
-                        dateRangeString = `Date Range: ${formattedStartDate} to ${formattedEndDate}`;
-                    }
-                } else if (startDate) {
-                    dateRangeString = `Start Date: ${formattedStartDate}`;
-                } else if (endDate) {
-                    dateRangeString = `End Date: ${formattedEndDate}`;
-                }
-
-                const feedbackSummaryContent = document.getElementById('feedback-summary-body').innerHTML;
-                const printWindow = window.open("", "", "width=800,height=600");
-                printWindow.document.write("<html><head><title>Print Feedback Summary</title></head><body>");
-                printWindow.document.write("<h1>Feedback Summary</h1>");
-
-                // Print the date range if it exists
-                if (dateRangeString) {
-                    printWindow.document.write(`<p><strong>${dateRangeString}</strong></p>`);
-                }
-
-                printWindow.document.write('<table border="1" cellpadding="5">');
-                printWindow.document.write('<tr><th>Category</th><th>Excellent</th><th>Good</th><th>Average</th><th>Dissatisfied</th></tr>');
-                printWindow.document.write(feedbackSummaryContent);
-                printWindow.document.write("</table></body></html>");
-                printWindow.document.close();
-                printWindow.print();
-            });
-
-            // Function to fetch section data for a dropdown
-            function fetchSectionData() {
-                fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json()).then(data => {
-                    const sectionSelect = document.getElementById("create-select-section");
-                    const sections = data.sections;
-                    sections.forEach(section => {
-                        if (section.section_name !== "N/A") {
-                            const option = document.createElement("option");
-                            option.value = section.section_id;
-                            option.text = section.section_name;
-                            sectionSelect.appendChild(option);
-                        }
-                    });
-                }).catch(error => {
-                    console.error("Error fetching sections:", error);
-                });
-            }
-            // Function to fetch catalog data for a dropdown
-            function fetchCatalogData() {
-                fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json())
-                    .then(data => {
-                        const catalogSelect = document.getElementById("create-select-catalog");
-                        const catalogues = data.catalogues;
-                        catalogues.forEach(catalog => {
-                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
-                                const option = document.createElement("option");
-                                option.value = catalog.catalogue_id;
-                                option.text = catalog.catalogue_name;
-                                catalogSelect.appendChild(option);
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Error fetching catalogues:", error);
-                    });
-            }
-
-            function fetchEditSectionData() {
-                fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json()).then(data => {
-                    const sectionSelect = document.getElementById("edit-select-section");
-                    const sections = data.sections;
-                    sections.forEach(section => {
-                        if (section.section_name !== "N/A") {
-                            const option = document.createElement("option");
-                            option.value = section.section_id;
-                            option.text = section.section_name;
-                            sectionSelect.appendChild(option);
-                        }
-                    });
-                }).catch(error => {
-                    console.error("Error fetching sections:", error);
-                });
-            }
-            // Function to fetch catalog data for a dropdown
-            function fetchEditCatalogData() {
-                fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json())
-                    .then(data => {
-                        const catalogSelect = document.getElementById("edit-select-catalog");
-                        const catalogues = data.catalogues;
-                        catalogues.forEach(catalog => {
-                            if (catalog.catalogue_name !== "N/A") { // Check if the catalogue name is not "N/A"
-                                const option = document.createElement("option");
-                                option.value = catalog.catalogue_id;
-                                option.text = catalog.catalogue_name;
-                                catalogSelect.appendChild(option);
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Error fetching catalogues:", error);
-                    });
-            }
-
-            // Function to fetch catalog data for a dropdown
-            function fetchEditSubCatalogData() {
-                fetch('../include/get.php') // Adjust the path if necessary
-                    .then(response => response.json())
-                    .then(data => {
-                        const subcatalogSelect = document.getElementById("edit-select-subcatalog");
-                        const subcatalogues = data.subcatalogues;
-                        subcatalogues.forEach(subcatalog => {
-                            if (subcatalog.subcat_name !== "N/A") { // Check if the catalogue name is not "N/A"
-                                const option = document.createElement("option");
-                                option.value = subcatalog.subcat_id;
-                                option.text = subcatalog.subcat_name;
-                                subcatalogSelect.appendChild(option);
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Error fetching catalogues:", error);
-                    });
-            }
-
-
-            // Consolidate DOMContentLoaded
-            fetchSectionData(); // Fetch and populate sections in the dropdown
-            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
-            fetchSectionData(); // Fetch and populate sections in the dropdown
-            fetchEditSectionData();
-            fetchEditCatalogData();
-            fetchCatalogData(); // Fetch and populate catalogues in the dropdown
-            fetchEditSubCatalogData();
-            openEditSectionModal();
-            closeSectionModal();
-            openEditCatalogModal();
-            closeCatalogModal();
-            openEditSubcatalogModal();
-            closeSubcatalogModal();
-        });
-
-    </script>
-    <script>
-
-    </script>
-
-    <script type="text/javascript">
-        $(function() {
-
-            $('input[name="datefilter"]').daterangepicker({
-                autoUpdateInput: false,
-                locale: {
-                    cancelLabel: 'Clear'
-                }
-            });
-
-            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format(
-                    'MM/DD/YYYY'));
-            });
-
-            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-
-        });
-    </script>
-
-    <script>
-        function toggleNotifications() {
-            const popup = document.getElementById('notificationPopup');
-            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
-        }
-
-        // Optional: Close the notification popup when clicking outside of it
-        window.onclick = function(event) {
-            const popup = document.getElementById('notificationPopup');
-            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
-                popup.style.display = 'none';
-            }
-        }
-    </script>
-
-    <script>
-        // Initially hide all buttons
-        document.querySelectorAll(".edit-delete-button-container").forEach(function(container) {
-            container.querySelectorAll(".btn").forEach(function(button) {
-                button.style.display = 'none';
-            });
-        });
-
-        // Function to toggle button visibility based on the selected value
-        document.getElementById("edit-select-section").addEventListener("change", function() {
-            toggleButtons("edit-select-section", "button-container-section");
-        });
-
-        document.getElementById("edit-select-catalog").addEventListener("change", function() {
-            toggleButtons("edit-select-catalog", "button-container-catalog");
-        });
-
-        document.getElementById("edit-select-subcatalog").addEventListener("change", function() {
-            toggleButtons("edit-select-subcatalog", "button-container-subcatalog");
-        });
-
-        function toggleButtons(selectId, buttonContainer) {
-            var select = document.getElementById(selectId);
-            var buttons = document.querySelectorAll(`#${buttonContainer} .btn`);
-
-            if (select.value) {
-                buttons.forEach(function(button) {
-                    button.style.display = 'inline-block'; // Show buttons
-                });
-            } else {
-                buttons.forEach(function(button) {
-                    button.style.display = 'none'; // Hide buttons
-                });
-            }
-        }
-
-        // Function to open the Edit Section modal
-        function openEditSectionModal() {
-            // Display the modal
-            document.getElementById("edit-section-modal").style.display = "block";
-            var section = document.getElementById('edit-select-section');
-            var sectionIdValue = section.options[section.selectedIndex].value;
-            var sectionIdSpan = document.getElementById("section-id-display");
-            sectionIdSpan.textContent = sectionIdValue;
-
-            var sectionNameValue = section.options[section.selectedIndex].text;
-            var sectionNameSpan = document.getElementById("section-name-display");
-            sectionNameSpan.textContent = sectionNameValue;
-        }
-
-        // Function to close the modal
-        function closeSectionModal() {
-            document.getElementById("edit-section-modal").style.display = "none";
-        }
-
-        // Function to open the Edit Catalog modal
-        function openEditCatalogModal() {
-            document.getElementById("edit-catalog-modal").style.display = "block";
-            var catalog = document.getElementById('edit-select-catalog');
-            var catalogIdValue = catalog.options[catalog.selectedIndex].value;
-            var catalogIdSpan = document.getElementById("catalog-id-display");
-            catalogIdSpan.textContent = catalogIdValue;
-
-            var catalogNameValue = catalog.options[catalog.selectedIndex].text;
-            var catalogNameSpan = document.getElementById("catalog-name-display");
-            catalogNameSpan.textContent = catalogNameValue;
-        }
-
-        // Function to close the Edit Catalog modal
-        function closeCatalogModal() {
-            document.getElementById("edit-catalog-modal").style.display = "none";
-        }
-
-        // Function to open the Edit Subcatalog modal
-        function openEditSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "block";
-            var subcatalog = document.getElementById('edit-select-subcatalog');
-            var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
-            var subcatalogIdSpan = document.getElementById("subcatalog-id-display");
-            subcatalogIdSpan.textContent = subcatalogIdValue;
-
-            var subcatalogNameValue = subcatalog.options[subcatalog.selectedIndex].text;
-            var subcatalogNameSpan = document.getElementById("subcatalog-name-display");
-            subcatalogNameSpan.textContent = subcatalogNameValue;
-        }
-
-        // Function to close the Edit Subcatalog modal
-        function closeSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "none";
-        }
-    </script>
-
-    <script>
-        // Session Handling
-        const sessionData = <?php echo json_encode($_SESSION); ?>;
-        if (sessionData.admin) {
-            localStorage.setItem('admin', sessionData.admin);
-        }
-    </script>
-    <script defer>
-        const adminSession = localStorage.getItem('admin');
-        if (adminSession) {
-            console.log("User logged in. Redirecting...");
-            document.getElementById('admin-name').innerHTML = "Hi! " + adminSession;
-
-            // Send the data to the server using Fetch API (AJAX)
-            fetch('../include/processLocalstorage.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ admin: adminSession })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Server response:', data);
-                })
-                .catch(error => console.error('Error:', error));
-        } else {
-            alert("Not logged in. Redirected to Admin Login.");
-            window.location.href="admin-login.php";
-        }
-    </script>
     <!--        <script>-->
     <!--            window.addEventListener("beforeunload", function () {-->
     <!--                navigator.sendBeacon("../include/logout.php");-->
