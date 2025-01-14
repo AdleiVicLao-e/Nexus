@@ -297,8 +297,24 @@ if (isset($_SESSION["admin"])) {
                         const labelsWithPercentages = data.schools.map((school, index) => {
                             const count = data.counts[index];
                             const percentage = Math.round((count / total) * 100); // Rounds to the nearest whole number
-                            return `${school} \n(${count} users, ${percentage}%)`;
+                            return `${school} \n(${count} visitors, ${percentage}%)`;
                         });
+
+                        // Define the color scheme for the schools
+                        const colorScheme = {
+                            "Basic Education School": "#20176b", // St. Patrick's Blue
+                            "School of Accountancy, Management, Computing and Information Studies": "#f6c500", // Golden Poppy
+                            "School of Advanced Studies": "#563a23", // Liver (Dogs)
+                            "School of Engineering and Architecture": "#7c0404", // Barn Red
+                            "School of Law": "#fe0101", // Red
+                            "School of Medicine": "#0c5736", // Blue-Green
+                            "School of Nursing, Allied Health, and Biological Sciences": "#27908c", // Celadon Green
+                            "School of Teacher Education and Liberal Arts": "#5776fc", // Light Blue
+                            "Others": "#808080" // Gray
+                        };
+
+                        // Map schools to their respective colors based on the color scheme
+                        const backgroundColors = data.schools.map(school => colorScheme[school] || "#808080"); // Default to Gray if not found in the color scheme
 
                         const ctx = document.getElementById('donutChart').getContext('2d');
 
@@ -313,11 +329,7 @@ if (isset($_SESSION["admin"])) {
                                 datasets: [{
                                     label: 'User Count by School',
                                     data: data.counts,
-                                    backgroundColor: [
-                                        "#ea5545", "#FFC400", "#F46A9B", "#FF1900",
-                                        "#ede15b", "#bdcf32", "#87bc45", "#27aeef",
-                                        "#656565", "#c94800", "#22beb6", "#727900"
-                                    ],
+                                    backgroundColor: backgroundColors, // Apply the background color based on the schools
                                     borderColor: 'white',
                                     borderWidth: 2,
                                     hoverOffset: 10
@@ -366,7 +378,6 @@ if (isset($_SESSION["admin"])) {
                                         },
                                     },
                                     tooltip: {
-
                                         titleFont: {
                                             family: "Inter, serif",
                                             size: 12,
@@ -393,6 +404,7 @@ if (isset($_SESSION["admin"])) {
                     console.error('Error fetching data:', error);
                 }
             }
+
 
             // Add event listener for the print button
             document.getElementById("printChart").addEventListener("click", function() {
@@ -812,7 +824,7 @@ if (isset($_SESSION["admin"])) {
         const adminSession = localStorage.getItem('admin');
         if (adminSession) {
             console.log("User logged in. Redirecting...");
-            document.getElementById('admin-name').innerHTML = "Hi! " + adminSession;
+            document.getElementById('admin-name').innerHTML = "Hi, " + adminSession + "!";
 
             // Send the data to the server using Fetch API (AJAX)
             fetch('../include/processLocalstorage.php', {
@@ -858,15 +870,7 @@ if (isset($_SESSION["admin"])) {
     <div class="left-container">
         <div class="analytics">
             <h1>Visitor Analytics</h1>
-            <h3>Visitor by School</h3>
-            <div>
-                <canvas id="donutChart" width="1000" height="600"></canvas>
-                <div id="errorMessage" class="text-center" style="color: black; display: none;">
-                    No records found for the given date range.
-                </div>
-                <button id="printChart">Print Chart</button>
-            </div>
-            <div>
+            <div class="centered-filter-container">
                 <label for="startDate">Start Date:</label>
                 <input type="date" id="startDate">
                 <label for="endDate">End Date:</label>
@@ -874,70 +878,102 @@ if (isset($_SESSION["admin"])) {
                 <button id="applyFilter">Apply Filter</button>
                 <button id="resetFilter">Reset</button>
             </div>
-            <h3>Visitor Log Book</h3>
-            <div id="userTableContainer">
-                <table id="visitorAnalyticsTable">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>School</th>
-                        <th>Date of Visit</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Dynamically populated rows -->
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <button id="printVisitorLogBook">Print Visitor Log Book</button>
+            <br>
+            <div class="border-box">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h3>Visitor by School</h3>
+                    <button class="btn-red" id="printChart">
+                        Print <i class="fas fa-print"></i>
+                    </button>
+                </div>
+                <div>
+                    <canvas id="donutChart" width="1000" height="600"></canvas>
+                    <div id="errorMessage" class="text-center" style="color: black; display: none;">
+                        No records found for the given date range.
+                    </div>
+                </div>
             </div>
             <br>
+            <br>
+            <div class="border-box">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h3>Visitor Log Book</h3>
+                    <div>
+                        <button class="btn-red" id="printVisitorLogBook"> Print <i class="fas fa-print"></i></button>
+                    </div>
+                </div>
+                <div id="userTableContainer">
+                    <table id="visitorAnalyticsTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>School</th>
+                            <th>Date of Visit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Dynamically populated rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+
             <div class="feedbackSection">
                 <br>
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">Visitor Feedback</div>
-                    <div class="table-responsive">
-                        <table class="table align-items-center mb-0">
-                            <thead class="thead-light">
-                            <tr>
-                                <th scope="col" class="text-end">Date</th>
-                                <th scope="col" class="text-end">Quality/Presentation of Exhibits</th>
-                                <th scope="col" class="text-end">Cleanliness and Ambiance</th>
-                                <th scope="col" class="text-end">Museum Staff Service</th>
-                                <th scope="col" class="text-end">Overall Experience</th>
-                                <th scope="col" class="text-end">Comments, Questions, or Suggestions</th>
-                            </tr>
-                            </thead>
-                            <tbody id="feedback-table-body">
-                            <!-- Feedback will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <button id="printFeedbackTable">Print Feedback</button>
-                    </div>
-                    <br>
-                    <!-- Feedback Summary Section -->
-                    <div class="feedback-summary">
-                        <div class="card-title">Feedback Summary</div>
+                    <div class="border-box">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="card-title">Visitor Feedback</div>
+                            <div>
+                                <button class="btn-red" id="printFeedbackTable"> Print <i class="fas fa-print"></i></button>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table align-items-center mb-0">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th scope="col" class="text-end">Category</th>
-                                    <th scope="col" class="text-end">Excellent</th>
-                                    <th scope="col" class="text-end">Good</th>
-                                    <th scope="col" class="text-end">Average</th>
-                                    <th scope="col" class="text-end">Dissatisfied</th>
+                                    <th scope="col" class="text-end">Date</th>
+                                    <th scope="col" class="text-end">Quality/Presentation of Exhibits</th>
+                                    <th scope="col" class="text-end">Cleanliness and Ambiance</th>
+                                    <th scope="col" class="text-end">Museum Staff Service</th>
+                                    <th scope="col" class="text-end">Overall Experience</th>
+                                    <th scope="col" class="text-end">Comments, Questions, or Suggestions</th>
                                 </tr>
                                 </thead>
-                                <tbody id="feedback-summary-body">
+                                <tbody id="feedback-table-body">
+                                <!-- Feedback will be loaded here -->
                                 </tbody>
                             </table>
-                            <div>
-                                <button id="printFeedbackSummary">Print Feedback Summary</button>
+                        </div>
+                    </div>
+
+                    <br>
+                    <br>
+                    <!-- Feedback Summary Section -->
+                    <div class="feedback-summary">
+                        <div class="border-box">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div class="card-title">Feedback Summary</div>
+                                <div>
+                                    <button class="btn-red" id="printFeedbackSummary"> Print <i class="fas fa-print"></i></button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="text-end">Category</th>
+                                        <th scope="col" class="text-end">Excellent</th>
+                                        <th scope="col" class="text-end">Good</th>
+                                        <th scope="col" class="text-end">Average</th>
+                                        <th scope="col" class="text-end">Dissatisfied</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="feedback-summary-body">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
