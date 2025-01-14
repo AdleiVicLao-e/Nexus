@@ -44,4 +44,15 @@ if (isset($_SESSION["admin"])) {
     </div>
     <script src="../res/js/scripts.js"></script>
   </body>
+
+  <script>
+    function checkDevice() {
+        // Define a breakpoint for mobile devices (e.g., 768px)
+        if (window.innerWidth < 768) {
+            // Redirect to the mobile page
+            window.location.href = "mobile.html";
+        }}
+
+        checkDevice();
+  </script>
 </html>

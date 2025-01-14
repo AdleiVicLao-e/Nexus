@@ -63,6 +63,15 @@ if (isset($_SESSION["admin"])) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Include Chart.js library -->
     <script>
+        function checkDevice() {
+        // Define a breakpoint for mobile devices (e.g., 768px)
+        if (window.innerWidth < 768) {
+            // Redirect to the mobile page
+            window.location.href = "mobile.html";
+        }}
+
+        checkDevice();
+
         document.addEventListener("DOMContentLoaded", function() {
             const startDateInput = document.getElementById("startDate");
             const endDateInput = document.getElementById("endDate");
