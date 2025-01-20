@@ -1177,10 +1177,12 @@ function selectMedia(id) {
     mediaId.textContent = 'Media ID: ' + selectedMediaId;
 
     // Display fields and button
+    var mediaField = document.getElementById('new-media-file');
     var titleField = document.getElementById('new-title-field');
     var descField = document.getElementById('new-desc-field');
     var updateBtn = document.getElementById('update-media-btn');
 
+    mediaField.style.display = 'block';
     titleField.style.display = 'block';
     descField.style.display = 'block'; 
     updateBtn.style.display = 'block'; 
@@ -1205,6 +1207,7 @@ function updateMedia() {
         event.preventDefault();
 
         // Collect values from the input fields
+        const mediaFile = document.getElementById('new-media-file').children[1];
         const mediaId = selectedMediaId;  // Ensure selectedMediaId is defined
         const newTitle = document.getElementById('new-media-title').value; // Get the title value
         const newDescription = document.getElementById('new-media-description').value; // Get the description value
@@ -1212,6 +1215,12 @@ function updateMedia() {
         // Create a FormData object to send the data
         const formData = new FormData();
         formData.append('media_id', mediaId);
+        // Check if a file is selected
+        var mediaFileName = 'No File Selected';
+        if (mediaFile.files[0]) {
+            formData.append('new-media-file', mediaFile.files[0]);
+            mediaFileName = mediaFile.files[0].name;
+        }
         formData.append('new-media-title', newTitle);
         formData.append('new-media-description', newDescription);
 
@@ -1224,7 +1233,7 @@ function updateMedia() {
         .then(data => {
             console.log('Response from server:', data);
             if (data.success) {
-                alert(data.message + ".\nMedia ID: " + mediaId + "\nNew Title: " + newTitle + "\nNew Description: " + newDescription);
+                alert(data.message + ".\nMedia ID: " + mediaId + "\nFile: " + mediaFileName + "\nTitle: " + newTitle + "\nDescription: " + newDescription);
                 location.reload();
             } else {
                 alert(data.message  + ".\nMedia ID: " + mediaId);

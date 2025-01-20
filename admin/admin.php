@@ -1232,12 +1232,16 @@ if (isset($_SESSION["admin"])) {
                         </button>
                         <p id="selected-media-id" style="padding-left: 10px; font-weight: bold; font-size: 18px;">
                         </p>
+                        <div class="form-group" id="new-media-file" style="display: none">
+                            <label for="new-media-file">Edit Media File:</label>
+                            <input type="file" id="media-file" name="media-file" accept="video/*">
+                        </div>
                         <div class="form-group" id="new-title-field" style="display: none">
-                            <label for="new-media-title">New Media Title:</label>
+                            <label for="new-media-title">Edit Media Title:</label>
                             <input type="text" id="new-media-title" name="new-media-title" required>
                         </div>
                         <div class="form-group" id="new-desc-field" style="display: none">
-                            <label for="new-media-description">New Media Description:</label>
+                            <label for="new-media-description">Edit Media Description:</label>
                             <textarea id="new-media-description" name="new-media-description" required></textarea>
                         </div>
                         <button type="submit" onclick="updateMedia()" id="update-media-btn"
@@ -1265,7 +1269,7 @@ if (isset($_SESSION["admin"])) {
                             // Wrap video and description in a div container for side-by-side layout
                             echo '<div style="display: flex; align-items: center; justify-content: space-between;">';
                             // Displaying the video
-                            $videoPath = '../assets/videos/general/' . $row["fileName"];
+                            $videoPath = '../assets/videos/general/' . $row["file_name"];
                             if (file_exists($videoPath)) {
                                 // Displaying the video
                                 echo '<video width="240" height="180" controls style="margin-right: 20px;">';
@@ -1280,7 +1284,7 @@ if (isset($_SESSION["admin"])) {
                             echo '<p id="media-id">ID: ' . $row["id"] . '</p>';
                             echo '<p id="media-title">Title: ' . html_entity_decode($row["title"]) . '</p>';
                             echo '<p id="media-description">Description: ' . html_entity_decode($row["description"]) . '</p>';
-                            echo '<p id="media-file-name">File Name: ' . html_entity_decode($row["fileName"]) . '</p>';
+                            echo '<p id="media-file-name">File Name: ' . html_entity_decode($row["file_name"]) . '</p>';
                             echo '</div>';
 
                             // Edit and Delete buttons
@@ -1315,10 +1319,6 @@ if (isset($_SESSION["admin"])) {
             document.querySelector(".edit-media-popup").style.display = "none"
         })
     </script>
-
-
-
-
 
     <script>
         function toggleNotifications() {
