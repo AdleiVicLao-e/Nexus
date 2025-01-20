@@ -46,20 +46,8 @@ if (isset($_SESSION["admin"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 
     <!-- Custom Scripts -->
-    <script src="../res/js/admin/javascript.js"></script>
-
-    <script>
-        document.getElementById("select-media-button").addEventListener("click", function() {
-            document.querySelector(".edit-media-popup").style.display = "flex";
-        })
-
-        document.querySelector(".close-edit").addEventListener("click", function() {
-            document.querySelector(".edit-media-popup").style.display = "none"
-        })
-    </script>
-
-
     <script src="/res/js/admin/admin.js"></script>
+    <script src="../res/js/admin/javascript.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Include Chart.js library -->
     <script>
@@ -689,9 +677,9 @@ if (isset($_SESSION["admin"])) {
         });
 
     </script>
-    <script>
 
-    </script>
+
+
 
     <script type="text/javascript">
         $(function() {
@@ -713,145 +701,6 @@ if (isset($_SESSION["admin"])) {
             });
 
         });
-    </script>
-
-    <script>
-        function toggleNotifications() {
-            const popup = document.getElementById('notificationPopup');
-            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
-        }
-
-        // Optional: Close the notification popup when clicking outside of it
-        window.onclick = function(event) {
-            const popup = document.getElementById('notificationPopup');
-            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
-                popup.style.display = 'none';
-            }
-        }
-    </script>
-
-    <script>
-        // Initially hide all buttons
-        document.querySelectorAll(".edit-delete-button-container").forEach(function(container) {
-            container.querySelectorAll(".btn").forEach(function(button) {
-                button.style.display = 'none';
-            });
-        });
-
-        // Function to toggle button visibility based on the selected value
-        document.getElementById("edit-select-section").addEventListener("change", function() {
-            toggleButtons("edit-select-section", "button-container-section");
-        });
-
-        document.getElementById("edit-select-catalog").addEventListener("change", function() {
-            toggleButtons("edit-select-catalog", "button-container-catalog");
-        });
-
-        document.getElementById("edit-select-subcatalog").addEventListener("change", function() {
-            toggleButtons("edit-select-subcatalog", "button-container-subcatalog");
-        });
-
-        function toggleButtons(selectId, buttonContainer) {
-            var select = document.getElementById(selectId);
-            var buttons = document.querySelectorAll(`#${buttonContainer} .btn`);
-
-            if (select.value) {
-                buttons.forEach(function(button) {
-                    button.style.display = 'inline-block'; // Show buttons
-                });
-            } else {
-                buttons.forEach(function(button) {
-                    button.style.display = 'none'; // Hide buttons
-                });
-            }
-        }
-
-        // Function to open the Edit Section modal
-        function openEditSectionModal() {
-            // Display the modal
-            document.getElementById("edit-section-modal").style.display = "block";
-            var section = document.getElementById('edit-select-section');
-            var sectionIdValue = section.options[section.selectedIndex].value;
-            var sectionIdSpan = document.getElementById("section-id-display");
-            sectionIdSpan.textContent = sectionIdValue;
-
-            var sectionNameValue = section.options[section.selectedIndex].text;
-            var sectionNameSpan = document.getElementById("section-name-display");
-            sectionNameSpan.textContent = sectionNameValue;
-        }
-
-        // Function to close the modal
-        function closeSectionModal() {
-            document.getElementById("edit-section-modal").style.display = "none";
-        }
-
-        // Function to open the Edit Catalog modal
-        function openEditCatalogModal() {
-            document.getElementById("edit-catalog-modal").style.display = "block";
-            var catalog = document.getElementById('edit-select-catalog');
-            var catalogIdValue = catalog.options[catalog.selectedIndex].value;
-            var catalogIdSpan = document.getElementById("catalog-id-display");
-            catalogIdSpan.textContent = catalogIdValue;
-
-            var catalogNameValue = catalog.options[catalog.selectedIndex].text;
-            var catalogNameSpan = document.getElementById("catalog-name-display");
-            catalogNameSpan.textContent = catalogNameValue;
-        }
-
-        // Function to close the Edit Catalog modal
-        function closeCatalogModal() {
-            document.getElementById("edit-catalog-modal").style.display = "none";
-        }
-
-        // Function to open the Edit Subcatalog modal
-        function openEditSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "block";
-            var subcatalog = document.getElementById('edit-select-subcatalog');
-            var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
-            var subcatalogIdSpan = document.getElementById("subcatalog-id-display");
-            subcatalogIdSpan.textContent = subcatalogIdValue;
-
-            var subcatalogNameValue = subcatalog.options[subcatalog.selectedIndex].text;
-            var subcatalogNameSpan = document.getElementById("subcatalog-name-display");
-            subcatalogNameSpan.textContent = subcatalogNameValue;
-        }
-
-        // Function to close the Edit Subcatalog modal
-        function closeSubcatalogModal() {
-            document.getElementById("edit-subcatalog-modal").style.display = "none";
-        }
-    </script>
-
-    <script>
-        // Session Handling
-        const sessionData = <?php echo json_encode($_SESSION); ?>;
-        if (sessionData.admin) {
-            localStorage.setItem('admin', sessionData.admin);
-        }
-    </script>
-    <script defer>
-        const adminSession = localStorage.getItem('admin');
-        if (adminSession) {
-            console.log("User logged in. Redirecting...");
-            document.getElementById('admin-name').innerHTML = "Hi, " + adminSession + "!";
-
-            // Send the data to the server using Fetch API (AJAX)
-            fetch('../include/processLocalstorage.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ admin: adminSession })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Server response:', data);
-                })
-                .catch(error => console.error('Error:', error));
-        } else {
-            alert("Not logged in. Redirected to Admin Login.");
-            window.location.href="admin-login.php";
-        }
     </script>
 </head>
 
@@ -1407,7 +1256,7 @@ if (isset($_SESSION["admin"])) {
                     <?php
                     include '../include/artifact-db.php';
 
-                    $result = $mysqli->query("SELECT * FROM uncategorized_media");
+                    $result = $mysqli->query("SELECT * FROM igorot_dances");
 
                     if ($result->num_rows > 0) {
                         // Output the data of each row in boxes
@@ -1456,6 +1305,161 @@ if (isset($_SESSION["admin"])) {
     <!--                navigator.sendBeacon("../include/logout.php");-->
     <!--            });-->
     <!--        </script>-->
+
+    <script>
+        document.getElementById("select-media-button").addEventListener("click", function() {
+            document.querySelector(".edit-media-popup").style.display = "flex";
+        })
+
+        document.querySelector(".close-edit").addEventListener("click", function() {
+            document.querySelector(".edit-media-popup").style.display = "none"
+        })
+    </script>
+
+
+
+
+
+    <script>
+        function toggleNotifications() {
+            const popup = document.getElementById('notificationPopup');
+            popup.style.display = popup.style.display === 'none' || popup.style.display === '' ? 'block' : 'none';
+        }
+
+        // Optional: Close the notification popup when clicking outside of it
+        window.onclick = function(event) {
+            const popup = document.getElementById('notificationPopup');
+            if (!event.target.matches('.fas.fa-bell') && !popup.contains(event.target)) {
+                popup.style.display = 'none';
+            }
+        }
+    </script>
+
+    <script>
+        // Initially hide all buttons
+        document.querySelectorAll(".edit-delete-button-container").forEach(function(container) {
+            container.querySelectorAll(".btn").forEach(function(button) {
+                button.style.display = 'none';
+            });
+        });
+
+        // Function to toggle button visibility based on the selected value
+        document.getElementById("edit-select-section").addEventListener("change", function() {
+            toggleButtons("edit-select-section", "button-container-section");
+        });
+
+        document.getElementById("edit-select-catalog").addEventListener("change", function() {
+            toggleButtons("edit-select-catalog", "button-container-catalog");
+        });
+
+        document.getElementById("edit-select-subcatalog").addEventListener("change", function() {
+            toggleButtons("edit-select-subcatalog", "button-container-subcatalog");
+        });
+
+        function toggleButtons(selectId, buttonContainer) {
+            var select = document.getElementById(selectId);
+            var buttons = document.querySelectorAll(`#${buttonContainer} .btn`);
+
+            if (select.value) {
+                buttons.forEach(function(button) {
+                    button.style.display = 'inline-block'; // Show buttons
+                });
+            } else {
+                buttons.forEach(function(button) {
+                    button.style.display = 'none'; // Hide buttons
+                });
+            }
+        }
+
+        // Function to open the Edit Section modal
+        function openEditSectionModal() {
+            // Display the modal
+            document.getElementById("edit-section-modal").style.display = "block";
+            var section = document.getElementById('edit-select-section');
+            var sectionIdValue = section.options[section.selectedIndex].value;
+            var sectionIdSpan = document.getElementById("section-id-display");
+            sectionIdSpan.textContent = sectionIdValue;
+
+            var sectionNameValue = section.options[section.selectedIndex].text;
+            var sectionNameSpan = document.getElementById("section-name-display");
+            sectionNameSpan.textContent = sectionNameValue;
+        }
+
+        // Function to close the modal
+        function closeSectionModal() {
+            document.getElementById("edit-section-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Catalog modal
+        function openEditCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "block";
+            var catalog = document.getElementById('edit-select-catalog');
+            var catalogIdValue = catalog.options[catalog.selectedIndex].value;
+            var catalogIdSpan = document.getElementById("catalog-id-display");
+            catalogIdSpan.textContent = catalogIdValue;
+
+            var catalogNameValue = catalog.options[catalog.selectedIndex].text;
+            var catalogNameSpan = document.getElementById("catalog-name-display");
+            catalogNameSpan.textContent = catalogNameValue;
+        }
+
+        // Function to close the Edit Catalog modal
+        function closeCatalogModal() {
+            document.getElementById("edit-catalog-modal").style.display = "none";
+        }
+
+        // Function to open the Edit Subcatalog modal
+        function openEditSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "block";
+            var subcatalog = document.getElementById('edit-select-subcatalog');
+            var subcatalogIdValue = subcatalog.options[subcatalog.selectedIndex].value;
+            var subcatalogIdSpan = document.getElementById("subcatalog-id-display");
+            subcatalogIdSpan.textContent = subcatalogIdValue;
+
+            var subcatalogNameValue = subcatalog.options[subcatalog.selectedIndex].text;
+            var subcatalogNameSpan = document.getElementById("subcatalog-name-display");
+            subcatalogNameSpan.textContent = subcatalogNameValue;
+        }
+
+        // Function to close the Edit Subcatalog modal
+        function closeSubcatalogModal() {
+            document.getElementById("edit-subcatalog-modal").style.display = "none";
+        }
+    </script>
+
+    <script>
+        // Session Handling
+        const sessionData = <?php echo json_encode($_SESSION); ?>;
+        if (sessionData.admin) {
+            localStorage.setItem('admin', sessionData.admin);
+        }
+    </script>
+    <script defer>
+        const adminSession = localStorage.getItem('admin');
+        if (adminSession) {
+            console.log("User logged in. Redirecting...");
+            document.getElementById('admin-name').innerHTML = "Hi, " + adminSession + "!";
+
+            // Send the data to the server using Fetch API (AJAX)
+            fetch('../include/processLocalstorage.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ admin: adminSession })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server response:', data);
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            alert("Not logged in. Redirected to Admin Login.");
+            window.location.href="admin-login.php";
+        }
+    </script>
 </body>
+
+
 
 </html>
