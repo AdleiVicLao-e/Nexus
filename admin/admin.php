@@ -211,10 +211,12 @@ if (isset($_SESSION["admin"])) {
 
             // Event listener for applying the filter
             applyFilterButton.addEventListener("click", function () {
-                const startDate = startDateInput.value;
-                const endDate = endDateInput.value;
+                let startDate = startDateInput.value;
+                let endDate = endDateInput.value;
 
                 if (startDate && endDate) {
+                    startDate = `${startDate} 00:00:00`;
+                    endDate = `${endDate} 23:59:59`;
                     stopAutoUpdate();
                     fetchUserData(startDate, endDate);
                     fetchFeedback(startDate, endDate);
