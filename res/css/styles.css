@@ -2105,3 +2105,7 @@ a-plane {
 	max-width: 400px;
 	margin: auto;
 }
+
+ #overlayMessage {
+	 color: black;
+ }

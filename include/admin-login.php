@@ -24,18 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../admin/admin.php");
             exit();
         } else {
-            echo '<script>
-                alert("User is logged in another session.");
-                window.location.href="../admin/admin-login.php";
-                </script>';
+            // Set session flag for overlay message
+            $_SESSION['login_error'] = 'User is logged in another session.';
+            header("Location: ../admin/admin-login.php");
+            exit();
         }
     } else {
-        echo '<script>
-                alert("Invalid credentials.");
-                window.location.href="../admin/admin-login.php";
-                </script>';
+        $_SESSION['login_error'] = 'Invalid credentials.';
+        header("Location: ../admin/admin-login.php");
+        exit();
     }
-    
     $stmt->close();
     $conn->close();
 }

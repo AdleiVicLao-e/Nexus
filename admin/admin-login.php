@@ -43,10 +43,25 @@ if (isset($_SESSION["admin"])) {
       </div>
     </div>
     <script src="../res/js/scripts.js"></script>
+    <!-- Overlay Message -->
+    <?php
+    if (isset($_SESSION['login_error'])):
+        $message = $_SESSION['login_error'];
+        unset($_SESSION['login_error']);
+        ?>
+        <div id="messageOverlay" class="overlay" style="display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000;">
+            <div class="overlay-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <p id="overlayMessage"><?php echo $message; ?></p>
+                <button onclick="closeOverlay()" style="margin-top: 10px;">Okay</button>
+            </div>
+        </div>
+    <?php endif; ?>
   </body>
 
   <script>
-    function checkDevice() {
+      window.history.replaceState(null, null, window.location.href);
+
+      function checkDevice() {
         // Define a breakpoint for mobile devices (e.g., 768px)
         if (window.innerWidth < 768) {
             // Redirect to the mobile page
@@ -54,5 +69,9 @@ if (isset($_SESSION["admin"])) {
         }}
 
         checkDevice();
+
+      function closeOverlay() {
+          document.getElementById('messageOverlay').style.display = 'none';
+      }
   </script>
 </html>

@@ -680,9 +680,6 @@ if (isset($_SESSION["admin"])) {
 
     </script>
 
-
-
-
     <script type="text/javascript">
         $(function() {
 
@@ -1306,11 +1303,16 @@ if (isset($_SESSION["admin"])) {
             </div>
         </div>
     </div>
-    <!--        <script>-->
-    <!--            window.addEventListener("beforeunload", function () {-->
-    <!--                navigator.sendBeacon("../include/logout.php");-->
-    <!--            });-->
-    <!--        </script>-->
+</div>
+
+<div id="redirect-message"
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0, 0, 0, 0.7); z-index:1000;">
+    <div
+            style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:5px; text-align:center;">
+        <p id="redirect-message-text"></p>
+        <button id="close-redirect-message">Okay</button>
+    </div>
+</div>
 
     <script>
         document.getElementById("select-media-button").addEventListener("click", function() {
@@ -1456,8 +1458,19 @@ if (isset($_SESSION["admin"])) {
                 })
                 .catch(error => console.error('Error:', error));
         } else {
-            alert("Not logged in. Redirected to Admin Login.");
-            window.location.href="admin-login.php";
+            // Show the redirect message overlay with the custom message
+            document.getElementById('redirect-message').style.display = 'block';
+            document.getElementById('redirect-message-text').innerText = "Not logged in. Redirecting to Admin Login.";
+
+            // Add blur effect to the left and right containers, but not the overlay
+            document.querySelector('.left-container').classList.add('blur');
+            document.querySelector('.right-container').classList.add('blur');
+
+            // Close overlay when the "Okay" button is clicked
+            document.getElementById('close-redirect-message').addEventListener('click', function() {
+                document.getElementById('redirect-message').style.display = 'none';
+                window.location.href = "admin-login.php";
+            });
         }
     </script>
 </body>

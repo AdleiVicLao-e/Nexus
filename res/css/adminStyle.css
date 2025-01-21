@@ -3,6 +3,11 @@
 
 }
 
+.blur {
+	filter: blur(10px);
+	pointer-events: none; /* Optional: This prevents interaction with the blurred content */
+}
+
 body {
     font-family: 'Inter', sans-serif;
 	margin: 0;
@@ -1340,3 +1345,4 @@ td {
 	}
 
 }
+

@@ -7,14 +7,14 @@ if (isset($_SESSION["admin"])) {
     $updateStatusStmt = "UPDATE credentials SET status=0 WHERE username='$username'";
     mysqli_query($conn, $updateStatusStmt);
 
+    session_unset();
+    session_destroy();
+
     echo '<script>
     localStorage.clear();
+    // Redirect to login page
     window.location.href="../admin/admin-login.php";
     </script>';
-} 
-session_unset();
-session_destroy();
-
-header("Location: ../admin/admin-login.php");
+}
 exit();
 ?>
