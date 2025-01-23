@@ -1358,22 +1358,37 @@ function saveSectionChanges() {
                 'newName': newSectionName
              }) 
         })
-        .then(response => response.json()) 
+        .then(response => response.json())
         .then(data => {
             if (data.success) {
                 // Alert for successful deletion
-                alert("Rename Successful \nSection ID: " + sectionIdValue + " \nNew Section Name: " + newSectionName);
+                showSuccessOverlay("Rename Successful. \nSection ID: " + sectionIdValue + "\nNew Section Name: " + newSectionName);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                    // Reload the page after closing the overlay
+                    location.reload();
+                });
             } else {
                 // Alert for failed deletion
-                alert("Rename failed. Section ID: " + sectionIdValue + ". \nError: " + data.message);
+                // Display error message in the success overlay
+                showSuccessOverlay("Error: " + data.message);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                });
             }
-            location.reload();
         })
         .catch(error => {
             console.log(error);
         });
     } else {
-        alert("Name cannot be empty");
+
+        showSuccessOverlay("Section Name cannot be empty");
+        document.getElementById("close-overlay-success").addEventListener("click", function() {
+            // Close the overlay
+            document.getElementById("overlay-success").style.display = "none";
+        });
     }
 }
 
@@ -1447,12 +1462,24 @@ function deleteSection() {
         .then(data => {
             if (data.success) {
                 // Alert for successful deletion
-                alert("Delete successful. \nSection ID: " + sectionIdValue + "\nSection Name: " + sectionText);
+                overlay.style.display = 'none';
+
+                // Show the success overlay
+                showSuccessOverlay("Delete Successful. \nSection ID: " + sectionIdValue + "\nSection Name: " + sectionText);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the success overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                    // Reload the page after closing the success overlay
+                    location.reload();
+                });
             } else {
                 // Alert for failed deletion
-                alert("Delete failed. \nSection ID: " + sectionIdValue + "\nSection Name: " + sectionText + ". \nError: " + data.message);
+                showSuccessOverlay("Error: " + data.message);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                });
             }
-            location.reload();
         })
         .catch(error => {
             console.log(error);
@@ -1490,18 +1517,32 @@ function saveCatalogChanges() {
         .then(data => {
             if (data.success) {
                 // Alert for successful deletion
-                alert("Rename Successful \nCatalog ID: " + catalogIdValue + " \nNew Catalog Name: " + newCatalogName);
+                // Show success overlay for successful renaming
+                showSuccessOverlay("Rename Successful. \nCatalog ID: " + catalogIdValue + "\nNew Catalog Name: " + newCatalogName);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                    // Reload the page after closing the overlay
+                    location.reload();
+                });
             } else {
                 // Alert for failed deletion
-                alert("Rename Failed. Catalog ID: " + catalogIdValue + ". \nError: " + data.message);
+                showSuccessOverlay("Error: " + data.message);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                });
             }
-            location.reload();
         })
         .catch(error => {
             console.log(error);
         });
     } else {
-        alert("Name cannot be empty");
+        showSuccessOverlay("Catalog Name cannot be empty");
+        document.getElementById("close-overlay-success").addEventListener("click", function() {
+            // Close the overlay
+            document.getElementById("overlay-success").style.display = "none";
+        });
     }
 }
 
@@ -1575,12 +1616,27 @@ function deleteCatalog() {
         .then(data => {
             if (data.success) {
                 // Alert for successful deletion
-                alert("Delete successful. \nCatalog ID: " + catalogIdValue + "\nCatalog Name: " + catalogText);
+                // Hide the current overlay after confirmation
+                overlay.style.display = 'none';
+
+                // Show the success overlay
+                showSuccessOverlay("Delete Successful. \nCatalog ID: " + catalogIdValue + "\nCatalog Name: " + catalogText);
+
+                // Add event listener to close the success overlay and reload the page
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the success overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                    // Reload the page after closing the success overlay
+                    location.reload();
+                });
             } else {
                 // Alert for failed deletion
-                alert("Delete failed. \nCatalog ID: " + catalogIdValue + "\nCatalog Name: " + catalogText + ". Error: " + data.message);
+                showSuccessOverlay("Error: " + data.message);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                });
             }
-            location.reload();
         })
         .catch(error => {
             console.log(error);
@@ -1616,19 +1672,32 @@ function saveSubcatalogChanges() {
         .then(response => response.json()) 
         .then(data => {
             if (data.success) {
-                // Alert for successful deletion
-                alert("Rename Successful \nSubcatalog ID: " + subcatalogIdValue + " \nNew Subcatalog Name: " + newSubcatalogName);
+                // Show success overlay for successful renaming
+                showSuccessOverlay("Rename Successful. \nSubcatalog ID: " + subcatalogIdValue + "\nNew Subcatalog Name: " + newSubcatalogName);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                    // Reload the page after closing the overlay
+                    location.reload();
+                });
             } else {
                 // Alert for failed deletion
-                alert("Rename Failed. Subcatalog ID: " + subcatalogIdValue + ". \nError: " + data.message);
+                showSuccessOverlay("Error: " + data.message);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                });
             }
-            location.reload();
         })
         .catch(error => {
             console.log(error);
         });
     } else {
-        alert("Name cannot be empty");
+        showSuccessOverlay("Sub Catalog Name cannot be empty");
+        document.getElementById("close-overlay-success").addEventListener("click", function() {
+            // Close the overlay
+            document.getElementById("overlay-success").style.display = "none";
+        });
     }
 }
 
@@ -1702,12 +1771,23 @@ function deleteSubcat() {
         .then(data => {
             if (data.success) {
                 // Alert for successful deletion
-                alert("Delete successful. \nSub-catalog ID: " + subcatalogIdValue + "\nSub-catalog Name: " + subcatalogText);
+                overlay.style.display = 'none';
+
+                showSuccessOverlay("Delete Successful. \nSub-catalog ID: " + subcatalogIdValue + "\nSub-catalog Name: " + subcatalogText);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                    // Reload the page after closing the overlay
+                    location.reload();
+                });
             } else {
                 // Alert for failed deletion
-                alert("Delete failed. \nSub-catalog ID: " + subcatalogIdValue + "\nSub-catalog Name: " + subcatalogText + ". Error: " + data.message);
+                showSuccessOverlay("Error: " + data.message);
+                document.getElementById("close-overlay-success").addEventListener("click", function() {
+                    // Close the overlay
+                    document.getElementById("overlay-success").style.display = "none";
+                });
             }
-            location.reload();
         })
         .catch(error => {
             console.log(error);
