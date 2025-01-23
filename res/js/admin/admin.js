@@ -744,7 +744,7 @@ function fetchCatalogs(selectedSectionName, selectedCatalogName, callback) {
             }
 
             // Fetch catalogs if catalogId exists, otherwise resolve without fetching
-            return catalogId ? fetch(`/include/get.php?section_id=${sectionId}`) : Promise.resolve(null);
+            return fetch(`/include/get.php?section_id=${sectionId}`);
         })
         .then(response => response?.ok ? response.json() : Promise.resolve(null))
         .then(data => {
